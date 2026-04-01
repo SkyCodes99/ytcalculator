@@ -26,8 +26,8 @@
     --card2: #0D1C35;
     --border: rgba(0,245,255,0.12);
     --border-bright: rgba(0,245,255,0.35);
-    --text: #C8E0FF;
-    --text-dim: #5A7A9A;
+    --text: #E0EFFF; 
+    --text-dim: #9AB4D0;
     --text-bright: #FFFFFF;
     --shadow-neon: 0 0 30px rgba(0,245,255,0.08);
   }
@@ -249,7 +249,7 @@
     background: var(--card);
     border: 1px solid var(--border-bright);
     min-width: 220px;
-    z-index: 100;
+    z-index: 9999; /* This is the fix that brings it to the front */
     border-radius: 10px;
     overflow: hidden;
     top: calc(100% + 6px);
@@ -623,14 +623,14 @@
 
 <!-- Auth Modal -->
 <div class="auth-overlay" id="authOverlay">
-  <div class="auth-modal">
-    <div class="icon-wrap">📊</div>
-    <h2>VIRALITY CHECKER</h2>
-    <p>Enter your creator name to initialize your analytics profile.</p>
-    <input type="text" id="authUsername" class="auth-input" placeholder="Creator Name">
-    <button class="btn-primary" style="width:100%;margin-top:16px;padding:15px;font-size:15px;" onclick="login()">▶ INITIALIZE DASHBOARD</button>
+    <div class="auth-modal">
+      <div class="icon-wrap" style="font-size: 32px; padding-bottom: 5px;">💾</div>
+      <h2>DATA MANAGER</h2>
+      <p>Would you like to load your previously saved session or start fresh?</p>
+      <button class="btn-primary" onclick="loadLocalData()" style="width: 100%; margin-bottom: 12px;">Load Saved Data</button>
+      <button class="btn-secondary" onclick="closeAuth()" style="width: 100%;">Start Fresh</button>
+    </div>
   </div>
-</div>
 
 <div class="container">
   <div class="header-area">
@@ -638,6 +638,10 @@
     <div class="user-bar" id="userBar" style="display:none;">
       <span id="userNameDisplay">---</span>
       <button class="btn-secondary" onclick="logout()" style="font-size:11px;padding:6px 14px;">LOGOUT</button>
+        <div><span>SYSTEM:</span> ONLINE</div>
+        <div><span>VER:</span> 1.0.0</div>
+        <button class="btn-secondary" onclick="saveLocalData()" style="padding: 4px 12px; font-size: 12px; margin-left: auto;">Save Progress</button>
+      </div>
     </div>
     <h1>VIRALITY <span>CHECKER</span></h1>
     <div class="tab-container">
@@ -2079,6 +2083,41 @@
     updateYTSubProjection(); updateTTSubProjection(); updateIGSubProjection();
     updateChannelProjections();
   }
+  function closeAuth() {
+      document.getElementById('authOverlay').style.display = 'none';
+    }
+
+    function loadLocalData() {
+      const saved = localStorage.getItem('viralityCheckerData');
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          Object.keys(data).forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.value = data[id];
+          });
+          
+          if (typeof initAll === 'function') initAll();
+          
+        } catch(e) {
+          console.error('Error loading data', e);
+        }
+      } else {
+        alert("No previously saved data found. Starting a fresh session.");
+      }
+      closeAuth();
+    }
+
+    function saveLocalData() {
+      const data = {};
+      document.querySelectorAll('input, select').forEach(el => {
+        if (el.id) {
+          data[el.id] = el.value;
+        }
+      });
+      localStorage.setItem('viralityCheckerData', JSON.stringify(data));
+      alert("Session data successfully saved locally!");
+    }
 </script>
 </body>
 </html>
