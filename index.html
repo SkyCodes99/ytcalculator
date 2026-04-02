@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Virality Checker | v1.0.0</title>
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&family=Share+Tech+Mono&family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@400;500;600;700;800&family=Bebas+Neue&family=Playfair+Display:wght@400;600;700;800&family=Fira+Code:wght@400;500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root {
     --primary: #00F5FF;
@@ -177,6 +177,237 @@
   [data-theme="matrix"] .input-box input, [data-theme="matrix"] .input-box select,
   [data-theme="matrix"] .auth-input, [data-theme="matrix"] .account-field input,
   [data-theme="matrix"] .account-field textarea, [data-theme="matrix"] .api-section input { background: #010801; }
+
+  /* DEEP OCEAN — Rich navy blues with bioluminescent teal */
+  [data-theme="ocean"] {
+    --primary: #00D4E8;
+    --primary-dim: rgba(0,212,232,0.12);
+    --primary-glow: 0 0 20px rgba(0,212,232,0.4);
+    --secondary: #06B6D4;
+    --secondary-dim: rgba(6,182,212,0.12);
+    --accent: #818CF8;
+    --accent-dim: rgba(129,140,248,0.15);
+    --warning: #FCD34D;
+    --warning-dim: rgba(252,211,77,0.15);
+    --danger: #F87171;
+    --danger-dim: rgba(248,113,113,0.15);
+    --tiktok: #00D4E8;
+    --ig: #818CF8;
+    --bg: #020B18;
+    --bg2: #040F20;
+    --card: #071628;
+    --card2: #0A1C32;
+    --border: rgba(0,212,232,0.13);
+    --border-bright: rgba(0,212,232,0.30);
+    --text: #BAE6FD;
+    --text-dim: #4A7A9B;
+    --text-bright: #E0F7FF;
+    --shadow-neon: 0 0 30px rgba(0,212,232,0.07);
+  }
+  [data-theme="ocean"] body::before { background-image: linear-gradient(rgba(0,212,232,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,232,0.03) 1px, transparent 1px); }
+  [data-theme="ocean"] body::after { background: linear-gradient(transparent, rgba(0,212,232,0.08), transparent); }
+  [data-theme="ocean"] .input-box input,[data-theme="ocean"] .input-box select,[data-theme="ocean"] .auth-input,[data-theme="ocean"] .account-field input,[data-theme="ocean"] .account-field textarea,[data-theme="ocean"] .api-section input { background: #020B18; }
+
+  /* ROSE GOLD — Luxury warm pink/gold dark theme */
+  [data-theme="rosegold"] {
+    --primary: #F9A8C9;
+    --primary-dim: rgba(249,168,201,0.12);
+    --primary-glow: 0 0 20px rgba(249,168,201,0.35);
+    --secondary: #FBBF24;
+    --secondary-dim: rgba(251,191,36,0.12);
+    --accent: #C084FC;
+    --accent-dim: rgba(192,132,252,0.15);
+    --warning: #FB923C;
+    --warning-dim: rgba(251,146,60,0.15);
+    --danger: #FB7185;
+    --danger-dim: rgba(251,113,133,0.15);
+    --tiktok: #F9A8C9;
+    --ig: #FB7185;
+    --bg: #0F0608;
+    --bg2: #180B10;
+    --card: #211018;
+    --card2: #2A1420;
+    --border: rgba(249,168,201,0.14);
+    --border-bright: rgba(249,168,201,0.30);
+    --text: #FFE4EC;
+    --text-dim: #9A6070;
+    --text-bright: #FFF0F5;
+    --shadow-neon: 0 0 30px rgba(249,168,201,0.07);
+  }
+  [data-theme="rosegold"] body::before { background-image: linear-gradient(rgba(249,168,201,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(249,168,201,0.03) 1px, transparent 1px); }
+  [data-theme="rosegold"] body::after { background: linear-gradient(transparent, rgba(249,168,201,0.07), transparent); }
+  [data-theme="rosegold"] .input-box input,[data-theme="rosegold"] .input-box select,[data-theme="rosegold"] .auth-input,[data-theme="rosegold"] .account-field input,[data-theme="rosegold"] .account-field textarea,[data-theme="rosegold"] .api-section input { background: #0F0608; }
+
+  /* FOREST — Earthy dark green, muted and focused */
+  [data-theme="forest"] {
+    --primary: #4ADE80;
+    --primary-dim: rgba(74,222,128,0.12);
+    --primary-glow: 0 0 20px rgba(74,222,128,0.35);
+    --secondary: #86EFAC;
+    --secondary-dim: rgba(134,239,172,0.12);
+    --accent: #FDE047;
+    --accent-dim: rgba(253,224,71,0.15);
+    --warning: #FB923C;
+    --warning-dim: rgba(251,146,60,0.15);
+    --danger: #F87171;
+    --danger-dim: rgba(248,113,113,0.15);
+    --tiktok: #4ADE80;
+    --ig: #86EFAC;
+    --bg: #030A04;
+    --bg2: #070F08;
+    --card: #0B160C;
+    --card2: #0F1D10;
+    --border: rgba(74,222,128,0.12);
+    --border-bright: rgba(74,222,128,0.28);
+    --text: #DCFCE7;
+    --text-dim: #4A7A55;
+    --text-bright: #F0FFF4;
+    --shadow-neon: 0 0 30px rgba(74,222,128,0.06);
+  }
+  [data-theme="forest"] body::before { background-image: linear-gradient(rgba(74,222,128,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(74,222,128,0.03) 1px, transparent 1px); }
+  [data-theme="forest"] body::after { background: linear-gradient(transparent, rgba(74,222,128,0.07), transparent); }
+  [data-theme="forest"] .input-box input,[data-theme="forest"] .input-box select,[data-theme="forest"] .auth-input,[data-theme="forest"] .account-field input,[data-theme="forest"] .account-field textarea,[data-theme="forest"] .api-section input { background: #030A04; }
+
+  /* VOLT — High-energy yellow/electric lime */
+  [data-theme="volt"] {
+    --primary: #FAFF00;
+    --primary-dim: rgba(250,255,0,0.10);
+    --primary-glow: 0 0 20px rgba(250,255,0,0.4);
+    --secondary: #C8FF00;
+    --secondary-dim: rgba(200,255,0,0.12);
+    --accent: #FF6B00;
+    --accent-dim: rgba(255,107,0,0.15);
+    --warning: #FF9500;
+    --warning-dim: rgba(255,149,0,0.15);
+    --danger: #FF3B30;
+    --danger-dim: rgba(255,59,48,0.15);
+    --tiktok: #FAFF00;
+    --ig: #C8FF00;
+    --bg: #080800;
+    --bg2: #0F0F00;
+    --card: #161600;
+    --card2: #1E1E00;
+    --border: rgba(250,255,0,0.13);
+    --border-bright: rgba(250,255,0,0.30);
+    --text: #FFFFD0;
+    --text-dim: #808000;
+    --text-bright: #FFFFFF;
+    --shadow-neon: 0 0 30px rgba(250,255,0,0.06);
+  }
+  [data-theme="volt"] body::before { background-image: linear-gradient(rgba(250,255,0,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(250,255,0,0.03) 1px, transparent 1px); }
+  [data-theme="volt"] body::after { background: linear-gradient(transparent, rgba(250,255,0,0.08), transparent); }
+  [data-theme="volt"] .input-box input,[data-theme="volt"] .input-box select,[data-theme="volt"] .auth-input,[data-theme="volt"] .account-field input,[data-theme="volt"] .account-field textarea,[data-theme="volt"] .api-section input { background: #080800; }
+
+  /* SLATE — Professional muted grey with warm orange accents */
+  [data-theme="slate"] {
+    --primary: #FB923C;
+    --primary-dim: rgba(251,146,60,0.12);
+    --primary-glow: 0 0 20px rgba(251,146,60,0.35);
+    --secondary: #94A3B8;
+    --secondary-dim: rgba(148,163,184,0.12);
+    --accent: #60A5FA;
+    --accent-dim: rgba(96,165,250,0.15);
+    --warning: #FBBF24;
+    --warning-dim: rgba(251,191,36,0.15);
+    --danger: #F87171;
+    --danger-dim: rgba(248,113,113,0.15);
+    --tiktok: #60A5FA;
+    --ig: #FB923C;
+    --bg: #0A0A0C;
+    --bg2: #111116;
+    --card: #18181F;
+    --card2: #1F1F28;
+    --border: rgba(148,163,184,0.12);
+    --border-bright: rgba(251,146,60,0.28);
+    --text: #CBD5E1;
+    --text-dim: #64748B;
+    --text-bright: #F1F5F9;
+    --shadow-neon: 0 0 30px rgba(251,146,60,0.06);
+  }
+  [data-theme="slate"] body::before { background-image: linear-gradient(rgba(148,163,184,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,0.03) 1px, transparent 1px); }
+  [data-theme="slate"] body::after { background: linear-gradient(transparent, rgba(251,146,60,0.06), transparent); }
+  [data-theme="slate"] .input-box input,[data-theme="slate"] .input-box select,[data-theme="slate"] .auth-input,[data-theme="slate"] .account-field input,[data-theme="slate"] .account-field textarea,[data-theme="slate"] .api-section input { background: #0A0A0C; }
+
+  /* ═══════════════════════════════════════════
+     FONT STYLES — applied via [data-font="..."] on <html>
+     Default = Cyber (Rajdhani + Orbitron)
+  ═══════════════════════════════════════════ */
+
+  /* CLEAN — Inter: modern, highly readable sans-serif */
+  [data-font="clean"] body,
+  [data-font="clean"] .tab-btn,
+  [data-font="clean"] .btn-primary,
+  [data-font="clean"] .btn-secondary,
+  [data-font="clean"] .btn-accent,
+  [data-font="clean"] .control-card,
+  [data-font="clean"] .input-box,
+  [data-font="clean"] .tabcontent { font-family: 'Inter', sans-serif; }
+  [data-font="clean"] h1, [data-font="clean"] h2, [data-font="clean"] h3 { font-family: 'Inter', sans-serif; letter-spacing: 0; }
+  [data-font="clean"] .score-val, [data-font="clean"] .stat-mini .value { font-family: 'Inter', sans-serif; }
+
+  /* TERMINAL — JetBrains Mono: code/hacker monospace feel */
+  [data-font="terminal"] body,
+  [data-font="terminal"] .tab-btn,
+  [data-font="terminal"] .btn-primary,
+  [data-font="terminal"] .btn-secondary,
+  [data-font="terminal"] .btn-accent { font-family: 'JetBrains Mono', monospace; }
+  [data-font="terminal"] h1, [data-font="terminal"] h2, [data-font="terminal"] h3 { font-family: 'JetBrains Mono', monospace; letter-spacing: 0; font-weight: 800; }
+  [data-font="terminal"] .score-val, [data-font="terminal"] .stat-mini .value { font-family: 'JetBrains Mono', monospace; }
+
+  /* SPACE — Space Grotesk: geometric, editorial feel */
+  [data-font="space"] body,
+  [data-font="space"] .tab-btn,
+  [data-font="space"] .btn-primary,
+  [data-font="space"] .btn-secondary,
+  [data-font="space"] .btn-accent { font-family: 'Space Grotesk', sans-serif; }
+  [data-font="space"] h1, [data-font="space"] h2, [data-font="space"] h3 { font-family: 'Space Grotesk', sans-serif; }
+  [data-font="space"] .score-val, [data-font="space"] .stat-mini .value { font-family: 'Space Grotesk', sans-serif; }
+
+  /* EDITORIAL — Syne: bold, expressive, modern editorial */
+  [data-font="editorial"] body,
+  [data-font="editorial"] .tab-btn,
+  [data-font="editorial"] .btn-primary,
+  [data-font="editorial"] .btn-secondary,
+  [data-font="editorial"] .btn-accent { font-family: 'Syne', sans-serif; }
+  [data-font="editorial"] h1, [data-font="editorial"] h2, [data-font="editorial"] h3 { font-family: 'Syne', sans-serif; letter-spacing: -0.5px; }
+  [data-font="editorial"] .score-val, [data-font="editorial"] .stat-mini .value { font-family: 'Syne', sans-serif; }
+
+  /* ROUNDED — Nunito: friendly, soft, highly legible */
+  [data-font="rounded"] body,
+  [data-font="rounded"] .tab-btn,
+  [data-font="rounded"] .btn-primary,
+  [data-font="rounded"] .btn-secondary,
+  [data-font="rounded"] .btn-accent { font-family: 'Nunito', sans-serif; }
+  [data-font="rounded"] h1, [data-font="rounded"] h2, [data-font="rounded"] h3 { font-family: 'Nunito', sans-serif; letter-spacing: 0; font-weight: 900; }
+  [data-font="rounded"] .score-val, [data-font="rounded"] .stat-mini .value { font-family: 'Nunito', sans-serif; }
+
+  /* IMPACT — Bebas Neue headers + DM Sans body: high contrast bold */
+  [data-font="impact"] body,
+  [data-font="impact"] .tab-btn,
+  [data-font="impact"] .btn-primary,
+  [data-font="impact"] .btn-secondary,
+  [data-font="impact"] .btn-accent { font-family: 'DM Sans', sans-serif; }
+  [data-font="impact"] h1, [data-font="impact"] h2, [data-font="impact"] h3 { font-family: 'Bebas Neue', sans-serif; letter-spacing: 2px; font-weight: 400; }
+  [data-font="impact"] .score-val { font-family: 'Bebas Neue', sans-serif; letter-spacing: -2px; }
+  [data-font="impact"] .stat-mini .value { font-family: 'Bebas Neue', sans-serif; }
+
+  /* ELEGANT — Playfair Display: sophisticated serif style */
+  [data-font="elegant"] body,
+  [data-font="elegant"] .tab-btn,
+  [data-font="elegant"] .btn-primary,
+  [data-font="elegant"] .btn-secondary,
+  [data-font="elegant"] .btn-accent { font-family: 'DM Sans', sans-serif; }
+  [data-font="elegant"] h1, [data-font="elegant"] h2, [data-font="elegant"] h3 { font-family: 'Playfair Display', serif; letter-spacing: 0.5px; }
+  [data-font="elegant"] .score-val, [data-font="elegant"] .stat-mini .value { font-family: 'Playfair Display', serif; }
+
+  /* CODE — Fira Code: ligature-rich developer monospace */
+  [data-font="code"] body,
+  [data-font="code"] .tab-btn,
+  [data-font="code"] .btn-primary,
+  [data-font="code"] .btn-secondary,
+  [data-font="code"] .btn-accent { font-family: 'Fira Code', monospace; }
+  [data-font="code"] h1, [data-font="code"] h2, [data-font="code"] h3 { font-family: 'Fira Code', monospace; font-weight: 700; letter-spacing: -0.5px; }
+  [data-font="code"] .score-val, [data-font="code"] .stat-mini .value { font-family: 'Fira Code', monospace; }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -402,22 +633,22 @@
     z-index: 99999;
     border-radius: 10px;
     overflow: hidden;
-    top: calc(100% + 6px);
+    top: calc(100% + 4px);
     left: 0;
     box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 30px rgba(0,245,255,0.15);
   }
+  .dropdown-content.open { display: block; }
   .dropdown-content a {
     color: #d0e8ff; padding: 14px 20px;
     text-decoration: none; display: block;
     font-size: 14px; font-weight: 700; letter-spacing: 0.5px;
     border-bottom: 1px solid var(--border);
-    transition: 0.2s; cursor: pointer;
+    transition: 0.15s; cursor: pointer;
     font-family: 'Rajdhani', sans-serif;
     text-transform: uppercase;
   }
   .dropdown-content a:last-child { border-bottom: none; }
   .dropdown-content a:hover { background: var(--primary-dim); color: var(--primary); padding-left: 26px; }
-  .dropdown:hover .dropdown-content { display: block; }
 
   /* TAB CONTENT */
   .tabcontent {
@@ -764,6 +995,24 @@
   .link-preview a { color: var(--primary); text-decoration: none; word-break: break-all; }
   .link-preview a:hover { text-decoration: underline; }
 
+  /* FAQ */
+  .faq-section { border: 1px solid var(--border); border-radius: 12px; margin-bottom: 14px; overflow: hidden; }
+  .faq-header { background: var(--card); padding: 16px 22px; font-weight: 700; font-size: 15px; color: var(--primary); cursor: pointer; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px; transition: background 0.2s; }
+  .faq-header:hover { background: var(--card2); }
+  .faq-body { padding: 20px 22px; background: var(--bg2); font-size: 14px; color: var(--text); line-height: 1.75; }
+  .faq-list { margin: 12px 0 12px 20px; }
+  .faq-list li { margin-bottom: 8px; }
+  .faq-note { margin-top: 12px; color: var(--primary); font-size: 13px; font-weight: 600; border-left: 2px solid var(--primary); padding-left: 12px; }
+
+  /* FAQ link bar shown at bottom of each tab */
+  .faq-link-bar { margin-top: 32px; padding: 14px 18px; background: var(--card); border: 1px dashed var(--border-bright); border-radius: 10px; font-size: 13px; color: var(--text-dim); }
+  .faq-link-bar a { color: var(--primary); cursor: pointer; text-decoration: none; font-weight: 700; }
+  .faq-link-bar a:hover { text-decoration: underline; }
+
+  /* Account field textarea */
+  .account-field textarea { width:100%;padding:12px 14px;background:var(--bg);border:1px solid var(--border-bright);border-radius:8px;font-size:14px;font-family:'Rajdhani',sans-serif;font-weight:600;color:var(--text-bright);transition:0.25s;resize:vertical; }
+  .account-field textarea:focus { outline:none;border-color:var(--primary);box-shadow:0 0 12px rgba(0,245,255,0.15); }
+
   /* RESPONSIVE */
   @media (max-width: 640px) {
     .tabcontent { padding: 20px; }
@@ -817,21 +1066,22 @@
     </div>
     <h1>VIRALITY <span>CHECKER</span></h1>
     <div class="tab-container">
-      <div class="dropdown">
-        <button class="tab-btn active dropbtn" id="ytDropdownBtn">⚡ VIRALITY CHECKER ▼</button>
-        <div class="dropdown-content">
-          <a onclick="openTab(event,'Tab1'); updateDropdownText('Virality Checker')">Virality Checker</a>
-          <a onclick="openTab(event,'Tab2'); updateDropdownText('Algorithm Tracker')">Algorithm Tracker</a>
-          <a onclick="openTab(event,'Tab3'); updateDropdownText('Monetization Tracker')">Monetization Tracker</a>
-          <a onclick="openTab(event,'Tab4'); updateDropdownText('RPM Predictor')">RPM Predictor</a>
+      <div class="dropdown" id="ytDropdown" onmouseleave="closeDropdown()">
+        <button class="tab-btn active dropbtn" id="ytDropdownBtn" onmouseenter="openDropdown()">📊 YT ANALYTICS ▼</button>
+        <div class="dropdown-content" id="ytDropdownMenu" onmouseenter="keepDropdown()" onmouseleave="closeDropdown()">
+          <a onclick="openTab(event,'Tab1'); updateDropdownText('Virality Checker')">⚡ Virality Checker</a>
+          <a onclick="openTab(event,'Tab2'); updateDropdownText('Algorithm Tracker')">🤖 Algorithm Tracker</a>
+          <a onclick="openTab(event,'Tab3'); updateDropdownText('Monetization Tracker')">💰 Monetization Tracker</a>
+          <a onclick="openTab(event,'Tab4'); updateDropdownText('RPM Predictor')">💹 RPM Predictor</a>
+          <a onclick="openTab(event,'TabCP'); updateDropdownText('Channel Projections')">📈 Channel Projections</a>
+          <a onclick="openTab(event,'TabCompare'); updateDropdownText('Channel Compare')">⚖️ Channel Compare</a>
         </div>
       </div>
-      <button class="tab-btn" onclick="openTab(event,'TabCP')">📈 Channel Projections</button>
       <button class="tab-btn" onclick="openTab(event,'Tab8')">🎬 Video Tracker</button>
-      <button class="tab-btn" onclick="openTab(event,'Tab5')">TikTok Analytics</button>
-      <button class="tab-btn" onclick="openTab(event,'Tab6')">Reels/Meta Analytics</button>
+      <button class="tab-btn" onclick="openTab(event,'TabSocial')">📱 Social Analytics</button>
       <button class="tab-btn" onclick="openTab(event,'Tab7')">⏰ Publishing Hub</button>
       <button class="tab-btn" onclick="openTab(event,'TabAI')">👤 Account Info</button>
+      <button class="tab-btn" onclick="openTab(event,'TabFAQ')">❓ FAQ</button>
     </div>
   </div>
 
@@ -917,6 +1167,8 @@
       </div>
       <div id="yt_sub_projection" style="margin-top:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;"></div>
     </div>
+
+    <div class="faq-link-bar">❓ <a onclick="goFAQ()">New to these metrics? Read the FAQ guide →</a></div>
   </div>
 
   <!-- ══════════════════════════════════════════ -->
@@ -936,6 +1188,8 @@
 
     <h3>Distribution Tier Requirements</h3>
     <div class="target-grid" id="tierGrid"></div>
+
+    <div class="faq-link-bar">❓ <a onclick="goFAQ()">How does the algorithm tier system work? See the FAQ →</a></div>
   </div>
 
   <!-- ══════════════════════════════════════════ -->
@@ -1078,6 +1332,8 @@
         </div>
       </div>
     </div>
+
+    <div class="faq-link-bar">❓ <a onclick="goFAQ()">How is watch time calculated? See the FAQ →</a></div>
   </div>
 
   <!-- ══════════════════════════════════════════ -->
@@ -1163,114 +1419,98 @@
       <span class="icon">📱</span>
       <div><strong style="color:var(--primary);">YouTube Shorts RPM:</strong> After YouTube's cut from the Shorts ad revenue pool, creators typically see <strong>$0.03–$0.08 per 1,000 views</strong>. High-performing finance/tech Shorts may reach $0.10–$0.15.</div>
     </div>
+
+    <div class="faq-link-bar">❓ <a onclick="goFAQ()">What RPM should I use for my niche? See the FAQ →</a></div>
   </div>
 
   <!-- ══════════════════════════════════════════ -->
-  <!-- TAB 5: TIKTOK ANALYTICS -->
+  <!-- TAB: SOCIAL ANALYTICS (TikTok + Reels) -->
   <!-- ══════════════════════════════════════════ -->
-  <div id="Tab5" class="tabcontent">
-    <h2 style="color:var(--tiktok);">TikTok Analytics</h2>
-    <p class="tab-subtitle">TikTok's algorithm prioritizes Completion Rate and Share Velocity above all else. Use this engine to evaluate your short-form distribution potential.</p>
+  <div id="TabSocial" class="tabcontent">
+    <h2>📱 SOCIAL ANALYTICS</h2>
+    <p class="tab-subtitle">Analyze your short-form distribution potential across TikTok and Instagram Reels. Each platform has its own algorithm signals — switch between them below.</p>
 
-    <div class="control-card tt-card">
-      <div class="label-flex"><span>📱 Completion Rate (%)</span><span class="val-badge" id="tt_avdVal" style="color:var(--tiktok);border-color:var(--tiktok);background:rgba(37,244,238,0.1);">0%</span></div>
-      <input type="range" id="tt_avd" min="0" max="100" step="1" value="0" oninput="updateTT()">
-      <div class="insight-box"><span class="icon">📈</span><div>TikTok needs 50%+ completion on 30-second videos and 70%+ on 15-second clips to push to the FYP. Videos that loop (100%+) are rewarded heavily.</div></div>
+    <div style="display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap;">
+      <button id="socialTab_tt" class="btn-primary" onclick="switchSocialTab('tt')" style="font-size:13px;padding:10px 22px;">♪ TikTok</button>
+      <button id="socialTab_ig" class="btn-secondary" onclick="switchSocialTab('ig')" style="font-size:13px;padding:10px 22px;">📷 Reels / Instagram</button>
     </div>
 
-    <div class="control-card tt-card">
-      <div class="label-flex"><span>🎣 3-Second Hook Retention (%)</span><span class="val-badge" id="tt_hookVal" style="color:var(--tiktok);border-color:var(--tiktok);background:rgba(37,244,238,0.1);">0%</span></div>
-      <input type="range" id="tt_hook" min="0" max="100" step="1" value="0" oninput="updateTT()">
-      <div class="insight-box"><span class="icon">🎣</span><div>Below 40% 3-second hook, TikTok assumes mismatched content and stops expanding the batch. Strong thumbnails and first-frame visuals are critical.</div></div>
-    </div>
-
-    <div class="control-card tt-card">
-      <div class="label-flex"><span>🔗 Share Velocity Ratio (%)</span><span class="val-badge" id="tt_shareVal" style="color:var(--tiktok);border-color:var(--tiktok);background:rgba(37,244,238,0.1);">0%</span></div>
-      <input type="range" id="tt_share" min="0" max="10" step="0.1" value="0" oninput="updateTT()">
-      <div class="insight-box"><span class="icon">🚀</span><div>TikTok is a social graph. External shares to DMs, WhatsApp, and other platforms are weighted 5× heavier than likes in distribution scoring.</div></div>
-    </div>
-
-    <div class="score-display" style="border-color:rgba(37,244,238,0.3);">
-      <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;">TikTok Distribution Score</div>
-      <div class="score-val" id="tt_totalScore" style="color:var(--tiktok);text-shadow:0 0 40px rgba(37,244,238,0.5);">0</div>
-      <div class="rating-badge" id="tt_ratingText" style="background:rgba(37,244,238,0.1);color:var(--tiktok);border:1px solid var(--tiktok);">Enter Stats Above</div>
-    </div>
-
-    <h3>TikTok Distribution Tiers</h3>
-    <div class="target-grid">
-      <div class="target-card"><div class="tier-name">Initial Seed Batch (~200–500 Views)</div><p style="font-size:12px;color:var(--text-dim);margin-bottom:13px;">Every video starts here. TikTok tests with a small seed group before deciding to push further.</p><div class="stat-row"><span>Min. Completion:</span><span class="stat-val">25%+</span></div><div class="stat-row"><span>Min. 3s Hook:</span><span class="stat-val">35%+</span></div><div class="tier-goal">GOAL: Prove basic engagement to unlock wider testing</div></div>
-      <div class="target-card"><div class="tier-name">Niche Audience (~1K–10K Views)</div><p style="font-size:12px;color:var(--text-dim);margin-bottom:13px;">Shown to interest-matched viewers. Engagement rate becomes the primary ranking signal.</p><div class="stat-row"><span>Completion:</span><span class="stat-val">35%+</span></div><div class="stat-row"><span>Like Rate:</span><span class="stat-val">3%+</span></div><div class="stat-row"><span>Comment Rate:</span><span class="stat-val">0.5%+</span></div><div class="tier-goal">GOAL: Sustain engagement with targeted viewers</div></div>
-      <div class="target-card"><div class="tier-name">FYP Breakout (~10K–100K Views)</div><p style="font-size:12px;color:var(--text-dim);margin-bottom:13px;">Broad FYP distribution. Share velocity becomes the key differentiator at this stage.</p><div class="stat-row"><span>Completion:</span><span class="stat-val">50%+</span></div><div class="stat-row"><span>Share Rate:</span><span class="stat-val">1.5%+</span></div><div class="tier-goal">GOAL: Drive shares to accelerate distribution</div></div>
-      <div class="target-card"><div class="tier-name">Viral / Mass Push (100K–1M+)</div><p style="font-size:12px;color:var(--text-dim);margin-bottom:13px;">Algorithm validated at multiple levels. Content must be broadly accessible and highly shareable.</p><div class="stat-row"><span>Completion:</span><span class="stat-val">55%+</span></div><div class="stat-row"><span>Share Rate:</span><span class="stat-val">2.0%+</span></div><div class="tier-goal">GOAL: Achieve mass appeal with universal hooks</div></div>
-    </div>
-
-    <h3>Follower Growth Projection</h3>
-    <div class="control-card" style="background:var(--card2);">
-      <p style="font-size:13px;color:var(--text-dim);margin-top:0;">TikTok follow rates from viral content vary by niche. An average FYP video converts 1–5% of unique viewers to followers.</p>
-
-      <div class="proj-explain">
-        <strong>What is Follow Conversion Rate?</strong><br>
-        This is the percentage of unique <em>viewers</em> that tap Follow after watching. Higher rates come from: strong <strong>niche consistency</strong> (viewers want more of the same), a compelling <strong>bio/profile</strong> that communicates your value, content that ends with an implied <strong>promise of more</strong>, and trending hooks that attract <strong>in-niche viewers</strong> rather than casual scrollers. Average creators see <strong>1–2%</strong>; viral niche videos can hit <strong>3–5%</strong>. Cross-promo and Stitch/Duet activity can push rates higher.
+    <!-- TikTok Panel -->
+    <div id="socialPanel_tt">
+      <div class="control-card tt-card">
+        <div class="label-flex"><span>📱 Completion Rate (%)</span><span class="val-badge" id="tt_avdVal" style="color:var(--tiktok);border-color:var(--tiktok);background:rgba(37,244,238,0.1);">0%</span></div>
+        <input type="range" id="tt_avd" min="0" max="100" step="1" value="0" oninput="updateTT()">
+        <div class="insight-box"><span class="icon">📈</span><div>TikTok needs 50%+ completion on 30-second videos and 70%+ on 15-second clips to push to the FYP. Videos that loop (100%+) are rewarded heavily.</div></div>
       </div>
-
-      <div class="input-grid" style="margin-top:16px;">
-        <div class="input-box"><label>Current Followers</label><input type="number" id="tt_curr_subs" value="0" min="0" oninput="updateTTSubProjection()"></div>
-        <div class="input-box"><label>Avg Monthly Views</label><input type="number" id="tt_monthly_views" value="0" min="0" oninput="updateTTSubProjection()"></div>
-        <div class="input-box"><label>Follow Conversion Rate (%)</label><input type="number" id="tt_follow_rate" value="2" min="0.1" max="10" step="0.1" oninput="updateTTSubProjection()"></div>
+      <div class="control-card tt-card">
+        <div class="label-flex"><span>🎣 3-Second Hook Retention (%)</span><span class="val-badge" id="tt_hookVal" style="color:var(--tiktok);border-color:var(--tiktok);background:rgba(37,244,238,0.1);">0%</span></div>
+        <input type="range" id="tt_hook" min="0" max="100" step="1" value="0" oninput="updateTT()">
+        <div class="insight-box"><span class="icon">🎣</span><div>Below 40% 3-second hook, TikTok assumes mismatched content and stops expanding the batch. Strong first-frame visuals are critical.</div></div>
       </div>
-      <div id="tt_sub_projection" style="margin-top:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;"></div>
-    </div>
-  </div>
-
-  <!-- ══════════════════════════════════════════ -->
-  <!-- TAB 6: REELS/META ANALYTICS -->
-  <!-- ══════════════════════════════════════════ -->
-  <div id="Tab6" class="tabcontent">
-    <h2 style="color:var(--ig);">Reels/Meta Analytics</h2>
-    <p class="tab-subtitle">Instagram Reels prioritize Saves and Sends (DMs) as the strongest distribution signals. High replay rates trigger the Explore page algorithm.</p>
-
-    <div class="control-card ig-card">
-      <div class="label-flex"><span>🔁 Watch Time / Replay Rate (%)</span><span class="val-badge" id="ig_avdVal" style="color:var(--ig);border-color:var(--ig);background:rgba(225,48,108,0.1);">0%</span></div>
-      <input type="range" id="ig_avd" min="0" max="150" step="1" value="0" oninput="updateIG()">
-      <div class="insight-box"><span class="icon">🔁</span><div>IG Explore relies heavily on Replays. If average watch time exceeds 100%, the video is looping — the ultimate viral trigger on this platform.</div></div>
-    </div>
-
-    <div class="control-card ig-card">
-      <div class="label-flex"><span>📩 Save &amp; Send Velocity (%)</span><span class="val-badge" id="ig_saveVal" style="color:var(--ig);border-color:var(--ig);background:rgba(225,48,108,0.1);">0%</span></div>
-      <input type="range" id="ig_save" min="0" max="10" step="0.1" value="0" oninput="updateIG()">
-      <div class="insight-box"><span class="icon">📩</span><div>A "Send" (DM share) brings a new user into the app — IG rewards this with massive Impression boosts. Saves signal bookmark-worthy, high-value content.</div></div>
-    </div>
-
-    <div class="score-display" style="border-color:rgba(225,48,108,0.3);">
-      <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;">Reels Distribution Score</div>
-      <div class="score-val" id="ig_totalScore" style="color:var(--ig);text-shadow:0 0 40px rgba(225,48,108,0.4);">0</div>
-      <div class="rating-badge" id="ig_ratingText" style="background:rgba(225,48,108,0.1);color:var(--ig);border:1px solid var(--ig);">Enter Stats Above</div>
-    </div>
-
-    <h3>Reels Distribution Tiers</h3>
-    <div class="target-grid">
-      <div class="target-card"><div class="tier-name" style="color:var(--ig);">Initial Test (~200–2K Reach)</div><p style="font-size:12px;color:var(--text-dim);margin-bottom:13px;">IG tests every Reel with a small batch of your followers and similar interest accounts.</p><div class="stat-row"><span>Watch Rate:</span><span class="stat-val">30%+</span></div><div class="stat-row"><span>Like Rate:</span><span class="stat-val">2%+</span></div><div class="tier-goal">GOAL: Earn enough engagement to survive the initial test</div></div>
-      <div class="target-card"><div class="tier-name" style="color:var(--ig);">Explore Feed (~2K–20K Reach)</div><p style="font-size:12px;color:var(--text-dim);margin-bottom:13px;">Content enters the Explore ecosystem. Save rate becomes the primary growth signal here.</p><div class="stat-row"><span>Watch Rate:</span><span class="stat-val">45%+</span></div><div class="stat-row"><span>Save Rate:</span><span class="stat-val">1.5%+</span></div><div class="tier-goal">GOAL: Drive saves — they signal bookmark-worthy content</div></div>
-      <div class="target-card"><div class="tier-name" style="color:var(--ig);">Viral Explore (~20K–200K Reach)</div><p style="font-size:12px;color:var(--text-dim);margin-bottom:13px;">Wide Explore push. DM shares now amplify distribution beyond your existing followers.</p><div class="stat-row"><span>Replay Rate:</span><span class="stat-val">60%+</span></div><div class="stat-row"><span>Send Rate:</span><span class="stat-val">2.5%+</span></div><div class="tier-goal">GOAL: Create share-worthy moments that travel via DMs</div></div>
-      <div class="target-card"><div class="tier-name" style="color:var(--ig);">Global Reach (200K+ Reach)</div><p style="font-size:12px;color:var(--text-dim);margin-bottom:13px;">Mass audience exposure. Content loops extensively and is pushed outside your niche.</p><div class="stat-row"><span>Replay Rate:</span><span class="stat-val">80%+</span></div><div class="stat-row"><span>Send Rate:</span><span class="stat-val">4%+</span></div><div class="tier-goal">GOAL: Achieve mass emotional resonance</div></div>
-    </div>
-
-    <h3>Follower Growth Projection</h3>
-    <div class="control-card" style="background:var(--card2);">
-      <p style="font-size:13px;color:var(--text-dim);margin-top:0;">Instagram Reels convert approximately 0.5–3% of unique reach to followers when content hits the Explore page. High Save rates significantly improve this.</p>
-
-      <div class="proj-explain">
-        <strong>What is Follow Conversion Rate?</strong><br>
-        This is the percentage of people who <em>see your Reel</em> (reach) who then tap Follow. Conversion is driven by: your <strong>profile grid aesthetic</strong> (does it look intentional?), the <strong>relevance of your bio</strong> (clear value proposition), whether your <strong>previous Reels auto-play</strong> when they land on your profile, and how well your content fits a <strong>recognizable niche</strong>. Typical rates: <strong>0.5–1%</strong> for general content, <strong>1.5–3%</strong> for niche-consistent creators. Explore-page hits often spike this to <strong>4–6%</strong> temporarily.
+      <div class="control-card tt-card">
+        <div class="label-flex"><span>🔗 Share Velocity Ratio (%)</span><span class="val-badge" id="tt_shareVal" style="color:var(--tiktok);border-color:var(--tiktok);background:rgba(37,244,238,0.1);">0%</span></div>
+        <input type="range" id="tt_share" min="0" max="10" step="0.1" value="0" oninput="updateTT()">
+        <div class="insight-box"><span class="icon">🚀</span><div>External shares to DMs and other platforms are weighted 5× heavier than likes in TikTok distribution scoring.</div></div>
       </div>
-
-      <div class="input-grid" style="margin-top:16px;">
-        <div class="input-box"><label>Current Followers</label><input type="number" id="ig_curr_subs" value="0" min="0" oninput="updateIGSubProjection()"></div>
-        <div class="input-box"><label>Avg Monthly Reach</label><input type="number" id="ig_monthly_views" value="0" min="0" oninput="updateIGSubProjection()"></div>
-        <div class="input-box"><label>Follow Conversion Rate (%)</label><input type="number" id="ig_follow_rate" value="1.5" min="0.1" max="10" step="0.1" oninput="updateIGSubProjection()"></div>
+      <div class="score-display" style="border-color:rgba(37,244,238,0.3);">
+        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;">TikTok Distribution Score</div>
+        <div class="score-val" id="tt_totalScore" style="color:var(--tiktok);text-shadow:0 0 40px rgba(37,244,238,0.5);">0</div>
+        <div class="rating-badge" id="tt_ratingText" style="background:rgba(37,244,238,0.1);color:var(--tiktok);border:1px solid var(--tiktok);">Enter Stats Above</div>
       </div>
-      <div id="ig_sub_projection" style="margin-top:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;"></div>
+      <h3>TikTok Distribution Tiers</h3>
+      <div class="target-grid">
+        <div class="target-card"><div class="tier-name">Seed Batch (~200–500 Views)</div><p style="font-size:12px;color:var(--text-dim);margin-bottom:13px;">Every video starts here. TikTok tests with a small group before pushing further.</p><div class="stat-row"><span>Min. Completion:</span><span class="stat-val">25%+</span></div><div class="stat-row"><span>Min. 3s Hook:</span><span class="stat-val">35%+</span></div><div class="tier-goal">GOAL: Prove basic engagement to unlock wider testing</div></div>
+        <div class="target-card"><div class="tier-name">Niche Audience (~1K–10K)</div><p style="font-size:12px;color:var(--text-dim);margin-bottom:13px;">Shown to interest-matched viewers. Engagement rate becomes the primary signal.</p><div class="stat-row"><span>Completion:</span><span class="stat-val">35%+</span></div><div class="stat-row"><span>Like Rate:</span><span class="stat-val">3%+</span></div><div class="tier-goal">GOAL: Sustain engagement with targeted viewers</div></div>
+        <div class="target-card"><div class="tier-name">FYP Breakout (~10K–100K)</div><p style="font-size:12px;color:var(--text-dim);margin-bottom:13px;">Broad FYP distribution. Share velocity becomes the key differentiator.</p><div class="stat-row"><span>Completion:</span><span class="stat-val">50%+</span></div><div class="stat-row"><span>Share Rate:</span><span class="stat-val">1.5%+</span></div><div class="tier-goal">GOAL: Drive shares to accelerate distribution</div></div>
+        <div class="target-card"><div class="tier-name">Viral Push (100K–1M+)</div><p style="font-size:12px;color:var(--text-dim);margin-bottom:13px;">Algorithm validated. Content must be broadly accessible and highly shareable.</p><div class="stat-row"><span>Completion:</span><span class="stat-val">55%+</span></div><div class="stat-row"><span>Share Rate:</span><span class="stat-val">2.0%+</span></div><div class="tier-goal">GOAL: Achieve mass appeal with universal hooks</div></div>
+      </div>
+      <h3>Follower Growth Projection</h3>
+      <div class="control-card" style="background:var(--card2);">
+        <div class="input-grid">
+          <div class="input-box"><label>Current Followers</label><input type="number" id="tt_curr_subs" value="0" min="0" oninput="updateTTSubProjection()"></div>
+          <div class="input-box"><label>Avg Monthly Views</label><input type="number" id="tt_monthly_views" value="0" min="0" oninput="updateTTSubProjection()"></div>
+          <div class="input-box"><label>Follow Conversion Rate (%)</label><input type="number" id="tt_follow_rate" value="2" min="0.1" max="10" step="0.1" oninput="updateTTSubProjection()"></div>
+        </div>
+        <div id="tt_sub_projection" style="margin-top:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;"></div>
+      </div>
     </div>
+
+    <!-- Instagram/Reels Panel -->
+    <div id="socialPanel_ig" style="display:none;">
+      <div class="control-card ig-card">
+        <div class="label-flex"><span>🔁 Watch Time / Replay Rate (%)</span><span class="val-badge" id="ig_avdVal" style="color:var(--ig);border-color:var(--ig);background:rgba(225,48,108,0.1);">0%</span></div>
+        <input type="range" id="ig_avd" min="0" max="150" step="1" value="0" oninput="updateIG()">
+        <div class="insight-box"><span class="icon">🔁</span><div>IG Explore relies heavily on Replays. If average watch time exceeds 100%, the video is looping — the ultimate viral trigger on this platform.</div></div>
+      </div>
+      <div class="control-card ig-card">
+        <div class="label-flex"><span>📩 Save &amp; Send Velocity (%)</span><span class="val-badge" id="ig_saveVal" style="color:var(--ig);border-color:var(--ig);background:rgba(225,48,108,0.1);">0%</span></div>
+        <input type="range" id="ig_save" min="0" max="10" step="0.1" value="0" oninput="updateIG()">
+        <div class="insight-box"><span class="icon">📩</span><div>A "Send" (DM share) brings a new user into the app — IG rewards this with massive Impression boosts. Saves signal bookmark-worthy content.</div></div>
+      </div>
+      <div class="score-display" style="border-color:rgba(225,48,108,0.3);">
+        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;">Reels Distribution Score</div>
+        <div class="score-val" id="ig_totalScore" style="color:var(--ig);text-shadow:0 0 40px rgba(225,48,108,0.4);">0</div>
+        <div class="rating-badge" id="ig_ratingText" style="background:rgba(225,48,108,0.1);color:var(--ig);border:1px solid var(--ig);">Enter Stats Above</div>
+      </div>
+      <h3>Reels Distribution Tiers</h3>
+      <div class="target-grid">
+        <div class="target-card"><div class="tier-name" style="color:var(--ig);">Initial Test (~200–2K Reach)</div><p style="font-size:12px;color:var(--text-dim);margin-bottom:13px;">IG tests every Reel with followers and similar interest accounts.</p><div class="stat-row"><span>Watch Rate:</span><span class="stat-val">30%+</span></div><div class="stat-row"><span>Like Rate:</span><span class="stat-val">2%+</span></div><div class="tier-goal">GOAL: Survive the initial test with enough engagement</div></div>
+        <div class="target-card"><div class="tier-name" style="color:var(--ig);">Explore Feed (~2K–20K)</div><p style="font-size:12px;color:var(--text-dim);margin-bottom:13px;">Content enters Explore. Save rate becomes the primary growth signal.</p><div class="stat-row"><span>Watch Rate:</span><span class="stat-val">45%+</span></div><div class="stat-row"><span>Save Rate:</span><span class="stat-val">1.5%+</span></div><div class="tier-goal">GOAL: Drive saves — they signal bookmark-worthy content</div></div>
+        <div class="target-card"><div class="tier-name" style="color:var(--ig);">Viral Explore (~20K–200K)</div><p style="font-size:12px;color:var(--text-dim);margin-bottom:13px;">Wide Explore push. DM shares amplify distribution beyond followers.</p><div class="stat-row"><span>Replay Rate:</span><span class="stat-val">60%+</span></div><div class="stat-row"><span>Send Rate:</span><span class="stat-val">2.5%+</span></div><div class="tier-goal">GOAL: Create share-worthy moments that travel via DMs</div></div>
+        <div class="target-card"><div class="tier-name" style="color:var(--ig);">Global Reach (200K+)</div><p style="font-size:12px;color:var(--text-dim);margin-bottom:13px;">Mass exposure. Content loops extensively and pushes outside your niche.</p><div class="stat-row"><span>Replay Rate:</span><span class="stat-val">80%+</span></div><div class="stat-row"><span>Send Rate:</span><span class="stat-val">4%+</span></div><div class="tier-goal">GOAL: Achieve mass emotional resonance</div></div>
+      </div>
+      <h3>Follower Growth Projection</h3>
+      <div class="control-card" style="background:var(--card2);">
+        <div class="input-grid">
+          <div class="input-box"><label>Current Followers</label><input type="number" id="ig_curr_subs" value="0" min="0" oninput="updateIGSubProjection()"></div>
+          <div class="input-box"><label>Avg Monthly Reach</label><input type="number" id="ig_monthly_views" value="0" min="0" oninput="updateIGSubProjection()"></div>
+          <div class="input-box"><label>Follow Conversion Rate (%)</label><input type="number" id="ig_follow_rate" value="1.5" min="0.1" max="10" step="0.1" oninput="updateIGSubProjection()"></div>
+        </div>
+        <div id="ig_sub_projection" style="margin-top:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;"></div>
+      </div>
+    </div>
+
+    <div class="faq-link-bar">❓ <a onclick="goFAQ()">How do these scores work? See the FAQ →</a></div>
   </div>
 
   <!-- ══════════════════════════════════════════ -->
@@ -1348,6 +1588,8 @@
       <div id="u_schedule_grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px;margin-bottom:28px;"></div>
       <div id="u_insights" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:16px;"></div>
     </div>
+
+    <div class="faq-link-bar">❓ <a onclick="goFAQ()">Why publish before peak time? See the FAQ →</a></div>
   </div>
 
   <!-- ══════════════════════════════════════════ -->
@@ -1393,6 +1635,8 @@
 
     <h3>🏆 Overall Growth Projection Summary</h3>
     <div id="cp_summary"></div>
+
+    <div class="faq-link-bar">❓ <a onclick="goFAQ()">How are projections calculated? See the FAQ →</a></div>
   </div>
 
   <!-- ══════════════════════════════════════════ -->
@@ -1466,6 +1710,8 @@
         <tbody id="trackerBody"></tbody>
       </table>
     </div>
+
+    <div class="faq-link-bar">❓ <a onclick="goFAQ()">How do I use the Video Tracker effectively? See the FAQ →</a></div>
   </div>
 
   <!-- ══════════════════════════════════════════ -->
@@ -1546,68 +1792,132 @@
         <span style="font-size:11px;color:var(--text-dim);font-weight:600;text-transform:none;letter-spacing:0;">Saves with your session file</span>
       </div>
       <p style="font-size:13px;color:var(--text-dim);margin-bottom:20px;">Choose the visual style for your dashboard. Your selection is saved with every session file.</p>
-      <div id="themePicker" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;">
-
-        <!-- Cyber Neon -->
-        <div class="theme-card" data-theme-id="cyber" onclick="applyTheme('cyber')" style="cursor:pointer;border-radius:12px;padding:16px;border:2px solid transparent;transition:all 0.2s;background:#0A1628;position:relative;">
-          <div style="display:flex;gap:6px;margin-bottom:10px;">
-            <div style="width:14px;height:14px;border-radius:50%;background:#00F5FF;box-shadow:0 0 8px #00F5FF;"></div>
-            <div style="width:14px;height:14px;border-radius:50%;background:#00FF88;box-shadow:0 0 8px #00FF88;"></div>
-            <div style="width:14px;height:14px;border-radius:50%;background:#C87FFF;box-shadow:0 0 8px #C87FFF;"></div>
-          </div>
-          <div style="font-weight:800;font-size:14px;color:#00F5FF;font-family:'Orbitron',monospace;margin-bottom:3px;">Cyber Neon</div>
-          <div style="font-size:11px;color:#7A9DC0;">Electric teal · default</div>
-          <div class="theme-check" style="display:none;position:absolute;top:10px;right:10px;color:#00F5FF;font-size:16px;">✔</div>
+      <div id="themePicker" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;">
+        <div class="theme-card" data-theme-id="cyber" onclick="applyTheme('cyber')" style="cursor:pointer;border-radius:12px;padding:14px;border:2px solid transparent;transition:all 0.2s;background:#0A1628;position:relative;">
+          <div style="display:flex;gap:5px;margin-bottom:8px;"><div style="width:12px;height:12px;border-radius:50%;background:#00F5FF;box-shadow:0 0 6px #00F5FF;"></div><div style="width:12px;height:12px;border-radius:50%;background:#00FF88;box-shadow:0 0 6px #00FF88;"></div><div style="width:12px;height:12px;border-radius:50%;background:#C87FFF;box-shadow:0 0 6px #C87FFF;"></div></div>
+          <div style="font-weight:800;font-size:13px;color:#00F5FF;font-family:'Orbitron',monospace;margin-bottom:2px;">Cyber Neon</div>
+          <div style="font-size:10px;color:#7A9DC0;">Electric teal · default</div>
+          <div class="theme-check" style="display:none;position:absolute;top:8px;right:8px;color:#00F5FF;font-size:14px;">✔</div>
         </div>
-
-        <!-- Dark Mode -->
-        <div class="theme-card" data-theme-id="dark" onclick="applyTheme('dark')" style="cursor:pointer;border-radius:12px;padding:16px;border:2px solid transparent;transition:all 0.2s;background:#1A1A1A;position:relative;">
-          <div style="display:flex;gap:6px;margin-bottom:10px;">
-            <div style="width:14px;height:14px;border-radius:50%;background:#4D9FFF;box-shadow:0 0 6px #4D9FFF;"></div>
-            <div style="width:14px;height:14px;border-radius:50%;background:#34D399;box-shadow:0 0 6px #34D399;"></div>
-            <div style="width:14px;height:14px;border-radius:50%;background:#A78BFA;box-shadow:0 0 6px #A78BFA;"></div>
-          </div>
-          <div style="font-weight:800;font-size:14px;color:#4D9FFF;font-family:'Orbitron',monospace;margin-bottom:3px;">Dark Mode</div>
-          <div style="font-size:11px;color:#94A3B8;">Obsidian · blue accents</div>
-          <div class="theme-check" style="display:none;position:absolute;top:10px;right:10px;color:#4D9FFF;font-size:16px;">✔</div>
+        <div class="theme-card" data-theme-id="dark" onclick="applyTheme('dark')" style="cursor:pointer;border-radius:12px;padding:14px;border:2px solid transparent;transition:all 0.2s;background:#1A1A1A;position:relative;">
+          <div style="display:flex;gap:5px;margin-bottom:8px;"><div style="width:12px;height:12px;border-radius:50%;background:#4D9FFF;box-shadow:0 0 5px #4D9FFF;"></div><div style="width:12px;height:12px;border-radius:50%;background:#34D399;box-shadow:0 0 5px #34D399;"></div><div style="width:12px;height:12px;border-radius:50%;background:#A78BFA;box-shadow:0 0 5px #A78BFA;"></div></div>
+          <div style="font-weight:800;font-size:13px;color:#4D9FFF;font-family:'Orbitron',monospace;margin-bottom:2px;">Dark Mode</div>
+          <div style="font-size:10px;color:#94A3B8;">Obsidian · blue</div>
+          <div class="theme-check" style="display:none;position:absolute;top:8px;right:8px;color:#4D9FFF;font-size:14px;">✔</div>
         </div>
-
-        <!-- Light Mode -->
-        <div class="theme-card" data-theme-id="light" onclick="applyTheme('light')" style="cursor:pointer;border-radius:12px;padding:16px;border:2px solid transparent;transition:all 0.2s;background:#FFFFFF;position:relative;">
-          <div style="display:flex;gap:6px;margin-bottom:10px;">
-            <div style="width:14px;height:14px;border-radius:50%;background:#0066CC;"></div>
-            <div style="width:14px;height:14px;border-radius:50%;background:#059669;"></div>
-            <div style="width:14px;height:14px;border-radius:50%;background:#7C3AED;"></div>
-          </div>
-          <div style="font-weight:800;font-size:14px;color:#0066CC;font-family:'Orbitron',monospace;margin-bottom:3px;">Light Mode</div>
-          <div style="font-size:11px;color:#64748B;">Crisp white · blue accents</div>
-          <div class="theme-check" style="display:none;position:absolute;top:10px;right:10px;color:#0066CC;font-size:16px;">✔</div>
+        <div class="theme-card" data-theme-id="light" onclick="applyTheme('light')" style="cursor:pointer;border-radius:12px;padding:14px;border:2px solid transparent;transition:all 0.2s;background:#FFFFFF;position:relative;">
+          <div style="display:flex;gap:5px;margin-bottom:8px;"><div style="width:12px;height:12px;border-radius:50%;background:#0066CC;"></div><div style="width:12px;height:12px;border-radius:50%;background:#059669;"></div><div style="width:12px;height:12px;border-radius:50%;background:#7C3AED;"></div></div>
+          <div style="font-weight:800;font-size:13px;color:#0066CC;font-family:'Orbitron',monospace;margin-bottom:2px;">Light Mode</div>
+          <div style="font-size:10px;color:#64748B;">White · clean</div>
+          <div class="theme-check" style="display:none;position:absolute;top:8px;right:8px;color:#0066CC;font-size:14px;">✔</div>
         </div>
-
-        <!-- Sunset Blaze -->
-        <div class="theme-card" data-theme-id="sunset" onclick="applyTheme('sunset')" style="cursor:pointer;border-radius:12px;padding:16px;border:2px solid transparent;transition:all 0.2s;background:#1E1008;position:relative;">
-          <div style="display:flex;gap:6px;margin-bottom:10px;">
-            <div style="width:14px;height:14px;border-radius:50%;background:#FF8C42;box-shadow:0 0 8px #FF8C42;"></div>
-            <div style="width:14px;height:14px;border-radius:50%;background:#FFD166;box-shadow:0 0 6px #FFD166;"></div>
-            <div style="width:14px;height:14px;border-radius:50%;background:#FF6B6B;box-shadow:0 0 6px #FF6B6B;"></div>
-          </div>
-          <div style="font-weight:800;font-size:14px;color:#FF8C42;font-family:'Orbitron',monospace;margin-bottom:3px;">Sunset Blaze</div>
-          <div style="font-size:11px;color:#9A7060;">Warm amber · coral dark</div>
-          <div class="theme-check" style="display:none;position:absolute;top:10px;right:10px;color:#FF8C42;font-size:16px;">✔</div>
+        <div class="theme-card" data-theme-id="sunset" onclick="applyTheme('sunset')" style="cursor:pointer;border-radius:12px;padding:14px;border:2px solid transparent;transition:all 0.2s;background:#1E1008;position:relative;">
+          <div style="display:flex;gap:5px;margin-bottom:8px;"><div style="width:12px;height:12px;border-radius:50%;background:#FF8C42;box-shadow:0 0 6px #FF8C42;"></div><div style="width:12px;height:12px;border-radius:50%;background:#FFD166;box-shadow:0 0 5px #FFD166;"></div><div style="width:12px;height:12px;border-radius:50%;background:#FF6B6B;box-shadow:0 0 5px #FF6B6B;"></div></div>
+          <div style="font-weight:800;font-size:13px;color:#FF8C42;font-family:'Orbitron',monospace;margin-bottom:2px;">Sunset Blaze</div>
+          <div style="font-size:10px;color:#9A7060;">Amber · coral</div>
+          <div class="theme-check" style="display:none;position:absolute;top:8px;right:8px;color:#FF8C42;font-size:14px;">✔</div>
         </div>
-
-        <!-- Matrix Green -->
-        <div class="theme-card" data-theme-id="matrix" onclick="applyTheme('matrix')" style="cursor:pointer;border-radius:12px;padding:16px;border:2px solid transparent;transition:all 0.2s;background:#020E02;position:relative;">
-          <div style="display:flex;gap:6px;margin-bottom:10px;">
-            <div style="width:14px;height:14px;border-radius:50%;background:#00FF41;box-shadow:0 0 8px #00FF41;"></div>
-            <div style="width:14px;height:14px;border-radius:50%;background:#00CC33;box-shadow:0 0 6px #00CC33;"></div>
-            <div style="width:14px;height:14px;border-radius:50%;background:#CCFF00;box-shadow:0 0 6px #CCFF00;"></div>
-          </div>
-          <div style="font-weight:800;font-size:14px;color:#00FF41;font-family:'Share Tech Mono',monospace;margin-bottom:3px;">Matrix Green</div>
-          <div style="font-size:11px;color:#407040;">Terminal · hacker aesthetic</div>
-          <div class="theme-check" style="display:none;position:absolute;top:10px;right:10px;color:#00FF41;font-size:16px;">✔</div>
+        <div class="theme-card" data-theme-id="matrix" onclick="applyTheme('matrix')" style="cursor:pointer;border-radius:12px;padding:14px;border:2px solid transparent;transition:all 0.2s;background:#020E02;position:relative;">
+          <div style="display:flex;gap:5px;margin-bottom:8px;"><div style="width:12px;height:12px;border-radius:50%;background:#00FF41;box-shadow:0 0 6px #00FF41;"></div><div style="width:12px;height:12px;border-radius:50%;background:#00CC33;box-shadow:0 0 5px #00CC33;"></div><div style="width:12px;height:12px;border-radius:50%;background:#CCFF00;box-shadow:0 0 5px #CCFF00;"></div></div>
+          <div style="font-weight:800;font-size:13px;color:#00FF41;font-family:'Share Tech Mono',monospace;margin-bottom:2px;">Matrix Green</div>
+          <div style="font-size:10px;color:#407040;">Terminal · hacker</div>
+          <div class="theme-check" style="display:none;position:absolute;top:8px;right:8px;color:#00FF41;font-size:14px;">✔</div>
         </div>
+        <div class="theme-card" data-theme-id="ocean" onclick="applyTheme('ocean')" style="cursor:pointer;border-radius:12px;padding:14px;border:2px solid transparent;transition:all 0.2s;background:#071628;position:relative;">
+          <div style="display:flex;gap:5px;margin-bottom:8px;"><div style="width:12px;height:12px;border-radius:50%;background:#00D4E8;box-shadow:0 0 6px #00D4E8;"></div><div style="width:12px;height:12px;border-radius:50%;background:#06B6D4;box-shadow:0 0 5px #06B6D4;"></div><div style="width:12px;height:12px;border-radius:50%;background:#818CF8;box-shadow:0 0 5px #818CF8;"></div></div>
+          <div style="font-weight:800;font-size:13px;color:#00D4E8;font-family:'Orbitron',monospace;margin-bottom:2px;">Deep Ocean</div>
+          <div style="font-size:10px;color:#4A7A9B;">Navy · bioluminescent</div>
+          <div class="theme-check" style="display:none;position:absolute;top:8px;right:8px;color:#00D4E8;font-size:14px;">✔</div>
+        </div>
+        <div class="theme-card" data-theme-id="rosegold" onclick="applyTheme('rosegold')" style="cursor:pointer;border-radius:12px;padding:14px;border:2px solid transparent;transition:all 0.2s;background:#211018;position:relative;">
+          <div style="display:flex;gap:5px;margin-bottom:8px;"><div style="width:12px;height:12px;border-radius:50%;background:#F9A8C9;box-shadow:0 0 6px #F9A8C9;"></div><div style="width:12px;height:12px;border-radius:50%;background:#FBBF24;box-shadow:0 0 5px #FBBF24;"></div><div style="width:12px;height:12px;border-radius:50%;background:#C084FC;box-shadow:0 0 5px #C084FC;"></div></div>
+          <div style="font-weight:800;font-size:13px;color:#F9A8C9;font-family:'Orbitron',monospace;margin-bottom:2px;">Rose Gold</div>
+          <div style="font-size:10px;color:#9A6070;">Pink · luxury</div>
+          <div class="theme-check" style="display:none;position:absolute;top:8px;right:8px;color:#F9A8C9;font-size:14px;">✔</div>
+        </div>
+        <div class="theme-card" data-theme-id="forest" onclick="applyTheme('forest')" style="cursor:pointer;border-radius:12px;padding:14px;border:2px solid transparent;transition:all 0.2s;background:#0B160C;position:relative;">
+          <div style="display:flex;gap:5px;margin-bottom:8px;"><div style="width:12px;height:12px;border-radius:50%;background:#4ADE80;box-shadow:0 0 6px #4ADE80;"></div><div style="width:12px;height:12px;border-radius:50%;background:#86EFAC;box-shadow:0 0 5px #86EFAC;"></div><div style="width:12px;height:12px;border-radius:50%;background:#FDE047;box-shadow:0 0 5px #FDE047;"></div></div>
+          <div style="font-weight:800;font-size:13px;color:#4ADE80;font-family:'Orbitron',monospace;margin-bottom:2px;">Forest</div>
+          <div style="font-size:10px;color:#4A7A55;">Earthy · focused</div>
+          <div class="theme-check" style="display:none;position:absolute;top:8px;right:8px;color:#4ADE80;font-size:14px;">✔</div>
+        </div>
+        <div class="theme-card" data-theme-id="volt" onclick="applyTheme('volt')" style="cursor:pointer;border-radius:12px;padding:14px;border:2px solid transparent;transition:all 0.2s;background:#161600;position:relative;">
+          <div style="display:flex;gap:5px;margin-bottom:8px;"><div style="width:12px;height:12px;border-radius:50%;background:#FAFF00;box-shadow:0 0 6px #FAFF00;"></div><div style="width:12px;height:12px;border-radius:50%;background:#C8FF00;box-shadow:0 0 5px #C8FF00;"></div><div style="width:12px;height:12px;border-radius:50%;background:#FF6B00;box-shadow:0 0 5px #FF6B00;"></div></div>
+          <div style="font-weight:800;font-size:13px;color:#FAFF00;font-family:'Orbitron',monospace;margin-bottom:2px;">Volt</div>
+          <div style="font-size:10px;color:#808000;">Electric · high energy</div>
+          <div class="theme-check" style="display:none;position:absolute;top:8px;right:8px;color:#FAFF00;font-size:14px;">✔</div>
+        </div>
+        <div class="theme-card" data-theme-id="slate" onclick="applyTheme('slate')" style="cursor:pointer;border-radius:12px;padding:14px;border:2px solid transparent;transition:all 0.2s;background:#18181F;position:relative;">
+          <div style="display:flex;gap:5px;margin-bottom:8px;"><div style="width:12px;height:12px;border-radius:50%;background:#FB923C;box-shadow:0 0 6px #FB923C;"></div><div style="width:12px;height:12px;border-radius:50%;background:#94A3B8;"></div><div style="width:12px;height:12px;border-radius:50%;background:#60A5FA;box-shadow:0 0 5px #60A5FA;"></div></div>
+          <div style="font-weight:800;font-size:13px;color:#FB923C;font-family:'Orbitron',monospace;margin-bottom:2px;">Slate</div>
+          <div style="font-size:10px;color:#64748B;">Professional · warm grey</div>
+          <div class="theme-check" style="display:none;position:absolute;top:8px;right:8px;color:#FB923C;font-size:14px;">✔</div>
+        </div>
+      </div>
+    </div>
 
+    <!-- FONT STYLE PICKER -->
+    <div class="control-card" style="margin-top:20px;border-color:rgba(0,245,255,0.2);">
+      <div style="font-size:13px;font-weight:700;text-transform:uppercase;color:var(--text-dim);letter-spacing:1px;margin-bottom:6px;font-family:'Share Tech Mono',monospace;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+        <span style="color:var(--text-bright);">🔤 Font Style</span>
+        <span style="font-size:11px;font-weight:600;text-transform:none;letter-spacing:0;color:var(--text-dim);">Saves with your session file</span>
+      </div>
+      <p style="font-size:13px;color:var(--text-dim);margin-bottom:18px;">Choose the text style for the dashboard. Pairs well with your chosen theme.</p>
+      <div id="fontPicker" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;">
+        <div class="font-card" data-font-id="cyber" onclick="applyFont('cyber')" style="cursor:pointer;border-radius:10px;padding:12px;border:2px solid transparent;transition:all 0.2s;background:var(--card);position:relative;">
+          <div style="font-family:'Orbitron',monospace;font-size:16px;font-weight:700;color:var(--primary);margin-bottom:3px;">Aa</div>
+          <div style="font-weight:700;font-size:13px;color:var(--text-bright);margin-bottom:1px;">Cyber</div>
+          <div style="font-size:10px;color:var(--text-dim);">Rajdhani+Orbitron</div>
+          <div class="font-check" style="display:none;position:absolute;top:8px;right:8px;color:var(--primary);font-size:13px;">✔</div>
+        </div>
+        <div class="font-card" data-font-id="clean" onclick="applyFont('clean')" style="cursor:pointer;border-radius:10px;padding:12px;border:2px solid transparent;transition:all 0.2s;background:var(--card);position:relative;">
+          <div style="font-family:'Inter',sans-serif;font-size:16px;font-weight:700;color:var(--secondary);margin-bottom:3px;">Aa</div>
+          <div style="font-family:'Inter',sans-serif;font-weight:700;font-size:13px;color:var(--text-bright);margin-bottom:1px;">Clean</div>
+          <div style="font-family:'Inter',sans-serif;font-size:10px;color:var(--text-dim);">Inter · readable</div>
+          <div class="font-check" style="display:none;position:absolute;top:8px;right:8px;color:var(--primary);font-size:13px;">✔</div>
+        </div>
+        <div class="font-card" data-font-id="terminal" onclick="applyFont('terminal')" style="cursor:pointer;border-radius:10px;padding:12px;border:2px solid transparent;transition:all 0.2s;background:var(--card);position:relative;">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;color:var(--accent);margin-bottom:3px;">Aa</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:12px;color:var(--text-bright);margin-bottom:1px;">Terminal</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-dim);">JetBrains Mono</div>
+          <div class="font-check" style="display:none;position:absolute;top:8px;right:8px;color:var(--primary);font-size:13px;">✔</div>
+        </div>
+        <div class="font-card" data-font-id="space" onclick="applyFont('space')" style="cursor:pointer;border-radius:10px;padding:12px;border:2px solid transparent;transition:all 0.2s;background:var(--card);position:relative;">
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;color:var(--warning);margin-bottom:3px;">Aa</div>
+          <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:13px;color:var(--text-bright);margin-bottom:1px;">Space</div>
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:10px;color:var(--text-dim);">Space Grotesk</div>
+          <div class="font-check" style="display:none;position:absolute;top:8px;right:8px;color:var(--primary);font-size:13px;">✔</div>
+        </div>
+        <div class="font-card" data-font-id="editorial" onclick="applyFont('editorial')" style="cursor:pointer;border-radius:10px;padding:12px;border:2px solid transparent;transition:all 0.2s;background:var(--card);position:relative;">
+          <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--danger);margin-bottom:3px;">Aa</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:13px;color:var(--text-bright);margin-bottom:1px;">Editorial</div>
+          <div style="font-family:'Syne',sans-serif;font-size:10px;color:var(--text-dim);">Syne · expressive</div>
+          <div class="font-check" style="display:none;position:absolute;top:8px;right:8px;color:var(--primary);font-size:13px;">✔</div>
+        </div>
+        <div class="font-card" data-font-id="rounded" onclick="applyFont('rounded')" style="cursor:pointer;border-radius:10px;padding:12px;border:2px solid transparent;transition:all 0.2s;background:var(--card);position:relative;">
+          <div style="font-family:'Nunito',sans-serif;font-size:16px;font-weight:900;color:var(--primary);margin-bottom:3px;">Aa</div>
+          <div style="font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;color:var(--text-bright);margin-bottom:1px;">Rounded</div>
+          <div style="font-family:'Nunito',sans-serif;font-size:10px;color:var(--text-dim);">Nunito · friendly</div>
+          <div class="font-check" style="display:none;position:absolute;top:8px;right:8px;color:var(--primary);font-size:13px;">✔</div>
+        </div>
+        <div class="font-card" data-font-id="impact" onclick="applyFont('impact')" style="cursor:pointer;border-radius:10px;padding:12px;border:2px solid transparent;transition:all 0.2s;background:var(--card);position:relative;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:16px;font-weight:400;color:var(--secondary);margin-bottom:3px;letter-spacing:1px;">Aa</div>
+          <div style="font-family:'DM Sans',sans-serif;font-weight:700;font-size:13px;color:var(--text-bright);margin-bottom:1px;">Impact</div>
+          <div style="font-family:'DM Sans',sans-serif;font-size:10px;color:var(--text-dim);">Bebas+DM Sans</div>
+          <div class="font-check" style="display:none;position:absolute;top:8px;right:8px;color:var(--primary);font-size:13px;">✔</div>
+        </div>
+        <div class="font-card" data-font-id="elegant" onclick="applyFont('elegant')" style="cursor:pointer;border-radius:10px;padding:12px;border:2px solid transparent;transition:all 0.2s;background:var(--card);position:relative;">
+          <div style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--accent);margin-bottom:3px;">Aa</div>
+          <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:13px;color:var(--text-bright);margin-bottom:1px;">Elegant</div>
+          <div style="font-family:'DM Sans',sans-serif;font-size:10px;color:var(--text-dim);">Playfair · serif</div>
+          <div class="font-check" style="display:none;position:absolute;top:8px;right:8px;color:var(--primary);font-size:13px;">✔</div>
+        </div>
+        <div class="font-card" data-font-id="code" onclick="applyFont('code')" style="cursor:pointer;border-radius:10px;padding:12px;border:2px solid transparent;transition:all 0.2s;background:var(--card);position:relative;">
+          <div style="font-family:'Fira Code',monospace;font-size:16px;font-weight:700;color:var(--warning);margin-bottom:3px;">Aa</div>
+          <div style="font-family:'Fira Code',monospace;font-weight:700;font-size:12px;color:var(--text-bright);margin-bottom:1px;">Code</div>
+          <div style="font-family:'Fira Code',monospace;font-size:10px;color:var(--text-dim);">Fira Code</div>
+          <div class="font-check" style="display:none;position:absolute;top:8px;right:8px;color:var(--primary);font-size:13px;">✔</div>
+        </div>
       </div>
     </div>
 
@@ -1619,8 +1929,264 @@
     </div>
   </div>
 
-  <div class="version-footer"><span>VIRALITY CHECKER</span> | VERSION <span>1.0.0</span> | CONTENT ANALYTICS PLATFORM</div>
-</div>
+  <div class="version-footer"><span>VIRALITY CHECKER</span> | VERSION <span>4.0.0</span> | CONTENT ANALYTICS PLATFORM</div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- TAB: CHANNEL COMPARE -->
+  <!-- ══════════════════════════════════════════ -->
+  <div id="TabCompare" class="tabcontent">
+    <h2>⚖️ CHANNEL COMPARE</h2>
+    <p class="tab-subtitle">Enter a YouTube Channel ID or @handle for up to 3 channels and fetch their public stats automatically using your YouTube Data API key. Manually override any field if needed.</p>
+
+    <!-- API Key -->
+    <div class="api-section" style="margin-bottom:22px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:14px;">
+        <div>
+          <div style="color:var(--text-bright);font-size:15px;font-weight:800;font-family:'Orbitron',monospace;letter-spacing:1px;margin-bottom:3px;">🔑 YouTube API Key</div>
+          <div style="color:var(--text-dim);font-size:12px;">Uses the same key as the Video Tracker. Stored locally — never sent anywhere.</div>
+        </div>
+        <div id="cmp_api_status" style="font-size:12px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;"></div>
+      </div>
+      <input type="password" id="cmp_api_key" placeholder="AIza... paste your YouTube Data API v3 key" style="width:100%;padding:12px 14px;background:var(--bg);border:1px solid var(--border-bright);border-radius:8px;font-size:14px;font-family:'Share Tech Mono',monospace;color:var(--text-bright);" oninput="syncCmpApiKey()">
+      <div class="api-note" style="margin-top:6px;">Get a free key at console.cloud.google.com → YouTube Data API v3 → Credentials. The key auto-syncs with the Video Tracker tab.</div>
+    </div>
+
+    <!-- Channel Input Cards -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:16px;margin-bottom:20px;">
+      <!-- Channel 1 -->
+      <div class="control-card" style="border-top:3px solid var(--primary);">
+        <div style="font-size:12px;font-weight:700;color:var(--primary);font-family:'Share Tech Mono',monospace;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">Channel 1</div>
+        <div class="account-field">
+          <label>Channel ID or @handle</label>
+          <div style="display:flex;gap:8px;">
+            <input type="text" id="cmp_id1" placeholder="@MrBeast or UCX6OQ..." style="flex:1;padding:10px 12px;background:var(--bg);border:1px solid var(--border-bright);border-radius:8px;font-size:14px;font-family:'Rajdhani',sans-serif;font-weight:600;color:var(--text-bright);">
+            <button class="btn-primary" onclick="fetchChannel(1)" style="padding:10px 14px;font-size:12px;white-space:nowrap;">🔍 FETCH</button>
+          </div>
+        </div>
+        <div id="cmp_status1" style="font-size:12px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;margin:6px 0;min-height:16px;"></div>
+        <div id="cmp_preview1" style="display:none;background:var(--card2);border-radius:8px;padding:12px;margin-bottom:10px;display:none;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <img id="cmp_thumb1" src="" style="width:40px;height:40px;border-radius:50%;object-fit:cover;" onerror="this.style.display='none'">
+            <div>
+              <div id="cmp_chname1" style="font-weight:700;color:var(--primary);font-size:14px;"></div>
+              <div id="cmp_chhandle1" style="font-size:11px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="input-grid" style="margin-top:8px;">
+          <div class="input-box"><label>Subscribers</label><input type="number" id="cmp_subs1" placeholder="0" min="0" oninput="runCompare()"></div>
+          <div class="input-box"><label>Total Views</label><input type="number" id="cmp_totalviews1" placeholder="0" min="0" oninput="runCompare()"></div>
+          <div class="input-box"><label>Videos Published</label><input type="number" id="cmp_videocount1" placeholder="0" min="0" oninput="runCompare()"></div>
+          <div class="input-box"><label>Est. Avg Monthly Views</label><input type="number" id="cmp_views1" placeholder="0" min="0" oninput="runCompare()"></div>
+        </div>
+        <div class="input-grid" style="margin-top:4px;">
+          <div class="input-box"><label>Avg CTR % <span style="opacity:0.5;">(manual)</span></label><input type="number" id="cmp_ctr1" placeholder="—" min="0" max="25" step="0.1" oninput="runCompare()"></div>
+          <div class="input-box"><label>Avg Watch Time (mins)</label><input type="number" id="cmp_avd1" placeholder="—" min="0" step="0.1" oninput="runCompare()"></div>
+          <div class="input-box"><label>Est. RPM ($)</label><input type="number" id="cmp_rpm1" placeholder="—" min="0" step="0.1" oninput="runCompare()"></div>
+        </div>
+      </div>
+
+      <!-- Channel 2 -->
+      <div class="control-card" style="border-top:3px solid var(--secondary);">
+        <div style="font-size:12px;font-weight:700;color:var(--secondary);font-family:'Share Tech Mono',monospace;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">Channel 2</div>
+        <div class="account-field">
+          <label>Channel ID or @handle</label>
+          <div style="display:flex;gap:8px;">
+            <input type="text" id="cmp_id2" placeholder="@MKBHD or UCBJy..." style="flex:1;padding:10px 12px;background:var(--bg);border:1px solid var(--border-bright);border-radius:8px;font-size:14px;font-family:'Rajdhani',sans-serif;font-weight:600;color:var(--text-bright);">
+            <button class="btn-primary" onclick="fetchChannel(2)" style="padding:10px 14px;font-size:12px;white-space:nowrap;border-color:var(--secondary);color:var(--secondary);">🔍 FETCH</button>
+          </div>
+        </div>
+        <div id="cmp_status2" style="font-size:12px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;margin:6px 0;min-height:16px;"></div>
+        <div id="cmp_preview2" style="display:none;background:var(--card2);border-radius:8px;padding:12px;margin-bottom:10px;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <img id="cmp_thumb2" src="" style="width:40px;height:40px;border-radius:50%;object-fit:cover;" onerror="this.style.display='none'">
+            <div>
+              <div id="cmp_chname2" style="font-weight:700;color:var(--secondary);font-size:14px;"></div>
+              <div id="cmp_chhandle2" style="font-size:11px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="input-grid" style="margin-top:8px;">
+          <div class="input-box"><label>Subscribers</label><input type="number" id="cmp_subs2" placeholder="0" min="0" oninput="runCompare()"></div>
+          <div class="input-box"><label>Total Views</label><input type="number" id="cmp_totalviews2" placeholder="0" min="0" oninput="runCompare()"></div>
+          <div class="input-box"><label>Videos Published</label><input type="number" id="cmp_videocount2" placeholder="0" min="0" oninput="runCompare()"></div>
+          <div class="input-box"><label>Est. Avg Monthly Views</label><input type="number" id="cmp_views2" placeholder="0" min="0" oninput="runCompare()"></div>
+        </div>
+        <div class="input-grid" style="margin-top:4px;">
+          <div class="input-box"><label>Avg CTR % <span style="opacity:0.5;">(manual)</span></label><input type="number" id="cmp_ctr2" placeholder="—" min="0" max="25" step="0.1" oninput="runCompare()"></div>
+          <div class="input-box"><label>Avg Watch Time (mins)</label><input type="number" id="cmp_avd2" placeholder="—" min="0" step="0.1" oninput="runCompare()"></div>
+          <div class="input-box"><label>Est. RPM ($)</label><input type="number" id="cmp_rpm2" placeholder="—" min="0" step="0.1" oninput="runCompare()"></div>
+        </div>
+      </div>
+
+      <!-- Channel 3 -->
+      <div class="control-card" style="border-top:3px solid var(--accent);">
+        <div style="font-size:12px;font-weight:700;color:var(--accent);font-family:'Share Tech Mono',monospace;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">Channel 3 <span style="font-size:10px;opacity:0.55;">(optional)</span></div>
+        <div class="account-field">
+          <label>Channel ID or @handle</label>
+          <div style="display:flex;gap:8px;">
+            <input type="text" id="cmp_id3" placeholder="@Veritasium or UCHnj..." style="flex:1;padding:10px 12px;background:var(--bg);border:1px solid var(--border-bright);border-radius:8px;font-size:14px;font-family:'Rajdhani',sans-serif;font-weight:600;color:var(--text-bright);">
+            <button class="btn-primary" onclick="fetchChannel(3)" style="padding:10px 14px;font-size:12px;white-space:nowrap;border-color:var(--accent);color:var(--accent);">🔍 FETCH</button>
+          </div>
+        </div>
+        <div id="cmp_status3" style="font-size:12px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;margin:6px 0;min-height:16px;"></div>
+        <div id="cmp_preview3" style="display:none;background:var(--card2);border-radius:8px;padding:12px;margin-bottom:10px;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <img id="cmp_thumb3" src="" style="width:40px;height:40px;border-radius:50%;object-fit:cover;" onerror="this.style.display='none'">
+            <div>
+              <div id="cmp_chname3" style="font-weight:700;color:var(--accent);font-size:14px;"></div>
+              <div id="cmp_chhandle3" style="font-size:11px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="input-grid" style="margin-top:8px;">
+          <div class="input-box"><label>Subscribers</label><input type="number" id="cmp_subs3" placeholder="0" min="0" oninput="runCompare()"></div>
+          <div class="input-box"><label>Total Views</label><input type="number" id="cmp_totalviews3" placeholder="0" min="0" oninput="runCompare()"></div>
+          <div class="input-box"><label>Videos Published</label><input type="number" id="cmp_videocount3" placeholder="0" min="0" oninput="runCompare()"></div>
+          <div class="input-box"><label>Est. Avg Monthly Views</label><input type="number" id="cmp_views3" placeholder="0" min="0" oninput="runCompare()"></div>
+        </div>
+        <div class="input-grid" style="margin-top:4px;">
+          <div class="input-box"><label>Avg CTR % <span style="opacity:0.5;">(manual)</span></label><input type="number" id="cmp_ctr3" placeholder="—" min="0" max="25" step="0.1" oninput="runCompare()"></div>
+          <div class="input-box"><label>Avg Watch Time (mins)</label><input type="number" id="cmp_avd3" placeholder="—" min="0" step="0.1" oninput="runCompare()"></div>
+          <div class="input-box"><label>Est. RPM ($)</label><input type="number" id="cmp_rpm3" placeholder="—" min="0" step="0.1" oninput="runCompare()"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="insight-box" style="margin-bottom:20px;">
+      <span class="icon">💡</span>
+      <div>The API pulls <strong>subscribers, total views, and video count</strong> publicly. CTR and average watch time are private — enter them manually if you have them (e.g. from creator transparency posts). Monthly views are estimated from total views ÷ channel age.</div>
+    </div>
+
+    <div id="cmp_results" style="display:none;">
+      <h3>📊 Head-to-Head Comparison</h3>
+      <div id="cmp_table_wrap" style="overflow-x:auto;margin-bottom:24px;"></div>
+
+      <h3>📈 Estimated Revenue Range</h3>
+      <div id="cmp_revenue_grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:24px;"></div>
+
+      <h3>🏆 Category Rankings</h3>
+      <div id="cmp_rankings" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:24px;"></div>
+
+      <h3>💡 Insights</h3>
+      <div id="cmp_insights" style="margin-bottom:16px;"></div>
+    </div>
+
+    <div class="faq-link-bar">❓ <a onclick="goFAQ()">How do I find a Channel ID? See the FAQ →</a></div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- TAB: FAQ -->
+  <!-- ══════════════════════════════════════════ -->
+  <div id="TabFAQ" class="tabcontent">
+    <h2>❓ FREQUENTLY ASKED QUESTIONS</h2>
+    <p class="tab-subtitle">A complete guide to every page, feature, and metric in the Virality Checker dashboard.</p>
+
+    <div class="faq-section">
+      <div class="faq-header">⚡ Virality Checker</div>
+      <div class="faq-body">
+        <p>The Virality Checker scores your video's current performance on a 0–100 scale by weighing four key metrics the YouTube algorithm uses to decide distribution:</p>
+        <ul class="faq-list">
+          <li><strong>CTR (Click-Through Rate):</strong> The percentage of people who clicked your thumbnail after seeing it. Industry benchmark is 3–5%. Below 2% signals a weak thumbnail or title. This accounts for 25 points max.</li>
+          <li><strong>AVD % (Average View Duration):</strong> What percentage of your video the average viewer watched. YouTube lowers its targets as videos get longer — a 10-min video at 50% is excellent; a 2-min video needs 80%+. Worth up to 30–45 points depending on video age.</li>
+          <li><strong>Hook Retention (30s):</strong> The percentage of viewers who made it past the first 30 seconds. This is the most predictive metric for long-term performance. Under 50% means most viewers left before they had a chance to value your content. Worth up to 15 points.</li>
+          <li><strong>Engagement Rate:</strong> (Likes + Comments) ÷ Views. A 1–3% rate is healthy. High engagement tells the algorithm viewers feel strongly about the content. Worth up to 10 points.</li>
+          <li><strong>New Video Toggle:</strong> If your video is under 48 hours old, check this box. It shifts the scoring to weight AVD more heavily and reduces Hook scoring, since fresh videos haven't accumulated long-term retention data yet.</li>
+        </ul>
+        <p class="faq-note">Score guide: 0–39 = Underperforming, 40–74 = Strong Growth, 75–100 = Viral Breakout 🚀</p>
+      </div>
+    </div>
+
+    <div class="faq-section">
+      <div class="faq-header">🤖 Algorithm Tracker</div>
+      <div class="faq-body">
+        <p>Shows the five distribution tiers YouTube pushes content through and what performance benchmarks you need to hit at each stage. Enter your video length to get length-adjusted AVD targets for each tier. Use this to diagnose <em>where</em> your video stopped getting pushed — if it stalled at Tier 2, your CTR likely dropped when served to a colder audience.</p>
+      </div>
+    </div>
+
+    <div class="faq-section">
+      <div class="faq-header">💰 Monetization Tracker</div>
+      <div class="faq-body">
+        <p>Tracks your progress toward YouTube's Partner Program (YPP) requirements: 1,000 subscribers and 4,000 watch hours in 12 months. Enter your current hours, a start and target date, and your daily watch-hour velocity (from YouTube Studio). The tracker calculates your ETA and shows how adding live stream hours accelerates progress, since stream watch time counts directly toward the 4,000-hour threshold.</p>
+        <ul class="faq-list">
+          <li><strong>Daily Watch Hrs from Videos:</strong> Found in YouTube Studio → Analytics → Reach → Watch Time</li>
+          <li><strong>Stream Hours / Week × Avg Concurrent Viewers</strong> = stream watch hours generated per week</li>
+          <li><strong>Avg View Duration:</strong> Used to calculate how many daily video views you need to hit your velocity target</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="faq-section">
+      <div class="faq-header">💹 RPM Predictor</div>
+      <div class="faq-body">
+        <p>Simulates your potential monthly and annual ad revenue based on your view volume and RPM (Revenue Per Mille — what you earn per 1,000 monetized views, after YouTube's 45% cut). Adjust the min/max RPM sliders to match your niche. The benchmark table at the bottom shows real-world RPM ranges by content category. Use the Shorts section separately since Shorts RPM is dramatically lower ($0.03–$0.08) due to the separate Shorts ad revenue pool.</p>
+      </div>
+    </div>
+
+    <div class="faq-section">
+      <div class="faq-header">📈 Channel Projections</div>
+      <div class="faq-body">
+        <p>Projects your subscriber and view trajectory over 6 and 12 months based on your current stats. Enter your current subscribers, monthly views, CTR, average watch time, upload frequency, and sub conversion rate. It generates three growth scenarios:</p>
+        <ul class="faq-list">
+          <li><strong>Current Path:</strong> Where you end up if nothing changes</li>
+          <li><strong>CTR Optimization:</strong> Impact of hitting your target CTR</li>
+          <li><strong>More Uploads:</strong> Impact of increasing upload frequency</li>
+          <li><strong>Optimistic Path:</strong> Best-case combining better conversion, more views, and higher upload frequency</li>
+        </ul>
+        <p class="faq-note">Sub Conversion Rate is the % of total views that result in a new subscriber. Industry average is 0.5–3%.</p>
+      </div>
+    </div>
+
+    <div class="faq-section">
+      <div class="faq-header">⚖️ Channel Compare</div>
+      <div class="faq-body">
+        <p>Lets you manually enter publicly reported stats for up to 3 YouTube channels to compare them side-by-side. Since the YouTube API doesn't expose CTR or watch time publicly, this tool is intentionally manual — you supply what you can find from published interviews, Social Blade estimates, or creator transparency posts. The tool calculates derived metrics like Views Per Subscriber, Revenue Per Video, and Content Efficiency Score and ranks each channel across every category.</p>
+        <p class="faq-note">Tip: Social Blade (socialblade.com) provides subscriber counts and estimated monthly views for any public channel.</p>
+      </div>
+    </div>
+
+    <div class="faq-section">
+      <div class="faq-header">🎬 Video Tracker</div>
+      <div class="faq-body">
+        <p>A time-series tracker for monitoring individual video performance over multiple days. Add a new video title, then log daily entries with impressions, views, CTR, AVD%, and likes from YouTube Studio. The tracker detects trends between data points and generates an automated insight (e.g., "Algorithmic Spike" or "Fatigue Alert"). You can also connect your YouTube Data API key to auto-fetch view and like counts — CTR and AVD must still be entered manually as the API does not expose those. Use Export to save your data as a JSON file, and Import to restore it.</p>
+      </div>
+    </div>
+
+    <div class="faq-section">
+      <div class="faq-header">📱 Social Analytics</div>
+      <div class="faq-body">
+        <p>Covers TikTok and Instagram Reels separately with their own scoring systems, since each platform weights different signals:</p>
+        <ul class="faq-list">
+          <li><strong>TikTok</strong> prioritizes Completion Rate (did viewers finish the video?) and Share Velocity (did they send it to others?). The 3-second hook retention is the gating metric — below 40%, the algorithm stops expanding your batch.</li>
+          <li><strong>Instagram Reels</strong> prioritizes Saves (bookmark-worthy signal) and Sends/DMs (brings new users into the app). High replay rates (watch time over 100%) are the strongest Explore page trigger.</li>
+        </ul>
+        <p>Both sections include a distribution score (0–100) and a distribution tier breakdown showing what metrics you need at each stage of algorithmic expansion.</p>
+      </div>
+    </div>
+
+    <div class="faq-section">
+      <div class="faq-header">⏰ Publishing Hub</div>
+      <div class="faq-body">
+        <p>Generates an optimal publishing schedule based on your content format (Long-Form vs. Short-Form), niche, timezone, and upload frequency. Long-form videos should be published 2 hours before the peak audience window to allow YouTube's indexing and notification delivery to complete. Short-form content should be published during the peak window since the first 30–60 minutes determine whether the algorithm expands the batch. The weekly schedule view highlights your best publish days based on niche-specific audience activity patterns.</p>
+      </div>
+    </div>
+
+    <div class="faq-section">
+      <div class="faq-header">👤 Account Info</div>
+      <div class="faq-body">
+        <p>Stores your creator profile, channel links, and platform credentials locally. All information stays in your browser or in your downloaded save file — nothing is sent to any server. The Theme Picker here lets you switch between 5 visual themes (Cyber Neon, Dark Mode, Light Mode, Sunset Blaze, Matrix Green) and 5 font styles. Your theme and font choice saves with your session file and restores automatically on upload.</p>
+      </div>
+    </div>
+
+    <div class="faq-section">
+      <div class="faq-header">💾 Saving &amp; Loading Data</div>
+      <div class="faq-body">
+        <p>Click <strong>💾 SAVE SESSION</strong> in the top bar at any time to download a <code>.vcsave</code> file containing all your data — tracker entries, account info, API keys, theme, and font preference. When you return to the site, click <strong>"Choose Save File"</strong> in the startup prompt to restore everything instantly. Your data also persists in your browser's local storage between sessions, but the save file is the recommended backup method since local storage can be cleared.</p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end container -->
 
 <script>
   /* ─── State ─── */
@@ -1628,6 +2194,7 @@
   let trackingDataObj = { "Default Video": [] };
   let currentVideoKey = "Default Video";
   let currentTheme = 'cyber';
+  let currentFont = 'cyber';
 
   /* ─── Theme System ─── */
   function applyTheme(themeId, skipSave) {
@@ -1643,7 +2210,8 @@
       const isActive = card.getAttribute('data-theme-id') === themeId;
       const colors = {
         cyber: '#00F5FF', dark: '#4D9FFF', light: '#0066CC',
-        sunset: '#FF8C42', matrix: '#00FF41'
+        sunset: '#FF8C42', matrix: '#00FF41', ocean: '#00D4E8',
+        rosegold: '#F9A8C9', forest: '#4ADE80', volt: '#FAFF00', slate: '#FB923C'
       };
       const c = colors[themeId] || '#00F5FF';
       if (isActive) {
@@ -1666,6 +2234,33 @@
     applyTheme(themeId || 'cyber', true);
   }
 
+  /* ─── Font System (defined here so it's available at init time) ─── */
+  function applyFont(fontId, skipSave) {
+    currentFont = fontId;
+    const html = document.documentElement;
+    if (fontId === 'cyber') { html.removeAttribute('data-font'); }
+    else { html.setAttribute('data-font', fontId); }
+    // Update font picker UI — safe if cards don't exist yet
+    document.querySelectorAll('.font-card').forEach(card => {
+      const isActive = card.getAttribute('data-font-id') === fontId;
+      const check = card.querySelector('.font-check');
+      if (isActive) {
+        card.style.borderColor = 'var(--primary)';
+        card.style.boxShadow = '0 0 16px rgba(0,245,255,0.2)';
+        if (check) check.style.display = 'block';
+      } else {
+        card.style.borderColor = 'transparent';
+        card.style.boxShadow = 'none';
+        if (check) check.style.display = 'none';
+      }
+    });
+    if (!skipSave) {
+      try { localStorage.setItem('ccFont', fontId); } catch(e) {}
+      if (typeof showToast === 'function') showToast('🔤 Font updated!', 'var(--primary)');
+    }
+  }
+  function loadFont(fontId) { applyFont(fontId || 'cyber', true); }
+
   /* ─── Init ─── */
   window.onload = function() {
     const today = new Date().toISOString().split('T')[0];
@@ -1674,9 +2269,11 @@
     const end = new Date(); end.setFullYear(end.getFullYear() + 1);
     document.getElementById('m_targetDate').value = end.toISOString().split('T')[0];
 
-    // Apply persisted theme first so there's no flash
+    // Apply persisted theme and font first so there's no flash
     const savedTheme = localStorage.getItem('ccTheme') || 'cyber';
     loadTheme(savedTheme);
+    const savedFont = localStorage.getItem('ccFont') || 'cyber';
+    loadFont(savedFont);
 
     // Check for a quick-resume session
     const storedUser = localStorage.getItem('ccAnalytics_session');
@@ -1719,10 +2316,11 @@
     accountFields.forEach(f => { const el = document.getElementById(f); if (el) accountData[f] = el.value; });
 
     return {
-      version: '2.1.0',
+      version: '4.0.0',
       savedAt: new Date().toISOString(),
       creator: currentUser,
       theme: currentTheme,
+      font: currentFont,
       trackerData: trackingDataObj,
       accountInfo: accountData,
       apiKeys: {
@@ -1765,6 +2363,12 @@
         if (parsed.theme) {
           loadTheme(parsed.theme);
           try { localStorage.setItem('ccTheme', parsed.theme); } catch(e) {}
+        }
+
+        // Restore font
+        if (parsed.font) {
+          loadFont(parsed.font);
+          try { localStorage.setItem('ccFont', parsed.font); } catch(e) {}
         }
 
         // Restore tracker data
@@ -2238,7 +2842,7 @@
         sub12: Math.round(subs + monthlySubs*12)
       },
       {
-        label: 'CTR Optimization (+${Math.round(targetCtr-ctr)}%)',
+        label: `CTR Optimization (+${Math.round(targetCtr-ctr)}%)`,
         color: 'var(--warning)',
         badge: '🎯 CTR BOOST',
         desc: `Improving CTR from ${ctr}% to ${targetCtr}% through better thumbnails/titles would increase impressions-to-views by ~${Math.round((targetCtr/ctr-1)*100)}%. This directly scales your monthly views and watch hours without changing content quality.`,
@@ -2471,21 +3075,269 @@
   }
 
   /* ─── Navigation ─── */
+  let dropdownTimer = null;
+  function openDropdown() {
+    clearTimeout(dropdownTimer);
+    document.getElementById('ytDropdownMenu').classList.add('open');
+  }
+  function keepDropdown() {
+    clearTimeout(dropdownTimer);
+  }
+  function closeDropdown() {
+    dropdownTimer = setTimeout(() => {
+      document.getElementById('ytDropdownMenu').classList.remove('open');
+    }, 120);
+  }
+
   function updateDropdownText(text) {
     document.getElementById('ytDropdownBtn').innerText = text + ' ▼';
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.getElementById('ytDropdownBtn').classList.add('active');
+    document.getElementById('ytDropdownMenu').classList.remove('open');
   }
   function openTab(evt, tabName) {
     document.querySelectorAll('.tabcontent').forEach(t => t.style.display='none');
-    if (!evt.currentTarget.closest('.dropdown')) {
+    if (!evt.currentTarget || !evt.currentTarget.closest || !evt.currentTarget.closest('.dropdown')) {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      evt.currentTarget.classList.add('active');
-      document.getElementById('ytDropdownBtn').innerText = '⚡ VIRALITY CHECKER ▼';
+      if (evt.currentTarget && evt.currentTarget.classList) evt.currentTarget.classList.add('active');
+      document.getElementById('ytDropdownBtn').innerText = '📊 YT ANALYTICS ▼';
+      document.getElementById('ytDropdownBtn').classList.remove('active');
     }
     document.getElementById(tabName).style.display = 'block';
     if (tabName==='Tab7') calculateUploadTime();
     if (tabName==='TabCP') updateChannelProjections();
+    if (tabName==='TabCompare') {
+      const storedKey = localStorage.getItem('ccYTApiKey') || '';
+      const cmpKey = document.getElementById('cmp_api_key');
+      if (cmpKey && !cmpKey.value && storedKey) cmpKey.value = storedKey;
+    }
+  }
+  function goFAQ() {
+    document.querySelectorAll('.tabcontent').forEach(t => t.style.display='none');
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('TabFAQ').style.display = 'block';
+    // Highlight FAQ button
+    document.querySelectorAll('.tab-btn').forEach(b => { if (b.textContent.includes('FAQ')) b.classList.add('active'); });
+  }
+
+  /* ─── Social Tab Switcher ─── */
+  function switchSocialTab(which) {
+    document.getElementById('socialPanel_tt').style.display = which === 'tt' ? 'block' : 'none';
+    document.getElementById('socialPanel_ig').style.display = which === 'ig' ? 'block' : 'none';
+    document.getElementById('socialTab_tt').className = which === 'tt' ? 'btn-primary' : 'btn-secondary';
+    document.getElementById('socialTab_ig').className = which === 'ig' ? 'btn-primary' : 'btn-secondary';
+    document.getElementById('socialTab_tt').style.cssText = 'font-size:13px;padding:10px 22px;';
+    document.getElementById('socialTab_ig').style.cssText = 'font-size:13px;padding:10px 22px;';
+  }
+
+  /* ─── Channel Compare ─── */
+  function syncCmpApiKey() {
+    const key = document.getElementById('cmp_api_key').value;
+    const ytField = document.getElementById('yt_api_key');
+    if (ytField && !ytField.value) ytField.value = key;
+    try { localStorage.setItem('ccYTApiKey', key); } catch(e) {}
+  }
+
+  async function fetchChannel(num) {
+    const apiKey = document.getElementById('cmp_api_key').value.trim()
+      || (document.getElementById('yt_api_key') ? document.getElementById('yt_api_key').value.trim() : '');
+    if (!apiKey) {
+      document.getElementById(`cmp_status${num}`).innerHTML = '<span style="color:var(--danger);">⚠ Paste your API key above first</span>';
+      return;
+    }
+    const raw = document.getElementById(`cmp_id${num}`).value.trim();
+    if (!raw) return;
+    const statusEl = document.getElementById(`cmp_status${num}`);
+    statusEl.innerHTML = '<span style="color:var(--text-dim);">🔄 Fetching...</span>';
+
+    try {
+      let channelId = raw;
+      // If it's a handle (@name) or username, resolve to channel ID first
+      if (raw.startsWith('@') || !raw.startsWith('UC')) {
+        const handle = raw.startsWith('@') ? raw.slice(1) : raw;
+        // Try forHandle
+        const handleRes = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=id,snippet,statistics&forHandle=${encodeURIComponent(raw.startsWith('@') ? raw : '@'+raw)}&key=${apiKey}`);
+        const handleJson = await handleRes.json();
+        if (handleJson.error) throw new Error(handleJson.error.message);
+        if (handleJson.items && handleJson.items.length > 0) {
+          await populateChannel(num, handleJson.items[0], apiKey);
+          statusEl.innerHTML = '<span style="color:var(--secondary);">✅ Loaded via handle</span>';
+          return;
+        }
+        // Fallback: try forUsername
+        const userRes = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=id,snippet,statistics&forUsername=${encodeURIComponent(handle)}&key=${apiKey}`);
+        const userJson = await userRes.json();
+        if (userJson.items && userJson.items.length > 0) {
+          await populateChannel(num, userJson.items[0], apiKey);
+          statusEl.innerHTML = '<span style="color:var(--secondary);">✅ Loaded via username</span>';
+          return;
+        }
+        // Fallback: search
+        const searchRes = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=channel&q=${encodeURIComponent(raw)}&maxResults=1&key=${apiKey}`);
+        const searchJson = await searchRes.json();
+        if (searchJson.error) throw new Error(searchJson.error.message);
+        if (!searchJson.items || !searchJson.items.length) throw new Error('Channel not found');
+        channelId = searchJson.items[0].snippet.channelId || searchJson.items[0].id.channelId;
+      }
+      // Fetch by channel ID
+      const res = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=id,snippet,statistics,contentDetails&id=${encodeURIComponent(channelId)}&key=${apiKey}`);
+      const json = await res.json();
+      if (json.error) throw new Error(json.error.message);
+      if (!json.items || !json.items.length) throw new Error('Channel not found');
+      await populateChannel(num, json.items[0], apiKey);
+      statusEl.innerHTML = '<span style="color:var(--secondary);">✅ Loaded</span>';
+    } catch(err) {
+      statusEl.innerHTML = `<span style="color:var(--danger);">❌ ${err.message}</span>`;
+    }
+  }
+
+  async function populateChannel(num, item, apiKey) {
+    const colors = ['var(--primary)', 'var(--secondary)', 'var(--accent)'];
+    const col = colors[num - 1];
+    const stats = item.statistics || {};
+    const snippet = item.snippet || {};
+    const subs = parseInt(stats.subscriberCount) || 0;
+    const totalViews = parseInt(stats.viewCount) || 0;
+    const videoCount = parseInt(stats.videoCount) || 0;
+
+    // Estimate channel age from publishedAt to estimate monthly views
+    let monthlyViews = 0;
+    if (snippet.publishedAt && totalViews > 0) {
+      const ageMs = Date.now() - new Date(snippet.publishedAt).getTime();
+      const ageMonths = Math.max(ageMs / (1000 * 60 * 60 * 24 * 30.4), 1);
+      monthlyViews = Math.round(totalViews / ageMonths);
+    }
+
+    // Fill in fields
+    document.getElementById(`cmp_subs${num}`).value = subs;
+    document.getElementById(`cmp_totalviews${num}`).value = totalViews;
+    document.getElementById(`cmp_videocount${num}`).value = videoCount;
+    document.getElementById(`cmp_views${num}`).value = monthlyViews;
+
+    // Thumbnail + name
+    const thumb = snippet.thumbnails?.default?.url || snippet.thumbnails?.medium?.url || '';
+    const chName = snippet.title || item.id;
+    const chHandle = snippet.customUrl || item.id;
+    document.getElementById(`cmp_thumb${num}`).src = thumb;
+    document.getElementById(`cmp_chname${num}`).innerText = chName;
+    document.getElementById(`cmp_chhandle${num}`).innerText = chHandle;
+    document.getElementById(`cmp_preview${num}`).style.display = 'block';
+
+    // Store name for compare
+    const nameInput = document.getElementById(`cmp_id${num}`);
+    nameInput.dataset.resolvedName = chName;
+
+    runCompare();
+  }
+
+  function runCompare() {
+    const colors = ['var(--primary)', 'var(--secondary)', 'var(--accent)'];
+
+    const channels = [1,2,3].map(i => {
+      const nameEl = document.getElementById(`cmp_id${i}`);
+      const name = (nameEl && nameEl.dataset.resolvedName) || (nameEl && nameEl.value.trim()) || `Channel ${i}`;
+      return {
+        name,
+        subs: parseFloat(document.getElementById(`cmp_subs${i}`)?.value)||0,
+        totalViews: parseFloat(document.getElementById(`cmp_totalviews${i}`)?.value)||0,
+        videoCount: parseFloat(document.getElementById(`cmp_videocount${i}`)?.value)||0,
+        views: parseFloat(document.getElementById(`cmp_views${i}`)?.value)||0,
+        ctr: parseFloat(document.getElementById(`cmp_ctr${i}`)?.value)||0,
+        avd: parseFloat(document.getElementById(`cmp_avd${i}`)?.value)||0,
+        rpm: parseFloat(document.getElementById(`cmp_rpm${i}`)?.value)||0,
+      };
+    });
+
+    const active = channels.filter(c => c.subs > 0 || c.views > 0 || c.totalViews > 0);
+    if (active.length < 2) { document.getElementById('cmp_results').style.display = 'none'; return; }
+    document.getElementById('cmp_results').style.display = 'block';
+
+    // Derived metrics
+    channels.forEach(c => {
+      c.viewsPerSub = c.subs > 0 && c.views > 0 ? ((c.views / c.subs) * 100).toFixed(2) : null;
+      c.viewsPerVideo = c.videoCount > 0 && c.totalViews > 0 ? Math.round(c.totalViews / c.videoCount) : null;
+      c.revenueMonthLow = c.views > 0 ? (c.rpm > 0 ? c.views / 1000 * c.rpm : c.views / 1000 * 2) : 0;
+      c.revenueMonthHigh = c.views > 0 ? (c.rpm > 0 ? c.views / 1000 * c.rpm : c.views / 1000 * 8) : 0;
+    });
+
+    // Comparison table
+    const metrics = [
+      { label: 'Subscribers', key: 'subs', fmt: v => v > 0 ? v.toLocaleString() : '—' },
+      { label: 'Total Lifetime Views', key: 'totalViews', fmt: v => v > 0 ? v.toLocaleString() : '—' },
+      { label: 'Videos Published', key: 'videoCount', fmt: v => v > 0 ? v.toLocaleString() : '—' },
+      { label: 'Est. Avg Views / Video', key: 'viewsPerVideo', fmt: v => v != null && v > 0 ? v.toLocaleString() : '—' },
+      { label: 'Est. Monthly Views', key: 'views', fmt: v => v > 0 ? v.toLocaleString() : '—' },
+      { label: 'Monthly Views / Sub %', key: 'viewsPerSub', fmt: v => v != null ? v+'%' : '—' },
+      { label: 'Avg CTR % (manual)', key: 'ctr', fmt: v => v > 0 ? v.toFixed(1)+'%' : '—' },
+      { label: 'Avg Watch Time (manual)', key: 'avd', fmt: v => v > 0 ? v.toFixed(1)+' min' : '—' },
+      { label: 'Est. RPM (manual)', key: 'rpm', fmt: v => v > 0 ? '$'+v.toFixed(2) : '—' },
+    ];
+
+    let thtml = `<table style="width:100%;border-collapse:collapse;font-size:14px;"><thead><tr>
+      <th style="padding:11px 14px;text-align:left;background:var(--card);color:var(--text-dim);font-family:'Share Tech Mono',monospace;font-size:11px;text-transform:uppercase;border-bottom:2px solid var(--border);">Metric</th>`;
+    channels.forEach((c,i) => {
+      thtml += `<th style="padding:11px 14px;text-align:center;background:var(--card);color:${colors[i]};font-size:13px;border-bottom:2px solid var(--border);border-left:1px solid var(--border);">${c.name}</th>`;
+    });
+    thtml += `</tr></thead><tbody>`;
+    metrics.forEach(m => {
+      const vals = channels.map(c => parseFloat(c[m.key]) || 0);
+      const maxVal = Math.max(...vals);
+      thtml += `<tr><td style="padding:11px 14px;color:var(--text-dim);font-size:13px;border-bottom:1px solid var(--border);font-weight:600;">${m.label}</td>`;
+      channels.forEach((c,i) => {
+        const numV = parseFloat(c[m.key]) || 0;
+        const isBest = maxVal > 0 && numV === maxVal;
+        thtml += `<td style="padding:11px 14px;text-align:center;font-weight:700;font-family:'Share Tech Mono',monospace;font-size:13px;border-bottom:1px solid var(--border);border-left:1px solid var(--border);color:${isBest ? colors[i] : 'var(--text)'};background:${isBest ? colors[i].replace('var(--','').replace(')','')+'11' : 'transparent'};">${m.fmt(c[m.key])}${isBest && numV > 0 ? ' ★' : ''}</td>`;
+      });
+      thtml += `</tr>`;
+    });
+    thtml += `</tbody></table>`;
+    document.getElementById('cmp_table_wrap').innerHTML = thtml;
+
+    // Revenue cards
+    document.getElementById('cmp_revenue_grid').innerHTML = channels.map((c,i) => `
+      <div class="stat-mini" style="border-color:${colors[i]};border-width:2px;">
+        <div class="label" style="color:${colors[i]};">${c.name}</div>
+        <div class="value" style="color:${colors[i]};font-size:20px;">${c.revenueMonthLow > 0 ? '$'+Math.round(c.revenueMonthLow).toLocaleString()+' – $'+Math.round(c.revenueMonthHigh).toLocaleString() : '—'}</div>
+        <div class="sub">/month est. range</div>
+      </div>`).join('');
+
+    // Rankings
+    const rankCats = [
+      { label: '🏆 Most Subscribers', key: 'subs' },
+      { label: '👁️ Most Monthly Views', key: 'views' },
+      { label: '📹 Most Videos', key: 'videoCount' },
+      { label: '📊 Best Views/Video', key: 'viewsPerVideo' },
+      { label: '💰 Highest Est. Revenue', key: 'revenueMonthHigh' },
+    ];
+    document.getElementById('cmp_rankings').innerHTML = rankCats.map(rc => {
+      const sorted = [...channels].map((c,i) => ({...c,_i:i}))
+        .filter(c => (parseFloat(c[rc.key])||0) > 0)
+        .sort((a,b) => (parseFloat(b[rc.key])||0)-(parseFloat(a[rc.key])||0));
+      if (!sorted.length) return '';
+      const w = sorted[0];
+      return `<div class="info-card" style="border-left:3px solid ${colors[w._i]};margin-bottom:0;">
+        <h4 style="color:${colors[w._i]};margin-bottom:4px;">${rc.label}</h4>
+        <div style="font-size:17px;font-weight:800;color:${colors[w._i]};font-family:'Orbitron',monospace;">${w.name}</div>
+        <div style="font-size:11px;color:var(--text-dim);margin-top:4px;">${sorted.map((c,ri)=>`#${ri+1} ${c.name}`).join(' · ')}</div>
+      </div>`;
+    }).join('');
+
+    // Insights
+    const bestSubs = channels.reduce((a,b)=>a.subs>=b.subs?a:b);
+    const bestViews = channels.reduce((a,b)=>a.views>=b.views?a:b);
+    document.getElementById('cmp_insights').innerHTML = `
+      <div class="info-card" style="border-left:3px solid var(--warning);">
+        <h4 style="color:var(--warning);">📡 Subscriber Leader: ${bestSubs.name}</h4>
+        <p style="margin:0;font-size:13px;color:var(--text);">With ${bestSubs.subs.toLocaleString()} subscribers, ${bestSubs.name} has the largest established audience. Compare their views-per-sub ratio to understand how actively their audience watches content.</p>
+      </div>
+      <div class="info-card" style="border-left:3px solid var(--primary);">
+        <h4 style="color:var(--primary);">👁️ Reach Leader: ${bestViews.name}</h4>
+        <p style="margin:0;font-size:13px;color:var(--text);">${bestViews.name} drives the most estimated monthly views. High monthly views relative to subscribers can signal strong algorithmic distribution — the content reaches well beyond the subscriber base.</p>
+      </div>
+      <div class="insight-box">
+        <span class="icon">💡</span>
+        <div><strong style="color:var(--primary);">API Note:</strong> The YouTube Data API provides subscriber count, total lifetime views, and video count publicly. CTR and average watch time are private analytics — add them manually if available. Monthly views are estimated from total views divided by channel age.</div>
+      </div>`;
   }
 
   function initAll() {
