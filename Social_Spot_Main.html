@@ -2255,18 +2255,28 @@ hr{border:0;border-top:1px solid var(--border);margin:24px 0;}
   }
 
   function loginFresh() {
-    const user = (document.getElementById('authUsername')?.value || '').trim();
-    if (user.length < 1) { document.getElementById('authUsername')?.focus(); return; }
+    var nameInput = document.getElementById('authUsername');
+    var user = nameInput ? nameInput.value.trim() : '';
+    if (!user) { if (nameInput) nameInput.focus(); return; }
     currentUser = user;
     try { localStorage.setItem('ccAnalytics_session', currentUser); } catch(e) {}
-    loadTrackerData();
-    dismissOverlay();
-    updateVideoDropdown();
-    initAll();
-    renderThemePicker();
-    renderFontPicker();
-    renderABHistory();
-    hasUnsavedChanges = false;
+    // Hide overlay immediately
+    var ov = document.getElementById('authOverlay');
+    if (ov) ov.style.display = 'none';
+    var bar = document.getElementById('userBar');
+    if (bar) bar.style.display = 'flex';
+    var nm = document.getElementById('userNameDisplay');
+    if (nm) nm.innerText = '▶ ' + currentUser.toUpperCase();
+    // Init everything safely
+    try { loadTrackerData(); } catch(e) { console.warn('loadTrackerData', e); }
+    try { updateVideoDropdown(); } catch(e) { console.warn('updateVideoDropdown', e); }
+    try { initAll(); } catch(e) { console.warn('initAll', e); }
+    try { renderThemePicker(); } catch(e) { console.warn('renderThemePicker', e); }
+    try { renderFontPicker(); } catch(e) { console.warn('renderFontPicker', e); }
+    try { renderABHistory(); } catch(e) { console.warn('renderABHistory', e); }
+    if (typeof hasUnsavedChanges !== 'undefined') hasUnsavedChanges = false;
+    var sb = document.getElementById('saveBanner');
+    if (sb) sb.style.display = 'none';
   }
 
   function logout() {
@@ -3444,8 +3454,8 @@ hr{border:0;border-top:1px solid var(--border);margin:24px 0;}
     { id:'mono',    name:'DM Mono',       desc:'Monospace — technical feel',        sample:'Aa Bb' },
   ];
 
-  let currentTheme = localStorage.getItem('ccTheme') || 'default';
-  let currentFont  = localStorage.getItem('ccFont')  || 'inter';
+  currentTheme = localStorage.getItem('ccTheme') || 'default';
+  currentFont  = localStorage.getItem('ccFont')  || 'inter';
   let currentLayout = localStorage.getItem('ccLayout') || 'default';
 
   function applyTheme(id, skipSave) {
@@ -3579,9 +3589,9 @@ hr{border:0;border-top:1px solid var(--border);margin:24px 0;}
   /* ═══════════════════════════════════════════════
      LIVE SUB TRACKER — Fixed & 10-second refresh
   ═══════════════════════════════════════════════ */
-  let liveTrackers = [];
-  let liveTimerInterval = null;
-  let liveCountdown = 10;
+  liveTrackers = [];
+  liveTimerInterval = null;
+  liveCountdown = 10;
 
   function lst_platformChanged() {
     const plat = document.getElementById('lst_platform')?.value;
@@ -3859,7 +3869,7 @@ hr{border:0;border-top:1px solid var(--border);margin:24px 0;}
       const titleInsights = [
         { label:'Use numbers', check: t => /\d/.test(t), tip:'Titles with specific numbers (e.g. "7 Ways", "$5,000") typically outperform vague ones by 20–30% CTR.' },
         { label:'Power words', check: t => /secret|hack|trick|mistake|warning|why|how|best|worst|never|always|free|proven|instant/i.test(t), tip:'Emotionally charged words trigger curiosity. Combine with specificity for best effect.' },
-        { label:'Question format', check: t => /\?/.test(t), tip:'Questions create an open loop in the viewer's mind and drive completion of the thought — in your video.' },
+        { label:'Question format', check: t => /\?/.test(t), tip:"Questions create an open loop in the viewer's mind and drive completion of the thought — in your video." },
         { label:'Length (50–70 chars)', check: t => t.length >= 40 && t.length <= 70, tip:'YouTube shows ~60 characters in search. Shorter titles lose context; longer titles get cut off.' },
         { label:'Colons or dashes', check: t => /[:\-–]/.test(t), tip:'Punctuation creates natural emphasis and splits the topic from the hook (e.g. "YouTube Growth: The Truth").' },
       ];
@@ -3882,11 +3892,11 @@ hr{border:0;border-top:1px solid var(--border);margin:24px 0;}
     const ti = document.getElementById('ab_thumb_insights');
     if (ti) {
       const thumbInsights = [
-        { key:'face', label:'Human face', check: t => /face|person|people|me|look|eye|expression|surprised|shocked|smile/i.test(t), tip:'Faces with visible emotion increase CTR by up to 38% vs no-face thumbnails.' },
-        { key:'text', label:'Bold text overlay', check: t => /text|word|title|label|number|overlay/i.test(t), tip:'Text reinforces the title and helps viewers with the sound off understand the topic.' },
-        { key:'contrast', label:'High contrast', check: t => /contrast|bright|bold|vivid|pop|neon|dark background|white text|black/i.test(t), tip:'Thumbnails that "pop" against YouTube's white/dark background stop the scroll.' },
-        { key:'arrow', label:'Visual focal point', check: t => /arrow|point|circle|highlight|zoom|close.?up|focus/i.test(t), tip:'Directing the eye to the key element increases information processing speed.' },
-        { key:'brand', label:'Brand consistency', check: t => /logo|brand|consistent|colour|color|style|template/i.test(t), tip:'Consistent thumbnail style builds channel recognition and return-viewer CTR.' },
+        { key:'face', label:'Human face', check: t => /face|person|people|me|look|eye|expression|surprised|shocked|smile/i.test(t), tip:"Faces with visible emotion increase CTR by up to 38% vs no-face thumbnails." },
+        { key:'text', label:'Bold text overlay', check: t => /text|word|title|label|number|overlay/i.test(t), tip:"Text reinforces the title and helps viewers with the sound off understand the topic." },
+        { key:'contrast', label:'High contrast', check: t => /contrast|bright|bold|vivid|pop|neon|dark background|white text|black/i.test(t), tip:"Thumbnails that \"pop\" against YouTube's white/dark background stop the scroll." },
+        { key:'arrow', label:'Visual focal point', check: t => /arrow|point|circle|highlight|zoom|close.?up|focus/i.test(t), tip:"Directing the eye to the key element increases information processing speed." },
+        { key:'brand', label:'Brand consistency', check: t => /logo|brand|consistent|colour|color|style|template/i.test(t), tip:"Consistent thumbnail style builds channel recognition and return-viewer CTR." },
       ];
       const varDivs = document.querySelectorAll('.ab-variant');
       ti.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;">` +
