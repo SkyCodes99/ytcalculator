@@ -61,16 +61,17 @@ footer a:hover{color:var(--primary);}
 <nav>
   <div class="nav-logo">
     <div class="orb">📊</div>
-    <div><div class="brand">THE SOCIAL SPOT</div><div class="version">v6.0.0 · CONTENT ANALYTICS</div></div>
+    <div><div class="brand">THE SOCIAL SPOT</div><div class="version">v7.0.0 · CONTENT ANALYTICS</div></div>
   </div>
-  <a href="The_Social_Spot_V6.html" class="btn-launch">▶ Launch Dashboard</a>
+  <a href="The_Social_Spot_V7.html" class="btn-launch">▶ Launch Dashboard</a>
 </nav>
 <section class="hero">
   <div class="hero-eyebrow"><div class="eyebrow-dot"></div>Free · No Account · 100% Private · Browser-Local</div>
   <h1 class="hero-title">Your Creator<br><span>Analytics Command Center</span></h1>
   <p class="hero-sub">Score your virality, track monetization, predict revenue, compare channels, monitor live subscriber counts, and optimize every upload — all in one dashboard. Everything runs locally in your browser. Nothing sent anywhere.</p>
   <div class="cta-group">
-    <a href="The_Social_Spot_V6.html" class="cta-primary">🚀 Launch Dashboard</a>
+    <a href="The_Social_Spot_V7.html" class="cta-primary">🚀 Launch Dashboard</a>
+    <label class="cta-secondary" style="cursor:pointer;">📂 Load Saved Session<input type="file" accept=".vcsave,.json" style="display:none;" id="landingFileInput" onchange="landingLoadFile(event)"></label>
     <a href="#features" class="cta-secondary">See all features ↓</a>
   </div>
 </section>
@@ -97,12 +98,27 @@ footer a:hover{color:var(--primary);}
     <div class="feature-card"><span class="feature-icon">⏰</span><div class="feature-name">Publishing Hub</div><div class="feature-desc">Get 4 ranked publish windows per niche — Primary slot plus 3 alternatives. New: Audience profile inputs (age, geography, channel size, video length) that contextually adjust all recommendations. 10 niches, 6 platforms.</div></div>
     <div class="feature-card"><span class="feature-icon">🎬</span><div class="feature-name">Video Tracker</div><div class="feature-desc">Track individual video performance over time with daily entries. Connect your YouTube API key to auto-fetch stats. Automated trend insights detect algorithmic spikes, fatigue alerts, and velocity surges.</div></div>
     <div class="feature-card"><span class="feature-icon">🎨</span><div class="feature-name">10 Themes · 9 Fonts</div><div class="feature-desc">Cyber Neon, Dark Mode, Light, Sunset Blaze, Matrix Green, Deep Ocean, Rose Gold, Forest, Volt, and Slate. Nine font styles from Orbitron to JetBrains Mono to Playfair Display. All saved with your session file.</div></div>
+    <div class="feature-card"><span class="feature-icon">🎯</span><div class="feature-name">Title/Thumbnail Checker <span class="new-badge">NEW</span></div><div class="feature-desc">A/B test up to 5 title and thumbnail variants with live CTR comparison, title analysis scoring, thumbnail concept insights, statistical significance indicators, and full test history with save/load.</div></div>
     <div class="feature-card"><span class="feature-icon">⚙️</span><div class="feature-name">Admin Console <span class="new-badge">NEW</span></div><div class="feature-desc">Password-protected system panel. View storage usage, force layout modes, clear data, export full data dumps, read activity logs, and browse 10 suggested features you can request to be built next.</div></div>
   </div>
 </section>
 <footer>
-  <div style="margin-bottom:10px;"><span>THE SOCIAL SPOT</span> · VERSION 6.0.0 · CONTENT ANALYTICS PLATFORM</div>
-  <div>All data processed locally in your browser · No accounts · No tracking · No ads · <a href="The_Social_Spot_V6.html">Open Dashboard →</a></div>
+  <div style="margin-bottom:10px;"><span>THE SOCIAL SPOT</span> · VERSION 7.0.0 · CONTENT ANALYTICS PLATFORM</div>
+  <div>All data processed locally in your browser · No accounts · No tracking · No ads · <a href="The_Social_Spot_V7.html">Open Dashboard →</a></div>
 </footer>
+<script>
+function landingLoadFile(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    try {
+      sessionStorage.setItem('ss_pending_load', ev.target.result);
+      window.location.href = 'The_Social_Spot_V7.html?autoload=1';
+    } catch(err) { alert('Could not read file. Please open the dashboard and load it there.'); }
+  };
+  reader.readAsText(file);
+}
+</script>
 </body>
 </html>
