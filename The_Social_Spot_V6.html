@@ -2193,73 +2193,15 @@ hr{border:0;border-top:1px solid var(--border);margin:24px 0;}
   let currentUser = null;
   let trackingDataObj = { "Default Video": [] };
   let currentVideoKey = "Default Video";
-  let currentTheme = 'cyber';
-  let currentFont = 'cyber';
+  let currentTheme = 'default';
+  let currentFont = 'inter';
 
-  /* ─── Theme System ─── */
-  function applyTheme(themeId, skipSave) {
-    currentTheme = themeId;
-    const html = document.documentElement;
-    if (themeId === 'cyber') {
-      html.removeAttribute('data-theme');
-    } else {
-      html.setAttribute('data-theme', themeId);
-    }
-    // Update picker UI — highlight selected card
-    document.querySelectorAll('.theme-card').forEach(card => {
-      const isActive = card.getAttribute('data-theme-id') === themeId;
-      const colors = {
-        cyber: '#00F5FF', dark: '#4D9FFF', light: '#0066CC',
-        sunset: '#FF8C42', matrix: '#00FF41', ocean: '#00D4E8',
-        rosegold: '#F9A8C9', forest: '#4ADE80', volt: '#FAFF00', slate: '#FB923C'
-      };
-      const c = colors[themeId] || '#00F5FF';
-      if (isActive) {
-        card.style.borderColor = c;
-        card.style.boxShadow = `0 0 20px ${c}33`;
-        card.querySelector('.theme-check').style.display = 'block';
-      } else {
-        card.style.borderColor = 'transparent';
-        card.style.boxShadow = 'none';
-        card.querySelector('.theme-check').style.display = 'none';
-      }
-    });
-    if (!skipSave) {
-      try { localStorage.setItem('ccTheme', themeId); } catch(e) {}
-      showToast('🎨 Theme applied!', 'var(--primary)');
-    }
-  }
-
-  function loadTheme(themeId) {
-    applyTheme(themeId || 'cyber', true);
-  }
-
-  /* ─── Font System (defined here so it's available at init time) ─── */
-  function applyFont(fontId, skipSave) {
-    currentFont = fontId;
-    const html = document.documentElement;
-    if (fontId === 'cyber') { html.removeAttribute('data-font'); }
-    else { html.setAttribute('data-font', fontId); }
-    // Update font picker UI — safe if cards don't exist yet
-    document.querySelectorAll('.font-card').forEach(card => {
-      const isActive = card.getAttribute('data-font-id') === fontId;
-      const check = card.querySelector('.font-check');
-      if (isActive) {
-        card.style.borderColor = 'var(--primary)';
-        card.style.boxShadow = '0 0 16px rgba(0,245,255,0.2)';
-        if (check) check.style.display = 'block';
-      } else {
-        card.style.borderColor = 'transparent';
-        card.style.boxShadow = 'none';
-        if (check) check.style.display = 'none';
-      }
-    });
-    if (!skipSave) {
-      try { localStorage.setItem('ccFont', fontId); } catch(e) {}
-      if (typeof showToast === 'function') showToast('🔤 Font updated!', 'var(--primary)');
-    }
-  }
-  function loadFont(fontId) { applyFont(fontId || 'cyber', true); }
+  /* ─── Theme/Font stubs — real implementations defined below in V7 block ─── */
+  /* These will be overwritten when the V7 design system JS initialises */
+  function applyTheme(id, skip) { /* overridden below */ }
+  function loadTheme(id)        { /* overridden below */ }
+  function applyFont(id, skip)  { /* overridden below */ }
+  function loadFont(id)         { /* overridden below */ }
 
   /* ─── Init ─── */
   window.onload = function() {
@@ -2270,10 +2212,7 @@ hr{border:0;border-top:1px solid var(--border);margin:24px 0;}
     document.getElementById('m_targetDate').value = end.toISOString().split('T')[0];
 
     // Apply persisted theme and font first so there's no flash
-    const savedTheme = localStorage.getItem('ccTheme') || 'cyber';
-    loadTheme(savedTheme);
-    const savedFont = localStorage.getItem('ccFont') || 'cyber';
-    loadFont(savedFont);
+    // Theme/font applied by V7 design system below (deferred to avoid calling stubs)
 
     // Check for pending load from landing page file upload
     const pendingLoad = sessionStorage.getItem('ss_pending_load');
@@ -2307,18 +2246,27 @@ hr{border:0;border-top:1px solid var(--border);margin:24px 0;}
   };
 
   function dismissOverlay() {
-    document.getElementById('authOverlay').style.display = 'none';
-    document.getElementById('userBar').style.display = 'flex';
-    document.getElementById('userNameDisplay').innerText = '▶ ' + currentUser.toUpperCase();
+    const overlay = document.getElementById('authOverlay');
+    if (overlay) overlay.style.display = 'none';
+    const bar = document.getElementById('userBar');
+    if (bar) bar.style.display = 'flex';
+    const nameEl = document.getElementById('userNameDisplay');
+    if (nameEl) nameEl.innerText = '▶ ' + (currentUser || '').toUpperCase();
   }
 
   function loginFresh() {
-    const user = document.getElementById('authUsername').value.trim();
-    if (user.length < 2) { document.getElementById('authUsername').focus(); return; }
+    const user = (document.getElementById('authUsername')?.value || '').trim();
+    if (user.length < 1) { document.getElementById('authUsername')?.focus(); return; }
     currentUser = user;
-    localStorage.setItem('ccAnalytics_session', currentUser);
-    dismissOverlay();
+    try { localStorage.setItem('ccAnalytics_session', currentUser); } catch(e) {}
     loadTrackerData();
+    dismissOverlay();
+    updateVideoDropdown();
+    initAll();
+    renderThemePicker();
+    renderFontPicker();
+    renderABHistory();
+    hasUnsavedChanges = false;
   }
 
   function logout() {
@@ -4378,18 +4326,25 @@ hr{border:0;border-top:1px solid var(--border);margin:24px 0;}
   /* ═══════════════════════════════════════════════
      INIT PATCHES
   ═══════════════════════════════════════════════ */
+  // Override initAll to add V7 init steps
   const _origInitAll = initAll;
   initAll = function() {
     _origInitAll();
+    // Apply saved theme/font using V7 system
+    const savedTheme = localStorage.getItem('ccTheme') || 'default';
+    const savedFont  = localStorage.getItem('ccFont')  || 'inter';
+    applyTheme(savedTheme, true);
+    applyFont(savedFont, true);
     // Restore layout
     const savedLayout = localStorage.getItem('ccLayout') || 'default';
     setDashLayout(savedLayout, null);
-    // Render pickers if on account tab
-    renderThemePicker(); renderFontPicker();
+    // Render pickers
+    renderThemePicker();
+    renderFontPicker();
     // Render AB history
     renderABHistory();
     // Mark as freshly loaded (not unsaved)
-    setTimeout(() => { hasUnsavedChanges = false; }, 500);
+    setTimeout(() => { hasUnsavedChanges = false; }, 600);
   };
 
   // Patch markUnsaved to be called when data changes
@@ -4405,4 +4360,3 @@ hr{border:0;border-top:1px solid var(--border);margin:24px 0;}
 </script>
 </body>
 </html>
-
