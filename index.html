@@ -586,8 +586,8 @@ input[type=range] {
   height: 6px; border-radius: 6px; outline: none; cursor: pointer;
   background: linear-gradient(to right,
     var(--primary) 0%,
-    var(--primary) var(--val, 50%),
-    var(--border-hi) var(--val, 50%),
+    var(--primary) var(--val, 0%),
+    var(--border-hi) var(--val, 0%),
     var(--border-hi) 100%);
   transition: background 0.1s;
 }
@@ -1164,7 +1164,7 @@ input:focus, select:focus, textarea:focus {
     <p class="tab-subtitle">Input your current video stats to calculate algorithmic performance. The checker factors in video age to forecast likely 48-hour trajectory and distinguish early momentum from genuine sustained growth.</p>
 
     <!-- Upload time + trend mode -->
-    <div class="control-card" style="border-left:4px solid var(--accent);margin-bottom:14px;">
+    <div class="control-card" style="border-left:4px solid var(--accent);margin-bottom:14px;overflow:visible;">
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;align-items:end;">
         <div class="input-box" style="grid-column:1/-1;position:relative;">
           <label>📅 Video Published At</label>
@@ -1174,7 +1174,7 @@ input:focus, select:focus, textarea:focus {
             <span style="font-size:11px;color:var(--text-muted);">▾</span>
           </div>
           <!-- Floating dropdown panel -->
-          <div id="dtPanel" style="display:none;position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--card);border:1px solid var(--border-hi);border-radius:var(--radius-lg);box-shadow:0 12px 40px rgba(0,0,0,0.45);z-index:8000;padding:16px;">
+          <div id="dtPanel" style="display:none;position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--card);border:1px solid var(--border-hi);border-radius:var(--radius-lg);box-shadow:0 12px 40px rgba(0,0,0,0.45);z-index:9500;padding:16px;">
             <div style="display:grid;grid-template-columns:2fr 1fr 1.3fr;gap:8px;margin-bottom:10px;">
               <div>
                 <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--text-dim);margin-bottom:4px;">Month</div>
@@ -1227,6 +1227,7 @@ input:focus, select:focus, textarea:focus {
         <div class="input-box">
           <label>🔁 Impressions (if known)</label>
           <input type="number" id="impressionsInput" value="0" min="0" oninput="updateTab1()">
+          <div id="impressionsDisplay" style="margin-top:4px;font-size:11px;line-height:1.5;"></div>
         </div>
       </div>
       <div id="trendForecastBox" style="margin-top:14px;display:none;"></div>
@@ -1256,7 +1257,18 @@ input:focus, select:focus, textarea:focus {
     </div>
 
     <div class="control-card" id="retGroup">
-      <div class="label-flex"><span>🎣 30-Second Hook Retention (%)</span><span class="val-badge" id="retVal">0%</span></div>
+      <div class="label-flex" style="align-items:flex-start;">
+        <div>
+          <span>🎣 30-Second Hook Retention (%)</span>
+          <div style="margin-top:5px;">
+            <label style="display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--text-dim);cursor:pointer;font-weight:600;">
+              <input type="checkbox" id="newVideoToggle" onchange="updateTab1()" style="width:14px;height:14px;accent-color:var(--primary);">
+              Video is too new for reliable hook data (&lt;12h)
+            </label>
+          </div>
+        </div>
+        <span class="val-badge" id="retVal">0%</span>
+      </div>
       <div style="display:flex;gap:10px;align-items:center;">
         <input type="range" id="ret" min="0" max="100" step="1" value="0" oninput="syncSlider('ret','retNum');updateTab1()" style="flex:1;">
         <input type="number" id="retNum" value="0" min="0" max="100" step="1" style="width:70px;padding:6px 8px;" oninput="syncNum('retNum','ret');updateTab1()">
@@ -1275,10 +1287,25 @@ input:focus, select:focus, textarea:focus {
     <div class="control-card" style="border-left:4px solid var(--warning);">
       <div style="font-weight:700;font-size:13px;color:var(--warning);margin-bottom:10px;">📉 Stall Detector — Is your video actually underperforming?</div>
       <p style="font-size:12px;color:var(--text-dim);margin-bottom:12px;">High scores on old data can be misleading. Enter your view count at 24h and 48h to check if growth has stalled — YouTube considers stall rate alongside raw metrics.</p>
+      <p style="font-size:12px;color:var(--text-dim);margin-bottom:12px;">
+        Enter <strong>3 total view counts</strong> taken at any points in time — the tool detects whether the video's push has plateaued or stalled. You can use any intervals (e.g. 2h/8h/now, or day 1/day 3/day 7).
+      </p>
       <div class="input-grid">
-        <div class="input-box"><label>Views at 24 Hours</label><input type="number" id="views24h" value="0" min="0" oninput="updateTab1()"></div>
-        <div class="input-box"><label>Views at 48 Hours</label><input type="number" id="views48h" value="0" min="0" oninput="updateTab1()"></div>
-        <div class="input-box"><label>Current Total Views</label><input type="number" id="viewsCurrent" value="0" min="0" oninput="updateTab1()"></div>
+        <div class="input-box">
+          <label>Snapshot 1 — earliest</label>
+          <input type="number" id="views24h" value="" min="0" placeholder="e.g. views at 2h" oninput="updateTab1()">
+          <input type="number" id="snap1_hours" value="" min="0" placeholder="Hours since upload" oninput="updateTab1()" style="margin-top:4px;">
+        </div>
+        <div class="input-box">
+          <label>Snapshot 2 — middle</label>
+          <input type="number" id="views48h" value="" min="0" placeholder="e.g. views at 24h" oninput="updateTab1()">
+          <input type="number" id="snap2_hours" value="" min="0" placeholder="Hours since upload" oninput="updateTab1()" style="margin-top:4px;">
+        </div>
+        <div class="input-box">
+          <label>Snapshot 3 — current</label>
+          <input type="number" id="viewsCurrent" value="" min="0" placeholder="Current total views" oninput="updateTab1()">
+          <input type="number" id="snap3_hours" value="" min="0" placeholder="Hours since upload" oninput="updateTab1()" style="margin-top:4px;">
+        </div>
       </div>
       <div id="stallAnalysis" style="margin-top:12px;display:none;"></div>
     </div>
@@ -1297,6 +1324,17 @@ input:focus, select:focus, textarea:focus {
       <div id="breakdown-content"></div>
     </div>
 
+    <div class="insight-box" style="margin-top:12px;">
+      <span class="icon">📐</span>
+      <div style="font-size:11px;line-height:1.9;color:var(--text);">
+        <strong style="color:var(--primary);display:block;margin-bottom:4px;">When each metric starts scoring:</strong>
+        <b style="color:var(--text-dim);">CTR:</b> &lt;1% = penalty &nbsp;·&nbsp; 2% = neutral &nbsp;·&nbsp; 3%+ = positive &nbsp;·&nbsp; 10% = max (35 pts)<br>
+        <b style="color:var(--text-dim);">AVD:</b> &lt;40% of length target = penalty &nbsp;·&nbsp; 70% = neutral &nbsp;·&nbsp; 100%+ = positive &nbsp;·&nbsp; 130%+ = max (35 pts)<br>
+        <b style="color:var(--text-dim);">Hook:</b> &lt;35% = penalty &nbsp;·&nbsp; 35–55% = neutral &nbsp;·&nbsp; 55%+ = positive &nbsp;·&nbsp; 75%+ = max (15 pts)<br>
+        <b style="color:var(--text-dim);">Engagement:</b> &lt;0.5% = small penalty &nbsp;·&nbsp; 1.5% = neutral &nbsp;·&nbsp; 3%+ = positive &nbsp;·&nbsp; 6%+ = max (10 pts)
+      </div>
+    </div>
+
     <h3>📖 Understanding the Algorithm</h3>
     <div class="info-card">
       <h4>🎯 Packaging (CTR)</h4>
@@ -1308,30 +1346,6 @@ input:focus, select:focus, textarea:focus {
     </div>
 
     <div class="info-card">
-      <h4>📈 Subscriber Growth Projection</h4>
-      <p style="font-size:13px;color:var(--text);margin-bottom:14px;">Based on your virality score and views, estimate expected subscriber conversion rate. Industry average is 0.5–3% of total views converting to subscribers.</p>
-
-      <div class="proj-explain">
-        <strong>What is Sub Conversion Rate?</strong><br>
-        This is the percentage of total video <em>views</em> that result in a new subscriber. For every 1,000 views, a 1% rate = 10 new subs. This rate is influenced by: <strong>niche relevance</strong> (viewers staying in your topic), <strong>call-to-action strength</strong> (asking people to subscribe), <strong>content consistency</strong> (a clear brand or recurring series), and <strong>thumbnail/title alignment</strong> (viewers who feel the video matched expectations). New channels typically see <strong>0.5–1.5%</strong>, established creators <strong>1.5–3%</strong>, and viral outliers up to <strong>5–10%</strong>.
-      </div>
-
-      <div class="input-grid" style="margin-top:16px;">
-        <div class="input-box"><label>Current Subscribers</label><input type="number" id="yt_curr_subs" value="0" min="0" oninput="updateYTSubProjection()"></div>
-        <div class="input-box"><label>Avg Monthly Views</label><input type="number" id="yt_monthly_views" value="0" min="0" oninput="updateYTSubProjection()"></div>
-        <div class="input-box"><label>Sub Conversion Rate (%)</label><input type="number" id="yt_sub_rate" value="1" min="0.1" max="10" step="0.1" oninput="updateYTSubProjection()"></div>
-      </div>
-      <div style="margin-top:14px;background:var(--card2);border:1px solid var(--border);border-radius:var(--radius);padding:14px;">
-        <div style="font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:10px;">📊 Or enter actual subscriber gains from YouTube Studio:</div>
-        <div class="input-grid">
-          <div class="input-box"><label>Subs gained — Last 7 days</label><input type="number" id="yt_subs_7d" value="" min="0" placeholder="From YouTube Studio" oninput="updateYTSubProjection()"></div>
-          <div class="input-box"><label>Subs gained — Last 28 days</label><input type="number" id="yt_subs_28d" value="" min="0" placeholder="From YouTube Studio" oninput="updateYTSubProjection()"></div>
-        </div>
-        <div style="font-size:11px;color:var(--text-muted);margin-top:6px;">When filled, these override the conversion-rate estimate with real data from your channel analytics.</div>
-      </div>
-      <div id="yt_sub_projection" style="margin-top:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;"></div>
-    </div>
-
     <div class="faq-link-bar">❓ <a onclick="goFAQ()">New to these metrics? Read the FAQ guide →</a></div>
   </div>
 
@@ -1836,22 +1850,39 @@ input:focus, select:focus, textarea:focus {
   <!-- ══════════════════════════════════════════ -->
   <div id="TabCP" class="tabcontent">
     <h2>📈 CHANNEL PROJECTIONS</h2>
-    <p class="tab-subtitle">See where your channel is currently heading based on current stats, explore growth paths, and get actionable insights on how specific improvements can transform your trajectory.</p>
+    <p class="tab-subtitle">Three independent tools for understanding your channel trajectory. Each tool stands alone — fill in any one to get results.</p>
 
-    <div class="control-card highlight">
-      <div style="font-size:13px;font-weight:700;text-transform:uppercase;color:var(--danger);letter-spacing:1px;margin-bottom:18px;font-family:var(--font-mono);">📊 Current Channel Stats</div>
+    <!-- ═══ TOOL 1: Current Channel Stats ═══ -->
+    <div class="control-card highlight" style="margin-bottom:6px;">
+      <h3 style="margin-top:0;color:var(--danger);">📊 Tool 1 — Channel Trajectory</h3>
+      <p style="font-size:12px;color:var(--text-dim);margin-bottom:14px;">Enter your current channel stats to project subscriber and viewership growth on your current trajectory.</p>
       <div class="input-grid">
-        <div class="input-box"><label>Current Subscribers / Followers</label><input type="number" id="cp_subs" value="0" min="0" oninput="updateChannelProjections()"></div>
+        <div class="input-box"><label>Current Subscribers</label><input type="number" id="cp_subs" value="0" min="0" oninput="updateChannelProjections()"></div>
         <div class="input-box"><label>Avg Monthly Views</label><input type="number" id="cp_views" value="0" min="0" oninput="updateChannelProjections()"></div>
         <div class="input-box"><label>Avg Watch Time per Video (Mins)</label><input type="number" id="cp_avd" value="0" step="0.1" min="0" oninput="updateChannelProjections()"></div>
-        <div class="input-box"><label>Current Sub Conversion Rate (%)</label><input type="number" id="cp_sub_rate" value="1" step="0.1" min="0.1" max="10" oninput="updateChannelProjections()"></div>
+        <div class="input-box"><label>Sub Conversion Rate (%)</label><input type="number" id="cp_sub_rate" value="1" step="0.1" min="0.1" max="10" oninput="updateChannelProjections()"></div>
         <div class="input-box"><label>Upload Frequency / Month</label><input type="number" id="cp_uploads" value="4" min="1" max="60" oninput="updateChannelProjections()"></div>
         <div class="input-box"><label>Avg CTR (%)</label><input type="number" id="cp_ctr" value="3" step="0.1" min="0" max="25" oninput="updateChannelProjections()"></div>
       </div>
     </div>
 
-    <div class="control-card success">
-      <div style="font-size:13px;font-weight:700;text-transform:uppercase;color:var(--secondary);letter-spacing:1px;margin-bottom:18px;font-family:var(--font-mono);">🚀 Growth Scenario Inputs</div>
+    <!-- Tool 1 Results -->
+    <div class="control-card" style="margin-bottom:24px;border-left:3px solid var(--danger);">
+      <h3 style="margin-top:0;font-size:0.75rem;color:var(--text-dim);">TOOL 1 RESULTS — CURRENT TRAJECTORY</h3>
+      <div style="margin-bottom:16px;">
+        <div style="font-size:11px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:8px;">Subscriber Growth</div>
+        <div id="cp_current_proj" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;"></div>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:8px;">Viewership</div>
+        <div id="cp_view_proj" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;"></div>
+      </div>
+    </div>
+
+    <!-- ═══ TOOL 2: Growth Scenarios ═══ -->
+    <div class="control-card success" style="margin-bottom:6px;">
+      <h3 style="margin-top:0;color:var(--secondary);">🚀 Tool 2 — Growth Scenarios</h3>
+      <p style="font-size:12px;color:var(--text-dim);margin-bottom:14px;">Set optimistic targets to model how specific improvements change your growth trajectory. Uses Tool 1 stats as the baseline.</p>
       <div class="input-grid">
         <div class="input-box"><label>Optimistic Sub Rate (%)</label><input type="number" id="cp_opt_rate" value="2.5" step="0.1" min="0.1" max="10" oninput="updateChannelProjections()"></div>
         <div class="input-box"><label>Optimistic Monthly Views</label><input type="number" id="cp_opt_views" value="0" min="0" oninput="updateChannelProjections()"></div>
@@ -1860,20 +1891,76 @@ input:focus, select:focus, textarea:focus {
       </div>
     </div>
 
-    <h3>📊 Subscriber Projection — Current Path</h3>
-    <div id="cp_current_proj" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:28px;"></div>
+    <!-- Tool 2 Results -->
+    <div class="control-card" style="margin-bottom:24px;border-left:3px solid var(--secondary);">
+      <h3 style="margin-top:0;font-size:0.75rem;color:var(--text-dim);">TOOL 2 RESULTS — SCENARIOS &amp; INSIGHTS</h3>
+      <div id="cp_scenarios" style="margin-bottom:16px;"></div>
+      <div id="cp_insights" style="margin-bottom:16px;"></div>
+      <div id="cp_summary"></div>
+    </div>
 
-    <h3>📈 Viewership Projection — Current Path</h3>
-    <div id="cp_view_proj" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:28px;"></div>
+    <!-- ═══ TOOL 3: Subscriber Growth Projection ═══ -->
+    <div class="control-card accent" style="margin-bottom:6px;">
+      <h3 style="margin-top:0;color:var(--accent);">👥 Tool 3 — Subscriber Growth Projection</h3>
+      <p style="font-size:12px;color:var(--text-dim);margin-bottom:14px;">Standalone sub growth tool. Uses actual Studio data if available, otherwise estimates from views and conversion rate.</p>
+      <div class="input-grid">
+        <div class="input-box"><label>Current Subscribers</label><input type="number" id="yt_curr_subs" value="0" min="0" oninput="updateYTSubProjection()"></div>
+        <div class="input-box"><label>Avg Monthly Views</label><input type="number" id="yt_monthly_views" value="0" min="0" oninput="updateYTSubProjection()"></div>
+        <div class="input-box"><label>Sub Conversion Rate (%)</label><input type="number" id="yt_sub_rate" value="1" min="0.1" max="10" step="0.1" oninput="updateYTSubProjection()"></div>
+      </div>
+      <div style="margin-top:12px;background:var(--card2);border:1px solid var(--border);border-radius:var(--radius);padding:12px;">
+        <div style="font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:8px;">From YouTube Studio — overrides estimate if filled:</div>
+        <div class="input-grid">
+          <div class="input-box"><label>Subs gained — Last 7 days</label><input type="number" id="yt_subs_7d" value="" min="0" placeholder="From Studio analytics" oninput="updateYTSubProjection()"></div>
+          <div class="input-box"><label>Subs gained — Last 28 days</label><input type="number" id="yt_subs_28d" value="" min="0" placeholder="From Studio analytics" oninput="updateYTSubProjection()"></div>
+        </div>
+      </div>
+    </div>
 
-    <h3>🛤️ Growth Scenarios</h3>
-    <div id="cp_scenarios"></div>
+    <!-- Tool 3 Results -->
+    <div class="control-card" style="margin-bottom:6px;border-left:3px solid var(--accent);">
+      <h3 style="margin-top:0;font-size:0.75rem;color:var(--text-dim);">TOOL 3 RESULTS — PROJECTIONS &amp; MILESTONES</h3>
 
-    <h3>💡 Insights & Improvement Paths</h3>
-    <div id="cp_insights"></div>
+      <!-- Month projections -->
+      <div id="yt_sub_projection" style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-bottom:16px;"></div>
 
-    <h3>🏆 Overall Growth Projection Summary</h3>
-    <div id="cp_summary"></div>
+      <!-- Milestone ETAs -->
+      <div id="yt_milestones" style="display:none;">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.7px;color:var(--text-dim);margin-bottom:10px;text-align:center;">Milestone ETAs</div>
+        <div id="yt_milestone_cards" style="display:flex;flex-wrap:wrap;justify-content:center;gap:10px;"></div>
+      </div>
+    </div>
+
+    <!-- Tool 3 Custom Date Lookup -->
+    <div class="control-card" style="margin-bottom:24px;border-left:3px solid var(--accent);">
+      <h3 style="margin-top:0;font-size:0.75rem;color:var(--text-dim);">TOOL 3 — CUSTOM DATE LOOKUP</h3>
+      <p style="font-size:12px;color:var(--text-dim);margin-bottom:14px;">Pick any future date to see your projected subscriber count on that exact day.</p>
+      <div style="display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap;">
+        <div class="input-box" style="flex:0 0 auto;">
+          <label>Month</label>
+          <select id="yt_custom_month" onchange="updateYTSubProjection()" style="padding:8px 10px;background:var(--bg2);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:0.9rem;color:var(--text-bright);">
+            <option value="">-- Month --</option>
+            <option value="1">January</option><option value="2">February</option><option value="3">March</option>
+            <option value="4">April</option><option value="5">May</option><option value="6">June</option>
+            <option value="7">July</option><option value="8">August</option><option value="9">September</option>
+            <option value="10">October</option><option value="11">November</option><option value="12">December</option>
+          </select>
+        </div>
+        <div class="input-box" style="flex:0 0 auto;">
+          <label>Day</label>
+          <select id="yt_custom_day" onchange="updateYTSubProjection()" style="padding:8px 10px;background:var(--bg2);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:0.9rem;color:var(--text-bright);">
+            <option value="">-- Day --</option>
+          </select>
+        </div>
+        <div class="input-box" style="flex:0 0 auto;">
+          <label>Year</label>
+          <select id="yt_custom_year" onchange="updateYTSubProjection()" style="padding:8px 10px;background:var(--bg2);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:0.9rem;color:var(--text-bright);">
+            <option value="">-- Year --</option>
+          </select>
+        </div>
+      </div>
+      <div id="yt_custom_result" style="margin-top:14px;"></div>
+    </div>
 
     <div class="faq-link-bar">❓ <a onclick="goFAQ()">How are projections calculated? See the FAQ →</a></div>
   </div>
@@ -2970,20 +3057,63 @@ input:focus, select:focus, textarea:focus {
   }
   function updateTab1() {
     // ── Read inputs ──────────────────────────────────────────────
-    const vlMins  = parseInt(document.getElementById('vlMins').value)  || 0;
-    const vlSecs  = parseInt(document.getElementById('vlSecs').value)  || 0;
-    const twMins  = parseInt(document.getElementById('twMins').value)  || 0;
-    const twSecs  = parseInt(document.getElementById('twSecs').value)  || 0;
-    const totalVl = (vlMins*60) + vlSecs;
-    const totalTw = (twMins*60) + twSecs;
-    const avd     = totalVl > 0 ? (totalTw / totalVl) * 100 : 0;
-    const rawMins = totalTw / 60;
-    const ctr     = parseFloat(document.getElementById('ctr').value)          || 0;
-    const ret     = parseFloat(document.getElementById('ret').value)          || 0;
-    const views   = parseFloat(document.getElementById('viewsInput').value)   || 0;
-    const engIn   = parseFloat(document.getElementById('engInput').value)     || 0;
-    const velocity= parseFloat(document.getElementById('viewVelocity')?.value)|| 0;
-    const eng     = views > 0 ? (engIn / views) * 100 : 0;
+    const vlMins    = parseInt(document.getElementById('vlMins').value)         || 0;
+    const vlSecs    = parseInt(document.getElementById('vlSecs').value)         || 0;
+    const twMins    = parseInt(document.getElementById('twMins').value)         || 0;
+    const twSecs    = parseInt(document.getElementById('twSecs').value)         || 0;
+    const totalVl   = (vlMins*60) + vlSecs;
+    const totalTw   = (twMins*60) + twSecs;
+    const avd       = totalVl > 0 ? (totalTw / totalVl) * 100 : 0;
+    const rawMins   = totalTw / 60;
+    const ctr       = parseFloat(document.getElementById('ctr').value)          || 0;
+    const ret       = parseFloat(document.getElementById('ret').value)          || 0;
+    const views     = parseFloat(document.getElementById('viewsInput').value)   || 0;
+    const engIn     = parseFloat(document.getElementById('engInput').value)     || 0;
+    const velocity  = parseFloat(document.getElementById('viewVelocity')?.value)|| 0;
+    const impr      = parseFloat(document.getElementById('impressionsInput')?.value) || 0;
+    const eng       = views > 0 ? (engIn / views) * 100 : 0;
+
+    // ── Impressions analysis ──────────────────────────────────────
+    // imp-to-view ratio: how many impressions did it take to get each view?
+    // YouTube uses this alongside CTR — low ratio = algorithm is showing broadly
+    // and people are converting; high ratio = shown widely but not clicking.
+    // We call this "impression efficiency".
+    // Note: CTR is already views/impressions*100, so imprEfficiency validates that.
+    // Impressions also help us detect if the video has been broadly pushed
+    // even when CTR looks average (i.e. large reach with moderate click rate
+    // is still a strong signal vs small reach with same click rate).
+    let imprPts   = 0;
+    let imprNote  = '';
+    let imprColor = 'var(--text-dim)';
+    if (impr > 0 && views > 0) {
+      const computedCtr = (views / impr) * 100;
+      const imprEff     = views / impr; // higher = more efficient
+      // Cross-check against entered CTR for consistency
+      const ctrDiff = Math.abs(computedCtr - ctr);
+      if (ctr > 0 && ctrDiff > 5) {
+        imprNote = 'Note: entered CTR (' + ctr.toFixed(1) + '%) differs from computed (' + computedCtr.toFixed(1) + '%) — check your figures.';
+        imprColor = 'var(--warning)';
+      }
+      // Score impression scale — large impression count with decent views
+      // means the algorithm has given it real reach. Reward that.
+      if      (impr >= 500000 && imprEff > 0.04) { imprPts = 6; imprNote = 'Broad algorithmic reach — 500k+ impressions with strong conversion.'; imprColor = 'var(--success)'; }
+      else if (impr >= 100000 && imprEff > 0.03) { imprPts = 4; imprNote = 'Good reach — 100k+ impressions. Algorithm is actively distributing.'; imprColor = 'var(--success)'; }
+      else if (impr >= 50000  && imprEff > 0.02) { imprPts = 2; imprNote = 'Moderate reach. Distribution is running but not scaling yet.'; imprColor = 'var(--primary)'; }
+      else if (impr >= 10000)                     { imprPts = 0; imprNote = 'Early reach — ' + impr.toLocaleString() + ' impressions. Seed phase.'; imprColor = 'var(--text-dim)'; }
+      else if (imprEff < 0.02 && impr > 5000)    { imprPts = -3; imprNote = 'High impressions but low conversion — thumbnail may be misleading target audience.'; imprColor = 'var(--danger)'; }
+    }
+    // Update impressions display
+    const imprEl = document.getElementById('impressionsDisplay');
+    if (imprEl) {
+      if (impr > 0 && views > 0) {
+        const computedCtr = (views / impr) * 100;
+        imprEl.innerHTML = '<span style="color:' + imprColor + ';font-size:12px;">' +
+          impr.toLocaleString() + ' impressions &rarr; ' + views.toLocaleString() + ' views (' + computedCtr.toFixed(1) + '% CTR)' +
+          (imprNote ? '<br>' + imprNote : '') + '</span>';
+      } else {
+        imprEl.innerHTML = '';
+      }
+    }
 
     // ── Display badges ────────────────────────────────────────────
     document.getElementById('twDisplay').innerText = avd.toFixed(1) + '% AVD | ' + rawMins.toFixed(1) + ' min avg';
@@ -2991,14 +3121,13 @@ input:focus, select:focus, textarea:focus {
     document.getElementById('retVal').innerText    = ret.toFixed(0) + '%';
     document.getElementById('engVal').innerText    = eng.toFixed(2) + '% engagement';
 
-    // CTR benchmark label
     const cb = document.getElementById('ctrBenchmark');
     if (cb) {
       if (!ctr)        cb.textContent = '';
       else if (ctr<2)  cb.innerHTML = '<span style="color:var(--danger);">Below 2% — thumbnail/title is blocking distribution regardless of watch time.</span>';
-      else if (ctr<4)  cb.innerHTML = '<span style="color:var(--warning);">2–4% — average. Algorithm will push but CTR is not helping expand reach.</span>';
+      else if (ctr<4)  cb.innerHTML = '<span style="color:var(--warning);">2–4% — average. Algorithm will push but CTR is not accelerating reach.</span>';
       else if (ctr<7)  cb.innerHTML = '<span style="color:var(--success);">4–7% — strong. Browse and Suggested will actively favour this.</span>';
-      else if (ctr<12) cb.innerHTML = '<span style="color:var(--primary);">7–12% — excellent. Thumbnail is competing well against trending content.</span>';
+      else if (ctr<12) cb.innerHTML = '<span style="color:var(--primary);">7–12% — excellent. Thumbnail competing well against trending content.</span>';
       else             cb.innerHTML = '<span style="color:var(--accent);">12%+ — viral-tier CTR. Usually only seen on trending or breakthrough content.</span>';
     }
 
@@ -3016,16 +3145,15 @@ input:focus, select:focus, textarea:focus {
     if (forecast && hoursOld !== null && hoursOld >= 0 && hoursOld <= 72) {
       const proj48 = velocity > 0 && hoursOld < 48
         ? Math.round(views + velocity * (48 - hoursOld)) : null;
+      const projImpr48 = impr > 0 && velocity > 0 && hoursOld > 0 && hoursOld < 48
+        ? Math.round(impr * (48 / hoursOld)) : null;
       let fc = '<div style="background:var(--accent-dim);border:1px solid var(--border-hi);border-radius:var(--radius);padding:12px;font-size:12px;line-height:1.75;color:var(--text);">';
       fc += '<strong style="color:var(--accent);">Early Trend Signal</strong> — video is ' + hoursOld.toFixed(1) + 'h old<br>';
-      if (hoursOld < 6)
-        fc += 'Very early — CTR is the only meaningful signal yet. AVD has not stabilised. Scoring is adjusted; check back after 12h.';
-      else if (hoursOld < 24)
-        fc += 'First-day window. CTR and hook retention are most predictive right now. AVD will stabilise over the next 12h.';
-      else
-        fc += '24-48h window: all metrics are now reliable. This is the most accurate read before the algorithm commits to a push or stops.';
-      if (proj48)
-        fc += '<br>Projected views at 48h (at current velocity): <strong style="color:var(--primary);">' + proj48.toLocaleString() + '</strong>';
+      if      (hoursOld < 6)  fc += 'Very early — CTR is the only meaningful signal yet. AVD has not stabilised. Check back after 12h.';
+      else if (hoursOld < 24) fc += 'First-day window. CTR and hook retention are most predictive right now. AVD will stabilise over the next 12h.';
+      else                    fc += '24-48h window: all metrics are reliable. This is the critical window before the algorithm commits to a push or stops.';
+      if (proj48)     fc += '<br>Projected views at 48h (at current velocity): <strong style="color:var(--primary);">' + proj48.toLocaleString() + '</strong>';
+      if (projImpr48) fc += '<br>Projected impressions at 48h: <strong style="color:var(--secondary);">' + projImpr48.toLocaleString() + '</strong>';
       fc += '</div>';
       forecast.style.display = 'block';
       forecast.innerHTML = fc;
@@ -3035,90 +3163,60 @@ input:focus, select:focus, textarea:focus {
 
     // ── SCORING MODEL ─────────────────────────────────────────────
     //
-    // Philosophy — mirrors how YouTube actually gates distribution:
-    //
-    // 1. CTR is the GATEKEEPER. Without clicks, AVD never gets measured.
-    //    Poor CTR doesn't just "score zero" — it actively caps/penalises.
-    //
-    // 2. AVD vs target is the SUSTAINER. YouTube compares your video's AVD
-    //    to the benchmark for its length. Falling below is penalised, not
-    //    just unrewarded.
-    //
-    // 3. Hook (30s retention) is an early-drop SIGNAL. YouTube sees when
-    //    people leave in the first 30 seconds as a strong negative signal.
-    //    Missing this subtracts points rather than just adding nothing.
-    //
-    // 4. Engagement (likes + comments / views) is a MULTIPLIER — it
-    //    amplifies an already-good video but cannot save a bad one.
-    //
-    // 5. Age adjustments: very fresh videos (<6h) have inflated CTR from
-    //    subscriber seed pulls. Score is scaled down to avoid false positives.
-    //
-    // Score is out of 100. Penalties can push score negative (floor = 0).
-    //
-    // ── Step 1: CTR score (0–35 pts, gating) ─────────────────────
-    // CTR is worth the most. Below 2% = hard penalty applied later.
-    // 10% CTR = full 35 pts (diminishing above 12% to prevent exploit).
+    // CTR (35pts) — gatekeeper: below 1% penalises, 10%+ maxes out
+    // AVD (35pts) — sustainer: below 40% of length-target penalises
+    // Hook (15pts) — early signal: below 35% = negative
+    // Engagement (10pts) — multiplier: very low = mild negative
+    // Impressions (6pts) — reach signal: validates algorithm is distributing
+    // Velocity (5pts) — momentum bonus (only when publish time given + <48h)
+    // Age modifier — deflates score during subscriber seed phase
+    // Stall penalty — hard override when growth data confirms stall
+
+    // Step 1: CTR (gating)
     let ctrPts;
-    if (ctr === 0) {
-      ctrPts = 0;
-    } else if (ctr < 1) {
-      ctrPts = -10; // actively penalised — almost no impressions converting
-    } else if (ctr < 2) {
-      ctrPts = (ctr - 1) * 5 - 5; // ranges -5 to 0 across 1-2%
-    } else {
-      ctrPts = Math.min(35, (ctr / 10) * 35);
-    }
+    if (ctr === 0)       ctrPts = 0;
+    else if (ctr < 1)    ctrPts = -10;
+    else if (ctr < 2)    ctrPts = (ctr - 1) * 5 - 5; // -5 to 0
+    else                 ctrPts = Math.min(35, (ctr / 10) * 35);
 
-    // ── Step 2: AVD score (0–35 pts, penalised below target) ──────
-    // YouTube adjusts AVD expectations by video length.
-    // At target = 30 pts. Below 50% of target = negative.
-    let avdRatio = targetAvd > 0 ? avd / targetAvd : 0;
+    // Step 2: AVD vs length-adjusted target (penalised below threshold)
+    const avdRatio = targetAvd > 0 ? avd / targetAvd : 0;
     let avdPts;
-    if (avdRatio === 0) {
-      avdPts = 0;
-    } else if (avdRatio < 0.4) {
-      avdPts = (avdRatio - 0.4) * 30; // negative — audience rejected the content
-    } else if (avdRatio < 0.7) {
-      avdPts = (avdRatio - 0.4) * (20 / 0.3); // 0 to ~20 in the 40–70% band
-    } else {
-      avdPts = Math.min(35, 20 + ((avdRatio - 0.7) / 0.6) * 15); // 20-35 above 70%
-    }
+    if (avdRatio === 0)       avdPts = 0;
+    else if (avdRatio < 0.4)  avdPts = (avdRatio - 0.4) * 30;           // negative
+    else if (avdRatio < 0.7)  avdPts = (avdRatio - 0.4) * (20 / 0.3);   // 0–20
+    else                      avdPts = Math.min(35, 20 + ((avdRatio - 0.7) / 0.6) * 15); // 20–35
 
-    // ── Step 3: Hook score (±15 pts) ─────────────────────────────
-    // 30s retention below 55% is a negative signal for mature videos.
-    // Below 35% = strong negative (audience leaving in opening = misleading thumbnail/title).
+    // Step 3: Hook / 30s retention (weighted by video age + checkbox)
+    const newVideoCbx = document.getElementById('newVideoToggle');
+    const tooNewForHook = (newVideoCbx && newVideoCbx.checked)
+      || (hoursOld !== null && hoursOld < 12);
+    const retWeight = tooNewForHook ? 0
+                    : hoursOld === null || hoursOld >= 24 ? 1.0
+                    : hoursOld >= 6 ? 0.5 : 0;
+    // Dim the hook card visually when it's excluded
+    const retGroupEl = document.getElementById('retGroup');
+    if (retGroupEl) retGroupEl.style.opacity = tooNewForHook ? '0.3' : '1';
     let retPts = 0;
-    const retWeight = hoursOld === null || hoursOld >= 24 ? 1.0
-                    : hoursOld >= 6 ? 0.5 : 0; // not measured in first 6h
-    if (ret === 0) {
-      retPts = 0;
-    } else if (ret < 35) {
-      retPts = ((ret - 35) / 35) * 10 * retWeight; // penalty: -10 at 0%, 0 at 35%
-    } else if (ret < 55) {
-      retPts = 0; // neutral — not helping, not hurting
-    } else if (ret < 75) {
-      retPts = ((ret - 55) / 20) * 10 * retWeight; // reward: 0 to 10
-    } else {
-      retPts = Math.min(15, 10 + ((ret - 75) / 25) * 5) * retWeight; // 10–15
+    if (ret > 0) {
+      if      (ret < 35) retPts = ((ret - 35) / 35) * 10 * retWeight; // penalty
+      else if (ret < 55) retPts = 0;
+      else if (ret < 75) retPts = ((ret - 55) / 20) * 10 * retWeight;
+      else               retPts = Math.min(15, 10 + ((ret - 75) / 25) * 5) * retWeight;
     }
 
-    // ── Step 4: Engagement multiplier (±10 pts) ───────────────────
-    // Engagement amplifies good signals. Low engagement on high-view
-    // content is neutral; low engagement on low-view content suggests
-    // the audience is not connecting.
+    // Step 4: Engagement multiplier
     let engPts;
-    if (eng === 0)      engPts = 0;
-    else if (eng < 0.5) engPts = -3;  // very low engagement = mild negative signal
-    else if (eng < 1.5) engPts = 0;   // normal/neutral
-    else if (eng < 3)   engPts = 5;   // above average
-    else if (eng < 6)   engPts = 8;
-    else                engPts = 10;   // viral engagement
+    if (eng === 0)       engPts = 0;
+    else if (eng < 0.5)  engPts = -3;
+    else if (eng < 1.5)  engPts = 0;
+    else if (eng < 3)    engPts = 5;
+    else if (eng < 6)    engPts = 8;
+    else                 engPts = 10;
 
-    // ── Step 5: Velocity bonus (0–5 pts) ─────────────────────────
-    // Rapid view accumulation signals trending momentum to the algorithm.
+    // Step 5: Velocity bonus (only meaningful with publish time + within 48h)
     let velPts = 0;
-    if (velocity > 0 && hoursOld !== null && hoursOld < 48) {
+    if (velocity > 0 && hoursOld !== null && hoursOld >= 0 && hoursOld < 48) {
       if      (velocity >= 1000) velPts = 5;
       else if (velocity >= 500)  velPts = 4;
       else if (velocity >= 200)  velPts = 3;
@@ -3126,60 +3224,129 @@ input:focus, select:focus, textarea:focus {
       else                       velPts = 1;
     }
 
-    // ── Step 6: Age-phase adjustment ─────────────────────────────
-    // Subscriber seed pull (0-6h) inflates CTR by 20-40%.
-    // We scale the raw CTR pts down proportionally so early scores
-    // reflect what the algorithm will actually see once CTR normalises.
+    // Step 6: Impression reach signal (new — validates algorithm is distributing)
+    // imprPts already computed above (-3 to +6)
+
+    // Step 7: Age-phase deflation (subscriber seed pull inflates CTR)
     let ageModifier = 1.0;
     let ageNote = '';
     if (hoursOld !== null) {
-      if (hoursOld < 3) {
-        ageModifier = 0.65; // very early — CTR heavily inflated by subs
-        ageNote = 'Score deflated (0-3h seed phase — CTR not yet representative)';
-        document.getElementById('retGroup').style.opacity = '0.2';
-      } else if (hoursOld < 6) {
-        ageModifier = 0.80;
-        ageNote = 'Score adjusted (3-6h — CTR stabilising)';
-        document.getElementById('retGroup').style.opacity = '0.4';
-      } else if (hoursOld < 24) {
-        ageModifier = 0.92;
-        ageNote = 'Slight adjustment (6-24h — most metrics reliable, AVD still maturing)';
-        document.getElementById('retGroup').style.opacity = '0.75';
-      } else {
-        ageModifier = 1.0;
-        document.getElementById('retGroup').style.opacity = '1';
-      }
+      if      (hoursOld < 3)  { ageModifier = 0.65; ageNote = '0-3h seed phase — CTR inflated by subscribers, score deflated';  }
+      else if (hoursOld < 6)  { ageModifier = 0.80; ageNote = '3-6h — CTR stabilising';  }
+      else if (hoursOld < 24) { ageModifier = 0.92; ageNote = '6-24h — most metrics reliable';  }
+      else                    { ageModifier = 1.0;    }
     } else {
-      document.getElementById('retGroup').style.opacity = '1';
+      
     }
 
-    let rawScore = (ctrPts + avdPts + retPts + engPts + velPts) * ageModifier;
+    let rawScore = (ctrPts + avdPts + retPts + engPts + velPts + imprPts) * ageModifier;
 
-    // ── Step 7: Stall penalty ─────────────────────────────────────
-    // If the user has entered view history data and growth has stalled,
-    // we override the metric-based score with a reality check.
-    // A stalled video is NOT still at "viral potential" regardless of AVD.
-    const v24  = parseFloat(document.getElementById('views24h')?.value)   || 0;
-    const v48  = parseFloat(document.getElementById('views48h')?.value)   || 0;
-    const vCur = parseFloat(document.getElementById('viewsCurrent')?.value)|| 0;
+    // Step 8: Time-agnostic stall/momentum detection
+    // Takes 3 view snapshots at user-defined times, computes velocity at each
+    // interval, and detects whether the push is accelerating, sustaining, or dying.
+    const v1   = parseFloat(document.getElementById('views24h')?.value)    || 0;
+    const v2   = parseFloat(document.getElementById('views48h')?.value)    || 0;
+    const v3   = parseFloat(document.getElementById('viewsCurrent')?.value) || 0;
+    const t1   = parseFloat(document.getElementById('snap1_hours')?.value)  || 0;
+    const t2   = parseFloat(document.getElementById('snap2_hours')?.value)  || 0;
+    const t3   = parseFloat(document.getElementById('snap3_hours')?.value)  || 0;
     const stallEl = document.getElementById('stallAnalysis');
     let stallPenalty = 0;
-    let stallMsg = '';
-    if (v24 > 0 && v48 > 0 && vCur > 0) {
-      const g2448  = ((v48 - v24) / v24) * 100;
-      const gPost  = ((vCur - v48) / v48) * 100;
+
+    // Need at least 2 snapshots with view data to analyse
+    const snap2valid = v1 > 0 && v2 > 0 && v2 >= v1;
+    const snap3valid = snap2valid && v3 > 0 && v3 >= v2;
+    const hasTime    = t1 > 0 && t2 > 0;
+
+    if (snap2valid) {
       if (stallEl) stallEl.style.display = 'block';
+
+      // Velocity = views per hour in each interval
+      // If no times entered, fall back to view count ratios only
+      const interval12 = (hasTime && t2 > t1) ? (t2 - t1) : 1;
+      const interval23 = (t3 > t2 && snap3valid) ? (t3 - t2) : 1;
+      const vel12 = (v2 - v1) / interval12;  // views/hr in window 1→2
+      const vel23 = snap3valid ? ((v3 - v2) / interval23) : null;  // views/hr in window 2→3
+
+      // Velocity decay ratio: how much slower is the latest window vs the first?
+      const decayRatio = vel23 !== null && vel12 > 0 ? vel23 / vel12 : null;
+      // Raw growth % in latest window
+      const latestGrowthPct = snap3valid ? ((v3 - v2) / v2) * 100 : ((v2 - v1) / v1) * 100;
+      const latestViews     = snap3valid ? v3 - v2 : v2 - v1;
+      const totalViews      = snap3valid ? v3 : v2;
+
       let sc = 'var(--success)';
-      if (gPost < 5) {
-        stallPenalty = 30; sc = 'var(--danger)';
-        stallMsg = 'Clear stall: views barely grew after 48h (+' + gPost.toFixed(1) + '%). The algorithm has stopped pushing — any score above 40 now reflects historical metrics, not current reality.';
-      } else if (gPost < 20) {
-        stallPenalty = 15; sc = 'var(--warning)';
-        stallMsg = 'Slowing: +' + gPost.toFixed(1) + '% growth after 48h. Video is entering long-tail organic mode — algorithmic push is winding down.';
+      let msg = '';
+      let trend = '';
+
+      // Detect stall based on velocity decay and growth rate
+      if (decayRatio !== null) {
+        // We have full time data — use velocity decay as primary signal
+        if (decayRatio < 0.1) {
+          stallPenalty = 32; sc = 'var(--danger)';
+          trend = 'Hard stall';
+          msg = 'Velocity has dropped to ' + (decayRatio * 100).toFixed(0) + '% of its earlier rate — the algorithm has essentially stopped distributing this video. The push window has closed.';
+        } else if (decayRatio < 0.25) {
+          stallPenalty = 22; sc = 'var(--danger)';
+          trend = 'Strong deceleration';
+          msg = 'Velocity is now only ' + (decayRatio * 100).toFixed(0) + '% of its initial rate. Algorithmic push is winding down sharply — video entering long-tail phase.';
+        } else if (decayRatio < 0.5) {
+          stallPenalty = 12; sc = 'var(--warning)';
+          trend = 'Decelerating';
+          msg = 'Velocity at ' + (decayRatio * 100).toFixed(0) + '% of initial rate. Normal decay for most videos after the seed phase — push is slowing but still active.';
+        } else if (decayRatio < 0.8) {
+          stallPenalty = 4; sc = 'var(--primary)';
+          trend = 'Healthy decay';
+          msg = 'Velocity holding at ' + (decayRatio * 100).toFixed(0) + '% of initial rate — above-average retention of momentum. Algorithm still distributing.';
+        } else if (decayRatio <= 1.2) {
+          stallPenalty = 0; sc = 'var(--success)';
+          trend = 'Sustained push';
+          msg = 'Velocity is stable at ' + (decayRatio * 100).toFixed(0) + '% of initial rate. Strong sustained distribution — this video is in an active push.';
+        } else {
+          stallPenalty = 0; sc = 'var(--secondary)';
+          trend = 'Accelerating';
+          msg = 'Velocity is INCREASING (' + (decayRatio * 100).toFixed(0) + '% of initial rate). This is a delayed broad push — the algorithm expanded reach after the initial window.';
+          stallPenalty = -6; // Bonus for acceleration
+        }
       } else {
-        stallMsg = 'Healthy: +' + gPost.toFixed(1) + '% post-48h growth. Continued algorithmic distribution is likely.';
+        // No time data — use raw growth percentage between snapshots
+        if (latestGrowthPct < 3) {
+          stallPenalty = 28; sc = 'var(--danger)';
+          trend = 'Near-zero growth';
+          msg = 'Only +' + latestGrowthPct.toFixed(1) + '% view growth in the latest window. Algorithm push has stopped. (Enter snapshot hours above for more accurate velocity analysis.)';
+        } else if (latestGrowthPct < 15) {
+          stallPenalty = 14; sc = 'var(--warning)';
+          trend = 'Slowing';
+          msg = '+' + latestGrowthPct.toFixed(1) + '% growth in latest window — entering long-tail organic mode.';
+        } else if (latestGrowthPct < 40) {
+          stallPenalty = 4; sc = 'var(--primary)';
+          trend = 'Decelerating';
+          msg = '+' + latestGrowthPct.toFixed(1) + '% growth — still active but slowing.';
+        } else {
+          stallPenalty = 0; sc = 'var(--success)';
+          trend = 'Healthy';
+          msg = '+' + latestGrowthPct.toFixed(1) + '% growth — strong continued distribution.';
+        }
       }
-      if (stallEl) stallEl.innerHTML = '<div style="background:'+sc+'18;border:1px solid '+sc+';border-radius:var(--radius);padding:12px;font-size:12px;line-height:1.7;color:var(--text);">' + stallMsg + '</div>';
+
+      // Build display
+      let velDisplay = hasTime
+        ? 'Velocity snap 1→2: ' + vel12.toFixed(0) + ' views/hr' + (vel23 !== null ? ' &nbsp;|&nbsp; snap 2→3: ' + vel23.toFixed(0) + ' views/hr' : '')
+        : 'Add snapshot hours above for views/hr velocity analysis';
+
+      if (stallEl) {
+        stallEl.innerHTML = '<div style="background:' + sc + '18;border:1px solid ' + sc + ';border-radius:var(--radius);padding:12px;font-size:12px;line-height:1.8;color:var(--text);">' +
+          '<strong style="color:' + sc + ';">' + trend + '</strong><br>' + msg +
+          '<br><span style="color:var(--text-dim);font-size:11px;">' + velDisplay +
+          ' &nbsp;|&nbsp; Total: ' + totalViews.toLocaleString() + ' views</span>' +
+          (stallPenalty !== 0 ? '<br><span style="color:' + sc + ';font-size:11px;font-weight:700;">Score impact: ' + (stallPenalty > 0 ? '-' : '+') + Math.abs(stallPenalty) + ' pts</span>' : '') +
+          '</div>';
+      }
+    } else if (v1 > 0 && v2 > 0 && v2 < v1) {
+      if (stallEl) {
+        stallEl.style.display = 'block';
+        stallEl.innerHTML = '<div style="background:var(--warning-dim);border:1px solid var(--warning);border-radius:var(--radius);padding:10px;font-size:12px;color:var(--text);">Check your figures — each snapshot should have more views than the previous one.</div>';
+      }
     } else if (stallEl) {
       stallEl.style.display = 'none';
     }
@@ -3188,32 +3355,36 @@ input:focus, select:focus, textarea:focus {
     const total = Math.max(0, Math.min(100, parseFloat(rawScore.toFixed(1))));
     document.getElementById('totalScore').innerText = total;
 
-    // ── Rating label ──────────────────────────────────────────────
+    // ── Rating ────────────────────────────────────────────────────
     const css = getComputedStyle(document.documentElement);
     let r, c, d;
-    if      (total < 25) { r='Struggling';        c=css.getPropertyValue('--danger').trim();   d='One or more core signals are actively working against distribution. Focus on CTR first — without clicks, nothing else matters.'; }
-    else if (total < 40) { r='Needs Work';         c='#fb923c';                                 d='Below average on key metrics. The algorithm is not scaling this beyond its initial audience.'; }
-    else if (total < 55) { r='Growing';            c=css.getPropertyValue('--warning').trim();  d='Decent signals — serving your niche but not yet triggering broad push. Engagement or CTR improvements would make the difference.'; }
-    else if (total < 70) { r='Strong Growth';      c=css.getPropertyValue('--success').trim();  d='All signals are healthy. Algorithm is actively expanding reach beyond subscribers.'; }
-    else if (total < 85) { r='Viral Potential';    c=css.getPropertyValue('--secondary').trim();d='Excellent across the board. Broad push likely — this is the range where videos break out of their niche.'; }
-    else                 { r='Viral Breakout';      c=css.getPropertyValue('--accent').trim();   d='Exceptional. Very few videos score here — capitalise immediately with a follow-up.'; }
+    if      (total < 20) { r='Struggling';     c=css.getPropertyValue('--danger').trim();    d='One or more core signals are actively penalising distribution. CTR is the highest-leverage fix — nothing else moves without clicks.'; }
+    else if (total < 38) { r='Needs Work';     c='#fb923c';                                  d='Below average on key signals. Algorithm is not scaling beyond the seed audience.'; }
+    else if (total < 54) { r='Growing';        c=css.getPropertyValue('--warning').trim();   d='Decent signals — reaching your niche but not yet triggering a broad push. Lift CTR or AVD to break out.'; }
+    else if (total < 68) { r='Strong Growth';  c=css.getPropertyValue('--success').trim();   d='All signals healthy. Algorithm is actively expanding reach beyond subscribers.'; }
+    else if (total < 83) { r='Viral Potential';c=css.getPropertyValue('--secondary').trim(); d='Excellent across the board — broad push is likely. This is the range where videos break out of their niche.'; }
+    else                 { r='Viral Breakout'; c=css.getPropertyValue('--accent').trim();     d='Exceptional. Very few videos reach this range — capitalise immediately with a follow-up.'; }
 
     const rt = document.getElementById('ratingText');
     rt.innerText = r;
     rt.style.cssText = 'background:' + c + '22;color:' + c + ';border:1px solid ' + c + ';display:inline-block;padding:6px 20px;border-radius:20px;font-size:14px;font-weight:700;margin-bottom:10px;';
-    document.getElementById('ratingDesc').innerText = d + (ageNote ? ' · ' + ageNote : '') + (stallPenalty > 0 ? ' [stall -' + stallPenalty + ']' : '');
+    document.getElementById('ratingDesc').innerText = d + (ageNote ? ' · ' + ageNote : '') + (stallPenalty > 0 ? ' [view history: -' + stallPenalty + 'pts]' : '');
 
-    // ── Breakdown ─────────────────────────────────────────────────
-    const maxAvd = 35;
+    // ── Breakdown table ───────────────────────────────────────────
+    const posColor = 'var(--text)';
+    const negColor = 'var(--danger)';
     document.getElementById('breakdown-content').innerHTML =
-      '<div><span>CTR Packaging (' + ctr.toFixed(1) + '%):</span><span style="color:' + (ctrPts < 0 ? 'var(--danger)' : 'var(--text)') + '">' + (ctrPts >= 0 ? '+' : '') + ctrPts.toFixed(1) + ' / 35</span></div>' +
-      '<div><span>AVD vs target (' + avd.toFixed(1) + '% vs ' + targetAvd + '%):</span><span style="color:' + (avdPts < 0 ? 'var(--danger)' : 'var(--text)') + '">' + (avdPts >= 0 ? '+' : '') + avdPts.toFixed(1) + ' / 35</span></div>' +
-      (retWeight > 0 ? '<div><span>Hook / 30s retention (' + ret + '%):</span><span style="color:' + (retPts < 0 ? 'var(--danger)' : 'var(--text)') + '">' + (retPts >= 0 ? '+' : '') + retPts.toFixed(1) + ' / 15</span></div>' : '<div><span>Hook retention:</span><span style="color:var(--text-muted);">— (too early to measure)</span></div>') +
-      '<div><span>Engagement (' + eng.toFixed(2) + '%):</span><span style="color:' + (engPts < 0 ? 'var(--danger)' : 'var(--text)') + '">' + (engPts >= 0 ? '+' : '') + engPts.toFixed(1) + ' / 10</span></div>' +
-      (velPts > 0 ? '<div><span>Velocity bonus:</span><span>+' + velPts + ' / 5</span></div>' : '') +
-      (ageModifier < 1 ? '<div><span>Age phase adjustment:</span><span style="color:var(--warning);">×' + ageModifier.toFixed(2) + '</span></div>' : '') +
-      (stallPenalty > 0 ? '<div><span>Stall penalty:</span><span style="color:var(--danger);">−' + stallPenalty + '</span></div>' : '') +
-      '<div style="border-top:1px solid var(--border);margin-top:4px;padding-top:6px;font-weight:700;"><span>Score:</span><span>' + total + ' / 100</span></div>';
+      '<div><span>CTR (' + ctr.toFixed(1) + '%):</span><span style="color:' + (ctrPts < 0 ? negColor : posColor) + '">' + (ctrPts >= 0 ? '+' : '') + ctrPts.toFixed(1) + ' / 35</span></div>' +
+      '<div><span>AVD (' + avd.toFixed(1) + '% vs ' + targetAvd + '% target):</span><span style="color:' + (avdPts < 0 ? negColor : posColor) + '">' + (avdPts >= 0 ? '+' : '') + avdPts.toFixed(1) + ' / 35</span></div>' +
+      (retWeight > 0
+        ? '<div><span>Hook retention (' + ret + '%):</span><span style="color:' + (retPts < 0 ? negColor : posColor) + '">' + (retPts >= 0 ? '+' : '') + retPts.toFixed(1) + ' / 15</span></div>'
+        : '<div><span>Hook retention:</span><span style="color:var(--text-muted);">not yet measurable</span></div>') +
+      '<div><span>Engagement (' + eng.toFixed(2) + '%):</span><span style="color:' + (engPts < 0 ? negColor : posColor) + '">' + (engPts >= 0 ? '+' : '') + engPts.toFixed(1) + ' / 10</span></div>' +
+      (impr > 0 ? '<div><span>Impression reach (' + (impr >= 1000 ? (impr/1000).toFixed(0)+'k' : impr) + ' impressions):</span><span style="color:' + (imprPts < 0 ? negColor : posColor) + '">' + (imprPts >= 0 ? '+' : '') + imprPts.toFixed(0) + ' / 6</span></div>' : '') +
+      (velPts > 0 ? '<div><span>Velocity bonus (' + velocity.toLocaleString() + ' views/hr):</span><span>+' + velPts + ' / 5</span></div>' : '') +
+      (ageModifier < 1 ? '<div><span>Seed-phase deflation:</span><span style="color:var(--warning);">x' + ageModifier.toFixed(2) + '</span></div>' : '') +
+      (stallPenalty > 0 ? '<div><span>View history stall penalty:</span><span style="color:' + negColor + ';">-' + stallPenalty + '</span></div>' : '') +
+      '<div style="border-top:1px solid var(--border);margin-top:5px;padding-top:6px;font-weight:700;"><span>Total:</span><span>' + total + ' / 100</span></div>';
 
     if (typeof renderPhaseBands === 'function') renderPhaseBands(total);
     updateYTSubProjection();
@@ -3408,41 +3579,167 @@ input:focus, select:focus, textarea:focus {
     }).join('');
   }
   function updateYTSubProjection() {
-    const curr = parseFloat(document.getElementById('yt_curr_subs')?.value)||0;
-    const monthly = parseFloat(document.getElementById('yt_monthly_views')?.value)||0;
-    const rate = parseFloat(document.getElementById('yt_sub_rate')?.value)||1;
-    const subs7d  = parseFloat(document.getElementById('yt_subs_7d')?.value)||0;
-    const subs28d = parseFloat(document.getElementById('yt_subs_28d')?.value)||0;
+    const curr    = parseFloat(document.getElementById('yt_curr_subs')?.value)    || 0;
+    const monthly = parseFloat(document.getElementById('yt_monthly_views')?.value) || 0;
+    const rate    = parseFloat(document.getElementById('yt_sub_rate')?.value)      || 1;
+    const subs7d  = parseFloat(document.getElementById('yt_subs_7d')?.value)       || 0;
+    const subs28d = parseFloat(document.getElementById('yt_subs_28d')?.value)      || 0;
+    const el      = document.getElementById('yt_sub_projection');
+    if (!el) return;
 
-    // Determine monthly sub gain — prefer actual data over estimate
-    let monthlyGain = (monthly * rate) / 100;
-    let dataSource = 'conversion rate estimate';
-    if (subs28d > 0) { monthlyGain = (subs28d / 28) * 30; dataSource = '28-day actual data'; }
-    else if (subs7d > 0)  { monthlyGain = (subs7d  /  7) * 30; dataSource = '7-day actual data'; }
+    // ── Derive monthly velocity ──────────────────────────────────
+    const monthlyFromRate = monthly * (rate / 100);
+    const monthlyFrom7d   = subs7d  > 0 ? subs7d  * (30 / 7)  : 0;
+    const monthlyFrom28d  = subs28d > 0 ? subs28d * (30 / 28) : 0;
 
-    const el = document.getElementById('yt_sub_projection');
-    if (!el || (curr===0 && monthly===0 && subs7d===0 && subs28d===0)) { el && (el.innerHTML=''); return; }
+    let monthlyNew, sourceLabel;
+    if      (subs7d  > 0) { monthlyNew = monthlyFrom7d;  sourceLabel = '7-day pace'; }
+    else if (subs28d > 0) { monthlyNew = monthlyFrom28d; sourceLabel = '28-day pace'; }
+    else                  { monthlyNew = monthlyFromRate; sourceLabel = 'conversion rate estimate'; }
 
-    const milestones = [100,500,1000,5000,10000,50000,100000];
-    let html = '<div style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">Using '+dataSource+' — '+monthlyGain.toFixed(0)+' subs/month projected</div>';
-    html += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;">';
-    [1,3,6,12].forEach(m => {
-      const proj = Math.round(curr + monthlyGain*m);
-      html += '<div class="stat-mini"><div class="label">'+m+' Month'+(m>1?'s':'')+'</div><div class="value" style="font-size:16px;color:var(--primary);">'+proj.toLocaleString()+'</div><div class="sub">+'+Math.round(monthlyGain*m).toLocaleString()+' subs</div></div>';
-    });
-    html += '</div>';
-    // Milestone ETAs
-    const pending = milestones.filter(m=>m>curr);
-    if (pending.length && monthlyGain>0) {
-      html += '<div style="margin-top:12px;font-size:11px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px;">Milestone ETAs</div>';
-      html += '<div style="display:flex;flex-wrap:wrap;gap:6px;">';
-      pending.slice(0,5).forEach(m => {
-        const mo = Math.ceil((m-curr)/monthlyGain);
-        html += '<span style="background:var(--primary-dim);border:1px solid var(--primary);color:var(--primary);padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;">'+m.toLocaleString()+' — '+mo+' mo</span>';
-      });
-      html += '</div>';
+    const dailyNew = monthlyNew / 30.44;
+
+    if (monthlyNew === 0 && curr === 0) {
+      el.innerHTML = '';
+      const ms = document.getElementById('yt_milestones');
+      if (ms) ms.style.display = 'none';
+      const cr = document.getElementById('yt_custom_result');
+      if (cr) cr.innerHTML = '';
+      return;
     }
-    el.innerHTML = html;
+
+    // ── Helper: days until a target sub count ───────────────────
+    function daysUntil(target) {
+      if (dailyNew <= 0 || curr >= target) return null;
+      return Math.ceil((target - curr) / dailyNew);
+    }
+
+    // ── Helper: format a future date from days from now ─────────
+    function futureDate(days) {
+      if (days === null || days < 0) return null;
+      const d = new Date();
+      d.setDate(d.getDate() + days);
+      return {
+        label: d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+        month: d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }),
+        days:  days
+      };
+    }
+
+    // ── Helper: format days into friendly text ───────────────────
+    function friendlyDays(days) {
+      if (days === null) return null;
+      if (days === 0) return 'Today';
+      if (days === 1) return '1 day';
+      if (days < 7)  return days + ' days';
+      const wks = Math.floor(days / 7);
+      const rem = days % 7;
+      if (days < 31) return wks + ' wk' + (wks > 1 ? 's' : '') + (rem > 0 ? ' ' + rem + 'd' : '');
+      const mths = Math.floor(days / 30.44);
+      const remD = Math.round(days - mths * 30.44);
+      return mths + ' mo' + (mths > 1 ? 's' : '') + (remD > 0 ? ' ' + remD + 'd' : '');
+    }
+
+    // ── Build projection cards ───────────────────────────────────
+    const months = [1, 2, 3, 6, 9, 12];
+    const now = new Date();
+
+    el.innerHTML = months.map(m => {
+      const daysOut   = Math.round(m * 30.44);
+      const projected = Math.round(curr + dailyNew * daysOut);
+      const added     = Math.round(dailyNew * daysOut);
+      const futureD   = new Date(now); futureD.setDate(now.getDate() + daysOut);
+      const dateStr   = futureD.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      const label     = m === 1 ? '1 Month' : m + ' Months';
+      return '<div class="stat-mini" style="text-align:center;min-width:140px;max-width:180px;border-top:2px solid var(--secondary);flex:1;">' +
+        '<div class="label" style="color:var(--secondary);text-align:center;margin-bottom:2px;">' + label + '</div>' +
+        '<div style="font-size:10px;color:var(--text-muted);text-align:center;margin-bottom:6px;">' + dateStr + '</div>' +
+        '<div class="value" style="color:var(--secondary);font-size:1.5rem;text-align:center;font-weight:800;">' + projected.toLocaleString() + '</div>' +
+        '<div class="sub" style="text-align:center;color:var(--text-dim);">+' + added.toLocaleString() + ' subscribers</div>' +
+        '</div>';
+    }).join('') +
+    '<div style="width:100%;text-align:center;margin-top:10px;font-size:11px;color:var(--text-muted);">' +
+    'Based on ' + sourceLabel + ' &nbsp;&middot;&nbsp; ~' + Math.round(dailyNew).toLocaleString() + ' new subs/day' +
+    '</div>';
+
+    // ── Milestone ETAs ───────────────────────────────────────────
+    const milestoneEl    = document.getElementById('yt_milestones');
+    const milestoneCards = document.getElementById('yt_milestone_cards');
+    const milestones = [100, 500, 1000, 5000, 10000, 50000, 100000, 500000, 1000000];
+    const upcoming = milestones.filter(m => m > curr);
+
+    if (upcoming.length > 0 && dailyNew > 0 && milestoneEl && milestoneCards) {
+      milestoneEl.style.display = 'block';
+      milestoneCards.innerHTML = upcoming.slice(0, 6).map(m => {
+        const days = daysUntil(m);
+        const fd   = futureDate(days);
+        if (!fd) return '';
+        const fd_friendly = friendlyDays(days);
+        const isNext = m === upcoming[0];
+        const borderCol = isNext ? 'var(--primary)' : 'var(--border)';
+        const labelCol  = isNext ? 'var(--primary)' : 'var(--text-dim)';
+        const mLabel    = m >= 1000000 ? (m/1000000) + 'M' : m >= 1000 ? (m/1000) + 'K' : m.toString();
+        return '<div class="stat-mini" style="text-align:center;min-width:130px;max-width:170px;border-top:2px solid ' + borderCol + ';flex:1;">' +
+          '<div class="label" style="color:' + labelCol + ';text-align:center;">' + mLabel + ' Subscribers</div>' +
+          '<div class="value" style="font-size:1.1rem;font-weight:800;color:var(--text-bright);text-align:center;">' + fd.label + '</div>' +
+          '<div class="sub" style="text-align:center;color:var(--text-dim);">' + fd_friendly + ' away</div>' +
+          '</div>';
+      }).join('');
+    } else if (milestoneEl) {
+      milestoneEl.style.display = 'none';
+    }
+
+    // ── Custom date lookup ───────────────────────────────────────
+    ytInitCustomDropdowns();
+    const cMonth = parseInt(document.getElementById('yt_custom_month')?.value) || 0;
+    const cDay   = parseInt(document.getElementById('yt_custom_day')?.value)   || 0;
+    const cYear  = parseInt(document.getElementById('yt_custom_year')?.value)  || 0;
+    const resultEl = document.getElementById('yt_custom_result');
+
+    if (cMonth && cDay && cYear && resultEl) {
+      const target   = new Date(cYear, cMonth - 1, cDay);
+      const today    = new Date(); today.setHours(0,0,0,0);
+      const daysOut  = Math.round((target - today) / 86400000);
+      if (daysOut < 0) {
+        resultEl.innerHTML = '<div style="color:var(--text-muted);font-size:13px;">That date is in the past.</div>';
+      } else {
+        const projected = Math.round(curr + dailyNew * daysOut);
+        const added     = Math.round(dailyNew * daysOut);
+        const dateLabel = target.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric' });
+        const fd_friendly = friendlyDays(daysOut);
+        resultEl.innerHTML =
+          '<div style="background:var(--primary-dim);border:1px solid var(--primary);border-radius:var(--radius-lg);padding:16px 20px;display:inline-block;min-width:260px;text-align:center;">' +
+          '<div style="font-size:11px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px;">' + dateLabel + '</div>' +
+          '<div style="font-size:2.2rem;font-weight:900;color:var(--secondary);line-height:1.1;margin-bottom:4px;">' + projected.toLocaleString() + '</div>' +
+          '<div style="font-size:13px;color:var(--text-dim);">estimated subscribers</div>' +
+          '<div style="font-size:12px;color:var(--text-muted);margin-top:6px;">+' + added.toLocaleString() + ' gained &nbsp;&middot;&nbsp; ' + fd_friendly + ' away</div>' +
+          '</div>';
+      }
+    } else if (resultEl) {
+      resultEl.innerHTML = '';
+    }
+  }
+
+  function ytInitCustomDropdowns() {
+    // Day dropdown 1-31
+    const dayEl = document.getElementById('yt_custom_day');
+    if (dayEl && dayEl.options.length <= 1) {
+      for (let d = 1; d <= 31; d++) {
+        const o = document.createElement('option');
+        o.value = d; o.text = d;
+        dayEl.appendChild(o);
+      }
+    }
+    // Year dropdown: current year + 5 years
+    const yearEl = document.getElementById('yt_custom_year');
+    if (yearEl && yearEl.options.length <= 1) {
+      const ny = new Date().getFullYear();
+      for (let y = ny; y <= ny + 5; y++) {
+        const o = document.createElement('option');
+        o.value = y; o.text = y;
+        yearEl.appendChild(o);
+      }
+    }
   }
 
     function updateTTSubProjection() {
@@ -3492,7 +3789,7 @@ input:focus, select:focus, textarea:focus {
     // Monthly new subs at current rate
     const monthlySubs = views*(rate/100);
     // Subscriber projection
-    const subMonths = [1,3,6,9,12];
+    const subMonths = [1,2,3,6,9,12];
     document.getElementById('cp_current_proj').innerHTML = subMonths.map(m => {
       const val = Math.round(subs + monthlySubs*m);
       return `<div class="stat-mini"><div class="label" style="color:var(--primary);">${m===1?'1 Month':m+' Months'}</div><div class="value" style="color:var(--primary);font-size:20px;">${val.toLocaleString()}</div><div class="sub">subscribers</div></div>`;
