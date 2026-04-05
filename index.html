@@ -353,37 +353,32 @@ body::after {
 /* ═══════════════════════════════════════════════
    LAYOUT MODES — [data-layout] on <html>
 ═══════════════════════════════════════════════ */
-/* compact */
-[data-layout="compact"] .tabcontent     { padding: 14px !important; }
-[data-layout="compact"] .control-card   { padding: 13px; margin-bottom: 10px; }
-[data-layout="compact"] h2              { font-size: 0.9rem; }
-[data-layout="compact"] h3              { font-size: 0.75rem; margin: 14px 0 8px; }
-[data-layout="compact"] .tab-subtitle   { font-size: 0.75rem; margin-bottom: 12px; }
-[data-layout="compact"] .score-val      { font-size: 3.5rem !important; }
-[data-layout="compact"] .stat-mini      { padding: 12px; }
-[data-layout="compact"] .tab-btn        { padding: 6px 10px; font-size: 0.75rem; }
-/* minimal */
-[data-layout="minimal"] .tab-subtitle   { display: none; }
-[data-layout="minimal"] .proj-explain   { display: none; }
-[data-layout="minimal"] .insight-box    { display: none; }
-[data-layout="minimal"] .info-card p    { display: none; }
-[data-layout="minimal"] .faq-link-bar   { display: none; }
-/* wide */
-[data-layout="wide"] .container         { max-width: 1540px; }
-[data-layout="wide"] .tabcontent        { padding: 36px; }
-/* dashboard */
-[data-layout="dashboard"] .container    { max-width: 1600px; }
-[data-layout="dashboard"] .tabcontent   { padding: 14px !important; }
-[data-layout="dashboard"] .control-card { padding: 12px; margin-bottom: 8px; }
-[data-layout="dashboard"] .tab-subtitle { font-size: 0.75rem; margin-bottom: 8px; }
-[data-layout="dashboard"] .score-val    { font-size: 3rem !important; }
-[data-layout="dashboard"] body          { font-size: 0.85rem; }
-/* cozy */
-[data-layout="cozy"] .container         { max-width: 900px; }
-[data-layout="cozy"] .tabcontent        { padding: 36px; }
-[data-layout="cozy"] .control-card      { padding: 28px; border-radius: 18px; }
-[data-layout="cozy"] body               { font-size: 1.05rem; line-height: 1.8; }
-[data-layout="cozy"] .score-val         { font-size: 6rem !important; }
+[data-layout="compact"] .tabcontent    { padding: 14px !important; }
+[data-layout="compact"] .control-card { padding: 13px; margin-bottom: 10px; }
+[data-layout="compact"] h2             { font-size: 0.9rem; }
+[data-layout="compact"] h3             { font-size: 0.75rem; margin: 14px 0 8px; }
+[data-layout="compact"] .tab-subtitle  { font-size: 0.75rem; margin-bottom: 12px; }
+[data-layout="compact"] .score-val     { font-size: 3.5rem !important; }
+[data-layout="compact"] .stat-mini     { padding: 12px; }
+[data-layout="compact"] .tab-btn       { padding: 6px 10px; font-size: 0.75rem; }
+[data-layout="minimal"] .tab-subtitle  { display: none; }
+[data-layout="minimal"] .proj-explain  { display: none; }
+[data-layout="minimal"] .insight-box   { display: none; }
+[data-layout="minimal"] .info-card p   { display: none; }
+[data-layout="minimal"] .faq-link-bar  { display: none; }
+[data-layout="wide"] .container        { max-width: 1540px; }
+[data-layout="wide"] .tabcontent       { padding: 32px; }
+[data-layout="dashboard"] .container   { max-width: 1600px; }
+[data-layout="dashboard"] .tabcontent  { padding: 12px !important; }
+[data-layout="dashboard"] .control-card{ padding: 12px; margin-bottom: 8px; }
+[data-layout="dashboard"] .tab-subtitle{ font-size: 0.75rem; margin-bottom: 8px; }
+[data-layout="dashboard"] .score-val   { font-size: 3rem !important; }
+[data-layout="dashboard"] body         { font-size: 0.85rem; }
+[data-layout="cozy"] .container        { max-width: 900px; }
+[data-layout="cozy"] .tabcontent       { padding: 36px; }
+[data-layout="cozy"] .control-card     { padding: 24px; border-radius: 18px; }
+[data-layout="cozy"] body              { font-size: 1.05rem; line-height: 1.8; }
+[data-layout="cozy"] .score-val        { font-size: 6rem !important; }
 
 /* ═══════════════════════════════════════════════
    PLATFORM GATING
@@ -426,7 +421,7 @@ a { color: var(--primary); }
    AUTH OVERLAY
 ═══════════════════════════════════════════════ */
 .auth-overlay {
-  position: fixed; inset: 0; background: rgba(0,0,0,0.92);
+  position: fixed; inset: 0; background:rgba(0,0,0,0.92);
   backdrop-filter: blur(20px); display: flex;
   justify-content: center; align-items: center; z-index: 2000;
 }
@@ -447,7 +442,7 @@ a { color: var(--primary); }
   display: flex; align-items: center; justify-content: center;
   margin: 0 auto 16px; font-size: 26px;
 }
-.auth-modal h2 { color: var(--text-bright); font-size: 1.3rem; margin-bottom: 6px; }
+.auth-modal 
 .auth-modal p  { color: var(--text-dim); font-size: 0.875rem; margin-bottom: 20px; }
 .auth-input {
   width: 100%; padding: 12px 16px; margin: 6px 0;
@@ -455,7 +450,7 @@ a { color: var(--primary); }
   border-radius: var(--radius); font-size: 1rem;
   color: var(--text-bright); transition: 0.2s;
 }
-.auth-input:focus { outline: none; border-color: var(--primary); }
+.auth-
 
 /* ═══════════════════════════════════════════════
    HEADER
@@ -591,8 +586,8 @@ input[type=range] {
   height: 6px; border-radius: 6px; outline: none; cursor: pointer;
   background: linear-gradient(to right,
     var(--primary) 0%,
-    var(--primary) var(--val, 0%),
-    var(--border-hi) var(--val, 0%),
+    var(--primary) var(--val, 50%),
+    var(--border-hi) var(--val, 50%),
     var(--border-hi) 100%);
   transition: background 0.1s;
 }
@@ -635,7 +630,8 @@ input[type=range]:focus::-webkit-slider-thumb { box-shadow: 0 0 0 6px var(--prim
 }
 .score-val {
   font-size: 5rem; font-weight: 800; line-height: 1;
-  color: var(--primary); letter-spacing: -4px; margin: 10px 0;
+  color: var(--primary); letter-spacing: -2px; margin: 10px 0;
+  font-variant-numeric: tabular-nums;
 }
 .rating-badge {
   display: inline-block; padding: 5px 18px; border-radius: 20px;
@@ -661,7 +657,7 @@ input[type=range]:focus::-webkit-slider-thumb { box-shadow: 0 0 0 6px var(--prim
 
 .stat-mini { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; color: var(--text); }
 .stat-mini .label { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text-dim); margin-bottom: 4px; }
-.stat-mini .value { font-size: 1.5rem; font-weight: 700; color: var(--text-bright); line-height: 1.1; }
+.stat-mini .value { font-size: 1.4rem; font-weight: 700; color: var(--text-bright); line-height: 1.15; }
 .stat-mini .sub   { font-size: 0.7rem; color: var(--text-dim); margin-top: 3px; }
 
 /* ═══════════════════════════════════════════════
@@ -684,7 +680,7 @@ input[type=range]:focus::-webkit-slider-thumb { box-shadow: 0 0 0 6px var(--prim
    BUTTONS
 ═══════════════════════════════════════════════ */
 .btn-primary {
-  background: var(--primary); color: var(--bg); border: 1px solid var(--primary);
+  background: var(--primary); color: #fff; border: 1px solid var(--primary);
   padding: 9px 20px; border-radius: var(--radius); font-weight: 700;
   cursor: pointer; font-size: 0.875rem; transition: opacity 0.15s, transform 0.15s;
 }
@@ -694,7 +690,7 @@ input[type=range]:focus::-webkit-slider-thumb { box-shadow: 0 0 0 6px var(--prim
   padding: 9px 16px; border-radius: var(--radius); font-weight: 600;
   cursor: pointer; font-size: 0.875rem; transition: 0.15s;
 }
-.btn-secondary:hover { background: var(--card2); color: var(--text-bright); }
+.btn-secondary:hover { background: var(--card2); color: var(--text-bright); border-color: var(--border-hi); }
 .btn-accent {
   background: transparent; color: var(--accent); border: 1px solid var(--accent);
   padding: 9px 20px; border-radius: var(--radius); font-weight: 600;
@@ -736,7 +732,7 @@ input[type=range]:focus::-webkit-slider-thumb { box-shadow: 0 0 0 6px var(--prim
 .link-preview a { color: var(--primary); text-decoration: none; word-break: break-all; }
 
 .faq-section { border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 8px; overflow: hidden; }
-.faq-header { background: var(--card); padding: 13px 16px; font-weight: 700; font-size: 0.875rem; color: var(--text-bright); cursor: pointer; display: flex; align-items: center; gap: 8px; transition: background 0.15s; }
+.faq-header { background: var(--card); padding: 14px 18px; font-weight: 700; font-size: 0.875rem; color: var(--text-bright); cursor: pointer; display: flex; align-items: center; gap: 8px; transition: background 0.2s, color 0.2s; }
 .faq-header:hover { background: var(--card2); }
 .faq-body { padding: 14px 16px; background: var(--bg2); font-size: 0.875rem; color: var(--text-dim); line-height: 1.75; }
 .faq-list { margin: 8px 0 6px 16px; }
@@ -747,7 +743,7 @@ input[type=range]:focus::-webkit-slider-thumb { box-shadow: 0 0 0 6px var(--prim
 
 .live-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 18px; text-align: center; position: relative; color: var(--text); transition: 0.2s; }
 .live-card:hover { border-color: var(--border-hi); transform: translateY(-2px); }
-.live-pulse { position: absolute; top: 11px; right: 11px; width: 8px; height: 8px; border-radius: 50%; background: var(--success); animation: pulse-dot 2s ease-in-out infinite; }
+.live-pulse { position: absolute; top: 11px; right: 11px; width: 9px; height: 9px; border-radius: 50%; background: var(--danger); box-shadow: 0 0 0 2px var(--danger-dim); animation: pulse-dot 1.5s ease-in-out infinite; }
 .live-count { font-size: 2.2rem; font-weight: 800; color: var(--text-bright); line-height: 1; font-variant-numeric: tabular-nums; }
 
 #saveBanner { position:fixed;top:0;left:0;right:0;z-index:1000;background:var(--warning);color:#1a1000;padding:9px 18px;text-align:center;font-size:0.875rem;font-weight:700;display:none;align-items:center;justify-content:center;gap:10px;box-shadow:0 2px 12px rgba(0,0,0,0.3); }
@@ -801,15 +797,15 @@ hr { border:0;border-top:1px solid var(--border);margin:20px 0; }
   .dropdown, .dropdown-content { width: 100%; position: static; box-shadow: none; }
   .header-area { padding: 14px 14px 0; }
   .header-area h1 { font-size: 1.1rem; }
-  .tabcontent { padding: 14px !important; }
+  
   .container { padding: 10px 10px; }
   .input-grid { grid-template-columns: 1fr 1fr; }
-  .score-val { font-size: 3.5rem !important; }
+  
   .target-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 480px) {
   .input-grid { grid-template-columns: 1fr; }
-  .score-val { font-size: 2.8rem !important; }
+  
   .layout-picker-grid { grid-template-columns: 1fr 1fr; }
 }
 
@@ -822,16 +818,16 @@ hr { border:0;border-top:1px solid var(--border);margin:20px 0; }
   inset: 0;
   z-index: 9000;
   overflow-y: auto;
-  background: #0f1117;
+  background: var(--bg);
   font-family: 'Inter', system-ui, sans-serif;
-  color: #c9d1e0;
+  color: var(--text);
 }
 #landingOverlay.hidden { display: none !important; }
 
 /* Nav */
 #landingOverlay nav {
   position: sticky; top: 0; z-index: 100;
-  background: rgba(15,17,23,0.95);
+  background:rgba(0,0,0,0.85);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(255,255,255,0.07);
   padding: 14px 32px;
@@ -843,15 +839,15 @@ hr { border:0;border-top:1px solid var(--border);margin:20px 0; }
   border: 1px solid #6366f1; border-radius: 10px;
   display: flex; align-items: center; justify-content: center; font-size: 18px;
 }
-#landingOverlay .brand { font-weight: 800; font-size: 15px; color: #6366f1; letter-spacing: 1px; }
+#landingOverlay .brand { font-weight: 800; font-size: 15px; color: var(--primary); letter-spacing: 1px; }
 #landingOverlay .version { font-size: 10px; color: #7480a0; margin-top: 1px; }
 #landingOverlay .btn-launch {
-  background: transparent; color: #6366f1; border: 1px solid #6366f1;
+  background: transparent; color: var(--primary); border: 1px solid var(--primary);
   padding: 9px 22px; border-radius: 8px; font-weight: 700; font-size: 13px;
   cursor: pointer; text-decoration: none; transition: all 0.15s;
   letter-spacing: 0.5px;
 }
-#landingOverlay .btn-launch:hover { background: rgba(99,102,241,0.1); }
+#landingOverlay .btn-launch:hover { background: var(--primary-dim); }
 
 /* Hero */
 #landingOverlay .hero {
@@ -861,13 +857,13 @@ hr { border:0;border-top:1px solid var(--border);margin:20px 0; }
   content: '';
   position: absolute; top: 0; left: 50%; transform: translateX(-50%);
   width: 600px; height: 500px;
-  background: radial-gradient(circle, rgba(99,102,241,0.08) 0%, transparent 70%);
+  background: radial-gradient(circle, var(--primary-dim) 0%, transparent 70%);
   pointer-events: none;
 }
 #landingOverlay .hero-eyebrow {
   display: inline-flex; align-items: center; gap: 8px;
-  background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.3);
-  color: #6366f1; padding: 5px 16px; border-radius: 20px;
+  background: var(--primary-dim); border: 1px solid var(--border-hi);
+  color: var(--primary); padding: 5px 16px; border-radius: 20px;
   font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
   text-transform: uppercase; margin-bottom: 24px;
 }
@@ -880,7 +876,7 @@ hr { border:0;border-top:1px solid var(--border);margin:20px 0; }
   line-height: 1.08; color: #f0f4ff; letter-spacing: -1px;
   margin-bottom: 20px;
 }
-#landingOverlay h1.hero-title span { color: #6366f1; }
+#landingOverlay h1.hero-title span { color: var(--primary); }
 #landingOverlay .hero-sub {
   font-size: clamp(14px, 1.8vw, 17px); color: #7480a0;
   max-width: 600px; margin: 0 auto 36px; line-height: 1.75;
@@ -890,7 +886,7 @@ hr { border:0;border-top:1px solid var(--border);margin:20px 0; }
   flex-wrap: wrap; margin-bottom: 60px;
 }
 #landingOverlay .cta-primary {
-  background: #6366f1; color: #fff; border: 1px solid #6366f1;
+  background: var(--primary); color: #fff; border: 1px solid #6366f1;
   padding: 14px 36px; border-radius: 10px; font-weight: 700; font-size: 14px;
   cursor: pointer; text-decoration: none; transition: opacity 0.15s, transform 0.15s;
   display: inline-flex; align-items: center; gap: 8px;
@@ -934,27 +930,27 @@ hr { border:0;border-top:1px solid var(--border);margin:20px 0; }
   text-align: center; font-size: clamp(20px, 2.8vw, 28px);
   font-weight: 800; color: #f0f4ff; letter-spacing: -0.5px; margin-bottom: 44px;
 }
-#landingOverlay .section-title span { color: #6366f1; }
+#landingOverlay .section-title span { color: var(--primary); }
 #landingOverlay .features-grid {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 16px;
 }
 #landingOverlay .feature-card {
-  background: #1e2330; border: 1px solid rgba(255,255,255,0.07);
+  background: var(--card); border: 1px solid rgba(255,255,255,0.07);
   border-radius: 14px; padding: 22px; transition: all 0.2s; position: relative;
 }
 #landingOverlay .feature-card::before {
   content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-  background: linear-gradient(90deg, #6366f1, #f472b6);
+  background: linear-gradient(90deg, var(--primary), var(--accent));
   border-radius: 14px 14px 0 0; opacity: 0; transition: opacity 0.2s;
 }
 #landingOverlay .feature-card:hover { border-color: rgba(99,102,241,0.3); transform: translateY(-3px); }
 #landingOverlay .feature-card:hover::before { opacity: 1; }
 #landingOverlay .feature-icon { font-size: 26px; margin-bottom: 10px; display: block; }
-#landingOverlay .feature-name { font-weight: 700; font-size: 13px; color: #6366f1; margin-bottom: 6px; }
+#landingOverlay .feature-name { font-weight: 700; font-size: 13px; color: var(--primary); margin-bottom: 6px; }
 #landingOverlay .feature-desc { font-size: 13px; color: #7480a0; line-height: 1.65; }
 #landingOverlay .new-badge {
-  display: inline-block; background: rgba(34,211,238,0.12); border: 1px solid #22d3ee;
-  color: #22d3ee; font-size: 9px; font-weight: 700; padding: 2px 7px;
+  display: inline-block; background: var(--secondary-dim); border: 1px solid var(--secondary);
+  color: var(--secondary); font-size: 9px; font-weight: 700; padding: 2px 7px;
   border-radius: 10px; letter-spacing: 1px; text-transform: uppercase; margin-left: 6px;
 }
 
@@ -965,9 +961,9 @@ hr { border:0;border-top:1px solid var(--border);margin:20px 0; }
   font-size: 12px; color: #7480a0; letter-spacing: 0.5px;
   background: rgba(255,255,255,0.02);
 }
-#landingOverlay footer span { color: #6366f1; }
+#landingOverlay footer span { color: var(--primary); }
 #landingOverlay footer a { color: #7480a0; text-decoration: none; }
-#landingOverlay footer a:hover { color: #6366f1; }
+#landingOverlay footer a:hover { color: var(--primary); }
 
 @media (max-width: 640px) {
   #landingOverlay nav { padding: 12px 16px; }
@@ -976,6 +972,48 @@ hr { border:0;border-top:1px solid var(--border);margin:20px 0; }
   #landingOverlay .stats-bar { gap: 20px; padding: 18px 16px; }
 }
 
+
+/* ═══ VIEW MODE — data-viewmode on <html> ═══ */
+[data-viewmode="mobile"] .container { max-width: 480px !important; padding: 8px !important; }
+[data-viewmode="mobile"] .tabcontent { padding: 12px !important; }
+[data-viewmode="mobile"] .input-grid { grid-template-columns: 1fr !important; }
+[data-viewmode="mobile"] .tab-container { display: none !important; }
+[data-viewmode="mobile"] #mobMenuBtn { display: flex !important; }
+[data-viewmode="mobile"] .score-val { font-size: 3rem !important; }
+[data-viewmode="mobile"] .target-grid { grid-template-columns: 1fr !important; }
+[data-viewmode="mobile"] .header-area h1 { font-size: 1rem; }
+/* Desktop toggle button in header */
+#viewModeToggle {
+  position: fixed; bottom: 18px; right: 18px; z-index: 800;
+  background: var(--card); border: 1px solid var(--border-hi);
+  border-radius: 50px; padding: 8px 16px; cursor: pointer;
+  font-size: 12px; font-weight: 600; color: var(--text-dim);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3); transition: 0.15s;
+  display: flex; align-items: center; gap: 6px;
+}
+#viewModeToggle:hover { color: var(--primary); border-color: var(--primary); }
+
+
+/* ── ACCESSIBILITY ── */
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+.btn-primary:focus-visible, .btn-secondary:focus-visible, .btn-accent:focus-visible {
+  box-shadow: 0 0 0 3px var(--primary-dim);
+}
+
+/* Phase bands cleanup */
+#scorePhaseBands { font-size: 0.8rem; }
+#scorePhaseBands > div { user-select: none; }
+
+/* ── FOCUS STATES ── */
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-dim);
+  background: var(--bg3, var(--bg2));
+}
 </style>
 </head>
 <body>
@@ -984,55 +1022,51 @@ hr { border:0;border-top:1px solid var(--border);margin:20px 0; }
 <!-- LANDING OVERLAY                     -->
 <!-- ═══════════════════════════════════ -->
 <div id="landingOverlay">
-<nav>
-  <div class="nav-logo">
-    <div class="orb">📊</div>
-    <div><div class="brand">THE SOCIAL SPOT</div><div class="version">v7.0.0 · CONTENT ANALYTICS</div></div>
+<div style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;position:relative;">
+  <!-- subtle bg grid -->
+  <div style="position:fixed;inset:0;background-image:linear-gradient(rgba(99,102,241,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,0.04) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;"></div>
+  <!-- glow orb -->
+  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(99,102,241,0.07) 0%,transparent 70%);pointer-events:none;"></div>
+
+  <div style="position:relative;z-index:2;max-width:460px;width:100%;">
+    <!-- Logo -->
+    <div style="width:72px;height:72px;background:var(--primary-dim);border:1px solid rgba(99,102,241,0.5);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 20px;">📊</div>
+    <h1 style="font-size:clamp(22px,5vw,36px);font-weight:900;color:var(--text-bright);letter-spacing:-0.5px;margin-bottom:6px;">The Social Spot</h1>
+    <p style="font-size:14px;color:var(--text-dim);margin-bottom:36px;line-height:1.6;">Your creator analytics command centre.<br>100% private — everything stays on your device.</p>
+
+    <!-- Login card -->
+    <div style="background:var(--card);border:1px solid var(--border-hi);border-radius:18px;padding:32px 28px;box-shadow:0 24px 64px rgba(0,0,0,0.4);">
+      <!-- Load existing session -->
+      <div id="lo_returning" style="display:none;margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid rgba(255,255,255,0.07);">
+        <div style="font-size:11px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">Welcome back</div>
+        <div id="lo_returning_name" style="font-size:18px;font-weight:800;color:var(--text-bright);margin-bottom:14px;"></div>
+        <button onclick="showDashboard()" style="width:100%;padding:14px;background:var(--primary);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;transition:opacity 0.15s;" onmouseover="this.style.opacity='.88'" onmouseout="this.style.opacity='1'">▶ Enter Dashboard</button>
+        <button onclick="lo_switchToNew()" style="margin-top:8px;width:100%;padding:10px;background:transparent;color:var(--text-dim);border:1px solid var(--border-hi);border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;">Switch account / start fresh</button>
+      </div>
+
+      <!-- New session form -->
+      <div id="lo_new_form">
+        <div style="font-size:11px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">Get started</div>
+        <input type="text" id="authUsername" placeholder="Enter your creator name..." style="width:100%;padding:13px 16px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:10px;font-size:15px;color:var(--text-bright);margin-bottom:10px;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'" onkeydown="if(event.key==='Enter')loginFresh()">
+        <button onclick="loginFresh()" style="width:100%;padding:14px;background:var(--primary);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:10px;transition:opacity 0.15s;" onmouseover="this.style.opacity='.88'" onmouseout="this.style.opacity='1'">🚀 Initialize Dashboard</button>
+        <div style="display:flex;align-items:center;gap:10px;margin:10px 0;"><div style="flex:1;height:1px;background:rgba(255,255,255,0.08);"></div><span style="font-size:11px;color:var(--text-muted);">or</span><div style="flex:1;height:1px;background:rgba(255,255,255,0.08);"></div></div>
+        <label style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:12px;background:transparent;color:var(--text-dim);border:1px solid var(--border-hi);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.15s;" onmouseover="this.style.borderColor='rgba(255,255,255,0.25)';this.style.color='var(--text)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.1)';this.style.color='var(--text-dim)'">
+          📂 Load Saved Session (.vcsave)
+          <input type="file" accept=".vcsave,.json" style="display:none;" id="loadSaveFile" onchange="landingLoadAndShow(event)">
+        </label>
+      </div>
+    </div>
+
+    <p style="margin-top:20px;font-size:11px;color:var(--text-muted);line-height:1.6;">No accounts. No tracking. No data ever leaves your device.<br>Save your session as a file to restore on any browser.</p>
+
+    <!-- Mobile / desktop toggle -->
+    <div style="margin-top:16px;display:flex;gap:8px;justify-content:center;">
+      <button onclick="setViewMode('desktop')" id="lo_btn_desktop" style="padding:7px 16px;border-radius:8px;border:1px solid var(--primary);background:var(--primary-dim);color:var(--primary);font-size:12px;font-weight:600;cursor:pointer;">🖥 Desktop</button>
+      <button onclick="setViewMode('mobile')"  id="lo_btn_mobile"  style="padding:7px 16px;border-radius:8px;border:1px solid var(--border-hi);background:transparent;color:var(--text-dim);font-size:12px;font-weight:600;cursor:pointer;">📱 Mobile</button>
+    </div>
   </div>
-  <a href="#" onclick="showDashboard();return false;" class="btn-launch">▶ Launch Dashboard</a>
-</nav>
-<section class="hero">
-  <div class="hero-eyebrow"><div class="eyebrow-dot"></div>Free · No Account · 100% Private · Browser-Local</div>
-  <h1 class="hero-title">Your Creator<br><span>Analytics Command Center</span></h1>
-  <p class="hero-sub">Score your virality, track monetization, predict revenue, compare channels, monitor live subscriber counts, and optimize every upload — all in one dashboard. Everything runs locally in your browser. Nothing sent anywhere.</p>
-  <div class="cta-group">
-    <a href="#" onclick="showDashboard();return false;" class="cta-primary">🚀 Launch Dashboard</a>
-    <label class="cta-secondary" style="cursor:pointer;">📂 Load Saved Session<input type="file" accept=".vcsave,.json" style="display:none;" id="landingFileInput" onchange="landingLoadAndShow(event)"></label>
-    <a href="#features" class="cta-secondary">See all features ↓</a>
-  </div>
-</section>
-<div class="stats-bar">
-  <div class="stat-item"><span class="num">12+</span><span class="lbl">Analytics Pages</span></div>
-  <div class="stat-item"><span class="num">10</span><span class="lbl">Visual Themes</span></div>
-  <div class="stat-item"><span class="num">9</span><span class="lbl">Font Styles</span></div>
-  <div class="stat-item"><span class="num">5</span><span class="lbl">Score Phases</span></div>
-  <div class="stat-item"><span class="num">10</span><span class="lbl">Niches</span></div>
-  <div class="stat-item"><span class="num">100%</span><span class="lbl">Private</span></div>
 </div>
-<section class="features-section" id="features">
-  <div class="section-label">Everything in one place</div>
-  <div class="section-title">All the tools a creator <span>actually needs</span></div>
-  <div class="features-grid">
-    <div class="feature-card"><span class="feature-icon">⚡</span><div class="feature-name">Virality Checker</div><div class="feature-desc">Score your video using CTR, AVD%, hook retention, and engagement. Shows all 5 score phase bands with exact thresholds — Needs Work, Growing, Strong Growth, Viral Potential, and Viral Breakout — so you know what to improve next.</div></div>
-    <div class="feature-card"><span class="feature-icon">🤖</span><div class="feature-name">Algorithm Tracker</div><div class="feature-desc">Understand YouTube's 5 distribution tiers. Enter your video length for length-adjusted AVD% and CTR targets at each stage — from Seed Batch to Broad Viral Push. Diagnose exactly where your video stopped getting distributed.</div></div>
-    <div class="feature-card"><span class="feature-icon">💰</span><div class="feature-name">Monetization Tracker</div><div class="feature-desc">Track watch hours toward YPP with dual progress bars for 3K and 4K milestones. Add live stream contributions and get precise ETA dates. Velocity calculator shows daily views needed to hit your goal by any target date.</div></div>
-    <div class="feature-card"><span class="feature-icon">💹</span><div class="feature-name">RPM Predictor</div><div class="feature-desc">Simulate monthly and annual ad revenue with a min/max RPM slider. Covers long-form and Shorts separately, with a full niche benchmark table from Gaming ($1–$3.50) to Finance ($15–$50+).</div></div>
-    <div class="feature-card"><span class="feature-icon">📈</span><div class="feature-name">Channel Projections</div><div class="feature-desc">6 and 12-month subscriber and view forecasts across 4 growth scenarios: current trajectory, CTR boost, more uploads, and optimistic path. Includes actionable insights on highest-impact improvements.</div></div>
-    <div class="feature-card"><span class="feature-icon">⚖️</span><div class="feature-name">Channel Compare</div><div class="feature-desc">Compare up to 3 YouTube channels with live API data. New: Channel ID Lookup tool — enter any @handle to instantly reveal their Channel ID, with one-click copy and "Use in Compare" buttons.</div></div>
-    <div class="feature-card"><span class="feature-icon">🔴</span><div class="feature-name">Live Sub Tracker <span class="new-badge">NEW</span></div><div class="feature-desc">Monitor up to 5 channels' subscriber counts in real-time, refreshing every 3 minutes. Select YouTube or Twitch, enter @handles or Channel IDs, and watch live counts with delta indicators since last check.</div></div>
-    <div class="feature-card"><span class="feature-icon">📱</span><div class="feature-name">Social Analytics</div><div class="feature-desc">Separate scoring engines for TikTok (completion, hook, share velocity) and Instagram Reels (replay rate, save & send velocity). Each shows a 0–100 distribution score plus full tier breakdowns.</div></div>
-    <div class="feature-card"><span class="feature-icon">⏰</span><div class="feature-name">Publishing Hub</div><div class="feature-desc">Get 4 ranked publish windows per niche — Primary slot plus 3 alternatives. New: Audience profile inputs (age, geography, channel size, video length) that contextually adjust all recommendations. 10 niches, 6 platforms.</div></div>
-    <div class="feature-card"><span class="feature-icon">🎬</span><div class="feature-name">Video Tracker</div><div class="feature-desc">Track individual video performance over time with daily entries. Connect your YouTube API key to auto-fetch stats. Automated trend insights detect algorithmic spikes, fatigue alerts, and velocity surges.</div></div>
-    <div class="feature-card"><span class="feature-icon">🎨</span><div class="feature-name">10 Themes · 9 Fonts</div><div class="feature-desc">Cyber Neon, Dark Mode, Light, Sunset Blaze, Matrix Green, Deep Ocean, Rose Gold, Forest, Volt, and Slate. Fifteen font options from Inter to Fraunces to DM Mono. All saved with your session file.</div></div>
-    <div class="feature-card"><span class="feature-icon">🎯</span><div class="feature-name">Title/Thumbnail Checker <span class="new-badge">NEW</span></div><div class="feature-desc">A/B test up to 5 title and thumbnail variants with live CTR comparison, title analysis scoring, thumbnail concept insights, statistical significance indicators, and full test history with save/load.</div></div>
-    <div class="feature-card"><span class="feature-icon">⚙️</span><div class="feature-name">Admin Console <span class="new-badge">NEW</span></div><div class="feature-desc">Password-protected system panel. View storage usage, force layout modes, clear data, export full data dumps, read activity logs, and browse 10 suggested features you can request to be built next.</div></div>
-  </div>
-</section>
-<footer>
-  <div style="margin-bottom:10px;"><span>THE SOCIAL SPOT</span> · VERSION 7.0.0 · CONTENT ANALYTICS PLATFORM</div>
-  <div>All data processed locally in your browser · No accounts · No tracking · No ads · <a href="#" onclick="showDashboard();return false;">Open Dashboard →</a></div>
-</footer>
-</div>
+</div></div>
 
 <!-- Save File Loader Modal -->
 
@@ -1063,19 +1097,19 @@ hr { border:0;border-top:1px solid var(--border);margin:20px 0; }
     <h2 style="font-family:var(--font-display);letter-spacing:-0.3px;">The Social Spot</h2>
     <p>Load a previously saved session file, or start fresh with a new profile.</p>
 
-    <div style="background:rgba(0,245,255,0.06);border:1px solid rgba(0,245,255,0.25);border-radius:10px;padding:18px;margin-bottom:16px;text-align:left;">
+    <div style="background:var(--primary-dim);border:1px solid rgba(0,245,255,0.25);border-radius:10px;padding:18px;margin-bottom:16px;text-align:left;">
       <div style="font-size:12px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;font-family:var(--font-mono);">📂 Load Saved Session</div>
-      <p style="font-size:13px;color:#a0c0e0;margin-bottom:12px;">Select a <strong style="color:#e0f0ff;">.vcsave</strong> file you previously downloaded to restore all your data.</p>
-      <label style="display:block;width:100%;padding:12px;background:rgba(0,245,255,0.08);border:1px dashed rgba(0,245,255,0.35);border-radius:8px;text-align:center;cursor:pointer;color:var(--primary);font-weight:700;font-size:13px;font-family:var(--font-mono);transition:0.2s;" onmouseover="this.style.background='rgba(0,245,255,0.14)'" onmouseout="this.style.background='rgba(0,245,255,0.08)'">
+      <p style="font-size:13px;color:var(--text-dim);margin-bottom:12px;">Select a <strong style="color:var(--text-bright);">.vcsave</strong> file you previously downloaded to restore all your data.</p>
+      <label style="display:block;width:100%;padding:12px;background:var(--primary-dim);border:1px dashed rgba(0,245,255,0.35);border-radius:8px;text-align:center;cursor:pointer;color:var(--primary);font-weight:700;font-size:13px;font-family:var(--font-mono);transition:0.2s;" onmouseover="this.style.background='rgba(0,245,255,0.14)'" onmouseout="this.style.background='rgba(0,245,255,0.08)'">
         📁 CHOOSE SAVE FILE (.vcsave)
         <input type="file" id="loadSaveFile" accept=".vcsave,.json" style="display:none;" onchange="loadFromFile(event)">
       </label>
     </div>
 
     <div style="display:flex;align-items:center;gap:10px;margin:14px 0;">
-      <div style="flex:1;height:1px;background:rgba(0,245,255,0.15);"></div>
-      <span style="color:#5a7a9a;font-size:12px;font-family:var(--font-mono);">OR</span>
-      <div style="flex:1;height:1px;background:rgba(0,245,255,0.15);"></div>
+      <div style="flex:1;height:1px;background:var(--primary-dim);"></div>
+      <span style="color:var(--text-muted);font-size:12px;font-family:var(--font-mono);">OR</span>
+      <div style="flex:1;height:1px;background:var(--primary-dim);"></div>
     </div>
 
     <div style="background:rgba(0,255,136,0.05);border:1px solid rgba(0,255,136,0.2);border-radius:10px;padding:16px;margin-bottom:16px;text-align:left;">
@@ -1084,7 +1118,7 @@ hr { border:0;border-top:1px solid var(--border);margin:20px 0; }
       <button class="btn-primary" style="width:100%;padding:13px;font-size:14px;" onclick="loginFresh()">▶ INITIALIZE NEW DASHBOARD</button>
     </div>
 
-    <p style="font-size:11px;color:#4a6a8a;margin:0;line-height:1.6;">All data is stored locally in your browser or in save files on your device. Nothing is sent to any server.</p>
+    <p style="font-size:11px;color:var(--text-muted);margin:0;line-height:1.6;">All data is stored locally in your browser or in save files on your device. Nothing is sent to any server.</p>
   </div>
 </div>
 
@@ -1098,6 +1132,7 @@ hr { border:0;border-top:1px solid var(--border);margin:20px 0; }
       <span id="saveStatusIndicator" style="font-size:11px;color:var(--success);display:none;">✓ Saved</span>
     </div>
     <h1>THE <span>SOCIAL SPOT</span></h1>
+    <button id="viewModeToggle" onclick="setViewMode(document.documentElement.getAttribute('data-viewmode')==='mobile'?'desktop':'mobile')">📱/🖥</button>
     <button id="mobMenuBtn" onclick="document.querySelector('.tab-container').classList.toggle('mob-open')">☰ Menu</button>
     <div class="tab-container">
       <div class="dropdown" id="ytDropdown" onmouseleave="closeDropdown()">
@@ -1113,7 +1148,7 @@ hr { border:0;border-top:1px solid var(--border);margin:20px 0; }
       </div>
       <button class="tab-btn" onclick="openTab(event,'Tab8')">🎬 Video Tracker</button>
       <button class="tab-btn" onclick="openTab(event,'TabSocial')">📱 Social Analytics</button>
-      <button class="tab-btn" onclick="openTab(event,'TabLive')" style="border-color:rgba(255,51,51,0.4);color:#ff6666;">🔴 Live Sub Tracker</button>
+      <button class="tab-btn" onclick="openTab(event,'TabLive')" style="border-color:var(--danger);color:var(--danger);">🔴 Live Sub Tracker</button>
       <button class="tab-btn" onclick="openTab(event,'Tab7')">⏰ Publishing Hub</button>
       <button class="tab-btn" onclick="openTab(event,'TabAB')">🎯 Title/Thumbnail Checker</button>
       <button class="tab-btn" onclick="openTab(event,'TabAI')">👤 Account Info</button>
@@ -1126,43 +1161,126 @@ hr { border:0;border-top:1px solid var(--border);margin:20px 0; }
   <!-- ══════════════════════════════════════════ -->
   <div id="Tab1" class="tabcontent" style="display:block;">
     <h2>⚡ VIRALITY CHECKER</h2>
-    <p class="tab-subtitle">Input your current video stats to calculate your algorithmic favor. This engine weights CTR, Retention, Hook, and Engagement based on industry-standard viral curves.</p>
+    <p class="tab-subtitle">Input your current video stats to calculate algorithmic performance. The checker factors in video age to forecast likely 48-hour trajectory and distinguish early momentum from genuine sustained growth.</p>
 
-    <label style="display:flex;align-items:center;gap:12px;font-weight:700;cursor:pointer;color:var(--text-bright);background:var(--card);border:1px solid var(--border);padding:16px 20px;border-radius:10px;margin-bottom:20px;">
-      <input type="checkbox" id="newVideoToggle" onchange="updateTab1()">
-      <span style="font-size:14px;">Video is new (Under 48 hrs) — Shifts scoring weight to AVD% while reducing Hook weighting.</span>
-    </label>
+    <!-- Upload time + trend mode -->
+    <div class="control-card" style="border-left:4px solid var(--accent);margin-bottom:14px;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;align-items:end;">
+        <div class="input-box" style="grid-column:1/-1;position:relative;">
+          <label>📅 Video Published At</label>
+          <!-- Single trigger field opens a floating panel -->
+          <div id="dtTrigger" onclick="dtToggle()" style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:var(--bg2);border:1px solid var(--border-hi);border-radius:var(--radius);cursor:pointer;user-select:none;font-size:1rem;transition:border-color 0.2s;">
+            <span id="dtDisplay" style="color:var(--text-dim);">Select date &amp; time…</span>
+            <span style="font-size:11px;color:var(--text-muted);">▾</span>
+          </div>
+          <!-- Floating dropdown panel -->
+          <div id="dtPanel" style="display:none;position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--card);border:1px solid var(--border-hi);border-radius:var(--radius-lg);box-shadow:0 12px 40px rgba(0,0,0,0.45);z-index:8000;padding:16px;">
+            <div style="display:grid;grid-template-columns:2fr 1fr 1.3fr;gap:8px;margin-bottom:10px;">
+              <div>
+                <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--text-dim);margin-bottom:4px;">Month</div>
+                <select id="dt_month" onchange="dtUpdate()" style="width:100%;padding:8px 10px;background:var(--bg2);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:0.9rem;color:var(--text-bright);">
+                  <option value="">— Month —</option>
+                  <option>January</option><option>February</option><option>March</option>
+                  <option>April</option><option>May</option><option>June</option>
+                  <option>July</option><option>August</option><option>September</option>
+                  <option>October</option><option>November</option><option>December</option>
+                </select>
+              </div>
+              <div>
+                <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--text-dim);margin-bottom:4px;">Day</div>
+                <select id="dt_day" onchange="dtUpdate()" style="width:100%;padding:8px 10px;background:var(--bg2);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:0.9rem;color:var(--text-bright);"><option value="">—</option></select>
+              </div>
+              <div>
+                <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--text-dim);margin-bottom:4px;">Year</div>
+                <select id="dt_year" onchange="dtUpdate()" style="width:100%;padding:8px 10px;background:var(--bg2);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:0.9rem;color:var(--text-bright);"><option value="">—</option></select>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px;">
+              <div>
+                <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--text-dim);margin-bottom:4px;">Hour</div>
+                <select id="dt_hour" onchange="dtUpdate()" style="width:100%;padding:8px 10px;background:var(--bg2);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:0.9rem;color:var(--text-bright);"><option value="">—</option></select>
+              </div>
+              <div>
+                <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--text-dim);margin-bottom:4px;">Minute</div>
+                <select id="dt_minute" onchange="dtUpdate()" style="width:100%;padding:8px 10px;background:var(--bg2);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:0.9rem;color:var(--text-bright);"><option value="">—</option></select>
+              </div>
+              <div>
+                <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--text-dim);margin-bottom:4px;">AM / PM</div>
+                <select id="dt_ampm" onchange="dtUpdate()" style="width:100%;padding:8px 10px;background:var(--bg2);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:0.9rem;color:var(--text-bright);">
+                  <option value="AM">AM</option><option value="PM">PM</option>
+                </select>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;">
+              <button onclick="dtConfirm()" style="flex:1;padding:9px;background:var(--primary);color:#fff;border:none;border-radius:var(--radius);font-size:0.875rem;font-weight:700;cursor:pointer;">✓ Confirm</button>
+              <button onclick="dtClear()" style="padding:9px 14px;background:transparent;color:var(--text-dim);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:0.875rem;cursor:pointer;">Clear</button>
+            </div>
+          </div>
+          <input type="hidden" id="videoPublishedAt">
+          <div id="dt_age_label" style="margin-top:6px;font-size:12px;color:var(--text-dim);min-height:18px;"></div>
+        </div>
+        </div>
+        <div class="input-box">
+          <label>📊 View Velocity (views last hour)</label>
+          <input type="number" id="viewVelocity" value="0" min="0" placeholder="Optional — improves early read" oninput="updateTab1()">
+        </div>
+        <div class="input-box">
+          <label>🔁 Impressions (if known)</label>
+          <input type="number" id="impressionsInput" value="0" min="0" oninput="updateTab1()">
+        </div>
+      </div>
+      <div id="trendForecastBox" style="margin-top:14px;display:none;"></div>
+    </div>
 
     <div class="control-card highlight">
-      <div class="label-flex"><span>⏱️ Retention &amp; Length Analysis</span><span class="val-badge" id="twDisplay">---</span></div>
+      <div class="label-flex"><span>⏱️ Video Length &amp; Retention</span><span class="val-badge" id="twDisplay">---</span></div>
       <div class="input-grid">
         <div class="input-box"><label>Video Length (Mins)</label><input type="number" id="vlMins" value="0" min="0" oninput="updateTab1()"></div>
         <div class="input-box"><label>Video Length (Secs)</label><input type="number" id="vlSecs" value="0" min="0" max="59" oninput="updateTab1()"></div>
-        <div class="input-box"><label>Time Watched (Mins)</label><input type="number" id="twMins" value="0" min="0" oninput="updateTab1()"></div>
-        <div class="input-box"><label>Time Watched (Secs)</label><input type="number" id="twSecs" value="0" min="0" max="59" oninput="updateTab1()"></div>
+        <div class="input-box"><label>Avg Time Watched (Mins)</label><input type="number" id="twMins" value="0" min="0" oninput="updateTab1()"></div>
+        <div class="input-box"><label>Avg Time Watched (Secs)</label><input type="number" id="twSecs" value="0" min="0" max="59" oninput="updateTab1()"></div>
       </div>
       <div class="insight-box">
         <span class="icon">💡</span>
-        <div><strong style="color:var(--primary);">Pro Tip:</strong> YouTube lowers AVD% targets as videos get longer. A 10-minute video at 50% AVD is top-tier, while a 2-minute video needs 80%+.</div>
+        <div><strong style="color:var(--primary);">AVD targets drop with video length.</strong> A 2-min video needs 75%+ AVD; 10-min needs 45%+; 20-min needs 35%+. The checker auto-adjusts benchmarks for your length.</div>
       </div>
     </div>
 
     <div class="control-card">
       <div class="label-flex"><span>🖱️ Click-Through Rate (CTR %)</span><span class="val-badge" id="ctrVal">0.0%</span></div>
-      <input type="range" id="ctr" min="0" max="25" step="0.1" value="0" oninput="updateTab1()">
+      <div style="display:flex;gap:10px;align-items:center;">
+        <input type="range" id="ctr" min="0" max="25" step="0.1" value="0" oninput="syncSlider('ctr','ctrNum');updateTab1()" style="flex:1;">
+        <input type="number" id="ctrNum" value="0" min="0" max="25" step="0.1" style="width:70px;padding:6px 8px;" oninput="syncNum('ctrNum','ctr');updateTab1()">
+      </div>
+      <div id="ctrBenchmark" style="margin-top:8px;font-size:11px;color:var(--text-dim);"></div>
     </div>
 
     <div class="control-card" id="retGroup">
       <div class="label-flex"><span>🎣 30-Second Hook Retention (%)</span><span class="val-badge" id="retVal">0%</span></div>
-      <input type="range" id="ret" min="0" max="100" step="1" value="0" oninput="updateTab1()">
+      <div style="display:flex;gap:10px;align-items:center;">
+        <input type="range" id="ret" min="0" max="100" step="1" value="0" oninput="syncSlider('ret','retNum');updateTab1()" style="flex:1;">
+        <input type="number" id="retNum" value="0" min="0" max="100" step="1" style="width:70px;padding:6px 8px;" oninput="syncNum('retNum','ret');updateTab1()">
+      </div>
     </div>
 
     <div class="control-card success">
-      <div class="label-flex"><span>💬 Engagement Tracker</span><span class="val-badge" id="engVal" style="color:var(--secondary);border-color:var(--secondary);background:var(--secondary-dim);">0.0% Rate</span></div>
+      <div class="label-flex"><span>💬 Engagement</span><span class="val-badge" id="engVal" style="color:var(--secondary);border-color:var(--secondary);background:var(--secondary-dim);">0.0% Rate</span></div>
       <div class="input-grid">
         <div class="input-box"><label>Total Views</label><input type="number" id="viewsInput" value="0" min="0" oninput="updateTab1()"></div>
         <div class="input-box"><label>Likes + Comments</label><input type="number" id="engInput" value="0" min="0" oninput="updateTab1()"></div>
       </div>
+    </div>
+
+    <!-- Stall detector -->
+    <div class="control-card" style="border-left:4px solid var(--warning);">
+      <div style="font-weight:700;font-size:13px;color:var(--warning);margin-bottom:10px;">📉 Stall Detector — Is your video actually underperforming?</div>
+      <p style="font-size:12px;color:var(--text-dim);margin-bottom:12px;">High scores on old data can be misleading. Enter your view count at 24h and 48h to check if growth has stalled — YouTube considers stall rate alongside raw metrics.</p>
+      <div class="input-grid">
+        <div class="input-box"><label>Views at 24 Hours</label><input type="number" id="views24h" value="0" min="0" oninput="updateTab1()"></div>
+        <div class="input-box"><label>Views at 48 Hours</label><input type="number" id="views48h" value="0" min="0" oninput="updateTab1()"></div>
+        <div class="input-box"><label>Current Total Views</label><input type="number" id="viewsCurrent" value="0" min="0" oninput="updateTab1()"></div>
+      </div>
+      <div id="stallAnalysis" style="margin-top:12px;display:none;"></div>
     </div>
 
     <div class="score-display">
@@ -1203,6 +1321,14 @@ hr { border:0;border-top:1px solid var(--border);margin:20px 0; }
         <div class="input-box"><label>Avg Monthly Views</label><input type="number" id="yt_monthly_views" value="0" min="0" oninput="updateYTSubProjection()"></div>
         <div class="input-box"><label>Sub Conversion Rate (%)</label><input type="number" id="yt_sub_rate" value="1" min="0.1" max="10" step="0.1" oninput="updateYTSubProjection()"></div>
       </div>
+      <div style="margin-top:14px;background:var(--card2);border:1px solid var(--border);border-radius:var(--radius);padding:14px;">
+        <div style="font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:10px;">📊 Or enter actual subscriber gains from YouTube Studio:</div>
+        <div class="input-grid">
+          <div class="input-box"><label>Subs gained — Last 7 days</label><input type="number" id="yt_subs_7d" value="" min="0" placeholder="From YouTube Studio" oninput="updateYTSubProjection()"></div>
+          <div class="input-box"><label>Subs gained — Last 28 days</label><input type="number" id="yt_subs_28d" value="" min="0" placeholder="From YouTube Studio" oninput="updateYTSubProjection()"></div>
+        </div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:6px;">When filled, these override the conversion-rate estimate with real data from your channel analytics.</div>
+      </div>
       <div id="yt_sub_projection" style="margin-top:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;"></div>
     </div>
 
@@ -1214,19 +1340,30 @@ hr { border:0;border-top:1px solid var(--border);margin:20px 0; }
   <!-- ══════════════════════════════════════════ -->
   <div id="Tab2" class="tabcontent">
     <h2>📡 ALGORITHM TRACKER</h2>
-    <p class="tab-subtitle">Every video passes through distribution tiers. This predictor calculates the required AVD% and CTR benchmarks for each audience expansion phase based on your video length.</p>
+    <p class="tab-subtitle">Every video moves through distribution phases. Enter your video length and current stats to see which tier you are likely in and what you need to reach the next one. Note: small channels often skip or partially serve tiers based on watch-time signals alone — subscriber count is not a gate.</p>
 
     <div class="control-card highlight">
-      <div class="label-flex"><span>⏱️ Target Video Length</span></div>
-      <div class="input-grid" style="max-width:420px;">
-        <div class="input-box"><label>Mins</label><input type="number" id="t2_vlMins" value="10" min="0" oninput="updateTab2()"></div>
-        <div class="input-box"><label>Secs</label><input type="number" id="t2_vlSecs" value="0" min="0" max="59" oninput="updateTab2()"></div>
+      <div style="font-size:12px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:12px;">Video Details</div>
+      <div class="input-grid">
+        <div class="input-box"><label>Video Length (Mins)</label><input type="number" id="t2_vlMins" value="10" min="0" oninput="updateTab2()"></div>
+        <div class="input-box"><label>Video Length (Secs)</label><input type="number" id="t2_vlSecs" value="0" min="0" max="59" oninput="updateTab2()"></div>
+        <div class="input-box"><label>Current CTR %</label><input type="number" id="t2_ctr" value="" min="0" max="25" step="0.1" placeholder="From Studio" oninput="updateTab2()"></div>
+        <div class="input-box"><label>Current AVD %</label><input type="number" id="t2_avd" value="" min="0" max="100" step="0.1" placeholder="From Studio" oninput="updateTab2()"></div>
+        <div class="input-box"><label>Total Views so far</label><input type="number" id="t2_views" value="" min="0" placeholder="Optional" oninput="updateTab2()"></div>
+        <div class="input-box"><label>Channel Subscribers</label><input type="number" id="t2_subs" value="" min="0" placeholder="Optional" oninput="updateTab2()"></div>
       </div>
     </div>
 
-    <h3>Distribution Tier Requirements</h3>
+    <div id="t2_current_tier" style="margin-bottom:16px;display:none;"></div>
+
+    <h3>Distribution Phase Benchmarks</h3>
+    <p style="font-size:12px;color:var(--text-dim);margin:-8px 0 14px;">Benchmarks are adjusted for your video length. Green = you are meeting this tier's requirements based on your inputs.</p>
     <div class="target-grid" id="tierGrid"></div>
 
+    <div class="insight-box" style="margin-top:16px;">
+      <span class="icon">💡</span>
+      <div><strong style="color:var(--primary);">Small channel note:</strong> YouTube does not require a minimum subscriber count to push videos. New channels with strong CTR and AVD can and do bypass the "Subscriber Seed Pool" entirely — the algorithm distributes based on watch-time signals, not audience size. The seed pull simply describes <em>who gets shown the video first</em> if you have subscribers, not a prerequisite.</div>
+    </div>
     <div class="faq-link-bar">❓ <a onclick="goFAQ()">How does the algorithm tier system work? See the FAQ →</a></div>
   </div>
 
@@ -1234,147 +1371,87 @@ hr { border:0;border-top:1px solid var(--border);margin:20px 0; }
   <!-- TAB 3: MONETIZATION TRACKER -->
   <!-- ══════════════════════════════════════════ -->
   <div id="Tab3" class="tabcontent">
-    <h2>💰 MONETIZATION TRACKER</h2>
-    <p class="tab-subtitle">Track your path to YPP eligibility. Standard path: <strong style="color:var(--primary);">4,000 public watch hours (last 12 months)</strong> + <strong style="color:var(--primary);">1,000 subscribers</strong>. Shorts-only path: <strong style="color:var(--accent);">10 million Shorts views in 90 days</strong> + 1,000 subscribers.</p>
+    <h2>💰 Monetization Tracker</h2>
+    <p class="tab-subtitle">Track your path to YPP. Enter your numbers and get an instant ETA with multiple scenarios — including what happens if you add streams or increase your upload pace.</p>
 
-    <!-- Watch Hour Tier Info -->
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-bottom:28px;">
-      <div class="wh-tier-card" style="border-color:var(--warning);">
-        <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--warning);letter-spacing:1px;font-family:var(--font-mono);margin-bottom:8px;">⭐ TIER 1 — 3,000 Watch Hours</div>
-        <div style="font-size:13px;color:var(--text);line-height:1.7;">Unlocks <strong style="color:var(--warning);">YouTube Shopping affiliate</strong>: tag and sell products directly in videos. Also qualifies for <strong>Super Thanks</strong> on eligible videos. First milestone that signals channel viability to YouTube's systems.</div>
+    <!-- Quick Entry Card -->
+    <div class="control-card highlight">
+      <div style="font-size:12px;font-weight:700;color:var(--danger);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:14px;">⚡ Quick Entry — fill these 3 fields to get your ETA instantly</div>
+      <div class="input-grid">
+        <div class="input-box"><label>✅ Watch Hours Earned So Far</label><input type="number" id="m_currentHours" value="0" oninput="updateTab3()" placeholder="e.g. 1240"></div>
+        <div class="input-box"><label>📈 Daily Watch Hours (from videos)</label><input type="number" id="m_currentDailyVelocity" value="0" step="0.1" oninput="updateTab3()" placeholder="e.g. 4.5 — find in Studio Analytics"></div>
+        <div class="input-box"><label>👥 Current Subscribers</label><input type="number" id="m_currSubs" value="0" oninput="updateTab3()" placeholder="e.g. 320"></div>
       </div>
-      <div class="wh-tier-card" style="border-color:var(--secondary);">
-        <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--secondary);letter-spacing:1px;font-family:var(--font-mono);margin-bottom:8px;">🏆 TIER 2 — 4,000 Watch Hours (YPP)</div>
-        <div style="font-size:13px;color:var(--text);line-height:1.7;">Unlocks full <strong style="color:var(--secondary);">YouTube Partner Program</strong>: ad revenue sharing, channel memberships, Super Chats &amp; Stickers during live streams, and access to the YouTube merch shelf.</div>
+      <!-- ETA Headline -->
+      <div id="m_eta_headline" style="margin-top:16px;background:var(--card2);border-radius:var(--radius);padding:16px;display:none;">
+        <div style="font-size:11px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:8px;">📅 Your Estimated YPP Date</div>
+        <div id="m_eta_main" style="font-size:22px;font-weight:800;color:var(--primary);margin-bottom:4px;">---</div>
+        <div id="m_eta_sub" style="font-size:12px;color:var(--text-dim);"></div>
       </div>
     </div>
 
-    <div class="control-card highlight">
-      <div class="label-flex"><span>📊 Goal Progress</span></div>
-
-      <!-- Dual Progress Display -->
-      <div style="margin-bottom:20px;">
-        <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:700;color:var(--warning);margin-bottom:6px;font-family:var(--font-mono);">
-          <span>3,000 HR MILESTONE</span><span id="m_progressPct3k">0%</span>
-        </div>
-        <div class="progress-track" style="margin-bottom:10px;">
-          <div id="m_progress3k" style="background:linear-gradient(90deg,var(--warning),#FF8C00);height:100%;border-radius:20px;width:0%;transition:width 0.4s;"></div>
-        </div>
-        <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:700;color:var(--secondary);margin-bottom:6px;font-family:var(--font-mono);">
-          <span>4,000 HR YPP GOAL</span><span id="m_progressPct">0%</span>
-        </div>
+    <!-- Progress bars -->
+    <div class="control-card">
+      <div style="margin-bottom:16px;">
+        <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:var(--warning);margin-bottom:5px;"><span>⭐ 3,000 HR MILESTONE (Shopping affiliate unlock)</span><span id="m_progressPct3k">0%</span></div>
+        <div class="progress-track"><div id="m_progress3k" style="background:linear-gradient(90deg,var(--warning),#FF8C00);height:100%;border-radius:20px;width:0%;transition:width 0.4s;"></div></div>
+      </div>
+      <div>
+        <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:var(--secondary);margin-bottom:5px;"><span>🏆 4,000 HR YPP GOAL</span><span id="m_progressPct">0%</span></div>
         <div class="progress-track">
           <div id="m_progressVod2" style="background:linear-gradient(90deg,var(--danger),#FF6699);height:100%;border-radius:20px 0 0 20px;width:0%;position:relative;z-index:2;transition:width 0.4s;display:inline-block;float:left;"></div>
           <div id="m_progressStream2" style="background:linear-gradient(90deg,var(--accent),var(--primary));height:100%;border-radius:0 20px 20px 0;width:0%;position:relative;z-index:1;transition:width 0.4s;display:inline-block;float:left;opacity:0.8;"></div>
         </div>
-        <div style="display:flex;flex-wrap:wrap;gap:16px;margin-top:10px;font-size:12px;font-weight:600;font-family:var(--font-mono);">
-          <span style="color:var(--danger);">■ VIDEO HOURS</span>
-          <span style="color:var(--accent);">■ STREAM HOURS</span>
-          <span style="color:var(--text-dim);">TARGET: 4,000 HRS</span>
-        </div>
-      </div>
-
-      <div class="input-grid">
-        <div class="input-box"><label>Start Date</label><input type="date" id="m_todayDate" oninput="updateTab3()"></div>
-        <div class="input-box"><label>Target Goal Date</label><input type="date" id="m_targetDate" oninput="updateTab3()"></div>
-        <div class="input-box"><label>Current Watch Hours</label><input type="number" id="m_currentHours" value="0" oninput="updateTab3()"></div>
-        <div class="input-box"><label>Daily Watch Hrs from Videos</label><input type="number" id="m_currentDailyVelocity" value="0" step="0.1" oninput="updateTab3()"></div>
-      </div>
-
-      <div style="margin-top:18px;background:var(--card2);border-radius:10px;border:1px solid var(--border);padding:18px;display:grid;grid-template-columns:1fr 1fr;gap:18px;">
-        <div>
-          <div style="font-size:11px;color:var(--warning);font-weight:700;text-transform:uppercase;margin-bottom:5px;font-family:var(--font-mono);">📅 3K Milestone (Videos Only)</div>
-          <div id="m_estimatedDate3k" style="color:var(--warning);font-weight:800;font-size:15px;">---</div>
-        </div>
-        <div>
-          <div style="font-size:11px;color:var(--secondary);font-weight:700;text-transform:uppercase;margin-bottom:5px;font-family:var(--font-mono);">🏆 4K YPP (Videos Only)</div>
-          <div id="m_estimatedDate" style="color:var(--secondary);font-weight:800;font-size:15px;">---</div>
-        </div>
-        <div>
-          <div style="font-size:11px;color:var(--accent);font-weight:700;text-transform:uppercase;margin-bottom:5px;font-family:var(--font-mono);">🔴 3K + Streams</div>
-          <div id="m_estimatedDate3kStream" style="color:var(--accent);font-weight:800;font-size:15px;">---</div>
-        </div>
-        <div>
-          <div style="font-size:11px;color:var(--primary);font-weight:700;text-transform:uppercase;margin-bottom:5px;font-family:var(--font-mono);">🔴 4K + Streams</div>
-          <div id="m_estimatedDateStream" style="color:var(--primary);font-weight:800;font-size:15px;">---</div>
-          <div style="font-size:12px;color:var(--text-dim);margin-top:3px;" id="m_streamDaysSaved"></div>
-        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:8px;font-size:11px;font-weight:600;"><span style="color:var(--danger);">■ VIDEO HOURS</span><span style="color:var(--accent);">■ STREAM HOURS</span><span style="color:var(--text-muted);">TARGET: 4,000 HRS</span></div>
       </div>
     </div>
 
-    <div class="control-card accent">
-      <div class="label-flex"><span style="color:var(--accent);">🔴 Live Streaming Velocity</span></div>
-      <p style="font-size:13px;color:var(--text-dim);margin-top:-5px;margin-bottom:18px;">Live stream watch time counts directly toward the 4,000-hour requirement. Stream hours × concurrent viewers = watch hours generated per week.</p>
-      <div class="input-grid">
-        <div class="input-box"><label>Stream Hours / Week</label><input type="number" id="m_streamHrs" value="0" min="0" oninput="updateTab3()"></div>
-        <div class="input-box"><label>Avg Concurrent Viewers</label><input type="number" id="m_streamViewers" value="0" min="0" oninput="updateTab3()"></div>
-      </div>
-      <div class="insight-box" style="background:var(--accent-dim);border-color:rgba(191,95,255,0.3);">
-        <span class="icon">📈</span>
-        <div>Weekly Stream Watch Hrs: <strong style="color:var(--accent);"><span id="m_streamTotal">0 hrs / week</span></strong> — counted directly alongside your uploaded videos toward your goal.</div>
-      </div>
+    <!-- Scenario cards -->
+    <h3>📊 ETA Scenarios</h3>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:20px;" id="m_scenario_cards">
+      <div class="stat-mini"><div class="label" style="color:var(--text-dim);">Videos Only</div><div class="value" id="m_estimatedDate" style="font-size:15px;color:var(--secondary);">---</div><div class="sub">At current pace</div></div>
+      <div class="stat-mini"><div class="label" style="color:var(--warning);">3K Milestone</div><div class="value" id="m_estimatedDate3k" style="font-size:15px;color:var(--warning);">---</div><div class="sub">Shopping unlock</div></div>
+      <div class="stat-mini"><div class="label" style="color:var(--accent);">Videos + Streams</div><div class="value" id="m_estimatedDateStream" style="font-size:15px;color:var(--accent);">---</div><div class="sub" id="m_streamDaysSaved"></div></div>
+      <div class="stat-mini"><div class="label" style="color:var(--primary);">3K + Streams</div><div class="value" id="m_estimatedDate3kStream" style="font-size:15px;color:var(--primary);">---</div><div class="sub">Shopping + stream</div></div>
     </div>
 
-    <div class="control-card">
-      <div class="label-flex"><span>🎥 Average Video Watch Time (per view)</span></div>
-      <div class="insight-box" style="margin-bottom:18px;">
-        <span class="icon">💡</span>
-        <div><strong style="color:var(--primary);">What this does:</strong> Your Average View Duration tells the calculator how many watch hours each video view generates — used to show how many daily views from uploaded videos are needed to fill the gap streams don't already cover.</div>
+    <!-- Optional: dates + streams -->
+    <details style="margin-bottom:14px;">
+      <summary style="cursor:pointer;font-size:13px;font-weight:700;color:var(--text-bright);padding:14px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);">⚙️ More options — date range, streams, AVD (click to expand)</summary>
+      <div style="padding:16px;background:var(--card2);border:1px solid var(--border);border-radius:0 0 var(--radius) var(--radius);border-top:none;">
+        <div class="input-grid">
+          <div class="input-box"><label>Start Date</label><input type="date" id="m_todayDate" oninput="updateTab3()"></div>
+          <div class="input-box"><label>Target Goal Date</label><input type="date" id="m_targetDate" oninput="updateTab3()"></div>
+          <div class="input-box"><label>Stream Hours / Week</label><input type="number" id="m_streamHrs" value="0" min="0" oninput="updateTab3()"></div>
+          <div class="input-box"><label>Avg Concurrent Viewers</label><input type="number" id="m_streamViewers" value="0" min="0" oninput="updateTab3()"></div>
+          <div class="input-box"><label>Avg View Duration (Mins)</label><input type="number" id="m_avdMins" value="0" min="0" oninput="updateTab3()"></div>
+          <div class="input-box"><label>Avg View Duration (Secs)</label><input type="number" id="m_avdSecs" value="0" min="0" max="59" oninput="updateTab3()"></div>
+        </div>
+        <div style="margin-top:12px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:12px;font-size:13px;">
+          Stream Watch Hrs/week: <strong style="color:var(--accent);"><span id="m_streamTotal">0</span></strong> &nbsp;|&nbsp;
+          Daily views needed: <strong style="color:var(--danger);"><span id="m_dailyViews">0</span></strong>
+        </div>
       </div>
-      <div class="input-grid">
-        <div class="input-box"><label>Avg Mins Watched / View</label><input type="number" id="m_avdMins" value="0" min="0" oninput="updateTab3()"></div>
-        <div class="input-box"><label>Avg Secs Watched / View</label><input type="number" id="m_avdSecs" value="0" min="0" max="59" oninput="updateTab3()"></div>
-      </div>
-      <div style="margin-top:14px;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:12px;font-size:13px;">
-        Daily video views needed to cover remaining gap: <strong style="color:var(--danger);font-family:var(--font-mono);"><span id="m_dailyViews">0</span> views/day</strong>
-      </div>
-    </div>
+    </details>
 
+    <!-- Summary stats -->
     <div class="score-display">
-      <h3 style="margin:0 0 18px 0;border:none;justify-content:center;">Combined Watch Hour Velocity</h3>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:14px;">
-        <div class="stat-mini">
-          <div class="label" style="color:var(--danger);">Still Needed / Day</div>
-          <div class="value" style="color:var(--danger);" id="m_dailyHours">0.0</div>
-          <div class="sub">From videos (streams cover the rest)</div>
-        </div>
-        <div class="stat-mini">
-          <div class="label" style="color:var(--accent);">Stream Contribution / Day</div>
-          <div class="value" style="color:var(--accent);" id="m_streamPerDay">0.0</div>
-          <div class="sub">Auto-generated by live streams</div>
-        </div>
-        <div class="stat-mini">
-          <div class="label" style="color:var(--secondary);">Total Combined / Week</div>
-          <div class="value" style="color:var(--secondary);" id="m_weeklyHours">0.0</div>
-          <div class="sub">Videos + streams combined</div>
-        </div>
-      </div>
-      <hr>
-      <p id="m_conclusion" style="font-size:15px;color:var(--text);line-height:1.7;font-weight:600;margin:0;"></p>
-      <div style="margin-top:24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;border-top:1px solid var(--border);padding-top:24px;">
-        <div class="stat-mini" style="border-color:rgba(255,51,102,0.3);">
-          <div class="label" style="color:var(--danger);">Hours Remaining</div>
-          <div class="value" style="color:var(--danger);" id="m_stat_remaining">---</div>
-        </div>
-        <div class="stat-mini" style="border-color:rgba(191,95,255,0.3);">
-          <div class="label" style="color:var(--accent);">Weekly Stream Hrs</div>
-          <div class="value" style="color:var(--accent);" id="m_stat_streamWeekly">0</div>
-        </div>
-        <div class="stat-mini" style="border-color:rgba(0,255,136,0.3);">
-          <div class="label" style="color:var(--secondary);">Combined Hrs / Week</div>
-          <div class="value" style="color:var(--secondary);" id="m_stat_totalWeekly">0</div>
-        </div>
-        <div class="stat-mini">
-          <div class="label" style="color:var(--text-dim);">Goal Completed</div>
-          <div class="value" id="m_stat_pct">0%</div>
-        </div>
+      <p id="m_conclusion" style="font-size:14px;color:var(--text);line-height:1.7;font-weight:600;margin:0 0 18px;"></p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;">
+        <div class="stat-mini"><div class="label" style="color:var(--danger);">Hours Remaining</div><div class="value" style="color:var(--danger);" id="m_stat_remaining">---</div></div>
+        <div class="stat-mini"><div class="label" style="color:var(--accent);">Daily Needed (videos)</div><div class="value" style="color:var(--accent);" id="m_dailyHours">0.0</div></div>
+        <div class="stat-mini"><div class="label" style="color:var(--secondary);">Stream Hrs/week</div><div class="value" style="color:var(--secondary);" id="m_stat_streamWeekly">0</div></div>
+        <div class="stat-mini"><div class="label">Subs Needed</div><div class="value" id="m_subs_needed">---</div></div>
+        <div class="stat-mini"><div class="label">Goal Completion</div><div class="value" id="m_stat_pct">0%</div></div>
+        <div class="stat-mini"><div class="label" style="color:var(--text-dim);">Combined Hrs/week</div><div class="value" id="m_stat_totalWeekly">0</div></div>
       </div>
     </div>
-
+    <div id="m_streamPerDay" style="display:none;">0</div>
+    <div id="m_weeklyHours" style="display:none;">0</div>
     <div class="faq-link-bar">❓ <a onclick="goFAQ()">How is watch time calculated? See the FAQ →</a></div>
   </div>
 
-  <!-- ══════════════════════════════════════════ -->
+    <!-- ══════════════════════════════════════════ -->
   <!-- TAB 4: RPM PREDICTOR -->
   <!-- ══════════════════════════════════════════ -->
   <div id="Tab4" class="tabcontent">
@@ -1410,11 +1487,28 @@ hr { border:0;border-top:1px solid var(--border);margin:20px 0; }
     </div>
 
     <div class="control-card success">
-      <h3 style="margin:0 0 18px 0;border:none;font-size:15px;">📱 YouTube Shorts Revenue</h3>
+      <h3 style="margin:0 0 14px 0;border:none;font-size:15px;">📱 YouTube Shorts Revenue</h3>
       <div class="input-grid">
         <div class="input-box"><label>Min Monthly Shorts Views</label><input type="number" id="cs_views_min" value="0" min="0" oninput="generateReport()"></div>
         <div class="input-box"><label>Max Monthly Shorts Views</label><input type="number" id="cs_views_max" value="0" min="0" oninput="generateReport()"></div>
-        <div class="input-box"><label>Shorts RPM (typ. $0.03–$0.08)</label><input type="number" id="cs_rpm" value="0.05" step="0.01" min="0.01" max="0.50" oninput="generateReport()"></div>
+        <div class="input-box">
+          <label>Shorts Niche (sets RPM estimate)</label>
+          <select id="cs_niche" onchange="updateShortsRpm();generateReport()">
+            <option value="custom">Custom / Manual</option>
+            <option value="gaming">Gaming / Memes</option>
+            <option value="lifestyle">Vlogs / Lifestyle</option>
+            <option value="tech">Tech / Education</option>
+            <option value="finance">Finance / Business</option>
+            <option value="beauty">Beauty / Fashion</option>
+            <option value="fitness">Fitness / Health</option>
+            <option value="food">Food / Cooking</option>
+            <option value="news">News / Commentary</option>
+          </select>
+        </div>
+        <div class="input-box"><label>Shorts RPM ($/1K views — auto-filled by niche)</label><input type="number" id="cs_rpm" value="0.05" step="0.01" min="0.01" max="0.50" oninput="generateReport()"></div>
+      </div>
+      <div style="margin-top:10px;background:var(--card2);border-radius:var(--radius);padding:12px;font-size:12px;color:var(--text-dim);" id="cs_niche_note">
+        Shorts RPM is niche-independent to a larger degree than long-form — the Shorts fund pool is shared. However, finance/business Shorts typically earn $0.06–$0.12 while gaming/meme Shorts average $0.02–$0.05.
       </div>
     </div>
 
@@ -1686,11 +1780,59 @@ hr { border:0;border-top:1px solid var(--border);margin:20px 0; }
       <div id="u_insights" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:16px;"></div>
     </div>
 
+    <!-- Publish day checklist -->
+    <div class="control-card" style="margin-top:4px;">
+      <h3 style="margin-top:0;">✅ Publish Day Checklist</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;">
+        <div style="background:var(--card2);border-radius:var(--radius);padding:14px;">
+          <div style="font-size:11px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:8px;">⏰ Before Publishing</div>
+          <div id="pubChecklist_before" style="font-size:12px;line-height:1.9;color:var(--text-dim);">
+            <div>☐ Thumbnail A/B tested (use Title/Thumbnail Checker)</div>
+            <div>☐ Title contains a number, emotion, or power word</div>
+            <div>☐ First 30 seconds reviewed — hook is strong</div>
+            <div>☐ End screen and cards set up</div>
+            <div>☐ Description with timestamps and relevant links</div>
+            <div>☐ Tags set (15–20 relevant to content)</div>
+          </div>
+        </div>
+        <div style="background:var(--card2);border-radius:var(--radius);padding:14px;">
+          <div style="font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:8px;">🚀 First 60 Minutes After Publishing</div>
+          <div id="pubChecklist_after" style="font-size:12px;line-height:1.9;color:var(--text-dim);">
+            <div>☐ Community post linking to video</div>
+            <div>☐ Story / Reel teaser posted (if applicable)</div>
+            <div>☐ Pin the video in comments</div>
+            <div>☐ Share to any relevant Discord / Reddit / Facebook group</div>
+            <div>☐ Reply to the first 10–15 comments</div>
+            <div>☐ Check Studio for any flagging or copyright issues</div>
+          </div>
+        </div>
+        <div style="background:var(--card2);border-radius:var(--radius);padding:14px;">
+          <div style="font-size:11px;font-weight:700;color:var(--success);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:8px;">📊 48h Check-In</div>
+          <div style="font-size:12px;line-height:1.9;color:var(--text-dim);">
+            <div>☐ Check CTR — below 2%? Consider new thumbnail</div>
+            <div>☐ Check AVD% — below target? Review hook/pacing</div>
+            <div>☐ Check Impressions source — if mostly subscribers, the algorithm has not pushed it yet</div>
+            <div>☐ Run data through Virality Checker with Stall Detector</div>
+            <div>☐ Log entry in Video Tracker</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Platform-specific tips -->
+    <div id="pub_platform_tips" style="margin-top:14px;"></div>
+
     <div class="faq-link-bar">❓ <a onclick="goFAQ()">Why publish before peak time? See the FAQ →</a></div>
   </div>
 
   <!-- ══════════════════════════════════════════ -->
   <!-- TAB: CHANNEL PROJECTIONS -->
+  <!-- ⚠️ DUPLICATE NOTICE (for developer review):
+       • Sub Conversion Rate input exists in both Tab1 (Virality Checker) and TabCP (Channel Projections) — consider linking them
+       • API Key input exists in Tab8 (Video Tracker) and TabCompare (Channel Compare) — they sync via syncCmpApiKey() ✓
+       • "Avg Monthly Views" exists in Tab1 sub-projection AND TabCP current stats — these are separate contexts, OK
+       • Publishing Hub platform selector duplicates some of the Social Analytics tab's platform choices — considered intentional (different use cases)
+  -->
   <!-- ══════════════════════════════════════════ -->
   <div id="TabCP" class="tabcontent">
     <h2>📈 CHANNEL PROJECTIONS</h2>
@@ -2466,12 +2608,6 @@ hr { border:0;border-top:1px solid var(--border);margin:20px 0; }
   let currentTheme = 'default';
   let currentFont = 'inter';
 
-  /* ─── Theme/Font stubs — real implementations defined below in V7 block ─── */
-  /* These will be overwritten when the V7 design system JS initialises */
-  function applyTheme(id, skip) { /* overridden below */ }
-  function loadTheme(id)        { /* overridden below */ }
-  function applyFont(id, skip)  { /* overridden below */ }
-  function loadFont(id)         { /* overridden below */ }
 
   /* ─── Init ─── */
   window.onload = function() {
@@ -2667,7 +2803,7 @@ hr { border:0;border-top:1px solid var(--border);margin:20px 0; }
     if (!t) {
       t = document.createElement('div');
       t.id = 'vcToast';
-      t.style.cssText = 'position:fixed;bottom:28px;right:28px;z-index:9999;padding:14px 22px;border-radius:10px;font-family:\'Share Tech Mono\',monospace;font-size:13px;font-weight:700;letter-spacing:0.5px;box-shadow:0 8px 32px rgba(0,0,0,0.5);transition:opacity 0.4s;pointer-events:none;';
+      t.style.cssText = 'position:fixed;bottom:28px;right:28px;z-index:9999;padding:14px 22px;border-radius:10px;font-family:inherit,monospace;font-size:13px;font-weight:700;letter-spacing:0.5px;box-shadow:0 8px 32px rgba(0,0,0,0.5);transition:opacity 0.4s;pointer-events:none;';
       document.body.appendChild(t);
     }
     t.innerText = msg;
@@ -2833,47 +2969,253 @@ hr { border:0;border-top:1px solid var(--border);margin:20px 0; }
     if (vlMins <= 15) return 45; return 35;
   }
   function updateTab1() {
-    const isNew = document.getElementById('newVideoToggle').checked;
-    const vlMins = parseInt(document.getElementById('vlMins').value)||0;
-    const vlSecs = parseInt(document.getElementById('vlSecs').value)||0;
-    const twMins = parseInt(document.getElementById('twMins').value)||0;
-    const twSecs = parseInt(document.getElementById('twSecs').value)||0;
-    const totalVl = (vlMins*60)+vlSecs; const totalTw = (twMins*60)+twSecs;
-    const avd = totalVl > 0 ? (totalTw/totalVl)*100 : 0;
-    const raw = totalTw/60;
-    const ctr = parseFloat(document.getElementById('ctr').value);
-    const ret = parseFloat(document.getElementById('ret').value);
-    const views = parseFloat(document.getElementById('viewsInput').value)||0;
-    const engInput = parseFloat(document.getElementById('engInput').value)||0;
-    const eng = views > 0 ? (engInput/views)*100 : 0;
-    document.getElementById('twDisplay').innerText = avd.toFixed(1)+'% AVD | '+raw.toFixed(1)+' min raw';
-    document.getElementById('ctrVal').innerText = ctr.toFixed(1)+'%';
-    document.getElementById('retVal').innerText = ret.toFixed(0)+'%';
-    document.getElementById('engVal').innerText = eng.toFixed(1)+'% Rate';
-    const targetAvd = getAvdTarget(totalVl/60);
-    const ctrPts = Math.min((ctr/10)*25, 25);
-    const rawPts = Math.min((raw/8)*20, 20);
-    const engPts = Math.min((eng/5)*10, 10);
-    let avdPts, retPts, avdMax;
-    if (isNew) { document.getElementById('retGroup').style.opacity='0.4'; retPts=0; avdMax=45; avdPts=Math.min((avd/targetAvd)*avdMax,avdMax); }
-    else { document.getElementById('retGroup').style.opacity='1'; avdMax=30; retPts=Math.min((ret/70)*15,15); avdPts=Math.min((avd/targetAvd)*avdMax,avdMax); }
-    const total = (ctrPts+avdPts+retPts+rawPts+engPts).toFixed(1);
+    // ── Read inputs ──────────────────────────────────────────────
+    const vlMins  = parseInt(document.getElementById('vlMins').value)  || 0;
+    const vlSecs  = parseInt(document.getElementById('vlSecs').value)  || 0;
+    const twMins  = parseInt(document.getElementById('twMins').value)  || 0;
+    const twSecs  = parseInt(document.getElementById('twSecs').value)  || 0;
+    const totalVl = (vlMins*60) + vlSecs;
+    const totalTw = (twMins*60) + twSecs;
+    const avd     = totalVl > 0 ? (totalTw / totalVl) * 100 : 0;
+    const rawMins = totalTw / 60;
+    const ctr     = parseFloat(document.getElementById('ctr').value)          || 0;
+    const ret     = parseFloat(document.getElementById('ret').value)          || 0;
+    const views   = parseFloat(document.getElementById('viewsInput').value)   || 0;
+    const engIn   = parseFloat(document.getElementById('engInput').value)     || 0;
+    const velocity= parseFloat(document.getElementById('viewVelocity')?.value)|| 0;
+    const eng     = views > 0 ? (engIn / views) * 100 : 0;
+
+    // ── Display badges ────────────────────────────────────────────
+    document.getElementById('twDisplay').innerText = avd.toFixed(1) + '% AVD | ' + rawMins.toFixed(1) + ' min avg';
+    document.getElementById('ctrVal').innerText    = ctr.toFixed(1) + '%';
+    document.getElementById('retVal').innerText    = ret.toFixed(0) + '%';
+    document.getElementById('engVal').innerText    = eng.toFixed(2) + '% engagement';
+
+    // CTR benchmark label
+    const cb = document.getElementById('ctrBenchmark');
+    if (cb) {
+      if (!ctr)        cb.textContent = '';
+      else if (ctr<2)  cb.innerHTML = '<span style="color:var(--danger);">Below 2% — thumbnail/title is blocking distribution regardless of watch time.</span>';
+      else if (ctr<4)  cb.innerHTML = '<span style="color:var(--warning);">2–4% — average. Algorithm will push but CTR is not helping expand reach.</span>';
+      else if (ctr<7)  cb.innerHTML = '<span style="color:var(--success);">4–7% — strong. Browse and Suggested will actively favour this.</span>';
+      else if (ctr<12) cb.innerHTML = '<span style="color:var(--primary);">7–12% — excellent. Thumbnail is competing well against trending content.</span>';
+      else             cb.innerHTML = '<span style="color:var(--accent);">12%+ — viral-tier CTR. Usually only seen on trending or breakthrough content.</span>';
+    }
+
+    // ── Video age / trend phase ───────────────────────────────────
+    const pubVal  = document.getElementById('videoPublishedAt')?.value;
+    let hoursOld  = null;
+    if (pubVal) {
+      const pub = new Date(pubVal);
+      if (!isNaN(pub.getTime())) hoursOld = (Date.now() - pub.getTime()) / 3600000;
+    }
+    const targetAvd = getAvdTarget(totalVl / 60);
+
+    // ── 48h Trend forecast box ────────────────────────────────────
+    const forecast = document.getElementById('trendForecastBox');
+    if (forecast && hoursOld !== null && hoursOld >= 0 && hoursOld <= 72) {
+      const proj48 = velocity > 0 && hoursOld < 48
+        ? Math.round(views + velocity * (48 - hoursOld)) : null;
+      let fc = '<div style="background:var(--accent-dim);border:1px solid var(--border-hi);border-radius:var(--radius);padding:12px;font-size:12px;line-height:1.75;color:var(--text);">';
+      fc += '<strong style="color:var(--accent);">Early Trend Signal</strong> — video is ' + hoursOld.toFixed(1) + 'h old<br>';
+      if (hoursOld < 6)
+        fc += 'Very early — CTR is the only meaningful signal yet. AVD has not stabilised. Scoring is adjusted; check back after 12h.';
+      else if (hoursOld < 24)
+        fc += 'First-day window. CTR and hook retention are most predictive right now. AVD will stabilise over the next 12h.';
+      else
+        fc += '24-48h window: all metrics are now reliable. This is the most accurate read before the algorithm commits to a push or stops.';
+      if (proj48)
+        fc += '<br>Projected views at 48h (at current velocity): <strong style="color:var(--primary);">' + proj48.toLocaleString() + '</strong>';
+      fc += '</div>';
+      forecast.style.display = 'block';
+      forecast.innerHTML = fc;
+    } else if (forecast) {
+      forecast.style.display = 'none';
+    }
+
+    // ── SCORING MODEL ─────────────────────────────────────────────
+    //
+    // Philosophy — mirrors how YouTube actually gates distribution:
+    //
+    // 1. CTR is the GATEKEEPER. Without clicks, AVD never gets measured.
+    //    Poor CTR doesn't just "score zero" — it actively caps/penalises.
+    //
+    // 2. AVD vs target is the SUSTAINER. YouTube compares your video's AVD
+    //    to the benchmark for its length. Falling below is penalised, not
+    //    just unrewarded.
+    //
+    // 3. Hook (30s retention) is an early-drop SIGNAL. YouTube sees when
+    //    people leave in the first 30 seconds as a strong negative signal.
+    //    Missing this subtracts points rather than just adding nothing.
+    //
+    // 4. Engagement (likes + comments / views) is a MULTIPLIER — it
+    //    amplifies an already-good video but cannot save a bad one.
+    //
+    // 5. Age adjustments: very fresh videos (<6h) have inflated CTR from
+    //    subscriber seed pulls. Score is scaled down to avoid false positives.
+    //
+    // Score is out of 100. Penalties can push score negative (floor = 0).
+    //
+    // ── Step 1: CTR score (0–35 pts, gating) ─────────────────────
+    // CTR is worth the most. Below 2% = hard penalty applied later.
+    // 10% CTR = full 35 pts (diminishing above 12% to prevent exploit).
+    let ctrPts;
+    if (ctr === 0) {
+      ctrPts = 0;
+    } else if (ctr < 1) {
+      ctrPts = -10; // actively penalised — almost no impressions converting
+    } else if (ctr < 2) {
+      ctrPts = (ctr - 1) * 5 - 5; // ranges -5 to 0 across 1-2%
+    } else {
+      ctrPts = Math.min(35, (ctr / 10) * 35);
+    }
+
+    // ── Step 2: AVD score (0–35 pts, penalised below target) ──────
+    // YouTube adjusts AVD expectations by video length.
+    // At target = 30 pts. Below 50% of target = negative.
+    let avdRatio = targetAvd > 0 ? avd / targetAvd : 0;
+    let avdPts;
+    if (avdRatio === 0) {
+      avdPts = 0;
+    } else if (avdRatio < 0.4) {
+      avdPts = (avdRatio - 0.4) * 30; // negative — audience rejected the content
+    } else if (avdRatio < 0.7) {
+      avdPts = (avdRatio - 0.4) * (20 / 0.3); // 0 to ~20 in the 40–70% band
+    } else {
+      avdPts = Math.min(35, 20 + ((avdRatio - 0.7) / 0.6) * 15); // 20-35 above 70%
+    }
+
+    // ── Step 3: Hook score (±15 pts) ─────────────────────────────
+    // 30s retention below 55% is a negative signal for mature videos.
+    // Below 35% = strong negative (audience leaving in opening = misleading thumbnail/title).
+    let retPts = 0;
+    const retWeight = hoursOld === null || hoursOld >= 24 ? 1.0
+                    : hoursOld >= 6 ? 0.5 : 0; // not measured in first 6h
+    if (ret === 0) {
+      retPts = 0;
+    } else if (ret < 35) {
+      retPts = ((ret - 35) / 35) * 10 * retWeight; // penalty: -10 at 0%, 0 at 35%
+    } else if (ret < 55) {
+      retPts = 0; // neutral — not helping, not hurting
+    } else if (ret < 75) {
+      retPts = ((ret - 55) / 20) * 10 * retWeight; // reward: 0 to 10
+    } else {
+      retPts = Math.min(15, 10 + ((ret - 75) / 25) * 5) * retWeight; // 10–15
+    }
+
+    // ── Step 4: Engagement multiplier (±10 pts) ───────────────────
+    // Engagement amplifies good signals. Low engagement on high-view
+    // content is neutral; low engagement on low-view content suggests
+    // the audience is not connecting.
+    let engPts;
+    if (eng === 0)      engPts = 0;
+    else if (eng < 0.5) engPts = -3;  // very low engagement = mild negative signal
+    else if (eng < 1.5) engPts = 0;   // normal/neutral
+    else if (eng < 3)   engPts = 5;   // above average
+    else if (eng < 6)   engPts = 8;
+    else                engPts = 10;   // viral engagement
+
+    // ── Step 5: Velocity bonus (0–5 pts) ─────────────────────────
+    // Rapid view accumulation signals trending momentum to the algorithm.
+    let velPts = 0;
+    if (velocity > 0 && hoursOld !== null && hoursOld < 48) {
+      if      (velocity >= 1000) velPts = 5;
+      else if (velocity >= 500)  velPts = 4;
+      else if (velocity >= 200)  velPts = 3;
+      else if (velocity >= 50)   velPts = 2;
+      else                       velPts = 1;
+    }
+
+    // ── Step 6: Age-phase adjustment ─────────────────────────────
+    // Subscriber seed pull (0-6h) inflates CTR by 20-40%.
+    // We scale the raw CTR pts down proportionally so early scores
+    // reflect what the algorithm will actually see once CTR normalises.
+    let ageModifier = 1.0;
+    let ageNote = '';
+    if (hoursOld !== null) {
+      if (hoursOld < 3) {
+        ageModifier = 0.65; // very early — CTR heavily inflated by subs
+        ageNote = 'Score deflated (0-3h seed phase — CTR not yet representative)';
+        document.getElementById('retGroup').style.opacity = '0.2';
+      } else if (hoursOld < 6) {
+        ageModifier = 0.80;
+        ageNote = 'Score adjusted (3-6h — CTR stabilising)';
+        document.getElementById('retGroup').style.opacity = '0.4';
+      } else if (hoursOld < 24) {
+        ageModifier = 0.92;
+        ageNote = 'Slight adjustment (6-24h — most metrics reliable, AVD still maturing)';
+        document.getElementById('retGroup').style.opacity = '0.75';
+      } else {
+        ageModifier = 1.0;
+        document.getElementById('retGroup').style.opacity = '1';
+      }
+    } else {
+      document.getElementById('retGroup').style.opacity = '1';
+    }
+
+    let rawScore = (ctrPts + avdPts + retPts + engPts + velPts) * ageModifier;
+
+    // ── Step 7: Stall penalty ─────────────────────────────────────
+    // If the user has entered view history data and growth has stalled,
+    // we override the metric-based score with a reality check.
+    // A stalled video is NOT still at "viral potential" regardless of AVD.
+    const v24  = parseFloat(document.getElementById('views24h')?.value)   || 0;
+    const v48  = parseFloat(document.getElementById('views48h')?.value)   || 0;
+    const vCur = parseFloat(document.getElementById('viewsCurrent')?.value)|| 0;
+    const stallEl = document.getElementById('stallAnalysis');
+    let stallPenalty = 0;
+    let stallMsg = '';
+    if (v24 > 0 && v48 > 0 && vCur > 0) {
+      const g2448  = ((v48 - v24) / v24) * 100;
+      const gPost  = ((vCur - v48) / v48) * 100;
+      if (stallEl) stallEl.style.display = 'block';
+      let sc = 'var(--success)';
+      if (gPost < 5) {
+        stallPenalty = 30; sc = 'var(--danger)';
+        stallMsg = 'Clear stall: views barely grew after 48h (+' + gPost.toFixed(1) + '%). The algorithm has stopped pushing — any score above 40 now reflects historical metrics, not current reality.';
+      } else if (gPost < 20) {
+        stallPenalty = 15; sc = 'var(--warning)';
+        stallMsg = 'Slowing: +' + gPost.toFixed(1) + '% growth after 48h. Video is entering long-tail organic mode — algorithmic push is winding down.';
+      } else {
+        stallMsg = 'Healthy: +' + gPost.toFixed(1) + '% post-48h growth. Continued algorithmic distribution is likely.';
+      }
+      if (stallEl) stallEl.innerHTML = '<div style="background:'+sc+'18;border:1px solid '+sc+';border-radius:var(--radius);padding:12px;font-size:12px;line-height:1.7;color:var(--text);">' + stallMsg + '</div>';
+    } else if (stallEl) {
+      stallEl.style.display = 'none';
+    }
+
+    rawScore -= stallPenalty;
+    const total = Math.max(0, Math.min(100, parseFloat(rawScore.toFixed(1))));
     document.getElementById('totalScore').innerText = total;
+
+    // ── Rating label ──────────────────────────────────────────────
+    const css = getComputedStyle(document.documentElement);
     let r, c, d;
-    if (total < 40) { r='Underperforming'; c=getComputedStyle(document.documentElement).getPropertyValue('--danger').trim(); d='Metrics are below seed-pool thresholds. Review your thumbnail, title, and hook.'; }
-    else if (total < 75) { r='Strong Growth'; c='#F59E0B'; d='Consistent audience reach. This video satisfies your core niche well.'; }
-    else { r='Viral Breakout! 🚀'; c=getComputedStyle(document.documentElement).getPropertyValue('--secondary').trim(); d='Exceptional metrics. The algorithm is likely pushing this to non-subscribers rapidly.'; }
-    document.getElementById('ratingText').innerText = r;
-    document.getElementById('ratingText').style.background = c+'22';
-    document.getElementById('ratingText').style.color = c;
-    document.getElementById('ratingText').style.borderColor = c;
-    document.getElementById('ratingDesc').innerText = d;
+    if      (total < 25) { r='Struggling';        c=css.getPropertyValue('--danger').trim();   d='One or more core signals are actively working against distribution. Focus on CTR first — without clicks, nothing else matters.'; }
+    else if (total < 40) { r='Needs Work';         c='#fb923c';                                 d='Below average on key metrics. The algorithm is not scaling this beyond its initial audience.'; }
+    else if (total < 55) { r='Growing';            c=css.getPropertyValue('--warning').trim();  d='Decent signals — serving your niche but not yet triggering broad push. Engagement or CTR improvements would make the difference.'; }
+    else if (total < 70) { r='Strong Growth';      c=css.getPropertyValue('--success').trim();  d='All signals are healthy. Algorithm is actively expanding reach beyond subscribers.'; }
+    else if (total < 85) { r='Viral Potential';    c=css.getPropertyValue('--secondary').trim();d='Excellent across the board. Broad push likely — this is the range where videos break out of their niche.'; }
+    else                 { r='Viral Breakout';      c=css.getPropertyValue('--accent').trim();   d='Exceptional. Very few videos score here — capitalise immediately with a follow-up.'; }
+
+    const rt = document.getElementById('ratingText');
+    rt.innerText = r;
+    rt.style.cssText = 'background:' + c + '22;color:' + c + ';border:1px solid ' + c + ';display:inline-block;padding:6px 20px;border-radius:20px;font-size:14px;font-weight:700;margin-bottom:10px;';
+    document.getElementById('ratingDesc').innerText = d + (ageNote ? ' · ' + ageNote : '') + (stallPenalty > 0 ? ' [stall -' + stallPenalty + ']' : '');
+
+    // ── Breakdown ─────────────────────────────────────────────────
+    const maxAvd = 35;
     document.getElementById('breakdown-content').innerHTML =
-      `<div><span>Packaging (CTR):</span><span>${ctrPts.toFixed(1)} pts</span></div>
-       <div><span>AVD Quality:</span><span>${avdPts.toFixed(1)} pts</span></div>
-       <div><span>Hook Efficiency:</span><span>${retPts.toFixed(1)} pts</span></div>
-       <div><span>Session Watch Time:</span><span>${rawPts.toFixed(1)} pts</span></div>
-       <div><span>Engagement Rate:</span><span>${engPts.toFixed(1)} pts</span></div>`;
+      '<div><span>CTR Packaging (' + ctr.toFixed(1) + '%):</span><span style="color:' + (ctrPts < 0 ? 'var(--danger)' : 'var(--text)') + '">' + (ctrPts >= 0 ? '+' : '') + ctrPts.toFixed(1) + ' / 35</span></div>' +
+      '<div><span>AVD vs target (' + avd.toFixed(1) + '% vs ' + targetAvd + '%):</span><span style="color:' + (avdPts < 0 ? 'var(--danger)' : 'var(--text)') + '">' + (avdPts >= 0 ? '+' : '') + avdPts.toFixed(1) + ' / 35</span></div>' +
+      (retWeight > 0 ? '<div><span>Hook / 30s retention (' + ret + '%):</span><span style="color:' + (retPts < 0 ? 'var(--danger)' : 'var(--text)') + '">' + (retPts >= 0 ? '+' : '') + retPts.toFixed(1) + ' / 15</span></div>' : '<div><span>Hook retention:</span><span style="color:var(--text-muted);">— (too early to measure)</span></div>') +
+      '<div><span>Engagement (' + eng.toFixed(2) + '%):</span><span style="color:' + (engPts < 0 ? 'var(--danger)' : 'var(--text)') + '">' + (engPts >= 0 ? '+' : '') + engPts.toFixed(1) + ' / 10</span></div>' +
+      (velPts > 0 ? '<div><span>Velocity bonus:</span><span>+' + velPts + ' / 5</span></div>' : '') +
+      (ageModifier < 1 ? '<div><span>Age phase adjustment:</span><span style="color:var(--warning);">×' + ageModifier.toFixed(2) + '</span></div>' : '') +
+      (stallPenalty > 0 ? '<div><span>Stall penalty:</span><span style="color:var(--danger);">−' + stallPenalty + '</span></div>' : '') +
+      '<div style="border-top:1px solid var(--border);margin-top:4px;padding-top:6px;font-weight:700;"><span>Score:</span><span>' + total + ' / 100</span></div>';
+
+    if (typeof renderPhaseBands === 'function') renderPhaseBands(total);
     updateYTSubProjection();
   }
 
@@ -2881,26 +3223,60 @@ hr { border:0;border-top:1px solid var(--border);margin:20px 0; }
   function updateTab2() {
     const vlMins = parseInt(document.getElementById('t2_vlMins').value)||0;
     const baseAvd = getAvdTarget(vlMins);
+    const userCtr = parseFloat(document.getElementById('t2_ctr')?.value)||null;
+    const userAvd = parseFloat(document.getElementById('t2_avd')?.value)||null;
+    const userViews = parseFloat(document.getElementById('t2_views')?.value)||null;
     const tiers = [
-      { name: 'Subscriber Seed Pool', c: '4–8', m: 1.15, d: 'Shown first to existing subscribers. Core fans watch more — highest AVD expectations here.', goal: 'Impress your most loyal viewers first — they set the baseline score.' },
-      { name: 'Niche Broadening', c: '3–6', m: 1.05, d: 'Served to viewers with matching watch histories. CTR drops naturally with colder audiences.', goal: 'Maintain watch time as the audience widens beyond your core.' },
-      { name: 'Suggested / Browse', c: '2–5', m: 0.95, d: 'Competing for Browse Feature and sidebar clicks. 3%+ CTR here is excellent.', goal: 'Win the thumbnail/title battle against competing suggestions.' },
-      { name: 'Home Feed Expansion', c: '2–4', m: 0.85, d: 'Home page push to casual viewers. AVD is the main signal sustaining distribution.', goal: 'Keep casual viewers watching long enough to trigger continued pushes.' },
-      { name: 'Broad Viral Push', c: '1.5–3', m: 0.75, d: 'Mass audience exposure. Only universally accessible content maintains this reach.', goal: 'Prove universal appeal — content must work for complete newcomers.' }
+      { name:'1 — Subscriber Seed Pull', c:'4–8', m:1.15, d:'Shown first to existing subscribers (or interest-matched viewers if you have none). Highest AVD expectations as these are your warmest potential audience. <em>Small channels with no subscribers skip or get a synthetic "seed" from similar-interest viewers instead.</em>', goal:'Strong hook + high retention — prove the video quality immediately.' },
+      { name:'2 — Niche Broadening', c:'3–6', m:1.05, d:'Served to viewers with overlapping watch histories. CTR drops naturally as the audience cools. This tier determines whether your video leaves your immediate bubble.', goal:'Maintain AVD as audience widens. A 5%+ drop here is normal.' },
+      { name:'3 — Suggested & Browse', c:'2–5', m:0.95, d:'Competing for Browse Feature clicks and sidebar recommendations. 3%+ CTR against unfamiliar content is excellent here.', goal:'Win the thumbnail/title battle against competing suggestions.' },
+      { name:'4 — Home Feed Expansion', c:'2–4', m:0.85, d:'Home page push to casual, unrelated viewers. AVD is the primary signal sustaining distribution — casual viewers drop off faster.', goal:'Keep casual viewers long enough to keep the score alive.' },
+      { name:'5 — Broad Viral Push', c:'1.5–3', m:0.75, d:'Mass-audience exposure. Only content with universal appeal or strong trending momentum reaches this tier consistently.', goal:'Universal accessibility — the content must work for complete newcomers.' }
     ];
-    let html = '';
-    tiers.forEach(t => {
-      const reqA = Math.min(baseAvd*t.m, 100);
-      html += `<div class="target-card"><div class="tier-name">${t.name}</div>
-        <p style="font-size:12px;color:var(--text-dim);margin-bottom:13px;">${t.d}</p>
-        <div class="stat-row"><span>Target CTR Range:</span><span class="stat-val">${t.c}%</span></div>
-        <div class="stat-row"><span>Required AVD:</span><span class="stat-val">${reqA.toFixed(1)}%+</span></div>
-        <div class="tier-goal">GOAL: ${t.goal}</div></div>`;
+    const css = getComputedStyle(document.documentElement);
+
+    // Determine current tier from user's metrics
+    let currentTierIdx = -1;
+    if (userCtr !== null && userAvd !== null) {
+      for (let i=tiers.length-1; i>=0; i--) {
+        const reqAvd = Math.min(baseAvd*tiers[i].m,100);
+        const ctrMin = parseFloat(tiers[i].c.split('–')[0]);
+        if (userCtr >= ctrMin && userAvd >= reqAvd*0.85) { currentTierIdx=i; break; }
+      }
+    }
+
+    // Current tier highlight
+    const tierEl = document.getElementById('t2_current_tier');
+    if (tierEl) {
+      if (currentTierIdx >= 0) {
+        const t = tiers[currentTierIdx];
+        tierEl.style.display='block';
+        tierEl.innerHTML = '<div style="background:var(--success-dim);border:1px solid var(--success);border-radius:var(--radius);padding:14px;font-size:13px;color:var(--text);">✅ <strong style="color:var(--success);">Based on your inputs, you are approximately at Tier '+t.name+'</strong><br><span style="color:var(--text-dim);font-size:12px;">Next tier requires CTR '+tiers[Math.min(currentTierIdx+1,4)].c+'% and AVD '+(baseAvd*tiers[Math.min(currentTierIdx+1,4)].m).toFixed(1)+'%+</span></div>';
+      } else if (userCtr !== null || userAvd !== null) {
+        tierEl.style.display='block';
+        tierEl.innerHTML='<div style="background:var(--warning-dim);border:1px solid var(--warning);border-radius:var(--radius);padding:12px;font-size:12px;color:var(--text);">⚠️ Metrics entered but no clear tier matched — your CTR or AVD may be below Tier 1 benchmarks, or the video is very new with insufficient data.</div>';
+      } else { tierEl.style.display='none'; }
+    }
+
+    let html='';
+    tiers.forEach((t,i) => {
+      const reqA = Math.min(baseAvd*t.m,100);
+      const isCurrent = i===currentTierIdx;
+      const meetsAVD  = userAvd !== null && userAvd >= reqA*0.85;
+      const meetsCTR  = userCtr !== null && userCtr >= parseFloat(t.c.split('–')[0]);
+      let borderStyle = isCurrent ? '2px solid var(--success)' : '1px solid var(--border)';
+      let bgStyle = isCurrent ? 'background:var(--success-dim);' : '';
+      html += '<div class="target-card" style="'+bgStyle+'border:'+borderStyle+';">';
+      html += '<div class="tier-name">'+(isCurrent?'✅ ':'')+'Tier '+t.name+'</div>';
+      html += '<p style="font-size:11px;color:var(--text-dim);margin-bottom:10px;">'+t.d+'</p>';
+      html += '<div class="stat-row"><span>Target CTR:</span><span class="stat-val" style="color:'+(meetsCTR?'var(--success)':'var(--stat-val, var(--secondary)))')+';">'+t.c+'%'+(meetsCTR?' ✓':'')+'</span></div>';
+      html += '<div class="stat-row"><span>Required AVD:</span><span class="stat-val" style="color:'+(meetsAVD?'var(--success)':'var(--secondary)')+';">'+reqA.toFixed(1)+'%+'+(meetsAVD?' ✓':'')+'</span></div>';
+      html += '<div class="tier-goal">'+t.goal+'</div></div>';
     });
     document.getElementById('tierGrid').innerHTML = html;
   }
 
-  /* ─── Tab3: Monetization Tracker ─── */
+    /* ─── Tab3: Monetization Tracker ─── */
   function updateTab3() {
     const curr = parseFloat(document.getElementById('m_currentHours').value)||0;
     const vel = parseFloat(document.getElementById('m_currentDailyVelocity').value)||0;
@@ -2964,6 +3340,25 @@ hr { border:0;border-top:1px solid var(--border);margin:20px 0; }
     document.getElementById('m_stat_streamWeekly').innerText = Math.floor(sTotalWk).toLocaleString();
     document.getElementById('m_stat_totalWeekly').innerText = ((vel*7)+sTotalWk).toFixed(1);
     document.getElementById('m_stat_pct').innerText = Math.min(curr/4000*100,100).toFixed(1)+'%';
+    // New: subs needed
+    const currSubs = parseFloat(document.getElementById('m_currSubs')?.value)||0;
+    const subNeeded = Math.max(1000-currSubs,0);
+    const snEl = document.getElementById('m_subs_needed');
+    if (snEl) snEl.innerText = subNeeded<=0?'✅ Met!':subNeeded.toLocaleString()+' more';
+    // ETA headline card
+    const etaEl = document.getElementById('m_eta_headline');
+    if (etaEl && rem4k<=0) {
+      etaEl.style.display='block';
+      document.getElementById('m_eta_main').innerText='✅ 4,000 hours reached!';
+      document.getElementById('m_eta_sub').innerText=subNeeded<=0?'You qualify for YPP — apply now in YouTube Studio.':'You need '+subNeeded.toLocaleString()+' more subscribers to apply.';
+    } else if (etaEl && vel>0) {
+      etaEl.style.display='block';
+      const etaDate = document.getElementById('m_estimatedDate').innerText;
+      document.getElementById('m_eta_main').innerText=etaDate||'Calculating...';
+      const combined=vel+sDailyHrs;
+      const daysLeft=combined>0?Math.ceil(rem4k/combined):null;
+      document.getElementById('m_eta_sub').innerText=daysLeft?'~'+daysLeft+' days to go at current pace.'+(subNeeded<=0?' Subs: ✅':' Need '+subNeeded.toLocaleString()+' more subs.'):'Enter daily watch hours above.';
+    } else if (etaEl) { etaEl.style.display='none'; }
   }
 
   /* ─── Tab4: RPM Predictor ─── */
@@ -3013,12 +3408,44 @@ hr { border:0;border-top:1px solid var(--border);margin:20px 0; }
     }).join('');
   }
   function updateYTSubProjection() {
-    const curr = parseInt(document.getElementById('yt_curr_subs').value)||0;
-    const monthly = parseInt(document.getElementById('yt_monthly_views').value)||0;
-    const rate = parseFloat(document.getElementById('yt_sub_rate').value)||1;
-    document.getElementById('yt_sub_projection').innerHTML = buildSubProjectionHTML(curr,monthly,rate,'subscribers');
+    const curr = parseFloat(document.getElementById('yt_curr_subs')?.value)||0;
+    const monthly = parseFloat(document.getElementById('yt_monthly_views')?.value)||0;
+    const rate = parseFloat(document.getElementById('yt_sub_rate')?.value)||1;
+    const subs7d  = parseFloat(document.getElementById('yt_subs_7d')?.value)||0;
+    const subs28d = parseFloat(document.getElementById('yt_subs_28d')?.value)||0;
+
+    // Determine monthly sub gain — prefer actual data over estimate
+    let monthlyGain = (monthly * rate) / 100;
+    let dataSource = 'conversion rate estimate';
+    if (subs28d > 0) { monthlyGain = (subs28d / 28) * 30; dataSource = '28-day actual data'; }
+    else if (subs7d > 0)  { monthlyGain = (subs7d  /  7) * 30; dataSource = '7-day actual data'; }
+
+    const el = document.getElementById('yt_sub_projection');
+    if (!el || (curr===0 && monthly===0 && subs7d===0 && subs28d===0)) { el && (el.innerHTML=''); return; }
+
+    const milestones = [100,500,1000,5000,10000,50000,100000];
+    let html = '<div style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">Using '+dataSource+' — '+monthlyGain.toFixed(0)+' subs/month projected</div>';
+    html += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;">';
+    [1,3,6,12].forEach(m => {
+      const proj = Math.round(curr + monthlyGain*m);
+      html += '<div class="stat-mini"><div class="label">'+m+' Month'+(m>1?'s':'')+'</div><div class="value" style="font-size:16px;color:var(--primary);">'+proj.toLocaleString()+'</div><div class="sub">+'+Math.round(monthlyGain*m).toLocaleString()+' subs</div></div>';
+    });
+    html += '</div>';
+    // Milestone ETAs
+    const pending = milestones.filter(m=>m>curr);
+    if (pending.length && monthlyGain>0) {
+      html += '<div style="margin-top:12px;font-size:11px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px;">Milestone ETAs</div>';
+      html += '<div style="display:flex;flex-wrap:wrap;gap:6px;">';
+      pending.slice(0,5).forEach(m => {
+        const mo = Math.ceil((m-curr)/monthlyGain);
+        html += '<span style="background:var(--primary-dim);border:1px solid var(--primary);color:var(--primary);padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;">'+m.toLocaleString()+' — '+mo+' mo</span>';
+      });
+      html += '</div>';
+    }
+    el.innerHTML = html;
   }
-  function updateTTSubProjection() {
+
+    function updateTTSubProjection() {
     const curr = parseInt(document.getElementById('tt_curr_subs').value)||0;
     const monthly = parseInt(document.getElementById('tt_monthly_views').value)||0;
     const rate = parseFloat(document.getElementById('tt_follow_rate').value)||2;
@@ -3674,10 +4101,10 @@ hr { border:0;border-top:1px solid var(--border);margin:20px 0; }
                 || localStorage.getItem('ccYTApiKey') || '';
     const res = document.getElementById('lookup_result');
     if (!apiKey) {
-      res.innerHTML = '<span style="color:var(--danger);font-family:\'Share Tech Mono\',monospace;font-size:12px;">⚠️ Enter your API key above first.</span>';
+      res.innerHTML = '<span style="color:var(--danger);font-family:inherit,monospace;font-size:12px;">⚠️ Enter your API key above first.</span>';
       return;
     }
-    res.innerHTML = '<span style="color:var(--text-dim);font-family:\'Share Tech Mono\',monospace;font-size:12px;">🔄 Looking up...</span>';
+    res.innerHTML = '<span style="color:var(--text-dim);font-family:inherit,monospace;font-size:12px;">🔄 Looking up...</span>';
     try {
       const handle = raw.startsWith('@') ? raw : '@' + raw;
       const r = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=id,snippet&forHandle=${encodeURIComponent(handle)}&key=${apiKey}`);
@@ -4847,6 +5274,209 @@ hr { border:0;border-top:1px solid var(--border);margin:20px 0; }
     };
     reader.readAsText(file);
   }
+
+
+  /* ── Slider ↔ Number input sync ── */
+  function syncSlider(sliderId, numberId) {
+    const v = document.getElementById(sliderId)?.value;
+    const n = document.getElementById(numberId);
+    if (n && v !== undefined) { n.value = v; updateSliderFill(document.getElementById(sliderId)); }
+  }
+  function syncNum(numberId, sliderId) {
+    const v = document.getElementById(numberId)?.value;
+    const s = document.getElementById(sliderId);
+    if (s && v !== undefined) {
+      const clamped = Math.min(Math.max(parseFloat(v)||0, parseFloat(s.min)||0), parseFloat(s.max)||100);
+      s.value = clamped;
+      document.getElementById(numberId).value = clamped;
+      updateSliderFill(s);
+    }
+  }
+
+  /* ── Shorts niche RPM auto-fill ── */
+  function updateShortsRpm() {
+    const n = document.getElementById('cs_niche')?.value;
+    const rpmMap = { gaming:0.025, lifestyle:0.04, tech:0.05, finance:0.08, beauty:0.04, fitness:0.045, food:0.035, news:0.05 };
+    const noteMap = {
+      gaming:'Gaming/Memes Shorts: $0.02–$0.04/1K — youngest demographic, lowest advertiser CPM.',
+      lifestyle:'Lifestyle Shorts: $0.03–$0.05/1K — broad appeal, mid-tier CPM.',
+      tech:'Tech/Education Shorts: $0.04–$0.07/1K — higher intent audience.',
+      finance:'Finance Shorts: $0.06–$0.12/1K — highest CPM niche on Shorts, premium advertisers.',
+      beauty:'Beauty/Fashion Shorts: $0.03–$0.06/1K — strong brand advertiser interest.',
+      fitness:'Fitness Shorts: $0.03–$0.06/1K — supplement/apparel advertisers present.',
+      food:'Food Shorts: $0.03–$0.05/1K — kitchen product advertisers.',
+      news:'News/Commentary Shorts: $0.04–$0.07/1K — varies heavily with political sensitivity.'
+    };
+    const rpmEl = document.getElementById('cs_rpm');
+    const noteEl = document.getElementById('cs_niche_note');
+    if (!rpmEl) return;
+    if (n && n !== 'custom' && rpmMap[n]) {
+      rpmEl.value = rpmMap[n].toFixed(3);
+      if (noteEl) noteEl.innerHTML = '📌 ' + (noteMap[n]||'');
+    } else if (noteEl) {
+      noteEl.innerHTML = 'Shorts RPM is broadly niche-independent but finance/business content earns noticeably more ($0.06–$0.12) vs gaming/meme ($0.02–$0.05).';
+    }
+  }
+
+  /* ── Landing page helpers ── */
+  function lo_switchToNew() {
+    document.getElementById('lo_returning').style.display='none';
+    document.getElementById('lo_new_form').style.display='block';
+  }
+
+  function setViewMode(mode) {
+    document.documentElement.setAttribute('data-viewmode', mode);
+    const db = document.getElementById('lo_btn_desktop');
+    const mb = document.getElementById('lo_btn_mobile');
+    if (db && mb) {
+      if (mode==='mobile') {
+        mb.style.cssText='padding:7px 16px;border-radius:8px;border:1px solid rgba(99,102,241,0.5);background:rgba(99,102,241,0.15);color:#a5b4fc;font-size:12px;font-weight:600;cursor:pointer;';
+        db.style.cssText='padding:7px 16px;border-radius:8px;border:1px solid var(--border-hi);background:transparent;color:#7480a0;font-size:12px;font-weight:600;cursor:pointer;';
+      } else {
+        db.style.cssText='padding:7px 16px;border-radius:8px;border:1px solid rgba(99,102,241,0.5);background:rgba(99,102,241,0.15);color:#a5b4fc;font-size:12px;font-weight:600;cursor:pointer;';
+        mb.style.cssText='padding:7px 16px;border-radius:8px;border:1px solid var(--border-hi);background:transparent;color:#7480a0;font-size:12px;font-weight:600;cursor:pointer;';
+      }
+    }
+    try{localStorage.setItem('ssViewMode',mode);}catch(e){}
+  }
+
+  /* ── Check returning user on landing ── */
+  (function checkReturning() {
+    const stored = localStorage.getItem('ccAnalytics_session');
+    if (stored) {
+      const ret = document.getElementById('lo_returning');
+      const nf  = document.getElementById('lo_new_form');
+      const nameEl = document.getElementById('lo_returning_name');
+      if (ret && nf && nameEl) {
+        nameEl.textContent = '👋 ' + stored;
+        ret.style.display = 'block';
+        nf.style.display = 'none';
+      }
+    }
+  })();
+
+
+  /* ═══════════════════════════════════════════
+     PUBLISH DATE/TIME — single trigger + floating panel
+  ═══════════════════════════════════════════ */
+  (function initDtPicker() {
+    function addOpts(id, vals, selected) {
+      var el = document.getElementById(id); if (!el) return;
+      vals.forEach(function(v) {
+        var o = document.createElement('option');
+        o.value = o.text = String(v);
+        if (v === selected) o.selected = true;
+        el.appendChild(o);
+      });
+    }
+    var days = []; for (var d = 1; d <= 31; d++) days.push(d < 10 ? '0'+d : ''+d);
+    addOpts('dt_day', days);
+    var ny = new Date().getFullYear();
+    var yrs = []; for (var y = ny+1; y >= ny-5; y--) yrs.push(y);
+    addOpts('dt_year', yrs, ny);
+    var hrs = []; for (var h = 1; h <= 12; h++) hrs.push(h < 10 ? '0'+h : ''+h);
+    addOpts('dt_hour', hrs);
+    var mins = []; for (var m = 0; m < 60; m += 5) mins.push(m < 10 ? '0'+m : ''+m);
+    addOpts('dt_minute', mins);
+    var amEl = document.getElementById('dt_ampm');
+    if (amEl) amEl.value = new Date().getHours() >= 12 ? 'PM' : 'AM';
+    document.addEventListener('click', function(e) {
+      var panel = document.getElementById('dtPanel');
+      var trig  = document.getElementById('dtTrigger');
+      if (panel && trig && !panel.contains(e.target) && !trig.contains(e.target)) {
+        panel.style.display = 'none';
+        if (trig) trig.style.borderColor = '';
+      }
+    });
+  })();
+
+  function dtToggle() {
+    var panel = document.getElementById('dtPanel');
+    var trig  = document.getElementById('dtTrigger');
+    if (!panel) return;
+    var open = panel.style.display === 'block';
+    panel.style.display = open ? 'none' : 'block';
+    if (trig) trig.style.borderColor = open ? '' : 'var(--primary)';
+  }
+
+  function dtUpdate() {
+    var mo = document.getElementById('dt_month').value;
+    var dy = document.getElementById('dt_day').value;
+    var yr = document.getElementById('dt_year').value;
+    var hr = document.getElementById('dt_hour').value;
+    var mn = document.getElementById('dt_minute').value;
+    var ap = document.getElementById('dt_ampm').value;
+    var disp = document.getElementById('dtDisplay');
+    if (!disp) return;
+    if (mo && dy && yr && hr && mn) {
+      disp.style.color = 'var(--text-bright)';
+      disp.textContent = mo.slice(0,3) + ' ' + dy + ', ' + yr + '  ' + hr + ':' + mn + ' ' + ap;
+    } else {
+      disp.style.color = 'var(--text-dim)';
+      disp.textContent = 'Select date & time...';
+    }
+  }
+
+  function dtBuildIso() {
+    var MONTHS = ['January','February','March','April','May','June',
+                  'July','August','September','October','November','December'];
+    var mo = document.getElementById('dt_month').value;
+    var dy = document.getElementById('dt_day').value;
+    var yr = document.getElementById('dt_year').value;
+    var hr = document.getElementById('dt_hour').value;
+    var mn = document.getElementById('dt_minute').value;
+    var ap = document.getElementById('dt_ampm').value;
+    if (!mo || !dy || !yr || !hr || !mn) return '';
+    var mIdx = MONTHS.indexOf(mo);
+    var mNum = (mIdx + 1 < 10 ? '0' : '') + (mIdx + 1);
+    var h24 = parseInt(hr, 10);
+    if (ap === 'PM' && h24 !== 12) h24 += 12;
+    if (ap === 'AM' && h24 === 12) h24 = 0;
+    return yr + '-' + mNum + '-' + dy + 'T' + (h24 < 10 ? '0' : '') + h24 + ':' + mn;
+  }
+
+  function dtSetAgeLabel(iso) {
+    var lbl = document.getElementById('dt_age_label');
+    if (!lbl) return;
+    if (!iso) { lbl.textContent = ''; return; }
+    var hrs = (Date.now() - new Date(iso).getTime()) / 3600000;
+    if (hrs < 0)       { lbl.textContent = 'Upload time is in the future'; lbl.style.color = 'var(--warning)'; }
+    else if (hrs < 1)  { lbl.textContent = 'Just uploaded - ' + Math.round(hrs*60) + ' min ago'; lbl.style.color = 'var(--success)'; }
+    else if (hrs < 24) { lbl.textContent = hrs.toFixed(1) + ' hours old'; lbl.style.color = 'var(--primary)'; }
+    else               { lbl.textContent = (hrs/24).toFixed(1) + ' days old'; lbl.style.color = 'var(--text-dim)'; }
+  }
+
+  function dtConfirm() {
+    var iso = dtBuildIso();
+    var hidden = document.getElementById('videoPublishedAt');
+    if (hidden) hidden.value = iso;
+    dtSetAgeLabel(iso);
+    dtUpdate();
+    var panel = document.getElementById('dtPanel');
+    var trig  = document.getElementById('dtTrigger');
+    if (panel) panel.style.display = 'none';
+    if (trig)  trig.style.borderColor = '';
+    updateTab1();
+  }
+
+  function dtClear() {
+    ['dt_month','dt_day','dt_year','dt_hour','dt_minute'].forEach(function(id) {
+      var el = document.getElementById(id); if (el) el.value = '';
+    });
+    var amEl = document.getElementById('dt_ampm'); if (amEl) amEl.value = 'AM';
+    var hidden = document.getElementById('videoPublishedAt'); if (hidden) hidden.value = '';
+    dtSetAgeLabel('');
+    dtUpdate();
+    var panel = document.getElementById('dtPanel');
+    var trig  = document.getElementById('dtTrigger');
+    if (panel) panel.style.display = 'none';
+    if (trig)  trig.style.borderColor = '';
+    updateTab1();
+  }
+
+  function updateDateTimeAndTab1() { dtConfirm(); }
+  function clearPublishTime()      { dtClear(); }
+
 
 </script>
 </body>
