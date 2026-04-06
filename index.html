@@ -1065,8 +1065,8 @@ input:focus, select:focus, textarea:focus {
       <button onclick="setViewMode('mobile')"  id="lo_btn_mobile"  style="padding:7px 16px;border-radius:8px;border:1px solid var(--border-hi);background:transparent;color:var(--text-dim);font-size:12px;font-weight:600;cursor:pointer;">📱 Mobile</button>
     </div>
   </div>
+  </div>
 </div>
-</div></div>
 
 <!-- Save File Loader Modal -->
 
@@ -3299,9 +3299,14 @@ input:focus, select:focus, textarea:focus {
           trend = 'Healthy decay';
           msg = 'Velocity holding at ' + (decayRatio * 100).toFixed(0) + '% of initial rate — above-average retention of momentum. Algorithm still distributing.';
         } else if (decayRatio <= 1.2) {
-          stallPenalty = 0; sc = 'var(--success)';
-          trend = 'Sustained push';
-          msg = 'Velocity is stable at ' + (decayRatio * 100).toFixed(0) + '% of initial rate. Strong sustained distribution — this video is in an active push.';
+          // Even with stable ratio, if absolute velocity is tiny this is NOT healthy
+          const isAbsolutelyLow = vel12 < 2; // fewer than 2 views/hr = effectively dead
+          stallPenalty = isAbsolutelyLow ? 20 : 0;
+          sc = isAbsolutelyLow ? 'var(--warning)' : 'var(--success)';
+          trend = isAbsolutelyLow ? 'Very low velocity' : 'Sustained push';
+          msg = isAbsolutelyLow
+            ? 'Velocity is stable but at only ' + vel12.toFixed(2) + ' views/hr — effectively stalled even though the ratio looks stable. The algorithm has stopped meaningful distribution.'
+            : 'Velocity stable at ' + (decayRatio * 100).toFixed(0) + '% of initial rate. Sustained distribution.';
         } else {
           stallPenalty = 0; sc = 'var(--secondary)';
           trend = 'Accelerating';
@@ -3310,10 +3315,15 @@ input:focus, select:focus, textarea:focus {
         }
       } else {
         // No time data — use raw growth percentage between snapshots
-        if (latestGrowthPct < 3) {
+        const latestDiff = snap3valid ? v3 - v2 : v2 - v1;
+        // Absolute low: if less than ~50 total views gained in the window, flag as stalled
+        const absolutelyStalled = latestDiff < 50;
+        if (latestGrowthPct < 3 || absolutelyStalled) {
           stallPenalty = 28; sc = 'var(--danger)';
-          trend = 'Near-zero growth';
-          msg = 'Only +' + latestGrowthPct.toFixed(1) + '% view growth in the latest window. Algorithm push has stopped. (Enter snapshot hours above for more accurate velocity analysis.)';
+          trend = 'Stalled';
+          msg = absolutelyStalled && latestGrowthPct >= 3
+            ? 'Only ' + latestDiff.toLocaleString() + ' views gained in the window — the algorithm has stopped pushing regardless of the growth percentage.'
+            : 'Only +' + latestGrowthPct.toFixed(1) + '% growth in the latest window. Algorithm push has stopped. (Enter snapshot hours above for velocity analysis.)';
         } else if (latestGrowthPct < 15) {
           stallPenalty = 14; sc = 'var(--warning)';
           trend = 'Slowing';
