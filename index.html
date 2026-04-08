@@ -4014,82 +4014,89 @@ input:focus, select:focus, textarea:focus {
       forecast.style.display = 'block'; forecast.innerHTML = fc;
     } else if (forecast) forecast.style.display = 'none';
 
-    // ── Velocity context (age-adjusted thresholds) ────────────────
-    // Velocity is a CONTEXT signal, not a gatekeeper — especially in the first 24h.
-    // Early phases: CTR + AVD predict future performance better than current views/hr.
-    // Velocity only becomes a dominant signal in established+ phases once the push
-    // window has passed and the video's trajectory is more settled.
+    // ── Velocity context (age-adjusted, informational-first) ────────
+    // KEY DESIGN PRINCIPLE:
+    // Velocity WITHOUT a publish date = purely informational. No penalty, no cap.
+    //   You don't know if the video is 1 hour old or 3 months old.
+    // Velocity WITH a publish date = scored relative to the video's age phase.
+    //   Seed/early (0-12h): tiny penalties only — velocity is noisy this early.
+    //   Decision (12-48h):  moderate penalties — algorithm is deciding now.
+    //   Established+:       full penalties — velocity IS the ground truth here.
     let velocityContext = null;
+    const velHasAge = agePhase !== null; // only penalise if we know how old the video is
+
     if (velocity > 0) {
-      // Thresholds: what counts as strong/healthy/slow/low for each age phase
-      // These are deliberately generous in seed/early/decision phases
+      // Thresholds per phase — what reads as strong / healthy / slow / low
       let thS, thM, thSl, thV;
-      if (agePhase==='seed') {
-        // 0–3h: almost any velocity is fine — subscriber pull is just starting
-        thS=300; thM=50; thSl=8; thV=1;
-      } else if (agePhase==='early') {
-        // 3–12h: video is still seeding, low velocity is completely normal
-        thS=400; thM=80; thSl=15; thV=3;
-      } else if (agePhase==='decision') {
-        // 12–48h: NOW velocity starts mattering — algorithm is making its push decision
-        thS=200; thM=40; thSl=8; thV=1.5;
-      } else if (agePhase==='established') {
-        // 2–7 days: push is underway or settled, velocity is a real signal
-        thS=50; thM=10; thSl=2; thV=0.4;
-      } else if (agePhase==='longtail') {
-        // 1–4 weeks: long-tail territory, very low velocity expected
-        thS=10; thM=2; thSl=0.4; thV=0.08;
-      } else if (agePhase==='evergreen') {
-        // 1+ month: ancient video, any consistent views is positive
-        thS=5; thM=0.8; thSl=0.15; thV=0.02;
+      if      (agePhase === 'seed')        { thS=300; thM=50;  thSl=8;    thV=1;    }
+      else if (agePhase === 'early')       { thS=400; thM=80;  thSl=15;   thV=3;    }
+      else if (agePhase === 'decision')    { thS=200; thM=40;  thSl=8;    thV=1.5;  }
+      else if (agePhase === 'established') { thS=50;  thM=10;  thSl=2;    thV=0.4;  }
+      else if (agePhase === 'longtail')    { thS=10;  thM=2;   thSl=0.4;  thV=0.08; }
+      else if (agePhase === 'evergreen')   { thS=5;   thM=0.8; thSl=0.15; thV=0.02; }
+      else /* no date — informational only */ { thS=500; thM=100; thSl=20; thV=5;   }
+
+      // Penalty scale — only meaningful when age is known
+      const isEarlyPhase = agePhase === 'seed' || agePhase === 'early';
+      const isDecisionPhase = agePhase === 'decision';
+      const isLatephase = agePhase === 'established' || agePhase === 'longtail' || agePhase === 'evergreen';
+
+      // Max penalties per tier per phase
+      // No date: 0 penalty across all tiers (informational only)
+      // Seed/early: max 2 pts — barely nudges the score
+      // Decision: max 8 pts — moderate signal
+      // Established+: max 16 pts — velocity is now the dominant truth signal
+      let pBelow, pLow, pNearZero;
+      if      (!velHasAge)       { pBelow=0;  pLow=0;  pNearZero=0;  }
+      else if (isEarlyPhase)     { pBelow=1;  pLow=2;  pNearZero=2;  }
+      else if (isDecisionPhase)  { pBelow=3;  pLow=6;  pNearZero=8;  }
+      else /* late phase */      { pBelow=5;  pLow=10; pNearZero=16; }
+
+      let velTier;
+      if      (velocity >= thS)  velTier = 'strong';
+      else if (velocity >= thM)  velTier = 'healthy';
+      else if (velocity >= thSl) velTier = 'below';
+      else if (velocity >= thV)  velTier = 'low';
+      else                       velTier = 'nearzero';
+
+      const pen = velTier==='strong'||velTier==='healthy' ? 0
+                : velTier==='below'   ? pBelow
+                : velTier==='low'     ? pLow
+                : pNearZero;
+
+      const noDateNote = 'Enter your publish date above to get age-adjusted velocity analysis.';
+      const velLabels = {
+        strong:   { label:'Strong — '+velocity.toLocaleString()+' views/hr',        color:'var(--success)' },
+        healthy:  { label:'Healthy — '+velocity.toLocaleString()+' views/hr',       color:'var(--primary)' },
+        below:    { label:'Below average — '+velocity.toLocaleString()+' views/hr', color:'var(--warning)' },
+        low:      { label:'Low — '+velocity.toFixed(2)+' views/hr',                 color:'#fb923c'        },
+        nearzero: { label:'Near-zero — '+velocity.toFixed(3)+' views/hr',           color:'var(--danger)'  },
+      };
+
+      let note;
+      if (!velHasAge) {
+        note = 'Velocity shown for context — no score penalty applied without a publish date. ' + noDateNote;
+      } else if (isEarlyPhase) {
+        note = velTier==='strong'  ? 'Excellent early velocity. Algorithm is pushing actively.'
+             : velTier==='healthy' ? 'Good velocity for this stage. Video is seeding well.'
+             : velTier==='below'   ? 'Normal for this early. CTR and AVD are far more predictive than views/hr at this stage.'
+             : velTier==='low'     ? 'Low velocity is common in the first 0–12h before the algorithm has made its push decision. A small nudge is applied but your other metrics carry the score.'
+             : 'Very slow start — but the seeding window is still open. Strong CTR and AVD can still trigger a push.';
+      } else if (isDecisionPhase) {
+        note = velTier==='strong'  ? 'Strong velocity in the decision window. Algorithm is committing to a push.'
+             : velTier==='healthy' ? 'Healthy velocity. Algorithm is actively distributing.'
+             : velTier==='below'   ? 'Below expected velocity for the decision window. Algorithm may still push if CTR and AVD are strong.'
+             : velTier==='low'     ? 'Low velocity at this stage suggests the algorithm has not made a strong commitment yet.'
+             : 'Near-zero velocity in the decision window. Algorithm has likely passed on a broad push.';
       } else {
-        // No age data — use moderate defaults, treat like decision phase
-        thS=200; thM=40; thSl=8; thV=1.5;
+        note = velTier==='strong'  ? 'Strong velocity for a video at this age. Still receiving active distribution.'
+             : velTier==='healthy' ? 'Healthy velocity. Video is still being served consistently.'
+             : velTier==='below'   ? 'Velocity is below typical for this age. Distribution is winding down.'
+             : velTier==='low'     ? (agePhase==='longtail'||agePhase==='evergreen' ? 'Low velocity is expected at this age. Long-tail search and incidental suggested traffic.' : 'Low velocity — initial push has ended.')
+             : (agePhase==='longtail'||agePhase==='evergreen' ? 'Video has run its course. Any remaining views are search or incidental.' : 'Algorithm has stopped distributing this video.');
       }
 
-      // Penalty scale is now age-aware:
-      // — Seed/early: much smaller penalties (velocity is uninformative this early)
-      // — Decision: moderate penalties (velocity starts to matter)
-      // — Established+: full penalties (velocity is now the primary signal)
-      const isEarly = agePhase === 'seed' || agePhase === 'early';
-      const isMid   = agePhase === 'decision' || !agePhase;
-      const penaltyScale = isEarly ? 0.35 : isMid ? 0.65 : 1.0;
-
-      let basePenaltyBelow   = Math.round(4  * penaltyScale); // "below average" tier
-      let basePenaltyLow     = Math.round(10 * penaltyScale); // "low" tier
-      let basePenaltyNearZero= Math.round(18 * penaltyScale); // "near-zero" tier
-
-      if (velocity >= thS) {
-        velocityContext = { label:'Strong for its age — '+velocity.toLocaleString()+' views/hr',
-          color:'var(--success)', penalty:0,
-          note:'Excellent velocity for a '+agePhaseName+' video. Algorithm is actively distributing.' };
-      } else if (velocity >= thM) {
-        velocityContext = { label:'Healthy — '+velocity.toLocaleString()+' views/hr',
-          color:'var(--primary)', penalty:0,
-          note:'Solid velocity for this stage. Video is receiving good distribution.' };
-      } else if (velocity >= thSl) {
-        velocityContext = { label:'Below average — '+velocity.toLocaleString()+' views/hr',
-          color:'var(--warning)', penalty: basePenaltyBelow,
-          note: isEarly
-            ? 'Lower velocity is normal this early — CTR and AVD are more predictive right now than views/hr.'
-            : 'Below expected velocity for this phase. Algorithm may not be actively pushing yet.' };
-      } else if (velocity >= thV) {
-        velocityContext = { label:'Low — '+velocity.toFixed(2)+' views/hr',
-          color:'#fb923c', penalty: basePenaltyLow,
-          note: isEarly
-            ? 'Low velocity in the first few hours is not necessarily a bad sign — many strong videos build slowly before the algorithm commits.'
-            : (agePhase==='longtail'||agePhase==='evergreen')
-              ? 'Long-tail territory — low velocity is normal here but meaningful growth has paused.'
-              : 'Low velocity for this phase. Algorithm has likely not made a strong push yet.' };
-      } else {
-        velocityContext = { label:'Near-zero — '+velocity.toFixed(3)+' views/hr',
-          color:'var(--danger)', penalty: basePenaltyNearZero,
-          note: isEarly
-            ? 'Very low velocity — but this is still the seeding window. If CTR and AVD are strong, a push may still come at the 12–24h mark.'
-            : (agePhase==='longtail'||agePhase==='evergreen')
-              ? 'Video has run its course. Minimal organic traffic remaining.'
-              : 'Near-zero velocity. Algorithm has stopped distributing this video.' };
-      }
+      velocityContext = { ...velLabels[velTier], penalty: pen, note };
     }
 
     // ── SCORING ───────────────────────────────────────────────────
@@ -4206,33 +4213,29 @@ input:focus, select:focus, textarea:focus {
     // Age modifier
     let rawScore = (ctrAdjusted + avdPts + retPts + retCurvePts + engPts + sharesPts + subConvPts + channelCtxPts + imprPts + trafficPts + clickBouncePenalty) * ageModifier;
 
-    // Velocity adjustment — penalty only, no hard caps in early phases
-    // Hard caps only kick in for established+ videos where velocity IS the primary signal.
-    // In seed/early/decision phases, a low views/hr should nudge the score down modestly
-    // but should never override strong CTR + AVD evidence.
+    // Velocity: apply penalty, then phase-appropriate caps
+    // No date = no penalty, no cap (already handled by penalty=0 above)
+    // Seed/early = tiny penalty, no cap
+    // Decision = moderate penalty, soft cap only at near-zero
+    // Established+ = full penalty + caps (velocity is the ground truth now)
     let velPenalty = 0;
     if (velocityContext) {
       velPenalty = velocityContext.penalty;
       rawScore  -= velPenalty;
 
-      // Hard caps — only applied from decision phase onward, and only for severe cases
-      // Seed/early: NO hard caps — underlying metrics should dominate
-      // Decision: soft cap only on near-zero velocity
-      // Established+: caps applied because velocity is now the ground truth
-      const isEarly2 = agePhase === 'seed' || agePhase === 'early';
-      const isDecision = agePhase === 'decision';
-      if (!isEarly2) {
-        if (isDecision) {
-          // Decision phase: only cap on truly near-zero velocity (video not moving at all)
-          if (velocityContext.penalty >= 12) rawScore = Math.min(rawScore, 65);
-        } else {
-          // Established/longtail/evergreen: full caps because push window is determined
-          if      (velocityContext.penalty >= 18) rawScore = Math.min(rawScore, 32);
-          else if (velocityContext.penalty >= 10) rawScore = Math.min(rawScore, 48);
-          else if (velocityContext.penalty >= 4)  rawScore = Math.min(rawScore, 68);
-        }
+      const isLatePhase2 = agePhase==='established' || agePhase==='longtail' || agePhase==='evergreen';
+      const isDecision2  = agePhase==='decision';
+
+      if (isLatePhase2) {
+        // Hard caps for late-phase videos — velocity is now the primary truth signal
+        if      (velPenalty >= 16) rawScore = Math.min(rawScore, 30);
+        else if (velPenalty >= 10) rawScore = Math.min(rawScore, 46);
+        else if (velPenalty >= 5)  rawScore = Math.min(rawScore, 62);
+      } else if (isDecision2) {
+        // Soft cap only at near-zero velocity in the decision window
+        if (velPenalty >= 8) rawScore = Math.min(rawScore, 60);
       }
-      // No caps at all in seed/early — CTR + AVD are predictive, velocity is noise
+      // Seed, early, no-date: NO caps whatsoever — other metrics carry the score
     }
 
     // Age penalty for old videos with no snapshots
