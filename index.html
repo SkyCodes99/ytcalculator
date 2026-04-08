@@ -1376,9 +1376,14 @@ input:focus, select:focus, textarea:focus {
           <a onclick="openTab(event,'TabHook'); updateCreatorDropdownText('Hook Generator')">🪝 Hook Script Generator</a>
           <a onclick="openTab(event,'TabSEO'); updateCreatorDropdownText('SEO &amp; Niche Tools')">🔍 SEO &amp; Niche Tools</a>
           <a onclick="openTab(event,'TabRetCurve'); updateCreatorDropdownText('Retention Interpreter')">📊 Retention Interpreter</a>
-          <a onclick="openTab(event,'TabEndScreen'); updateCreatorDropdownText('End Screen Optimizer')">🎬 End Screen &amp; Card Optimizer</a>
+          <a onclick="openTab(event,'TabEndScreen'); updateCreatorDropdownText('End Screen Optimizer')">🎬 End Screen Optimizer</a>
         </div>
       </div>
+      <button class="tab-btn" onclick="openTab(event,'Tab8')">🎬 Video Tracker</button>
+      <button class="tab-btn" onclick="openTab(event,'TabSocial')">📱 Social Analytics</button>
+      <button class="tab-btn" onclick="openTab(event,'TabLive')" style="border-color:var(--danger);color:var(--danger);">🔴 Live Sub Tracker</button>
+      <button class="tab-btn" onclick="openTab(event,'Tab7')">⏰ Publishing Hub</button>
+      <button class="tab-btn" onclick="openTab(event,'TabAB')">🎯 A/B Checker</button>
       <button class="tab-btn" onclick="openTab(event,'TabAI')">👤 Account Info</button>
       <button class="tab-btn" onclick="openTab(event,'TabFAQ')">❓ FAQ</button>
     </div>
@@ -3435,11 +3440,11 @@ input:focus, select:focus, textarea:focus {
       <div class="input-box"><label>Message <span style="color:var(--danger);">*</span></label><textarea id="cf_message" rows="4" placeholder="What is on your mind?" style="width:100%;padding:9px;background:var(--bg2);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:0.9rem;color:var(--text-bright);resize:vertical;"></textarea></div>
       <div id="cf_status" style="font-size:12px;min-height:14px;"></div>
       <div style="display:flex;gap:8px;"><button onclick="submitContactForm()" class="btn-primary" style="flex:1;">Send Message</button><button onclick="closeContactForm()" class="btn-secondary">Cancel</button></div>
-      <div style="font-size:10px;color:var(--text-muted);text-align:center;">Opens your email client to send to thecardarena@gmail.com</div>
+      <div style="font-size:10px;color:var(--text-muted);text-align:center;">Opens your email client to send to <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="17637f7274766573766572797657707a767e7b3974787a">[email&#160;protected]</a></div>
     </div>
   </div>
 </div>
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   /* ─── State ─── */
   let currentUser = null;
   let trackingDataObj = { "Default Video": [] };
@@ -4010,20 +4015,81 @@ input:focus, select:focus, textarea:focus {
     } else if (forecast) forecast.style.display = 'none';
 
     // ── Velocity context (age-adjusted thresholds) ────────────────
+    // Velocity is a CONTEXT signal, not a gatekeeper — especially in the first 24h.
+    // Early phases: CTR + AVD predict future performance better than current views/hr.
+    // Velocity only becomes a dominant signal in established+ phases once the push
+    // window has passed and the video's trajectory is more settled.
     let velocityContext = null;
     if (velocity > 0) {
+      // Thresholds: what counts as strong/healthy/slow/low for each age phase
+      // These are deliberately generous in seed/early/decision phases
       let thS, thM, thSl, thV;
-      if      (agePhase==='seed'||agePhase==='early')  { thS=500; thM=100; thSl=20; thV=5; }
-      else if (agePhase==='decision')                   { thS=200; thM=50;  thSl=10; thV=2; }
-      else if (agePhase==='established')                { thS=50;  thM=10;  thSl=2;  thV=0.5; }
-      else if (agePhase==='longtail')                   { thS=10;  thM=2;   thSl=0.5;thV=0.1; }
-      else if (agePhase==='evergreen')                  { thS=5;   thM=1;   thSl=0.2;thV=0.05; }
-      else                                              { thS=200; thM=50;  thSl=10; thV=2; }
-      if      (velocity>=thS)  velocityContext={label:'Strong for its age — '+velocity.toLocaleString()+' views/hr', color:'var(--success)', penalty:0,  note:'Excellent velocity for a '+agePhaseName+' video. Algorithm actively distributing.'};
-      else if (velocity>=thM)  velocityContext={label:'Healthy — '+velocity.toLocaleString()+' views/hr',            color:'var(--primary)', penalty:0,  note:'Solid velocity for this stage. Video is converting and receiving distribution.'};
-      else if (velocity>=thSl) velocityContext={label:'Below average — '+velocity.toLocaleString()+' views/hr',      color:'var(--warning)', penalty:6,  note:'Below expected velocity for '+agePhaseName+'. Algorithm may not be actively pushing.'};
-      else if (velocity>=thV)  velocityContext={label:'Low — '+velocity.toFixed(2)+' views/hr',                      color:'#fb923c',        penalty:14, note:(agePhase==='longtail'||agePhase==='evergreen'?'Long-tail territory — low velocity is normal here but growth is minimal.':'Very low velocity — algorithm has likely not committed to a push.')};
-      else                     velocityContext={label:'Near-zero — '+velocity.toFixed(3)+' views/hr',                 color:'var(--danger)',  penalty:22, note:(agePhase==='longtail'||agePhase==='evergreen'?'Video has run its course. Minimal to no traffic.':'Algorithm has stopped distributing this video.')};
+      if (agePhase==='seed') {
+        // 0–3h: almost any velocity is fine — subscriber pull is just starting
+        thS=300; thM=50; thSl=8; thV=1;
+      } else if (agePhase==='early') {
+        // 3–12h: video is still seeding, low velocity is completely normal
+        thS=400; thM=80; thSl=15; thV=3;
+      } else if (agePhase==='decision') {
+        // 12–48h: NOW velocity starts mattering — algorithm is making its push decision
+        thS=200; thM=40; thSl=8; thV=1.5;
+      } else if (agePhase==='established') {
+        // 2–7 days: push is underway or settled, velocity is a real signal
+        thS=50; thM=10; thSl=2; thV=0.4;
+      } else if (agePhase==='longtail') {
+        // 1–4 weeks: long-tail territory, very low velocity expected
+        thS=10; thM=2; thSl=0.4; thV=0.08;
+      } else if (agePhase==='evergreen') {
+        // 1+ month: ancient video, any consistent views is positive
+        thS=5; thM=0.8; thSl=0.15; thV=0.02;
+      } else {
+        // No age data — use moderate defaults, treat like decision phase
+        thS=200; thM=40; thSl=8; thV=1.5;
+      }
+
+      // Penalty scale is now age-aware:
+      // — Seed/early: much smaller penalties (velocity is uninformative this early)
+      // — Decision: moderate penalties (velocity starts to matter)
+      // — Established+: full penalties (velocity is now the primary signal)
+      const isEarly = agePhase === 'seed' || agePhase === 'early';
+      const isMid   = agePhase === 'decision' || !agePhase;
+      const penaltyScale = isEarly ? 0.35 : isMid ? 0.65 : 1.0;
+
+      let basePenaltyBelow   = Math.round(4  * penaltyScale); // "below average" tier
+      let basePenaltyLow     = Math.round(10 * penaltyScale); // "low" tier
+      let basePenaltyNearZero= Math.round(18 * penaltyScale); // "near-zero" tier
+
+      if (velocity >= thS) {
+        velocityContext = { label:'Strong for its age — '+velocity.toLocaleString()+' views/hr',
+          color:'var(--success)', penalty:0,
+          note:'Excellent velocity for a '+agePhaseName+' video. Algorithm is actively distributing.' };
+      } else if (velocity >= thM) {
+        velocityContext = { label:'Healthy — '+velocity.toLocaleString()+' views/hr',
+          color:'var(--primary)', penalty:0,
+          note:'Solid velocity for this stage. Video is receiving good distribution.' };
+      } else if (velocity >= thSl) {
+        velocityContext = { label:'Below average — '+velocity.toLocaleString()+' views/hr',
+          color:'var(--warning)', penalty: basePenaltyBelow,
+          note: isEarly
+            ? 'Lower velocity is normal this early — CTR and AVD are more predictive right now than views/hr.'
+            : 'Below expected velocity for this phase. Algorithm may not be actively pushing yet.' };
+      } else if (velocity >= thV) {
+        velocityContext = { label:'Low — '+velocity.toFixed(2)+' views/hr',
+          color:'#fb923c', penalty: basePenaltyLow,
+          note: isEarly
+            ? 'Low velocity in the first few hours is not necessarily a bad sign — many strong videos build slowly before the algorithm commits.'
+            : (agePhase==='longtail'||agePhase==='evergreen')
+              ? 'Long-tail territory — low velocity is normal here but meaningful growth has paused.'
+              : 'Low velocity for this phase. Algorithm has likely not made a strong push yet.' };
+      } else {
+        velocityContext = { label:'Near-zero — '+velocity.toFixed(3)+' views/hr',
+          color:'var(--danger)', penalty: basePenaltyNearZero,
+          note: isEarly
+            ? 'Very low velocity — but this is still the seeding window. If CTR and AVD are strong, a push may still come at the 12–24h mark.'
+            : (agePhase==='longtail'||agePhase==='evergreen')
+              ? 'Video has run its course. Minimal organic traffic remaining.'
+              : 'Near-zero velocity. Algorithm has stopped distributing this video.' };
+      }
     }
 
     // ── SCORING ───────────────────────────────────────────────────
@@ -4140,14 +4206,33 @@ input:focus, select:focus, textarea:focus {
     // Age modifier
     let rawScore = (ctrAdjusted + avdPts + retPts + retCurvePts + engPts + sharesPts + subConvPts + channelCtxPts + imprPts + trafficPts + clickBouncePenalty) * ageModifier;
 
-    // Velocity cap
+    // Velocity adjustment — penalty only, no hard caps in early phases
+    // Hard caps only kick in for established+ videos where velocity IS the primary signal.
+    // In seed/early/decision phases, a low views/hr should nudge the score down modestly
+    // but should never override strong CTR + AVD evidence.
     let velPenalty = 0;
     if (velocityContext) {
       velPenalty = velocityContext.penalty;
       rawScore  -= velPenalty;
-      if      (velocityContext.penalty >= 22) rawScore = Math.min(rawScore, 28);
-      else if (velocityContext.penalty >= 14) rawScore = Math.min(rawScore, 42);
-      else if (velocityContext.penalty >= 6)  rawScore = Math.min(rawScore, 60);
+
+      // Hard caps — only applied from decision phase onward, and only for severe cases
+      // Seed/early: NO hard caps — underlying metrics should dominate
+      // Decision: soft cap only on near-zero velocity
+      // Established+: caps applied because velocity is now the ground truth
+      const isEarly2 = agePhase === 'seed' || agePhase === 'early';
+      const isDecision = agePhase === 'decision';
+      if (!isEarly2) {
+        if (isDecision) {
+          // Decision phase: only cap on truly near-zero velocity (video not moving at all)
+          if (velocityContext.penalty >= 12) rawScore = Math.min(rawScore, 65);
+        } else {
+          // Established/longtail/evergreen: full caps because push window is determined
+          if      (velocityContext.penalty >= 18) rawScore = Math.min(rawScore, 32);
+          else if (velocityContext.penalty >= 10) rawScore = Math.min(rawScore, 48);
+          else if (velocityContext.penalty >= 4)  rawScore = Math.min(rawScore, 68);
+        }
+      }
+      // No caps at all in seed/early — CTR + AVD are predictive, velocity is noise
     }
 
     // Age penalty for old videos with no snapshots
@@ -7945,11 +8030,153 @@ input:focus, select:focus, textarea:focus {
     if(canvas._vx)cancelAnimationFrame(canvas._vx);
     draw();
   }
+
+
+  /* ═══ ADMIN PANEL ═══ */
+function refreshAdminStats() {
+    try {
+      let sz=0; for(let k in localStorage){if(localStorage.hasOwnProperty(k))sz+=(localStorage[k].length+k.length)*2;}
+      const loads=parseInt(localStorage.getItem('tss_loads')||'0')+1; localStorage.setItem('tss_loads',loads);
+      const g=id=>document.getElementById(id);
+      if(g('admin_stat_loads'))  g('admin_stat_loads').innerText=loads;
+      if(g('admin_stat_theme'))  g('admin_stat_theme').innerText=currentTheme||'default';
+      if(g('admin_stat_font'))   g('admin_stat_font').innerText=currentFont||'inter';
+      if(g('admin_stat_storage'))g('admin_stat_storage').innerText=(sz/1024).toFixed(1)+' KB';
+    } catch(e){}
+  }
+  function adminClearStorage(){try{localStorage.clear();}catch(e){}const st=document.getElementById('admin_action_status');if(st)st.innerText='✓ Local storage cleared.';}
+  function adminExportDiag(){const d={theme:currentTheme,font:currentFont,tabs:document.querySelectorAll('.tabcontent').length,timestamp:new Date().toISOString()};const b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='tss_diag.json';a.click();const st=document.getElementById('admin_action_status');if(st)st.innerText='✓ Exported.';}
+  function adminResetTheme(){applyTheme('default');applyFont('inter');const st=document.getElementById('admin_action_status');if(st)st.innerText='✓ Reset to defaults.';}
+  function adminForceRefresh(){location.reload(true);}
+
+  /* ═══ CTR GUESSING GAME ═══ */
+  const ctrScenarios=[
+    {desc:'Gaming channel 10k subs. Video: "I Speedran Minecraft Blindfolded". Browse traffic.',threshold:5,answer:true,explain:'Strong curiosity-gap title on a niche-aligned channel. Typical 5–9% CTR.'},
+    {desc:'Finance channel 50k subs. Video: "My Portfolio Update - March 2024". Subscriber feed.',threshold:4,answer:false,explain:'Portfolio updates avg 2–3% CTR outside the subscriber feed.'},
+    {desc:'New channel 200 subs. "POV: You found the cheat code for life". Suggested traffic.',threshold:6,answer:false,explain:'New channels lack thumbnail trust. Suggested CTR rarely exceeds 3–4% early on.'},
+    {desc:'500k subs creator. Bright face + bold text thumbnail. "I Tried Every Viral Hack". Browse.',threshold:7,answer:true,explain:'Established trust + viral format + browse = 7–12% CTR common.'},
+    {desc:'Education channel 20k subs. "How Compound Interest Actually Works". Search traffic.',threshold:4,answer:false,explain:'Search traffic typically yields 2–3.5% CTR.'},
+    {desc:'Beauty channel 100k subs. Trending topic video posted within 6 hours. Browse feed.',threshold:8,answer:true,explain:'Trending + established channel + browse = 8–15% CTR window in first 24h.'},
+    {desc:'Cooking channel 5k subs. Standard recipe video, no special hook. Homepage.',threshold:3,answer:false,explain:'Generic recipe thumbnails on small channels land at 1.5–2.5% CTR.'},
+    {desc:'Tech review 1M subs. iPhone review with shocked expression thumbnail. Browse.',threshold:9,answer:true,explain:'High-trust tech channels with emotional thumbnails commonly hit 10–15% at launch.'},
+  ];
+  let ctrGameIdx=0,ctrGameCorrect=0,ctrGameTotal=0,ctrGameActive=false;
+  function ctrGameStart(){
+    ctrGameIdx=Math.floor(Math.random()*ctrScenarios.length); ctrGameActive=true;
+    const s=ctrScenarios[ctrGameIdx];
+    document.getElementById('ctr_game_card').innerHTML='<strong>Scenario:</strong><br>'+s.desc+'<br><br><strong>Is the CTR above or below '+s.threshold+'%?</strong>';
+    document.getElementById('ctr_guess_high').style.display='inline-block';
+    document.getElementById('ctr_guess_low').style.display='inline-block';
+    document.getElementById('ctr_game_start_btn').innerText='↺ New Scenario';
+    document.getElementById('ctr_game_result').innerText='';
+  }
+  function ctrGameGuess(guessHigh){
+    if(!ctrGameActive)return;
+    const s=ctrScenarios[ctrGameIdx]; const correct=guessHigh===s.answer;
+    ctrGameTotal++; if(correct)ctrGameCorrect++;
+    document.getElementById('ctr_game_score').innerText='Score: '+ctrGameCorrect+' / '+ctrGameTotal;
+    document.getElementById('ctr_game_result').innerHTML=(correct?'<span style="color:var(--success);">✅ Correct!</span>':'<span style="color:var(--danger);">✗ Wrong.</span>')+' '+s.explain;
+    ctrGameActive=false;
+    document.getElementById('ctr_guess_high').style.display='none';
+    document.getElementById('ctr_guess_low').style.display='none';
+  }
+
+  /* ═══ ALGORITHM IQ QUIZ ═══ */
+  const quizQs=[
+    {q:'What does YouTube weight more heavily than likes when deciding to recommend a video?',opts:['Shares','Comments','Watch time / AVD','Subscriber count'],ans:2,explain:'Watch time and AVD are primary ranking signals. Shares are second. Likes are a weak signal.'},
+    {q:'On TikTok, what is the primary signal that causes a video to leave the seed batch?',opts:['Like count','Completion rate','Follower count','Post time'],ans:1,explain:"TikTok's batch system expands based on completion rate above all else."},
+    {q:'What does a "click bounce" mean in YouTube analytics?',opts:['High CTR + low AVD','Low CTR + high AVD','High CTR + high views','Low impressions'],ans:0,explain:'Click bounce = high CTR but viewers leave almost immediately. Thumbnail overpromises.'},
+    {q:'What Instagram Reels signal carries the most algorithmic weight for Explore?',opts:['Likes','Comments','Saves + Sends','Non-follower reach %'],ans:2,explain:'Saves signal evergreen value. Sends bring new users into the app. Both outweigh likes.'},
+    {q:'Which YouTube traffic source signals strongest algorithmic confidence?',opts:['External','Search','Browse Features','Subscriptions Feed'],ans:2,explain:'Browse Features = YouTube proactively showed your video to non-subscribers.'},
+    {q:'What AVD% is the rough benchmark for a 10-minute video to be "watch time positive"?',opts:['25%','40%','50%','60%'],ans:1,explain:'~40% AVD on a 10-minute video is the rough benchmark. Below this the algorithm deprioritises.'},
+    {q:'Where should you place cards for maximum CTR?',opts:['At the very start','At drop-off points','In high-retention flat sections','At the end screen'],ans:2,explain:'Cards placed in high-retention zones get more clicks. Never at drop-off points.'},
+    {q:'What does a "hard stall" in the stall detector mean?',opts:['Views dropped to 0','Velocity at <10% of earlier rate','No new uploads','CTR below 1%'],ans:1,explain:'Hard stall = current velocity is less than 10% of the prior window.'},
+    {q:'What is the typical follow conversion rate for TikTok FYP videos?',opts:['0.1–0.3%','1–3%','5–10%','10–20%'],ans:0,explain:'TikTok follow rates are typically 0.1–0.5%. Over 1% is exceptional.'},
+    {q:'Which of these is NOT a direct YouTube Search ranking factor?',opts:['Title keyword','Subscriber count','Watch time from search','CTR from search'],ans:1,explain:'Subscriber count has no direct influence on search ranking.'},
+  ];
+  let quizIdx=0,quizCorrect=0,quizTotal=0,quizOrder=[];
+  function quizStart(){
+    quizOrder=[...Array(quizQs.length).keys()].sort(()=>Math.random()-0.5);
+    quizIdx=0;quizCorrect=0;quizTotal=0;
+    document.getElementById('quiz_score').innerText='Score: 0 / 0';
+    document.getElementById('quiz_result').innerText='';
+    document.getElementById('quiz_start_btn').innerText='↺ Restart';
+    quizShowQ();
+  }
+  function quizShowQ(){
+    if(quizIdx>=quizOrder.length){document.getElementById('quiz_card').innerHTML='Quiz complete! Final: <strong>'+quizCorrect+' / '+quizTotal+'</strong>';document.getElementById('quiz_options').innerHTML='';return;}
+    const q=quizQs[quizOrder[quizIdx]];
+    document.getElementById('quiz_card').innerText='Q'+(quizIdx+1)+': '+q.q;
+    document.getElementById('quiz_options').innerHTML=q.opts.map((o,i)=>'<button onclick="quizAnswer('+i+')" style="background:var(--card2);border:1px solid var(--border-hi);border-radius:var(--radius);padding:8px 12px;font-size:12px;color:var(--text);cursor:pointer;text-align:left;">'+o+'</button>').join('');
+    document.getElementById('quiz_result').innerText='';
+  }
+  function quizAnswer(idx){
+    const q=quizQs[quizOrder[quizIdx]]; quizTotal++; const correct=idx===q.ans;
+    if(correct)quizCorrect++;
+    document.getElementById('quiz_score').innerText='Score: '+quizCorrect+' / '+quizTotal;
+    document.getElementById('quiz_result').innerHTML=(correct?'<span style="color:var(--success);">✅ Correct!</span>':'<span style="color:var(--danger);">✗ Wrong. Answer: '+q.opts[q.ans]+'</span>')+' — '+q.explain;
+    document.getElementById('quiz_options').innerHTML='';
+    quizIdx++; setTimeout(quizShowQ,1800);
+  }
 </script>
+
+<!-- ── Admin Overlay Modal ── -->
+<div id="adminOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.94);backdrop-filter:blur(8px);z-index:99999;overflow-y:auto;">
+  <div style="max-width:800px;margin:40px auto;padding:0 20px 60px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:24px 0;border-bottom:1px solid rgba(255,255,255,0.1);margin-bottom:28px;">
+      <div>
+        <div style="font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:2px;margin-bottom:4px;">⚙️ ADMIN PANEL</div>
+        <h2 style="margin:0;color:var(--text-bright);font-size:22px;">The Social Spot — Dashboard Control</h2>
+      </div>
+      <button onclick="closeAdminModal()" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);color:var(--text-bright);font-size:14px;padding:8px 16px;border-radius:var(--radius);cursor:pointer;">✕ Close</button>
+    </div>
+    <!-- Stats -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:28px;">
+      <div style="background:var(--card2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;text-align:center;"><div style="font-size:11px;color:var(--text-dim);text-transform:uppercase;margin-bottom:6px;">Session Loads</div><div style="font-size:24px;font-weight:800;color:var(--primary);" id="admin_stat_loads">—</div></div>
+      <div style="background:var(--card2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;text-align:center;"><div style="font-size:11px;color:var(--text-dim);text-transform:uppercase;margin-bottom:6px;">Active Theme</div><div style="font-size:16px;font-weight:800;color:var(--secondary);" id="admin_stat_theme">—</div></div>
+      <div style="background:var(--card2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;text-align:center;"><div style="font-size:11px;color:var(--text-dim);text-transform:uppercase;margin-bottom:6px;">Active Font</div><div style="font-size:16px;font-weight:800;color:var(--accent);" id="admin_stat_font">—</div></div>
+      <div style="background:var(--card2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;text-align:center;"><div style="font-size:11px;color:var(--text-dim);text-transform:uppercase;margin-bottom:6px;">LocalStorage</div><div style="font-size:16px;font-weight:800;color:var(--warning);" id="admin_stat_storage">—</div></div>
+    </div>
+    <!-- Actions -->
+    <div class="control-card" style="margin-bottom:20px;">
+      <h3 style="margin-top:0;color:var(--primary);">🔧 Admin Actions</h3>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;">
+        <button onclick="adminClearStorage()" class="btn-secondary" style="font-size:12px;">🗑 Clear Local Storage</button>
+        <button onclick="adminExportDiag()" class="btn-secondary" style="font-size:12px;">📋 Export Diagnostics</button>
+        <button onclick="adminResetTheme()" class="btn-secondary" style="font-size:12px;">🎨 Reset Theme</button>
+        <button onclick="adminForceRefresh()" class="btn-secondary" style="font-size:12px;">🔄 Hard Reload</button>
+      </div>
+      <div id="admin_action_status" style="margin-top:10px;font-size:12px;color:var(--success);min-height:16px;"></div>
+    </div>
+    <!-- CTR Game -->
+    <div class="control-card" style="margin-bottom:20px;border-left:3px solid var(--secondary);">
+      <h3 style="margin-top:0;color:var(--secondary);">🎮 Guess the CTR</h3>
+      <p style="font-size:12px;color:var(--text-dim);margin-bottom:14px;">A video scenario is shown. Guess whether the CTR is above or below the stated threshold.</p>
+      <div id="ctr_game_card" style="background:var(--bg2);border:1px solid var(--border-hi);border-radius:var(--radius);padding:16px;margin-bottom:12px;font-size:13px;line-height:1.8;color:var(--text);">Press Start to play</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+        <button onclick="ctrGameStart()" class="btn-primary" style="font-size:12px;" id="ctr_game_start_btn">▶ Start</button>
+        <button onclick="ctrGameGuess(true)"  class="btn-secondary" style="font-size:12px;display:none;" id="ctr_guess_high">👆 Above</button>
+        <button onclick="ctrGameGuess(false)" class="btn-secondary" style="font-size:12px;display:none;" id="ctr_guess_low">👇 Below</button>
+        <span id="ctr_game_score" style="font-size:12px;color:var(--text-dim);">Score: 0 / 0</span>
+      </div>
+      <div id="ctr_game_result" style="margin-top:10px;font-size:12px;min-height:16px;"></div>
+    </div>
+    <!-- Algorithm Quiz -->
+    <div class="control-card" style="border-left:3px solid var(--accent);">
+      <h3 style="margin-top:0;color:var(--accent);">🧠 Algorithm IQ Quiz</h3>
+      <p style="font-size:12px;color:var(--text-dim);margin-bottom:14px;">10 questions testing your knowledge of YouTube, TikTok, and Instagram algorithms.</p>
+      <div id="quiz_card" style="background:var(--bg2);border:1px solid var(--border-hi);border-radius:var(--radius);padding:16px;margin-bottom:12px;font-size:13px;line-height:1.8;color:var(--text);">Press Start to begin</div>
+      <div id="quiz_options" style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px;"></div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+        <button onclick="quizStart()" class="btn-primary" style="font-size:12px;" id="quiz_start_btn">▶ Start Quiz</button>
+        <span id="quiz_score" style="font-size:12px;color:var(--text-dim);">Score: 0 / 0</span>
+      </div>
+      <div id="quiz_result" style="margin-top:10px;font-size:12px;min-height:16px;"></div>
+    </div>
+  </div>
+</div>
 </body>
 </html>
       <button class="tab-btn" onclick="openTab(event,'Tab8')">🎬 Video Tracker</button>
       <button class="tab-btn" onclick="openTab(event,'TabSocial')">📱 Social Analytics</button>
-      <button class="tab-btn" onclick="openTab(event,'TabLive')" style="border-color:var(--danger);color:var(--danger);">🔴 Live Sub Tracker</button>
-      <button class="tab-btn" onclick="openTab(event,'Tab7')">⏰ Publishing Hub</button>
-      <button class="tab-btn" onclick="openTab(event,'TabAB')">🎯 Title/Thumbnail Checker</button>
+      <button class="tab-btn" onclick="openTab(event,'TabLive')" style="border-color:var(--danger);color:var(-
