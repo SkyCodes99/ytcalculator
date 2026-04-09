@@ -1774,6 +1774,86 @@ input:focus, select:focus, textarea:focus {
     <span id="m_weeklyHours" style="display:none;">0</span>
     <span id="m_estimatedDate3kStream" style="display:none;"></span>
 
+
+    <!-- ══ Watch Hour Goal Planner Table ══ -->
+    <h3>⏱ Watch Hour Goal Planner</h3>
+    <p style="font-size:12px;color:var(--text-dim);margin-bottom:14px;">
+      Based on your average view duration (AVD) and the months you have to reach 4,000 hours,
+      this table shows the daily views and views-per-video you need to hit your goal.
+      Assumes roughly <strong>12 uploads per month</strong> (~3 per week).
+      Your current stats are highlighted in green where they match.
+    </p>
+
+    <!-- Controls -->
+    <div class="control-card" style="margin-bottom:12px;">
+      <div class="input-grid">
+        <div class="input-box">
+          <label>Your AVD (minutes) <span style="font-size:10px;color:var(--text-muted);">— used to highlight your row</span></label>
+          <input type="number" id="gp_avd" value="" min="0.5" max="20" step="0.5"
+            placeholder="e.g. 3.5" oninput="renderGoalPlanner()">
+        </div>
+        <div class="input-box">
+          <label>Months to goal <span style="font-size:10px;color:var(--text-muted);">— highlights your column</span></label>
+          <select id="gp_months" onchange="renderGoalPlanner()"
+            style="width:100%;padding:9px;background:var(--bg2);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:0.9rem;color:var(--text-bright);">
+            <option value="">— select —</option>
+            <option value="1">1 month</option>
+            <option value="2">2 months</option>
+            <option value="3">3 months</option>
+            <option value="4">4 months</option>
+            <option value="5">5 months</option>
+            <option value="6">6 months</option>
+            <option value="7">7 months</option>
+            <option value="8">8 months</option>
+            <option value="9">9 months</option>
+            <option value="10">10 months</option>
+            <option value="11">11 months</option>
+            <option value="12">12 months</option>
+            <option value="15">15 months</option>
+            <option value="18">18 months</option>
+            <option value="20">20 months</option>
+          </select>
+        </div>
+        <div class="input-box">
+          <label>Watch hours already earned</label>
+          <input type="number" id="gp_earned" value="0" min="0" max="4000"
+            placeholder="e.g. 1200" oninput="renderGoalPlanner()">
+        </div>
+      </div>
+      <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);">
+        <div style="font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:10px;">🎮 Streaming Contribution (optional)</div>
+        <div class="input-grid">
+          <div class="input-box"><label>Stream hours per week</label><input type="number" id="gp_stream_hrs" value="0" min="0" step="0.5" placeholder="e.g. 4" oninput="renderGoalPlanner()"></div>
+          <div class="input-box"><label>Avg concurrent viewers</label><input type="number" id="gp_stream_viewers" value="0" min="0" placeholder="e.g. 15" oninput="renderGoalPlanner()"></div>
+        </div>
+        <div id="gp_stream_note" style="margin-top:8px;font-size:11px;color:var(--text-dim);line-height:1.6;"></div>
+      </div>
+      <div id="gp_highlight_note" style="margin-top:12px;font-size:12px;color:var(--text-dim);"></div>
+    </div>
+
+    <!-- Table container -->
+    <div id="gp_table_wrap" style="overflow-x:auto;margin-bottom:16px;">
+      <div id="gp_table_placeholder" style="text-align:center;padding:32px;color:var(--text-muted);font-size:13px;">
+        Select your AVD and months-to-goal above to generate the table.
+      </div>
+    </div>
+
+    <!-- Legend -->
+    <div style="display:flex;flex-wrap:wrap;gap:12px;font-size:11px;margin-bottom:20px;">
+      <div style="display:flex;align-items:center;gap:6px;">
+        <div style="width:16px;height:16px;border-radius:3px;background:rgba(52,211,153,0.25);border:1px solid rgba(52,211,153,0.5);"></div>
+        <span style="color:var(--text-dim);">Your AVD row — your baseline</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <div style="width:16px;height:16px;border-radius:3px;background:rgba(99,102,241,0.25);border:1px solid rgba(99,102,241,0.5);"></div>
+        <span style="color:var(--text-dim);">Your target month column</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <div style="width:16px;height:16px;border-radius:3px;background:rgba(244,114,182,0.35);border:1px solid rgba(244,114,182,0.6);"></div>
+        <span style="color:var(--text-dim);">Intersection — your exact target</span>
+      </div>
+    </div>
+
     <div class="faq-link-bar">❓ <a onclick="goFAQ()">How is watch time calculated? See the FAQ →</a></div>
   </div>
 
@@ -5697,6 +5777,7 @@ input:focus, select:focus, textarea:focus {
     ytInitCustomDropdowns();  // populate day/year dropdowns on load
     calcSchedule();
     calcROI();
+    renderGoalPlanner();
     // Auto-fill live tracker API key from saved key
     const savedKey = localStorage.getItem('ccYTApiKey') || '';
     const lstKey = document.getElementById('lst_apikey');
@@ -8120,6 +8201,94 @@ function refreshAdminStats() {
     document.getElementById('quiz_result').innerHTML=(correct?'<span style="color:var(--success);">✅ Correct!</span>':'<span style="color:var(--danger);">✗ Wrong. Answer: '+q.opts[q.ans]+'</span>')+' — '+q.explain;
     document.getElementById('quiz_options').innerHTML='';
     quizIdx++; setTimeout(quizShowQ,1800);
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     WATCH HOUR GOAL PLANNER — Tab3
+     Formulas (verified against reference spreadsheet):
+       total_views_needed = (4000 - hours_earned) * 60 / avd_mins
+       views_per_vid      = total_views_needed / (12 * (N + 1))
+       daily_views        = total_views_needed / (30.5 * (N + 1))
+  ═══════════════════════════════════════════════════════ */
+  function renderGoalPlanner() {
+    const avdInput      = parseFloat(document.getElementById('gp_avd')?.value)          || 0;
+    const monthsSel     = parseInt(document.getElementById('gp_months')?.value)          || 0;
+    const earned        = parseFloat(document.getElementById('gp_earned')?.value)        || 0;
+    const streamHrs     = parseFloat(document.getElementById('gp_stream_hrs')?.value)    || 0;
+    const streamViewers = parseFloat(document.getElementById('gp_stream_viewers')?.value)|| 0;
+    const wrap          = document.getElementById('gp_table_wrap');
+    const note          = document.getElementById('gp_highlight_note');
+    const sNoteEl       = document.getElementById('gp_stream_note');
+    if (!wrap) return;
+    const streamWkHrs = streamHrs * streamViewers;
+    const streamMoHrs = streamWkHrs * (30.5 / 7);
+    const hasStream   = streamWkHrs > 0;
+    const remaining   = Math.max(0, 4000 - earned);
+    if (sNoteEl) {
+      if (streamHrs > 0 && streamViewers > 0)
+        sNoteEl.innerHTML = 'Streams contribute <strong style="color:var(--accent);">' + streamWkHrs.toFixed(1) + ' watch hrs/week</strong> (' + streamMoHrs.toFixed(1) + ' hrs/month). Orange columns show reduced video views needed after streaming is counted.';
+      else if (streamHrs > 0 || streamViewers > 0) sNoteEl.innerHTML = 'Enter <em>both</em> stream hours/week and avg concurrent viewers.';
+      else sNoteEl.innerHTML = '';
+    }
+    const avdRows   = [2, 2.5, 3, 3.5, 4, 4.5, 5, 6];
+    const monthCols = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 15, 18, 20];
+    if (!avdInput && !monthsSel) {
+      wrap.innerHTML = '<div style="text-align:center;padding:32px;color:var(--text-muted);font-size:13px;">Select your AVD and months-to-goal above to generate the table.</div>';
+      if (note) note.innerHTML = ''; return;
+    }
+    const hiAvd = avdInput > 0 ? avdRows.reduce((a,b) => Math.abs(b-avdInput)<Math.abs(a-avdInput)?b:a) : null;
+    const showM = monthsSel > 0 ? monthCols.filter(m => m <= Math.max(monthsSel+3,6)) : monthCols.slice(0,8);
+    const cpm   = hasStream ? 4 : 2;
+    const td  = 'padding:8px 10px;font-size:12px;white-space:nowrap;text-align:right;';
+    const th  = 'padding:8px 10px;font-size:11px;font-weight:700;text-align:center;white-space:nowrap;background:var(--card2);border:1px solid var(--border);color:var(--text-dim);text-transform:uppercase;letter-spacing:0.5px;';
+    const thl = 'padding:8px 12px;font-size:11px;font-weight:700;text-align:left;white-space:nowrap;background:var(--card2);border:1px solid var(--border);color:var(--text-dim);text-transform:uppercase;letter-spacing:0.5px;';
+    let html = '<table style="border-collapse:collapse;width:100%;min-width:'+(hasStream?900:600)+'px;">';
+    html += '<thead><tr><th colspan="2" style="'+thl+'background:var(--card);color:var(--text-bright);font-size:12px;">Stats</th>';
+    showM.forEach(m => { const iT=monthsSel>0&&m===monthsSel; html += '<th colspan="'+cpm+'" style="'+th+(iT?'background:rgba(99,102,241,0.2);color:var(--primary);':'')+'">'+m+' Month'+(m===1?'':'s')+'</th>'; });
+    html += '</tr><tr><th style="'+thl+'">Avg Watch Time</th><th style="'+thl+'">Views Needed</th>';
+    showM.forEach(m => {
+      const iT=monthsSel>0&&m===monthsSel;
+      const bg=iT?'background:rgba(99,102,241,0.1);color:var(--primary);':'';
+      const sb=iT?'background:rgba(251,146,60,0.18);color:#fb923c;border:1px solid var(--border);':'color:#fb923c;border:1px solid var(--border);background:var(--card2);';
+      html += '<th style="'+th+bg+'">Views/Vid</th><th style="'+th+bg+'">Daily Views</th>';
+      if (hasStream) html += '<th style="'+th+sb+'" title="After streaming">+Stream V/V</th><th style="'+th+sb+'" title="After streaming">+Stream Daily</th>';
+    });
+    html += '</tr></thead><tbody>';
+    avdRows.forEach(avd => {
+      const tv=Math.round(remaining*60/avd), isR=hiAvd!==null&&avd===hiAvd;
+      html += '<tr style="'+(isR?'background:rgba(52,211,153,0.05);':'')+'"><td style="'+td+'text-align:left;font-weight:'+(isR?800:600)+';color:'+(isR?'var(--success)':'var(--text)')+';border:1px solid var(--border);padding:8px 12px;">'+avd+' min'+(isR&&avdInput>0?' ←':'')+'</td><td style="'+td+'font-weight:'+(isR?700:400)+';color:var(--secondary);border:1px solid var(--border);">'+tv.toLocaleString()+'</td>';
+      showM.forEach(m => {
+        const vpv=Math.round(tv/(12*(m+1))), daily=Math.round(tv/(30.5*(m+1)));
+        const adjH=Math.max(0,remaining-streamMoHrs*m), done=adjH<=0;
+        const adjV=done?0:Math.round(adjH*60/avd);
+        const sv=done?0:Math.round(adjV/(12*(m+1))), sd=done?0:Math.round(adjV/(30.5*(m+1)));
+        const iT=monthsSel>0&&m===monthsSel, iStar=isR&&iT;
+        const cs=iStar?'background:rgba(244,114,182,0.35);border:1px solid rgba(244,114,182,0.6);font-weight:800;':isR?'background:rgba(52,211,153,0.12);border:1px solid rgba(52,211,153,0.2);font-weight:700;':iT?'background:rgba(99,102,241,0.15);border:1px solid rgba(99,102,241,0.25);font-weight:700;':'border:1px solid var(--border);';
+        const ss=iStar&&done?'background:rgba(52,211,153,0.35);border:1px solid rgba(52,211,153,0.6);font-weight:800;':iStar?'background:rgba(251,146,60,0.3);border:1px solid rgba(251,146,60,0.6);font-weight:800;':done&&iT?'background:rgba(52,211,153,0.2);border:1px solid rgba(52,211,153,0.4);font-weight:700;':iT?'background:rgba(251,146,60,0.18);border:1px solid rgba(251,146,60,0.4);font-weight:700;':done?'background:rgba(52,211,153,0.08);border:1px solid rgba(52,211,153,0.2);':'background:rgba(251,146,60,0.04);border:1px solid var(--border);';
+        const nc=iStar?'color:var(--accent);':isR?'color:var(--success);':'color:var(--text);', snc=done?'color:var(--success);font-weight:800;':'color:#fb923c;';
+        html += '<td style="'+td+cs+nc+'">'+vpv.toLocaleString()+'</td><td style="'+td+cs+nc+'">'+daily.toLocaleString()+'</td>';
+        if (hasStream) html += '<td style="'+td+ss+snc+'">'+(done?'✅ 0':sv.toLocaleString())+'</td><td style="'+td+ss+snc+'">'+(done?'✅ 0':sd.toLocaleString())+'</td>';
+      });
+      html += '</tr>';
+    });
+    html += '</tbody></table>';
+    wrap.innerHTML = html;
+    if (note) {
+      let txt = '';
+      if (earned>0) txt += 'Based on <strong>'+remaining.toLocaleString()+' hours still needed</strong>. ';
+      if (hasStream) txt += 'Streams add <strong style="color:#fb923c;">'+streamMoHrs.toFixed(1)+' hrs/month</strong>. ';
+      if (hiAvd && monthsSel) {
+        const tv2=Math.round(remaining*60/hiAvd), v2=Math.round(tv2/(12*(monthsSel+1))), d2=Math.round(tv2/(30.5*(monthsSel+1)));
+        txt += 'Videos only: <strong style="color:var(--success);">'+d2.toLocaleString()+'/day</strong>, <strong style="color:var(--success);">'+v2.toLocaleString()+'/vid</strong>';
+        if (hasStream) {
+          const aH=Math.max(0,remaining-streamMoHrs*monthsSel);
+          if (aH<=0) { txt += '. <strong style="color:var(--success);">✅ Streaming alone covers your goal in '+monthsSel+' month'+(monthsSel===1?'':'s')+'!</strong>'; }
+          else { const aV=Math.round(aH*60/hiAvd),sv2=Math.round(aV/(12*(monthsSel+1))),sd2=Math.round(aV/(30.5*(monthsSel+1))),sav=Math.round(remaining-aH); txt += '. With streams: <strong style="color:#fb923c;">'+sd2.toLocaleString()+'/day</strong>, <strong style="color:#fb923c;">'+sv2.toLocaleString()+'/vid</strong> (streams cover <strong>'+sav.toLocaleString()+' hrs</strong>).'; }
+        } else txt += '.';
+      } else if (hiAvd) txt += 'Select a month target to highlight your column.';
+      else if (monthsSel) txt += 'Enter your AVD to highlight your row.';
+      note.innerHTML = txt;
+    }
   }
 </script>
 
