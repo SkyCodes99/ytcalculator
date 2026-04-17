@@ -1487,7 +1487,7 @@ input:focus, select:focus, textarea:focus {
       <div class="label-flex"><span style="cursor:help;position:relative;" class="tip-wrap">🖱️ Click-Through Rate (CTR %)<span class="tip-popup"><strong>CTR (Click-Through Rate)</strong> — what % of people who saw your thumbnail clicked on it. The primary gating signal for algorithmic distribution.<span class="tip-path">YouTube Studio → Analytics → your video → Reach tab → "Click-through rate (CTR)"</span></span></span><span class="val-badge" id="ctrVal">0.0%</span></div>
       <div style="display:flex;gap:10px;align-items:center;">
         <input type="range" id="ctr" min="0" max="25" step="0.1" value="0" oninput="syncSlider('ctr','ctrNum');updateTab1()" style="flex:1;">
-        <input type="number" id="ctrNum" value="0" min="0" max="25" step="0.1" style="width:70px;padding:6px 8px;" oninput="syncNum('ctrNum','ctr');updateTab1()">
+        <input type="text" inputmode="decimal" id="ctrNum" value="0" style="width:70px;padding:6px 8px;" oninput="syncNum('ctrNum','ctr');updateTab1()">
       </div>
       <div id="ctrBenchmark" style="margin-top:8px;font-size:11px;color:var(--text-dim);"></div>
     </div>
@@ -1507,7 +1507,7 @@ input:focus, select:focus, textarea:focus {
       </div>
       <div style="display:flex;gap:10px;align-items:center;">
         <input type="range" id="ret" min="0" max="100" step="1" value="0" oninput="syncSlider('ret','retNum');updateTab1()" style="flex:1;">
-        <input type="number" id="retNum" value="0" min="0" max="100" step="1" style="width:70px;padding:6px 8px;" oninput="syncNum('retNum','ret');updateTab1()">
+        <input type="text" inputmode="decimal" id="retNum" value="0" style="width:70px;padding:6px 8px;" oninput="syncNum('retNum','ret');updateTab1()">
       </div>
     </div>
 
@@ -1531,7 +1531,6 @@ input:focus, select:focus, textarea:focus {
         <div class="input-box"><label data-tip="1">Channel Subscribers<span class="tip-popup"><strong>Your Total Subscribers</strong> — used to compute the views-per-subscriber ratio, which shows whether this video is reaching beyond your existing audience.<span class="tip-path">YouTube Studio → Dashboard → subscriber count shown top-right, or Analytics → Audience tab</span></span></label><input type="number" id="channelSubs" value="0" min="0" oninput="updateTab1()" placeholder="Your total subs"></div>
         <div class="input-box"><label data-tip="1">Avg Views Per Upload<span class="tip-popup"><strong>Your Channel Average Views</strong> — typical views a video on your channel gets. Used to judge whether this video is over or under-performing your baseline.<span class="tip-path">YouTube Studio → Analytics → Overview → scroll to see recent video averages, or check Content tab</span></span></label><input type="number" id="avgViewsPerUpload" value="0" min="0" oninput="updateTab1()" placeholder="Your typical video views"></div>
         <div class="input-box"><label data-tip="1">Subs Gained from This Video<span class="tip-popup"><strong>Subscribers Gained</strong> — how many new subscribers this specific video generated. YouTube rewards videos that grow channels with re-surfacing.<span class="tip-path">YouTube Studio → Analytics → your video → Audience tab → "Subscribers gained"</span></span></label><input type="number" id="subsGained" value="0" min="0" oninput="updateTab1()" placeholder="From Studio analytics"></div>
-        <div class="input-box"><label>Shares</label><input type="number" id="sharesInputAlt" value="0" min="0" oninput="updateTab1()" style="display:none"></div>
       </div>
       <div style="margin-top:10px;">
         <label style="font-size:11px;font-weight:700;color:var(--text-dim);display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;">Primary Traffic Source</label>
@@ -1881,8 +1880,8 @@ input:focus, select:focus, textarea:focus {
           <span class="val-badge" id="c_rpm_val" style="color:var(--secondary);border-color:var(--secondary);background:var(--secondary-dim);">$2.00 – $5.00</span>
         </div>
         <div style="display:flex;gap:20px;margin-top:10px;">
-          <div style="flex:1;"><label style="font-size:11px;color:var(--text-dim);font-weight:700;font-family:var(--font-mono);display:block;margin-bottom:6px;">Min RPM ($)</label><input type="range" id="c_rpm_min" min="0.5" max="50" step="0.1" value="2.0" oninput="updateRpmSliders('min')"><input type="number" id="c_rpm_minNum" min="0.5" max="50" step="0.1" value="2.0" style="width:70px;margin-top:4px;padding:4px 6px;background:var(--bg2);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:11px;color:var(--text-bright);" oninput="document.getElementById('c_rpm_min').value=this.value;updateRpmSliders('min')"></div>
-          <div style="flex:1;"><label style="font-size:11px;color:var(--text-dim);font-weight:700;font-family:var(--font-mono);display:block;margin-bottom:6px;">Max RPM ($)</label><input type="range" id="c_rpm_max" min="0.5" max="50" step="0.1" value="5.0" oninput="updateRpmSliders('max')"><input type="number" id="c_rpm_maxNum" min="0.5" max="50" step="0.1" value="5.0" style="width:70px;margin-top:4px;padding:4px 6px;background:var(--bg2);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:11px;color:var(--text-bright);" oninput="document.getElementById('c_rpm_max').value=this.value;updateRpmSliders('max')"></div>
+          <div style="flex:1;"><label style="font-size:11px;color:var(--text-dim);font-weight:700;font-family:var(--font-mono);display:block;margin-bottom:6px;">Min RPM ($)</label><input type="range" id="c_rpm_min" min="0.5" max="50" step="0.1" value="2.0" oninput="updateRpmSliders('min')"><input type="text" inputmode="decimal" id="c_rpm_minNum" value="2.0" style="width:70px;margin-top:4px;padding:4px 6px;background:var(--bg2);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:11px;color:var(--text-bright);" oninput="document.getElementById('c_rpm_min').value=this.value;updateRpmSliders('min')"></div>
+          <div style="flex:1;"><label style="font-size:11px;color:var(--text-dim);font-weight:700;font-family:var(--font-mono);display:block;margin-bottom:6px;">Max RPM ($)</label><input type="range" id="c_rpm_max" min="0.5" max="50" step="0.1" value="5.0" oninput="updateRpmSliders('max')"><input type="text" inputmode="decimal" id="c_rpm_maxNum" value="5.0" style="width:70px;margin-top:4px;padding:4px 6px;background:var(--bg2);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:11px;color:var(--text-bright);" oninput="document.getElementById('c_rpm_max').value=this.value;updateRpmSliders('max')"></div>
         </div>
         <div class="insight-box">
           <span class="icon">🎯</span>
@@ -1916,8 +1915,6 @@ input:focus, select:focus, textarea:focus {
         Shorts RPM is niche-independent to a larger degree than long-form — the Shorts fund pool is shared. However, finance/business Shorts typically earn $0.06–$0.12 while gaming/meme Shorts average $0.02–$0.05.
       </div>
     </div>
-
-    <button class="btn-primary" onclick="generateReport()" style="width:100%;padding:16px;font-size:14px;">▶ GENERATE REVENUE ANALYSIS</button>
 
     <div id="c_report" class="report-card">
       <div style="font-size:16px;font-weight:800;border-bottom:1px solid var(--border);padding-bottom:14px;margin-bottom:22px;color:var(--primary);font-family:var(--font-display);letter-spacing:1px;">REVENUE BREAKDOWN</div>
@@ -2011,12 +2008,18 @@ input:focus, select:focus, textarea:focus {
         <div class="input-grid">
           <div class="input-box">
             <div class="label-flex"><span>Completion Rate (%)</span><span class="val-badge" id="tt_avdVal" style="color:var(--tiktok);border-color:var(--tiktok);">0%</span></div>
-            <input type="range" id="tt_avd" min="0" max="150" step="1" value="0" oninput="updateTT()">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <input type="range" id="tt_avd" min="0" max="150" step="1" value="0" oninput="syncSlider('tt_avd','tt_avdNum');updateTT()" style="flex:1;">
+              <input type="text" inputmode="decimal" id="tt_avdNum" value="0" style="width:60px;padding:5px 7px;background:var(--bg2);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:12px;color:var(--text-bright);" oninput="syncNum('tt_avdNum','tt_avd');updateTT()">
+            </div>
             <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">TikTok Analytics → Video → Avg watch time ÷ video length. Over 100% = looping.</div>
           </div>
           <div class="input-box">
             <div class="label-flex"><span>3-Second Hook Retention (%)</span><span class="val-badge" id="tt_hookVal" style="color:var(--tiktok);border-color:var(--tiktok);">0%</span></div>
-            <input type="range" id="tt_hook" min="0" max="100" step="1" value="0" oninput="updateTT()">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <input type="range" id="tt_hook" min="0" max="100" step="1" value="0" oninput="syncSlider('tt_hook','tt_hookNum');updateTT()" style="flex:1;">
+              <input type="text" inputmode="decimal" id="tt_hookNum" value="0" style="width:60px;padding:5px 7px;background:var(--bg2);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:12px;color:var(--text-bright);" oninput="syncNum('tt_hookNum','tt_hook');updateTT()">
+            </div>
             <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">TikTok Analytics → Video → Audience retention → read at 3s mark.</div>
           </div>
         </div>
@@ -2091,7 +2094,10 @@ input:focus, select:focus, textarea:focus {
         <div class="input-grid">
           <div class="input-box">
             <div class="label-flex"><span>Watch/Replay Rate (%)</span><span class="val-badge" id="ig_avdVal" style="color:var(--ig);border-color:var(--ig);">0%</span></div>
-            <input type="range" id="ig_avd" min="0" max="150" step="1" value="0" oninput="updateIG()">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <input type="range" id="ig_avd" min="0" max="150" step="1" value="0" oninput="syncSlider('ig_avd','ig_avdNum');updateIG()" style="flex:1;">
+              <input type="text" inputmode="decimal" id="ig_avdNum" value="0" style="width:60px;padding:5px 7px;background:var(--bg2);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:12px;color:var(--text-bright);" oninput="syncNum('ig_avdNum','ig_avd');updateIG()">
+            </div>
             <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">Instagram Insights → Reel → Avg watch time ÷ reel length. Over 100% = looping.</div>
           </div>
         </div>
@@ -2417,6 +2423,7 @@ input:focus, select:focus, textarea:focus {
         <div class="input-box"><label>Sub Conversion Rate (%)</label><input type="number" id="cp_sub_rate" value="1" step="0.1" min="0.1" max="10" oninput="updateChannelProjections()"></div>
         <div class="input-box"><label>Upload Frequency / Month</label><input type="number" id="cp_uploads" value="4" min="1" max="60" oninput="updateChannelProjections()"></div>
         <div class="input-box"><label>Avg CTR (%)</label><input type="number" id="cp_ctr" value="3" step="0.1" min="0" max="25" oninput="updateChannelProjections()"></div>
+        <div class="input-box"><label>Your RPM ($/1,000 views)</label><input type="number" id="cp_rpm" value="3" step="0.5" min="0" oninput="updateChannelProjections()" placeholder="e.g. 3"></div>
       </div>
     </div>
 
@@ -2514,6 +2521,14 @@ input:focus, select:focus, textarea:focus {
         </div>
       </div>
       <div id="yt_custom_result" style="margin-top:14px;"></div>
+    </div>
+
+    <!-- Income Projections card -->
+    <div class="control-card" style="margin-top:8px;border-left:4px solid var(--success);">
+      <h3 style="margin-top:0;color:var(--success);">&#x1F4B5; Income Projections Over Time</h3>
+      <p style="font-size:12px;color:var(--text-dim);margin-bottom:14px;">Estimated AdSense revenue based on projected view growth and RPM. Set your RPM in Tool 1 above. Q4 is typically 30&#8211;50% higher than shown.</p>
+      <div id="cp_income_proj" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:12px;"></div>
+      <div id="cp_income_note" style="font-size:12px;color:var(--text-dim);"></div>
     </div>
 
     <div class="faq-link-bar">❓ <a onclick="goFAQ()">How are projections calculated? See the FAQ →</a></div>
@@ -2826,7 +2841,6 @@ input:focus, select:focus, textarea:focus {
         <button class="bg-btn" data-bg="vortex"     onclick="applyBg('vortex',this)">🌀 Vortex</button>
       </div>
       <canvas id="bg-canvas" style="position:fixed;inset:0;z-index:0;pointer-events:none;display:none;width:100%;height:100%;"></canvas>
-      <canvas id="bg-canvas" style="position:fixed;inset:0;z-index:0;pointer-events:none;display:none;"></canvas>
     </div>
 
     <!-- FONT PICKER -->
@@ -3524,8 +3538,8 @@ input:focus, select:focus, textarea:focus {
     </div>
   </div>
 </div>
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-  /* ─── State ─── */
+<script>
+/* ─── State ─── */
   let currentUser = null;
   let trackingDataObj = { "Default Video": [] };
   let currentVideoKey = "Default Video";
@@ -3592,7 +3606,9 @@ input:focus, select:focus, textarea:focus {
     if (!user) { if (nameInput) nameInput.focus(); return; }
     currentUser = user;
     try { localStorage.setItem('ccAnalytics_session', currentUser); } catch(e) {}
-    // Hide overlay immediately
+    // Hide both overlays — form lives in landingOverlay, authOverlay handles legacy flow
+    var lo = document.getElementById('landingOverlay');
+    if (lo) lo.classList.add('hidden');
     var ov = document.getElementById('authOverlay');
     if (ov) ov.style.display = 'none';
     var bar = document.getElementById('userBar');
@@ -4081,17 +4097,102 @@ input:focus, select:focus, textarea:focus {
         + (trajNote ? '<br>' + trajNote : '') + '</div>';
     } else if (ageCtxEl) { ageCtxEl.style.display = 'none'; }
 
-    // ── Trend forecast ────────────────────────────────────────────
+    // -- Trajectory forecasts + make-or-break thresholds --
     const forecast = document.getElementById('trendForecastBox');
-    if (forecast && hoursOld !== null && hoursOld >= 0 && hoursOld <= 72) {
-      const proj48     = velocity > 0 && hoursOld < 48 ? Math.round(views + velocity * (48 - hoursOld)) : null;
-      const projImpr48 = impr > 0 && velocity > 0 && hoursOld > 0 && hoursOld < 48 ? Math.round(impr * (48 / hoursOld)) : null;
-      let fc = '<div style="background:var(--accent-dim);border:1px solid var(--border-hi);border-radius:var(--radius);padding:12px;font-size:12px;line-height:1.75;color:var(--text);">';
-      fc += '<strong style="color:var(--accent);">' + agePhaseName + '</strong><br>' + agePhaseDesc;
-      if (proj48)     fc += '<br><br>Projected views at 48h: <strong style="color:var(--primary);">' + proj48.toLocaleString() + '</strong>';
-      if (projImpr48) fc += '  ·  Projected impressions: <strong style="color:var(--secondary);">' + projImpr48.toLocaleString() + '</strong>';
-      fc += '</div>';
-      forecast.style.display = 'block'; forecast.innerHTML = fc;
+    if (forecast && hoursOld !== null && hoursOld >= 0 && hoursOld < 72) {
+      const hrsTo12=Math.max(0,12-hoursOld), hrsTo24=Math.max(0,24-hoursOld), hrsTo48=Math.max(0,48-hoursOld);
+
+      // Baseline views: if Total Views field is empty (0) but velocity is entered,
+      // estimate current views from velocity × hoursOld so projections aren't zero-based.
+      // Projected views must always be >= current views (can't go backwards).
+      const baseViews = views > 0 ? views : (velocity > 0 && hoursOld > 0 ? Math.round(velocity * hoursOld) : 0);
+      const proj12  = velocity>0&&hoursOld<12 ? Math.max(baseViews, Math.round(baseViews + velocity*hrsTo12))  : null;
+      const proj24  = velocity>0&&hoursOld<24 ? Math.max(baseViews, Math.round(baseViews + velocity*hrsTo24))  : null;
+      const proj48v = velocity>0&&hoursOld<48 ? Math.max(baseViews, Math.round(baseViews + velocity*hrsTo48))  : null;
+
+      // ── Projected impressions ─────────────────────────────────────
+      // Impressions and views are linked through CTR: impr = views / (CTR/100)
+      // We know (or can estimate) the CTR, so projImpr = projViews / (effectiveCtr/100)
+      //
+      // Impression ramp note: early on, impressions ramp FASTER than views because
+      // YouTube serves thumbnails to many users before getting click data back.
+      // The impr:views ratio tends to be higher early and narrows as CTR stabilises.
+      // We account for this with an age-based ramp multiplier.
+      //
+      // Priority order for CTR estimate:
+      //  1. Computed from actual impr + views (most accurate)
+      //  2. User-entered CTR slider value
+      //  3. Conservative default (3%)
+      const effectiveCtr = (impr > 0 && baseViews > 0)
+        ? (baseViews / impr) * 100          // actual CTR from entered data
+        : (ctr > 0 ? ctr : 3);              // fallback to entered or default
+
+      // Impression ramp multiplier: YouTube serves more impressions per view early on
+      // because it's testing. By the decision phase this ratio has normalised.
+      // Seed (0-3h): ~3-5× ratio (many impressions, still low clicks)
+      // Early (3-12h): ~2-3× ratio
+      // Decision (12-48h): ratio approaching steady state
+      const imprRampMult = hoursOld < 3 ? 1.4 : hoursOld < 12 ? 1.2 : 1.0;
+
+      function projImprFromViews(projV) {
+        if (!projV || effectiveCtr <= 0) return null;
+        // Base projection: views / CTR * 100
+        // Apply ramp multiplier to reflect that impressions scale faster early
+        return Math.round((projV / (effectiveCtr / 100)) * imprRampMult);
+      }
+
+      const projImpr12  = proj12  ? projImprFromViews(proj12)  : null;
+      const projImpr24  = proj24  ? projImprFromViews(proj24)  : null;
+      const projImpr48v = proj48v ? projImprFromViews(proj48v) : null;
+      const subCount=channelSubs||0;
+      let t12p,t24p,t12f,t24f;
+      // Thresholds reflect total views including Browse + Suggested distribution —
+      // not just subscriber pull. A real algorithmic push can produce 10-50x sub-only traffic.
+      // Pass = modest push signal. Strong (1.5x pass) = clear active distribution.
+      if(subCount>=1000000){t12p=50000;t24p=150000;t12f=8000;t24f=25000;}
+      else if(subCount>=100000){t12p=10000;t24p=30000;t12f=1500;t24f=5000;}
+      else if(subCount>=10000){t12p=2000;t24p=6000;t12f=300;t24f=800;}
+      else if(subCount>=1000){t12p=500;t24p=1500;t12f=80;t24f=200;}
+      else if(subCount>=100){t12p=100;t24p=300;t12f=20;t24f=50;}
+      else{t12p=20;t24p=60;t12f=4;t24f=12;}
+      const cf=ctr>=6?0.6:ctr>=4?0.8:1.0;
+      t12p=Math.round(t12p*cf);t24p=Math.round(t24p*cf);t12f=Math.round(t12f*cf);t24f=Math.round(t24f*cf);
+      function mkCard(label,proj,pass,fail,hAway,projImpr){
+        if(proj===null)return '';
+        const c=proj>=pass*1.5?'var(--success)':proj>=pass?'var(--primary)':proj>=fail?'var(--warning)':'var(--danger)';
+        const ic=proj>=pass*1.5?'&#x1F680;':proj>=pass?'&#x2705;':proj>=fail?'&#x26A0;':'&#x1F6D1;';
+        const vd=proj>=pass*1.5?'Strong push signal':proj>=pass?'Meets threshold &mdash; push likely':proj>=fail?'Below avg &mdash; uncertain':'At-risk &mdash; push may stop';
+        const bar=Math.min(100,Math.round((proj/pass)*100));
+        const imprLine = projImpr
+          ? '<div style="font-size:11px;color:var(--text-dim);margin-top:3px;">~'+projImpr.toLocaleString()+' impressions</div>'
+          : '';
+        return '<div style="background:'+c+'12;border:1px solid '+c+';border-radius:var(--radius);padding:10px 12px;">'
+          +'<div style="font-size:10px;font-weight:700;color:'+c+';text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">'+ic+' '+label+(hAway>0?' (in ~'+hAway.toFixed(1)+'h)':' (actual)')+'</div>'
+          +'<div style="font-size:16px;font-weight:800;color:'+c+';">'+proj.toLocaleString()+' views</div>'
+          +imprLine
+          +'<div style="font-size:10px;color:var(--text-dim);margin:4px 0 2px;">Pass: '+pass.toLocaleString()+' &middot; Danger: '+fail.toLocaleString()+'</div>'
+          +'<div style="background:var(--bg2);border-radius:4px;height:4px;margin:5px 0;overflow:hidden;"><div style="width:'+bar+'%;height:100%;background:'+c+';border-radius:4px;"></div></div>'
+          +'<div style="font-size:10px;color:'+c+';font-weight:600;">'+vd+'</div></div>';
+      }
+      // Actual impressions for past milestones
+      const actualImpr12 = impr > 0 ? impr : null;  // current impr serves as the 12h actual
+      const actualImpr24 = impr > 0 ? impr : null;
+
+      let cards='';
+      if(hoursOld<12) cards+=mkCard('12-hour mark', proj12,  t12p, t12f, hrsTo12, projImpr12);
+      if(hoursOld<24) cards+=mkCard('24-hour mark', proj24,  t24p, t24f, hrsTo24, projImpr24);
+      if(hoursOld<48) cards+=mkCard('48-hour mark', proj48v, t24p*2, t24f*2, hrsTo48, projImpr48v);
+      if(hoursOld>=12)cards+=mkCard('12h actual', views, t12p, t12f, 0, actualImpr12);
+      if(hoursOld>=24)cards+=mkCard('24h actual', views, t24p, t24f, 0, actualImpr24);
+      const ctx=ctr>=4&&avd>=40?'Strong CTR + AVD. If velocity holds above threshold, expect continued distribution.'
+        :ctr<2?'CTR is the bottleneck. Consider updating your thumbnail while impressions are still fresh.'
+        :avd<35?'AVD is below target. Algorithm may plateau once watch time signals prove insufficient.'
+        :'Monitor the 12-hour mark closely -- that is the first major algorithmic decision point.';
+      forecast.style.display='block';
+      forecast.innerHTML='<div style="background:var(--accent-dim);border:1px solid var(--border-hi);border-radius:var(--radius);padding:12px;font-size:12px;color:var(--text);">'
+        +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;"><strong style="color:var(--accent);">'+agePhaseName+'</strong>'+(velocity>0?' <span style="font-size:11px;color:var(--text-dim);">&middot; '+velocity.toFixed(1)+' views/hr</span>':'')+'</div>'
+        +'<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:8px;margin-bottom:10px;">'+cards+'</div>'
+        +'<div style="background:var(--card2);border-radius:var(--radius);padding:8px 10px;font-size:11px;color:var(--text-dim);">&#x1F4CC; '+ctx+'</div></div>';
     } else if (forecast) forecast.style.display = 'none';
 
     // ── Velocity context (age-adjusted, informational-first) ────────
@@ -4280,15 +4381,107 @@ input:focus, select:focus, textarea:focus {
     if (impr > 0 && views > 0) {
       const computedCtr = (views / impr) * 100;
       const imprEff = views / impr;
-      if (ctr > 0 && Math.abs(computedCtr - ctr) > 5) { imprNote='Entered CTR ('+ctr.toFixed(1)+'%) differs from computed ('+computedCtr.toFixed(1)+'%) — check figures.'; imprColor='var(--warning)'; }
-      if      (impr>=500000&&imprEff>0.04) { imprPts=6;  imprNote='Broad reach — 500k+ impressions.'; imprColor='var(--success)'; }
-      else if (impr>=100000&&imprEff>0.03) { imprPts=4;  imprNote='Good reach — 100k+ impressions.'; imprColor='var(--success)'; }
-      else if (impr>=50000 &&imprEff>0.02) { imprPts=2;  imprNote='Moderate reach.'; imprColor='var(--primary)'; }
-      else if (impr>=10000)                { imprPts=0;  imprNote=impr.toLocaleString()+' impressions — seed phase.'; }
-      else if (imprEff<0.02&&impr>5000)   { imprPts=-3; imprNote='High impressions, low conversion.'; imprColor='var(--danger)'; }
-      const imprEl=document.getElementById('impressionsDisplay');
-      if (imprEl) imprEl.innerHTML='<span style="color:'+imprColor+';font-size:12px;">'+impr.toLocaleString()+' impr → '+views.toLocaleString()+' views ('+computedCtr.toFixed(1)+'% CTR)'+(imprNote?'<br>'+imprNote:'')+'</span>';
-    } else { const imprEl=document.getElementById('impressionsDisplay'); if(imprEl) imprEl.innerHTML=''; }
+
+      // ── Age-adjusted impression context ──────────────────────────
+      // Impressions follow a predictable ramp-up pattern:
+      //   Seed (0-3h):     Tiny — only subscriber notification feed.
+      //                    Typical: 200-2,000 impr. Low count is EXPECTED.
+      //   Early (3-12h):   Slow expansion. YouTube is still testing.
+      //                    Could be further suppressed if posted at off-peak hours.
+      //   Decision (12-48h): Major ramp. This is when Browse/Suggested kicks in
+      //                    if the algorithm commits. Impressions can 10-50x here.
+      //   Established+:   Volume reflects long-term distribution level.
+      //
+      // Off-peak posting (after midnight / before 6am local time) delays the
+      // initial push because few users are active — the seed batch gets no
+      // engagement data and the algorithm waits for the next active window.
+      // This can push the "real" impression ramp back 4-8 hours.
+
+      // Determine if impressions are low-but-expected for this age
+      const isVeryEarly  = agePhase === 'seed' || agePhase === 'early';
+      const isDecision   = agePhase === 'decision';
+      const isLate       = !isVeryEarly && !isDecision && agePhase !== null;
+
+      // Age-adjusted impression thresholds for what counts as "broad reach"
+      // In seed/early, even 500 impressions is fine — suppress heavy penalties
+      let adjThreshBroad, adjThreshGood, adjThreshMod, adjThreshSeed;
+      if (isVeryEarly) {
+        // First 12h: even small impression counts are completely normal
+        adjThreshBroad = 50000;  adjThreshGood = 10000;
+        adjThreshMod   = 2000;   adjThreshSeed = 200;
+      } else if (isDecision) {
+        // 12-48h: ramp-up underway — moderate thresholds
+        adjThreshBroad = 200000; adjThreshGood = 50000;
+        adjThreshMod   = 10000;  adjThreshSeed = 2000;
+      } else {
+        // Established/longtail/no-age: full thresholds
+        adjThreshBroad = 500000; adjThreshGood = 100000;
+        adjThreshMod   = 50000;  adjThreshSeed = 10000;
+      }
+
+      // CTR mismatch check — only meaningful once impressions have normalised
+      if (ctr > 0 && !isVeryEarly && Math.abs(computedCtr - ctr) > 5) {
+        imprNote = 'Entered CTR (' + ctr.toFixed(1) + '%) differs from computed (' + computedCtr.toFixed(1) + '%) — check figures.';
+        imprColor = 'var(--warning)';
+      }
+
+      // Score impressions relative to age-adjusted thresholds
+      if (impr >= adjThreshBroad && imprEff > 0.03) {
+        imprPts = 6; imprColor = 'var(--success)';
+        imprNote = 'Broad reach — ' + impr.toLocaleString() + '+ impressions with strong conversion.';
+      } else if (impr >= adjThreshGood && imprEff > 0.025) {
+        imprPts = 4; imprColor = 'var(--success)';
+        imprNote = 'Good reach for this stage — ' + impr.toLocaleString() + ' impressions.';
+      } else if (impr >= adjThreshMod && imprEff > 0.015) {
+        imprPts = 2; imprColor = 'var(--primary)';
+        imprNote = 'Moderate reach. Distribution running.';
+      } else if (impr >= adjThreshSeed) {
+        imprPts = 0;
+        imprNote = impr.toLocaleString() + ' impressions'
+          + (isVeryEarly
+            ? ' — normal for this stage. Impressions are still in the subscriber seed pool. Expect a major increase at 12-48h if the algorithm commits to a push.'
+            : isDecision
+              ? ' — ramp-up phase. Impressions should be climbing toward broader distribution.'
+              : ' — seed-level reach.');
+      } else if (impr < adjThreshSeed) {
+        // Very low impressions — only penalise if NOT in early phase
+        if (isVeryEarly) {
+          imprPts = 0;
+          imprNote = impr.toLocaleString() + ' impressions — very early stage. '
+            + (hoursOld < 3
+              ? 'Video is only ' + hoursOld.toFixed(1) + 'h old. Impressions begin from subscriber notifications only and are typically under 500-2,000 at this point regardless of how the video ultimately performs.'
+              : 'Still within the subscriber seed window. If this video was posted at an off-peak hour (late night or early morning), the main impression push may be delayed until the next active audience window.');
+        } else {
+          imprPts = -2; imprColor = 'var(--warning)';
+          imprNote = 'Low impressions for this stage (' + impr.toLocaleString() + '). Algorithm may not have committed to distributing this video.';
+        }
+      }
+
+      // High impressions but low conversion — penalise only when data is reliable
+      if (!isVeryEarly && imprEff < 0.015 && impr > adjThreshMod) {
+        imprPts = Math.min(imprPts, -3); imprColor = 'var(--danger)';
+        imprNote = 'High impressions (' + impr.toLocaleString() + ') but low conversion (' + computedCtr.toFixed(1) + '% CTR). Thumbnail or title is getting served but not converting — this suppresses further distribution.';
+      }
+
+      // Off-peak posting awareness — warn if video is young and impressions are low
+      const publishedHour = pubVal ? new Date(pubVal).getHours() : -1;
+      const isOffPeak = publishedHour >= 0 && (publishedHour < 6 || publishedHour >= 23);
+      if (isOffPeak && isVeryEarly && impr < adjThreshMod) {
+        imprNote += ' Note: video was posted at ' + (publishedHour < 6 ? publishedHour + ':00 AM' : '11 PM+') + ' — off-peak posting means fewer active users to seed impressions. The first real push window is typically 6-10 AM and 6-10 PM in your audience timezone. Impressions may ramp sharply once that window opens.';
+      }
+
+      const imprEl = document.getElementById('impressionsDisplay');
+      if (imprEl) imprEl.innerHTML = '<span style="color:'+imprColor+';font-size:12px;">'
+        + impr.toLocaleString() + ' impr &rarr; ' + views.toLocaleString() + ' views ('
+        + computedCtr.toFixed(1) + '% CTR)'
+        + (imprNote ? '<br>' + imprNote : '') + '</span>';
+    } else {
+      const imprEl = document.getElementById('impressionsDisplay');
+      if (imprEl) imprEl.innerHTML = impr === 0 && agePhase && isVeryEarly_flag()
+        ? '<span style="color:var(--text-dim);font-size:11px;">No impressions entered yet. Early-phase impressions are typically 200-2,000 in the first few hours — enter them once YouTube Studio updates (usually a 1-2h delay).</span>'
+        : '';
+    }
+    function isVeryEarly_flag() { return agePhase === 'seed' || agePhase === 'early'; }
 
     // Age modifier
     let rawScore = (ctrAdjusted + avdPts + retPts + retCurvePts + engPts + sharesPts + subConvPts + channelCtxPts + imprPts + trafficPts + clickBouncePenalty) * ageModifier;
@@ -5297,7 +5490,29 @@ input:focus, select:focus, textarea:focus {
         <p style="margin:0;font-size:13px;color:var(--text);line-height:1.7;">${i.text}</p>
       </div>`).join('');
 
-    // Summary
+    // Income projections
+    const rpm_cp=parseFloat(document.getElementById('cp_rpm')?.value)||3;
+    const incEl2=document.getElementById('cp_income_proj');
+    const incNote2=document.getElementById('cp_income_note');
+    if(incEl2){
+      if(views>0&&rpm_cp>0){
+        const gR=Math.min(0.12,monthlySubs/Math.max(subs,100));
+        const tps=[{l:'6 Months',m:6,c:'var(--text-dim)'},{l:'1 Year',m:12,c:'var(--primary)'},{l:'18 Months',m:18,c:'var(--secondary)'},{l:'2 Years',m:24,c:'var(--success)'}];
+        incEl2.innerHTML=tps.map(tp=>{
+          let cum=0; for(let mo=1;mo<=tp.m;mo++)cum+=views*Math.pow(1+gR,mo);
+          const inc=(cum/1000)*rpm_cp, avg=inc/tp.m;
+          return '<div class="stat-mini" style="border-top:3px solid '+tp.c+';">'
+            +'<div class="label" style="color:'+tp.c+';">'+tp.l+'</div>'
+            +'<div class="value" style="color:'+tp.c+';font-size:20px;">$'+Math.round(inc).toLocaleString()+'</div>'
+            +'<div class="sub">~$'+Math.round(avg).toLocaleString()+'/mo avg</div></div>';
+        }).join('');
+        if(incNote2)incNote2.innerHTML='Based on <strong>$'+rpm_cp+'/1K views</strong> RPM &middot; <strong>~'+Math.round(gR*100)+'%/mo</strong> projected growth.';
+      } else {
+        incEl2.innerHTML='<div style="font-size:12px;color:var(--text-muted);padding:12px;">Enter monthly views and RPM in Tool 1 above.</div>';
+        if(incNote2)incNote2.innerHTML='';
+      }
+    }
+        // Summary
     const best12 = Math.round(subs + optViews*(optRate/100)*12);
     const base12 = Math.round(subs + monthlySubs*12);
     document.getElementById('cp_summary').innerHTML = `
@@ -7020,14 +7235,24 @@ input:focus, select:focus, textarea:focus {
     if (n && v !== undefined) { n.value = v; updateSliderFill(document.getElementById(sliderId)); }
   }
   function syncNum(numberId, sliderId) {
-    const v = document.getElementById(numberId)?.value;
-    const s = document.getElementById(sliderId);
-    if (s && v !== undefined) {
-      const clamped = Math.min(Math.max(parseFloat(v)||0, parseFloat(s.min)||0), parseFloat(s.max)||100);
-      s.value = clamped;
-      document.getElementById(numberId).value = clamped;
-      updateSliderFill(s);
-    }
+    // Inputs are type="text" so the browser never mangles mid-entry values.
+    // Only move the slider — never rewrite the text box while the user is typing.
+    const el  = document.getElementById(numberId);
+    const s   = document.getElementById(sliderId);
+    if (!el || !s) return;
+    const raw = el.value.trim();
+    // Bail out silently while still mid-entry (empty, just a minus, just a dot, ending in dot)
+    if (raw === '' || raw === '-' || raw === '.' || raw.endsWith('.')) return;
+    const num = parseFloat(raw);
+    if (isNaN(num)) return;
+    const sMin = parseFloat(s.min) || 0;
+    const sMax = parseFloat(s.max) || 100;
+    const clamped = Math.min(Math.max(num, sMin), sMax);
+    s.value = clamped;
+    updateSliderFill(s);
+    // Only snap the text box back if the value is genuinely out of range
+    if (num > sMax) el.value = sMax;
+    if (num < sMin) el.value = sMin;
   }
 
   /* ── Shorts niche RPM auto-fill ── */
@@ -8292,8 +8517,8 @@ function refreshAdminStats() {
   }
 </script>
 
-<!-- ── Admin Overlay Modal ── -->
-<div id="adminOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.94);backdrop-filter:blur(8px);z-index:99999;overflow-y:auto;">
+<div id="adminOverlay" s
+tyle="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.94);backdrop-filter:blur(8px);z-index:99999;overflow-y:auto;">
   <div style="max-width:800px;margin:40px auto;padding:0 20px 60px;">
     <div style="display:flex;justify-content:space-between;align-items:center;padding:24px 0;border-bottom:1px solid rgba(255,255,255,0.1);margin-bottom:28px;">
       <div>
@@ -8349,6 +8574,3 @@ function refreshAdminStats() {
 </div>
 </body>
 </html>
-      <button class="tab-btn" onclick="openTab(event,'Tab8')">🎬 Video Tracker</button>
-      <button class="tab-btn" onclick="openTab(event,'TabSocial')">📱 Social Analytics</button>
-      <button class="tab-btn" onclick="openTab(event,'TabLive')" style="border-color:var(--danger);color:var(-
