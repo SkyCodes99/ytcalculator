@@ -3605,7 +3605,19 @@ input:focus, select:focus, textarea:focus {
   let currentUser = null;
   let trackingDataObj = { "Default Video": [] };
   let currentVideoKey = "Default Video";
-  le
+  let currentTheme      = localStorage.getItem('ccTheme')       || 'default';
+  let currentFont       = localStorage.getItem('ccFont')        || 'inter';
+  let currentLayout     = localStorage.getItem('ccLayout')      || 'default';
+  let currentBg         = localStorage.getItem('ccBg')         || 'grid';
+  let currentTextSize   = localStorage.getItem('ccTextSize')    || 'md';
+  let activePlatforms   = JSON.parse(localStorage.getItem('ccPlatforms') || '["youtube"]');
+  let sectionVisibility = {};
+  let hasUnsavedChanges = false;
+  let liveTrackers = [];
+  let liveTimerInterval = null;
+  let abSavedTests = JSON.parse(localStorage.getItem('ccABTests') || '[]');
+  let videoProfiles = { 'Default': {} };
+  let currentProfile = 'Default';
 
 
   /* ─── Init ─── */
@@ -3661,6 +3673,56 @@ input:focus, select:focus, textarea:focus {
     const nameEl = document.getElementById('userNameDisplay');
     if (nameEl) nameEl.innerText = '▶ ' + (currentUser || '').toUpperCase();
   }
+
+  const THEMES = [
+    { id:'default',  name:'Slate Dark',   bg:'#1e2330', dots:['#6366f1','#22d3ee','#f472b6'], desc:'Calm indigo on deep slate' },
+    { id:'midnight', name:'Midnight',     bg:'#111113', dots:['#e879f9','#67e8f9','#fbbf24'], desc:'Near-black with magenta pop' },
+    { id:'warm',     name:'Warm Dark',    bg:'#231d16', dots:['#e8a44a','#f0c070','#c47a3f'], desc:'Amber tones on dark brown' },
+    { id:'sunset',   name:'Sunset',       bg:'#2c1c12', dots:['#fb923c','#fcd34d','#f472b6'], desc:'Orange and coral on espresso' },
+    { id:'light',    name:'Light',        bg:'#f4f6fa', dots:['#4f46e5','#0891b2','#db2777'], desc:'Clean white with indigo' },
+    { id:'latte',    name:'Latte',        bg:'#faf7f2', dots:['#8b5e3c','#5c7c4a','#b85c38'], desc:'Warm cream, easy on eyes' },
+    { id:'purple',   name:'Soft Purple',  bg:'#1c1a2e', dots:['#a78bfa','#67e8f9','#f9a8d4'], desc:'Lavender on dark purple' },
+    { id:'forest',   name:'Forest',       bg:'#182215', dots:['#4ade80','#86efac','#fde047'], desc:'Fresh greens on dark forest' },
+    { id:'sage',     name:'Sage',         bg:'#1e2a22', dots:['#86efac','#67e8f9','#fde047'], desc:'Muted sage, calm and focused' },
+    { id:'ocean',    name:'Ocean',        bg:'#142238', dots:['#38bdf8','#67e8f9','#818cf8'], desc:'Sky blue on deep navy' },
+    { id:'nord',     name:'Nord',         bg:'#2e3850', dots:['#88c0d0','#81a1c1','#b48ead'], desc:'Cool Nordic blue-gray' },
+    { id:'slateblu', name:'Slate Blue',   bg:'#1e2d42', dots:['#6382dc','#34d399','#f472b6'], desc:'Professional cool blue' },
+    { id:'rose',     name:'Rose',         bg:'#221520', dots:['#fb7185','#f9a8d4','#c084fc'], desc:'Rosy pink on dark plum' },
+    { id:'mocha',    name:'Mocha',        bg:'#281c14', dots:['#c8a06e','#d4a96a','#8b6f9a'], desc:'Deep espresso with warm gold' },
+    { id:'neon',     name:'Neon',         bg:'#0f0f20', dots:['#00ff88','#00e5ff','#ff00cc'], desc:'High-energy vibrant neon' },
+    { id:'terminal', name:'Terminal',      bg:'#000000', dots:['#00ff41','#39ff14','#00e5ff'], desc:'Green-on-black hacker / CLI aesthetic' },
+    { id:'sakura',   name:'Sakura',        bg:'#fdf2f5', dots:['#e91e8c','#9c27b0','#ff5722'], desc:'Soft cherry blossom — feminine light mode' },
+    { id:'obsidian', name:'Obsidian',      bg:'#080808', dots:['#d4af37','#c0a020','#e8c84a'], desc:'Ultra minimal black & gold luxury' },
+    { id:'candy',    name:'Candy',         bg:'#fff1f9', dots:['#a855f7','#06b6d4','#f97316'], desc:'Bright pastel Gen-Z energy' },
+    { id:'stealth',  name:'Stealth',       bg:'#0a0a0a', dots:['#ffffff','#d4d4d4','#ff3b3b'], desc:'Dark brutalist military minimal' },
+  ];
+
+
+  const FONTS = [
+    { id:'inter',     name:'Inter',              family:'Inter,system-ui,sans-serif',               desc:'Clean, highly readable',             sample:'Aa' },
+    { id:'jakarta',   name:'Plus Jakarta Sans',  family:'Plus Jakarta Sans,system-ui,sans-serif',   desc:'Geometric, modern, friendly',        sample:'Aa' },
+    { id:'outfit',    name:'Outfit',             family:'Outfit,system-ui,sans-serif',              desc:'Rounded, great for dashboards',      sample:'Aa' },
+    { id:'nunito',    name:'Nunito',             family:'Nunito,system-ui,sans-serif',              desc:'Soft rounded, warm and legible',     sample:'Aa' },
+    { id:'dmsans',    name:'DM Sans',            family:'DM Sans,system-ui,sans-serif',             desc:'Low-contrast, balanced',             sample:'Aa' },
+    { id:'lexend',    name:'Lexend',             family:'Lexend,system-ui,sans-serif',              desc:'Reduces reading friction',           sample:'Aa' },
+    { id:'space',     name:'Space Grotesk',      family:'Space Grotesk,system-ui,sans-serif',       desc:'Geometric, editorial feel',          sample:'Aa' },
+    { id:'syne',      name:'Syne',               family:'Syne,system-ui,sans-serif',                desc:'Bold, expressive personality',       sample:'Aa' },
+    { id:'bricolage', name:'Bricolage Grotesque',family:'Bricolage Grotesque,system-ui,sans-serif', desc:'Contemporary character',             sample:'Aa' },
+    { id:'cabinet',   name:'Cabinet Grotesk',    family:'Cabinet Grotesk,system-ui,sans-serif',     desc:'Sharp, confident, premium',          sample:'Aa' },
+    { id:'literata',  name:'Literata',           family:'Literata,Georgia,serif',                   desc:'Humanist serif, long reads',         sample:'Aa' },
+    { id:'fraunces',  name:'Fraunces',           family:'Fraunces,Georgia,serif',                   desc:'Optical serif, warm elegance',       sample:'Aa' },
+    { id:'fira',      name:'Fira Code',          family:"Fira Code,'Courier New',monospace",        desc:'Monospace with ligatures',           sample:'Aa' },
+    { id:'source',    name:'Source Code Pro',    family:"'Source Code Pro','Courier New',monospace",desc:'Precise monospace',                  sample:'Aa' },
+    { id:'mono',      name:'DM Mono',            family:"'DM Mono','Courier New',monospace",        desc:'Compact technical monospace',        sample:'Aa' },
+    { id:'raleway',   name:'Raleway',            family:"Raleway,sans-serif",                       desc:'Elegant wide letters',               sample:'Aa' },
+    { id:'josefin',   name:'Josefin Sans',       family:"'Josefin Sans',sans-serif",                desc:'Geometric minimal',                  sample:'Aa' },
+    { id:'playfair',  name:'Playfair Display',   family:"'Playfair Display',serif",                 desc:'Classic editorial serif',            sample:'Aa' },
+    { id:'bebas',     name:'Bebas Neue',         family:"'Bebas Neue',sans-serif",                  desc:'Bold all-caps display',              sample:'Aa' },
+    { id:'exo',       name:'Exo 2',              family:"'Exo 2',sans-serif",                       desc:'Futuristic tech feel',               sample:'Aa' }
+  ];
+
+
+  const VP_FIELDS = ['vlMins', 'vlSecs', 'twMins', 'twSecs', 'viewsInput', 'likesInput', 'commentsInput', 'viewVelocity', 'impressionsInput', 'channelSubs', 'avgViewsPerUpload', 'subsGained', 'nonSubViewPct', 'midRetention', 'endRetention', 'cardCtr', 'rewatchRate', 'ctrNum', 'retNum'];
 
   function loginFresh() {
     var nameInput = document.getElementById('authUsername');
@@ -4075,10 +4137,7 @@ input:focus, select:focus, textarea:focus {
   /* ═══════════════════════════════════════════════════════
      VIDEO PROFILES — save/restore multiple video stat sets
   ═══════════════════════════════════════════════════════ */
-  const VP_FIELDS = ['vlMins', 'vlSecs', 'twMins', 'twSecs', 'viewsInput', 'likesInput', 'commentsInput', 'viewVelocity', 'impressionsInput', 'channelSubs', 'avgViewsPerUpload', 'subsGained', 'nonSubViewPct', 'midRetention', 'endRetention', 'cardCtr', 'rewatchRate', 'ctrNum', 'retNum'];
-  let videoProfiles = { 'Default': {} };  // { profileName: { fieldId: value, ... } }
-  let currentProfile = 'Default';
-
+    
   function vpRead() {
     // Read current Tab1 inputs into an object
     const data = {};
@@ -6456,64 +6515,14 @@ input:focus, select:focus, textarea:focus {
   /* ═══════════════════════════════════
      LIVE SUB TRACKER (NEW)
   ═══════════════════════════════════ */
-  let liveTrackers = [];
-  let liveTimerInterval = null;
 
   /* ═══════════════════════════════════════════════
      DESIGN SYSTEM v8 — Themes, Fonts, Layout, Bg, TextSize
   ═══════════════════════════════════════════════ */
-  const THEMES = [
-    { id:'default',  name:'Slate Dark',   bg:'#1e2330', dots:['#6366f1','#22d3ee','#f472b6'], desc:'Calm indigo on deep slate' },
-    { id:'midnight', name:'Midnight',     bg:'#111113', dots:['#e879f9','#67e8f9','#fbbf24'], desc:'Near-black with magenta pop' },
-    { id:'warm',     name:'Warm Dark',    bg:'#231d16', dots:['#e8a44a','#f0c070','#c47a3f'], desc:'Amber tones on dark brown' },
-    { id:'sunset',   name:'Sunset',       bg:'#2c1c12', dots:['#fb923c','#fcd34d','#f472b6'], desc:'Orange and coral on espresso' },
-    { id:'light',    name:'Light',        bg:'#f4f6fa', dots:['#4f46e5','#0891b2','#db2777'], desc:'Clean white with indigo' },
-    { id:'latte',    name:'Latte',        bg:'#faf7f2', dots:['#8b5e3c','#5c7c4a','#b85c38'], desc:'Warm cream, easy on eyes' },
-    { id:'purple',   name:'Soft Purple',  bg:'#1c1a2e', dots:['#a78bfa','#67e8f9','#f9a8d4'], desc:'Lavender on dark purple' },
-    { id:'forest',   name:'Forest',       bg:'#182215', dots:['#4ade80','#86efac','#fde047'], desc:'Fresh greens on dark forest' },
-    { id:'sage',     name:'Sage',         bg:'#1e2a22', dots:['#86efac','#67e8f9','#fde047'], desc:'Muted sage, calm and focused' },
-    { id:'ocean',    name:'Ocean',        bg:'#142238', dots:['#38bdf8','#67e8f9','#818cf8'], desc:'Sky blue on deep navy' },
-    { id:'nord',     name:'Nord',         bg:'#2e3850', dots:['#88c0d0','#81a1c1','#b48ead'], desc:'Cool Nordic blue-gray' },
-    { id:'slateblu', name:'Slate Blue',   bg:'#1e2d42', dots:['#6382dc','#34d399','#f472b6'], desc:'Professional cool blue' },
-    { id:'rose',     name:'Rose',         bg:'#221520', dots:['#fb7185','#f9a8d4','#c084fc'], desc:'Rosy pink on dark plum' },
-    { id:'mocha',    name:'Mocha',        bg:'#281c14', dots:['#c8a06e','#d4a96a','#8b6f9a'], desc:'Deep espresso with warm gold' },
-    { id:'neon',     name:'Neon',         bg:'#0f0f20', dots:['#00ff88','#00e5ff','#ff00cc'], desc:'High-energy vibrant neon' },
-    { id:'terminal', name:'Terminal',      bg:'#000000', dots:['#00ff41','#39ff14','#00e5ff'], desc:'Green-on-black hacker / CLI aesthetic' },
-    { id:'sakura',   name:'Sakura',        bg:'#fdf2f5', dots:['#e91e8c','#9c27b0','#ff5722'], desc:'Soft cherry blossom — feminine light mode' },
-    { id:'obsidian', name:'Obsidian',      bg:'#080808', dots:['#d4af37','#c0a020','#e8c84a'], desc:'Ultra minimal black & gold luxury' },
-    { id:'candy',    name:'Candy',         bg:'#fff1f9', dots:['#a855f7','#06b6d4','#f97316'], desc:'Bright pastel Gen-Z energy' },
-    { id:'stealth',  name:'Stealth',       bg:'#0a0a0a', dots:['#ffffff','#d4d4d4','#ff3b3b'], desc:'Dark brutalist military minimal' },
-  ];
-  const FONTS = [
-    { id:'inter',     name:'Inter',              family:'Inter,system-ui,sans-serif',               desc:'Clean, highly readable',             sample:'Aa' },
-    { id:'jakarta',   name:'Plus Jakarta Sans',  family:'Plus Jakarta Sans,system-ui,sans-serif',   desc:'Geometric, modern, friendly',        sample:'Aa' },
-    { id:'outfit',    name:'Outfit',             family:'Outfit,system-ui,sans-serif',              desc:'Rounded, great for dashboards',      sample:'Aa' },
-    { id:'nunito',    name:'Nunito',             family:'Nunito,system-ui,sans-serif',              desc:'Soft rounded, warm and legible',     sample:'Aa' },
-    { id:'dmsans',    name:'DM Sans',            family:'DM Sans,system-ui,sans-serif',             desc:'Low-contrast, balanced',             sample:'Aa' },
-    { id:'lexend',    name:'Lexend',             family:'Lexend,system-ui,sans-serif',              desc:'Reduces reading friction',           sample:'Aa' },
-    { id:'space',     name:'Space Grotesk',      family:'Space Grotesk,system-ui,sans-serif',       desc:'Geometric, editorial feel',          sample:'Aa' },
-    { id:'syne',      name:'Syne',               family:'Syne,system-ui,sans-serif',                desc:'Bold, expressive personality',       sample:'Aa' },
-    { id:'bricolage', name:'Bricolage Grotesque',family:'Bricolage Grotesque,system-ui,sans-serif', desc:'Contemporary character',             sample:'Aa' },
-    { id:'cabinet',   name:'Cabinet Grotesk',    family:'Cabinet Grotesk,system-ui,sans-serif',     desc:'Sharp, confident, premium',          sample:'Aa' },
-    { id:'literata',  name:'Literata',           family:'Literata,Georgia,serif',                   desc:'Humanist serif, long reads',         sample:'Aa' },
-    { id:'fraunces',  name:'Fraunces',           family:'Fraunces,Georgia,serif',                   desc:'Optical serif, warm elegance',       sample:'Aa' },
-    { id:'fira',      name:'Fira Code',          family:"Fira Code,'Courier New',monospace",        desc:'Monospace with ligatures',           sample:'Aa' },
-    { id:'source',    name:'Source Code Pro',    family:"'Source Code Pro','Courier New',monospace",desc:'Precise monospace',                  sample:'Aa' },
-    { id:'mono',      name:'DM Mono',            family:"'DM Mono','Courier New',monospace",        desc:'Compact technical monospace',        sample:'Aa' },
-    { id:'raleway',   name:'Raleway',            family:"Raleway,sans-serif",                       desc:'Elegant wide letters',               sample:'Aa' },
-    { id:'josefin',   name:'Josefin Sans',       family:"'Josefin Sans',sans-serif",                desc:'Geometric minimal',                  sample:'Aa' },
-    { id:'playfair',  name:'Playfair Display',   family:"'Playfair Display',serif",                 desc:'Classic editorial serif',            sample:'Aa' },
-    { id:'bebas',     name:'Bebas Neue',         family:"'Bebas Neue',sans-serif",                  desc:'Bold all-caps display',              sample:'Aa' },
-    { id:'exo',       name:'Exo 2',              family:"'Exo 2',sans-serif",                       desc:'Futuristic tech feel',               sample:'Aa' }
-  ];
-  const TEXT_SIZES = { sm:'Small (13px)', md:'Medium (15px)', lg:'Large (17px)', xl:'X-Large (19px)', xxl:'Huge (22px)' };
+      const TEXT_SIZES = { sm:'Small (13px)', md:'Medium (15px)', lg:'Large (17px)', xl:'X-Large (19px)', xxl:'Huge (22px)' };
 
   currentTheme  = localStorage.getItem('ccTheme')    || 'default';
   currentFont   = localStorage.getItem('ccFont')     || 'inter';
-  let currentLayout   = localStorage.getItem('ccLayout')   || 'default';
-  let currentBg       = localStorage.getItem('ccBg')       || 'grid';
-  let currentTextSize = localStorage.getItem('ccTextSize') || 'md';
-  let activePlatforms = JSON.parse(localStorage.getItem('ccPlatforms') || 'null') || ['youtube','tiktok','instagram','twitch','twitter','linkedin'];
 
   // ── applyTheme ──
   function applyTheme(id, skipSave) {
@@ -6810,7 +6819,6 @@ input:focus, select:focus, textarea:focus {
   /* ═══════════════════════════════════════════════
      UNSAVED CHANGES GUARD
   ═══════════════════════════════════════════════ */
-  let hasUnsavedChanges = false;
   let allowClose = false;
 
   function markUnsaved() {
@@ -7248,7 +7256,6 @@ input:focus, select:focus, textarea:focus {
   /* ═══════════════════════════════════════════════
      A/B TITLE / THUMBNAIL CHECKER
   ═══════════════════════════════════════════════ */
-  let abSavedTests = JSON.parse(localStorage.getItem('ccABTests') || '[]');
   const AB_COLORS = ['var(--primary)','var(--secondary)','var(--accent)','var(--warning)','var(--danger)'];
 
   function ab_recalculate() {
@@ -8995,7 +9002,6 @@ function refreshAdminStats() {
   /* ═══════════════════════════════════════════════════════
      SECTION VISIBILITY SYSTEM
   ═══════════════════════════════════════════════════════ */
-  let sectionVisibility = {};  // { sv_id: true/false }
 
   const SV_ALL_IDS = ['sv_fluff', 'sv_t1_pubhub', 'sv_t1_avd', 'sv_t1_ctr', 'sv_t1_hook', 'sv_t1_engagement', 'sv_t1_channel', 'sv_t1_ret_detail', 'sv_t1_stall', 'sv_t1_score', 'sv_t1_breakdown', 'sv_t1_insight', 'sv_t1_algo', 'sv_t2_inputs', 'sv_t2_tier', 'sv_t2_benchmarks', 'sv_t3_quickentry', 'sv_t3_eta', 'sv_t3_detailed', 'sv_t3_summary', 'sv_t3_planner', 'sv_t4_lf', 'sv_t4_shorts', 'sv_t4_bench', 'sv_t4_roi', 'sv_soc_switcher', 'sv_soc_tt_panel', 'sv_soc_ig_panel', 'sv_t7_inputs', 'sv_t7_schedule_type', 'sv_t7_schedule_result', 'sv_t7_windows', 'sv_t7_checklist', 'sv_t7_optimizer', 'sv_cp_t1', 'sv_cp_t2', 'sv_cp_t3', 'sv_cp_income', 'sv_vid_tracker', 'sv_tab_ab_setup', 'sv_tab_ab_results', 'sv_tab_ab_history', 'sv_tab_ab_tip', 'sv_cmp_lookup', 'sv_cmp_manual', 'sv_cmp_results', 'sv_live_add', 'sv_hook_inputs', 'sv_hook_results', 'sv_hook_tip', 'sv_seo_t1', 'sv_seo_t2', 'sv_rc_inputs', 'sv_rc_guide', 'sv_es_inputs', 'sv_es_cards', 'sv_es_rules', 'sv_seo_t1_res', 'sv_seo_t2_res', 'sv_soc_tt_bands', 'sv_soc_ig_bands', 'sv_soc_tt_score', 'sv_soc_tt_tiers', 'sv_soc_tt_proj', 'sv_soc_ig_score', 'sv_soc_ig_tiers', 'sv_soc_ig_proj'];
 
