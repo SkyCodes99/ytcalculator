@@ -1388,6 +1388,7 @@ input:focus, select:focus, textarea:focus {
       <span id="saveStatusIndicator" style="font-size:11px;color:var(--success);display:none;">✓ Saved</span>
     </div>
     <h1>THE <span>SOCIAL SPOT</span></h1>
+    <div id="build-info" style="font-size:10px;color:var(--text-dim);text-align:center;letter-spacing:0.5px;margin-top:2px;font-family:var(--font-mono);">v8.1.0 · Built 2026-04-19 16:54 UTC</div>
     <button id="viewModeToggle" onclick="setViewMode(document.documentElement.getAttribute('data-viewmode')==='mobile'?'desktop':'mobile')">📱/🖥</button>
     <button id="mobMenuBtn" onclick="document.querySelector('.tab-container').classList.toggle('mob-open')">☰ Menu</button>
     <div class="tab-container">
@@ -3993,7 +3994,7 @@ input:focus, select:focus, textarea:focus {
     accountFields.forEach(f => { const el = document.getElementById(f); if (el) accountData[f] = el.value; });
 
     return {
-      version: '8.0.0',
+      version: '8.1.0',
       savedAt: new Date().toISOString(),
       creator: currentUser,
       theme: currentTheme,
@@ -4115,6 +4116,14 @@ input:focus, select:focus, textarea:focus {
         if (typeof vpUpdateSelect === 'function') vpUpdateSelect();
         if (typeof renderGoalPlanner === 'function') renderGoalPlanner();
         showToast('✅ Session loaded successfully!', 'var(--secondary)');
+        // If loaded data has a save timestamp, check if it's stale
+        if (parsed.savedAt) {
+          const savedAge = Date.now() - new Date(parsed.savedAt).getTime();
+          if (savedAge > 10 * 60 * 1000) {
+            _dataLastEdited = new Date(parsed.savedAt).getTime();
+            setTimeout(checkStaleness, 500);
+          }
+        }
       } catch(err) {
         alert('Could not read save file. Make sure it\'s a valid .vcsave file.');
       }
@@ -4350,10 +4359,12 @@ input:focus, select:focus, textarea:focus {
       const pub = document.getElementById('videoPublishedAt');
       if (pub) pub.value = data._videoPublishedAt;
       if (typeof dtSetAgeLabel === 'function') dtSetAgeLabel(data._videoPublishedAt);
-    } else if (typeof dtBuildIso === 'function') {
-      const iso = dtBuildIso();
+    } else {
+      // No date saved for this profile — clear the picker
       const pub = document.getElementById('videoPublishedAt');
-      if (pub && iso) { pub.value = iso; if (typeof dtSetAgeLabel === 'function') dtSetAgeLabel(iso); }
+      if (pub) pub.value = '';
+      if (typeof dtSetAgeLabel === 'function') dtSetAgeLabel('');
+      if (typeof dtUpdate === 'function') dtUpdate();
     }
     // Sync sliders from text boxes
     ['ctr','ret'].forEach(sliderId => {
@@ -4373,6 +4384,9 @@ input:focus, select:focus, textarea:focus {
     if (!videoProfiles[name]) return;
     vpSave();            // save current before switching
     currentProfile = name;
+    clearStalenessWarnings();
+    _dataLastEdited = null;  // reset staleness clock for new profile
+    if (_stalenessTimer) { clearTimeout(_stalenessTimer); _stalenessTimer = null; }
     vpWrite(videoProfiles[name]);
     vpUpdateSelect();
   }
@@ -4389,6 +4403,12 @@ input:focus, select:focus, textarea:focus {
     // Clear fields for new profile
     VP_FIELDS.forEach(id => { const el=document.getElementById(id); if(el) el.value='0'; });
     const r = document.getElementById('src_unknown'); if(r) r.checked=true;
+    // Clear date picker for new video
+    clearStalenessWarnings();
+    _dataLastEdited = null;
+    if (_stalenessTimer) { clearTimeout(_stalenessTimer); _stalenessTimer = null; }
+    if (typeof dtClear === 'function') dtClear();
+    else { ['dt_month','dt_day','dt_year','dt_hour','dt_minute'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; }); const pub=document.getElementById('videoPublishedAt'); if(pub) pub.value=''; if(typeof dtUpdate==='function') dtUpdate(); }
     updateTab1();
   }
 
@@ -4436,6 +4456,92 @@ input:focus, select:focus, textarea:focus {
     currentProfile = data.current || Object.keys(data.profiles)[0] || 'Default';
     vpWrite(videoProfiles[currentProfile] || {});
     vpUpdateSelect();
+  }
+
+  
+  /* ═══════════════════════════════════════════════════════════════
+     DATA STALENESS CHECKER
+     Tracks when live metric fields were last edited.
+     After 10 minutes, affected cards glow red with an update reminder.
+  ═══════════════════════════════════════════════════════════════ */
+  const STALE_FIELDS = [
+    'viewsInput','likesInput','commentsInput','viewVelocity','impressionsInput',
+    'views24h','snap1_hours','views48h','snap2_hours','viewsCurrent','snap3_hours',
+    'subsGained','nonSubViewPct'
+  ];
+  // Cards that contain live data (by sv_ ID or element id)
+  const STALE_CARDS = {
+    'sv_t1_engagement': ['likesInput','commentsInput'],
+    'sv_t1_pubhub':     ['viewVelocity','impressionsInput'],
+    'sv_t1_channel':    ['subsGained','nonSubViewPct'],
+    'sv_t1_stall':      ['views24h','views48h','viewsCurrent'],
+  };
+  // Special: viewsInput is inside sv_t1_score / the main inputs - 
+  // we'll tag it directly via its input-box
+  let _dataLastEdited = null;   // timestamp of last live field edit
+  let _stalenessTimer = null;
+
+  function markDataEdited() {
+    _dataLastEdited = Date.now();
+    clearStalenessWarnings();
+    // Reset the stale check timer
+    if (_stalenessTimer) clearTimeout(_stalenessTimer);
+    _stalenessTimer = setTimeout(checkStaleness, 10 * 60 * 1000 + 500); // 10min + buffer
+  }
+
+  function checkStaleness() {
+    if (!_dataLastEdited) return;
+    const ageMs = Date.now() - _dataLastEdited;
+    if (ageMs < 10 * 60 * 1000) return;  // not yet stale
+    showStalenessWarnings(ageMs);
+  }
+
+  function showStalenessWarnings(ageMs) {
+    const ageMins = Math.round(ageMs / 60000);
+    const msg = `⚠ Data may be outdated (entered ${ageMins} min ago) — update from YouTube Studio`;
+    // Highlight each stale card
+    Object.keys(STALE_CARDS).forEach(cardId => {
+      const card = document.getElementById(cardId);
+      if (!card || card.classList.contains('sv-hidden')) return;
+      // Only warn if the card actually has values entered
+      const hasData = STALE_CARDS[cardId].some(fid => {
+        const el = document.getElementById(fid);
+        return el && parseFloat(el.value) > 0;
+      });
+      if (!hasData) return;
+      // Apply red glow
+      const inner = card.querySelector('.control-card') || card;
+      inner.style.setProperty('box-shadow', '0 0 0 2px var(--danger), 0 0 18px rgba(239,68,68,0.3)', 'important');
+      inner.style.setProperty('border-color', 'var(--danger)', 'important');
+      // Add or update stale badge
+      let badge = inner.querySelector('.stale-badge');
+      if (!badge) {
+        badge = document.createElement('div');
+        badge.className = 'stale-badge';
+        badge.style.cssText = 'background:var(--danger);color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;margin-bottom:8px;display:flex;align-items:center;gap:5px;line-height:1.4;';
+        inner.insertBefore(badge, inner.firstChild);
+      }
+      badge.innerHTML = '🔴 ' + msg;
+    });
+    // Also highlight the viewsInput field directly
+    const viewsEl = document.getElementById('viewsInput');
+    if (viewsEl && parseFloat(viewsEl.value) > 0) {
+      viewsEl.style.setProperty('border-color', 'var(--danger)', 'important');
+      viewsEl.style.setProperty('box-shadow', '0 0 0 2px rgba(239,68,68,0.4)', 'important');
+    }
+  }
+
+  function clearStalenessWarnings() {
+    document.querySelectorAll('.stale-badge').forEach(b => b.remove());
+    Object.keys(STALE_CARDS).forEach(cardId => {
+      const card = document.getElementById(cardId);
+      if (!card) return;
+      const inner = card.querySelector('.control-card') || card;
+      inner.style.removeProperty('box-shadow');
+      inner.style.removeProperty('border-color');
+    });
+    const viewsEl = document.getElementById('viewsInput');
+    if (viewsEl) { viewsEl.style.removeProperty('border-color'); viewsEl.style.removeProperty('box-shadow'); }
   }
 
     function updateViralityGoals(channelSubs, avd, totalVl) {
@@ -6855,6 +6961,14 @@ input:focus, select:focus, textarea:focus {
     if (lstKey && savedKey && !lstKey.value) lstKey.value = savedKey;
     svInit();
     vpInit();
+    // Wire staleness tracking to live data fields
+    const _staleFields = ['viewsInput','likesInput','commentsInput','viewVelocity',
+      'impressionsInput','views24h','snap1_hours','views48h','snap2_hours',
+      'viewsCurrent','snap3_hours','subsGained','nonSubViewPct'];
+    _staleFields.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('input', markDataEdited, { passive: true });
+    });
   }
 
   /* ═══════════════════════════════════
