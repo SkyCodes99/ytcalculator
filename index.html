@@ -4116,12 +4116,19 @@ input:focus, select:focus, textarea:focus {
         if (typeof vpUpdateSelect === 'function') vpUpdateSelect();
         if (typeof renderGoalPlanner === 'function') renderGoalPlanner();
         showToast('✅ Session loaded successfully!', 'var(--secondary)');
-        // If loaded data has a save timestamp, check if it's stale
+        // If loaded data has a save timestamp, seed per-field timestamps so
+        // fields show as stale if the save is old
         if (parsed.savedAt) {
           const savedAge = Date.now() - new Date(parsed.savedAt).getTime();
           if (savedAge > 10 * 60 * 1000) {
-            _dataLastEdited = new Date(parsed.savedAt).getTime();
-            setTimeout(checkStaleness, 500);
+            // Seed timestamps for all live fields so they show stale immediately
+            Object.keys(STALE_FIELD_DEFS).forEach(id => {
+              const el = document.getElementById(id);
+              if (el && parseFloat(el.value) > 0) {
+                _fieldTimestamps[id] = new Date(parsed.savedAt).getTime();
+              }
+            });
+            setTimeout(checkStaleness, 600);
           }
         }
       } catch(err) {
@@ -4385,8 +4392,7 @@ input:focus, select:focus, textarea:focus {
     vpSave();            // save current before switching
     currentProfile = name;
     clearStalenessWarnings();
-    _dataLastEdited = null;  // reset staleness clock for new profile
-    if (_stalenessTimer) { clearTimeout(_stalenessTimer); _stalenessTimer = null; }
+    // staleness clock reset via clearStalenessWarnings() above
     vpWrite(videoProfiles[name]);
     vpUpdateSelect();
   }
@@ -4405,8 +4411,6 @@ input:focus, select:focus, textarea:focus {
     const r = document.getElementById('src_unknown'); if(r) r.checked=true;
     // Clear date picker for new video
     clearStalenessWarnings();
-    _dataLastEdited = null;
-    if (_stalenessTimer) { clearTimeout(_stalenessTimer); _stalenessTimer = null; }
     if (typeof dtClear === 'function') dtClear();
     else { ['dt_month','dt_day','dt_year','dt_hour','dt_minute'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; }); const pub=document.getElementById('videoPublishedAt'); if(pub) pub.value=''; if(typeof dtUpdate==='function') dtUpdate(); }
     updateTab1();
@@ -4460,91 +4464,103 @@ input:focus, select:focus, textarea:focus {
 
   
   /* ═══════════════════════════════════════════════════════════════
-     DATA STALENESS CHECKER
-     Tracks when live metric fields were last edited.
-     After 10 minutes, affected cards glow red with an update reminder.
+     DATA STALENESS CHECKER — per-field inline warnings
+     Only live metrics go stale. Set-once fields are excluded.
+     After 10 minutes, a small 🔴 badge appears next to the field.
   ═══════════════════════════════════════════════════════════════ */
-  const STALE_FIELDS = [
-    'viewsInput','likesInput','commentsInput','viewVelocity','impressionsInput',
-    'views24h','snap1_hours','views48h','snap2_hours','viewsCurrent','snap3_hours',
-    'subsGained','nonSubViewPct'
-  ];
-  // Cards that contain live data (by sv_ ID or element id)
-  const STALE_CARDS = {
-    'sv_t1_engagement': ['likesInput','commentsInput'],
-    'sv_t1_pubhub':     ['viewVelocity','impressionsInput'],
-    'sv_t1_channel':    ['subsGained','nonSubViewPct'],
-    'sv_t1_stall':      ['views24h','views48h','viewsCurrent'],
+
+  // Fields that update live and go stale after 10 minutes
+  // Excluded (set-once): videoPublishedAt, vlMins/Secs, twMins/Secs,
+  //   ctr, ret, channelSubs, avgViewsPerUpload, midRetention, endRetention,
+  //   cardCtr, rewatchRate, trafficSource, subsGained, snap hours
+  const STALE_FIELD_DEFS = {
+    viewsInput:       'Total Views',
+    likesInput:       'Likes',
+    commentsInput:    'Comments',
+    viewVelocity:     'View Velocity',
+    impressionsInput: 'Impressions',
+    views24h:         'Snapshot 1 views',
+    views48h:         'Snapshot 2 views',
+    viewsCurrent:     'Snapshot 3 views',
+    nonSubViewPct:    'Non-Subscriber %',
   };
-  // Special: viewsInput is inside sv_t1_score / the main inputs - 
-  // we'll tag it directly via its input-box
-  let _dataLastEdited = null;   // timestamp of last live field edit
-  let _stalenessTimer = null;
 
-  function markDataEdited() {
-    _dataLastEdited = Date.now();
-    clearStalenessWarnings();
-    // Reset the stale check timer
-    if (_stalenessTimer) clearTimeout(_stalenessTimer);
-    _stalenessTimer = setTimeout(checkStaleness, 10 * 60 * 1000 + 500); // 10min + buffer
+  // Per-field last-edited timestamps  { fieldId: timestampMs }
+  const _fieldTimestamps = {};
+  // Per-field stale timers            { fieldId: timeoutId }
+  const _fieldTimers = {};
+
+  function markFieldEdited(fieldId) {
+    _fieldTimestamps[fieldId] = Date.now();
+    // Clear any existing stale badge for this field
+    clearFieldStale(fieldId);
+    // Cancel previous timer
+    if (_fieldTimers[fieldId]) clearTimeout(_fieldTimers[fieldId]);
+    // Schedule stale check in 10 minutes
+    _fieldTimers[fieldId] = setTimeout(() => showFieldStale(fieldId), 10 * 60 * 1000);
   }
 
-  function checkStaleness() {
-    if (!_dataLastEdited) return;
-    const ageMs = Date.now() - _dataLastEdited;
-    if (ageMs < 10 * 60 * 1000) return;  // not yet stale
-    showStalenessWarnings(ageMs);
-  }
-
-  function showStalenessWarnings(ageMs) {
+  function showFieldStale(fieldId) {
+    const el = document.getElementById(fieldId);
+    if (!el) return;
+    // Only warn if field has a meaningful value
+    if (!el.value || parseFloat(el.value) <= 0) return;
+    const ageMs   = Date.now() - (_fieldTimestamps[fieldId] || Date.now());
     const ageMins = Math.round(ageMs / 60000);
-    const msg = `⚠ Data may be outdated (entered ${ageMins} min ago) — update from YouTube Studio`;
-    // Highlight each stale card
-    Object.keys(STALE_CARDS).forEach(cardId => {
-      const card = document.getElementById(cardId);
-      if (!card || card.classList.contains('sv-hidden')) return;
-      // Only warn if the card actually has values entered
-      const hasData = STALE_CARDS[cardId].some(fid => {
-        const el = document.getElementById(fid);
-        return el && parseFloat(el.value) > 0;
-      });
-      if (!hasData) return;
-      // Apply red glow
-      const inner = card.querySelector('.control-card') || card;
-      inner.style.setProperty('box-shadow', '0 0 0 2px var(--danger), 0 0 18px rgba(239,68,68,0.3)', 'important');
-      inner.style.setProperty('border-color', 'var(--danger)', 'important');
-      // Add or update stale badge
-      let badge = inner.querySelector('.stale-badge');
-      if (!badge) {
-        badge = document.createElement('div');
-        badge.className = 'stale-badge';
-        badge.style.cssText = 'background:var(--danger);color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;margin-bottom:8px;display:flex;align-items:center;gap:5px;line-height:1.4;';
-        inner.insertBefore(badge, inner.firstChild);
-      }
-      badge.innerHTML = '🔴 ' + msg;
-    });
-    // Also highlight the viewsInput field directly
-    const viewsEl = document.getElementById('viewsInput');
-    if (viewsEl && parseFloat(viewsEl.value) > 0) {
-      viewsEl.style.setProperty('border-color', 'var(--danger)', 'important');
-      viewsEl.style.setProperty('box-shadow', '0 0 0 2px rgba(239,68,68,0.4)', 'important');
+    // Find or create the badge element, placed right after the input
+    let badge = document.getElementById('stale_' + fieldId);
+    if (!badge) {
+      badge = document.createElement('div');
+      badge.id = 'stale_' + fieldId;
+      badge.style.cssText = [
+        'display:inline-flex',
+        'align-items:center',
+        'gap:4px',
+        'background:rgba(239,68,68,0.12)',
+        'border:1px solid var(--danger)',
+        'color:var(--danger)',
+        'font-size:10px',
+        'font-weight:700',
+        'padding:2px 7px',
+        'border-radius:4px',
+        'margin-top:3px',
+        'line-height:1.4',
+        'cursor:default',
+      ].join(';');
+      // Insert after input's parent .input-box, or directly after input
+      const box = el.closest('.input-box') || el.parentElement;
+      if (box) box.appendChild(badge);
+    }
+    badge.innerHTML = '🔴 ' + ageMins + ' min ago — update from Studio';
+    // Also add a red border to the input itself
+    el.style.setProperty('border-color', 'var(--danger)', 'important');
+    el.style.setProperty('box-shadow', '0 0 0 2px rgba(239,68,68,0.25)', 'important');
+  }
+
+  function clearFieldStale(fieldId) {
+    const badge = document.getElementById('stale_' + fieldId);
+    if (badge) badge.remove();
+    const el = document.getElementById(fieldId);
+    if (el) {
+      el.style.removeProperty('border-color');
+      el.style.removeProperty('box-shadow');
     }
   }
 
   function clearStalenessWarnings() {
-    document.querySelectorAll('.stale-badge').forEach(b => b.remove());
-    Object.keys(STALE_CARDS).forEach(cardId => {
-      const card = document.getElementById(cardId);
-      if (!card) return;
-      const inner = card.querySelector('.control-card') || card;
-      inner.style.removeProperty('box-shadow');
-      inner.style.removeProperty('border-color');
+    Object.keys(STALE_FIELD_DEFS).forEach(id => {
+      clearFieldStale(id);
+      if (_fieldTimers[id]) { clearTimeout(_fieldTimers[id]); delete _fieldTimers[id]; }
+      delete _fieldTimestamps[id];
     });
-    const viewsEl = document.getElementById('viewsInput');
-    if (viewsEl) { viewsEl.style.removeProperty('border-color'); viewsEl.style.removeProperty('box-shadow'); }
   }
 
-    function updateViralityGoals(channelSubs, avd, totalVl) {
+  // Legacy aliases for profile switch / load code
+  function markDataEdited()  {}   // no-op — replaced by per-field system
+  function checkStaleness()  { /* check all fields */ Object.keys(STALE_FIELD_DEFS).forEach(id => { if (_fieldTimestamps[id]) { const age = Date.now() - _fieldTimestamps[id]; if (age >= 10*60*1000) showFieldStale(id); } }); }
+  function showStalenessWarnings() { checkStaleness(); }
+
+  function updateViralityGoals(channelSubs, avd, totalVl) {
     const subs = channelSubs || 0;
     const goals = {
       ctrGoal:  subs > 1000000 ? '3–6% Browse' : subs > 100000 ? '4–7% Browse' : subs > 10000 ? '4–8%' : subs > 1000 ? '5–10%' : '6–12%',
@@ -6961,13 +6977,10 @@ input:focus, select:focus, textarea:focus {
     if (lstKey && savedKey && !lstKey.value) lstKey.value = savedKey;
     svInit();
     vpInit();
-    // Wire staleness tracking to live data fields
-    const _staleFields = ['viewsInput','likesInput','commentsInput','viewVelocity',
-      'impressionsInput','views24h','snap1_hours','views48h','snap2_hours',
-      'viewsCurrent','snap3_hours','subsGained','nonSubViewPct'];
-    _staleFields.forEach(id => {
+    // Wire per-field staleness tracking to live data inputs
+    Object.keys(STALE_FIELD_DEFS).forEach(id => {
       const el = document.getElementById(id);
-      if (el) el.addEventListener('input', markDataEdited, { passive: true });
+      if (el) el.addEventListener('input', () => markFieldEdited(id), { passive: true });
     });
   }
 
