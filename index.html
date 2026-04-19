@@ -1269,7 +1269,7 @@ input:focus, select:focus, textarea:focus {
 .sv-tab-header { padding:8px 12px 4px; font-size:10px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px; background:var(--bg); border-bottom:1px solid var(--border); }
 </style>
 
-<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700;800&family=Josefin+Sans:wght@400;600;700&family=Playfair+Display:wght@400;700;900&family=Bebas+Neue&family=Exo+2:wght@400;600;700;800&display=swap" rel="stylesheet"></head>
+</head>
 <body>
 
 <!-- ═══════════════════════════════════ -->
@@ -1382,6 +1382,7 @@ input:focus, select:focus, textarea:focus {
     <div class="user-bar" id="userBar" style="display:none;">
       <span id="userNameDisplay">---</span>
       <button class="btn-primary" onclick="saveFullSession()" style="font-size:12px;padding:7px 18px;">💾 Save Session</button>
+      <label class="btn-secondary" style="font-size:12px;padding:7px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:5px;">📂 Load Save<input type="file" accept=".vcsave,.json" style="display:none;" onchange="loadFromFile(event)"></label>
       <button class="btn-secondary" onclick="logout()" style="font-size:12px;padding:7px 14px;">Logout</button>
       <span id="saveStatusIndicator" style="font-size:11px;color:var(--success);display:none;">✓ Saved</span>
     </div>
@@ -1407,13 +1408,13 @@ input:focus, select:focus, textarea:focus {
           <a onclick="openTab(event,'TabSEO'); updateCreatorDropdownText('SEO &amp; Niche Tools')">🔍 SEO &amp; Niche Tools</a>
           <a onclick="openTab(event,'TabRetCurve'); updateCreatorDropdownText('Retention Interpreter')">📊 Retention Interpreter</a>
           <a onclick="openTab(event,'TabEndScreen'); updateCreatorDropdownText('End Screen Optimizer')">🎬 End Screen Optimizer</a>
+          <a onclick="openTab(event,'TabAB'); updateCreatorDropdownText('A/B Checker')">🎯 Title/Thumbnail A/B Checker</a>
         </div>
       </div>
       <button class="tab-btn" onclick="openTab(event,'Tab8')">🎬 Video Tracker</button>
       <button class="tab-btn" onclick="openTab(event,'TabSocial')">📱 Social Analytics</button>
       <button class="tab-btn" onclick="openTab(event,'TabLive')" style="border-color:var(--danger);color:var(--danger);">🔴 Live Sub Tracker</button>
       <button class="tab-btn" onclick="openTab(event,'Tab7')">⏰ Publishing Hub</button>
-      <button class="tab-btn" onclick="openTab(event,'TabAB')">🎯 A/B Checker</button>
       <button class="tab-btn" onclick="openTab(event,'TabAI')">👤 Account Info</button>
       <button class="tab-btn" onclick="openTab(event,'TabFAQ')">❓ FAQ</button>
     </div>
@@ -1425,6 +1426,17 @@ input:focus, select:focus, textarea:focus {
   <div id="Tab1" class="tabcontent" style="display:block;">
     <h2>⚡ VIRALITY CHECKER</h2>
     <p class="tab-subtitle">Input your current video stats to calculate algorithmic performance. The checker factors in video age to forecast likely 48-hour trajectory and distinguish early momentum from genuine sustained growth.</p>
+
+    <!-- Video Profiles -->
+    <div style="background:var(--card2);border:1px solid var(--border-hi);border-radius:var(--radius);padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+      <span style="font-size:11px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.5px;">🎬 Video Profile:</span>
+      <select id="vp_select" onchange="vpSwitch(this.value)" style="flex:1;min-width:160px;max-width:300px;padding:6px 10px;background:var(--bg);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:12px;color:var(--text-bright);">
+        <option value="Default">Default Video</option>
+      </select>
+      <button onclick="vpAdd()" style="padding:5px 12px;background:var(--primary-dim);color:var(--primary);border:1px solid var(--primary);border-radius:var(--radius);font-size:11px;font-weight:700;cursor:pointer;">+ New</button>
+      <button onclick="vpRename()" style="padding:5px 12px;background:var(--card);color:var(--text-dim);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:11px;cursor:pointer;">Rename</button>
+      <button onclick="vpDelete()" style="padding:5px 12px;background:var(--danger-dim);color:var(--danger);border:1px solid var(--danger);border-radius:var(--radius);font-size:11px;cursor:pointer;">Delete</button>
+    </div>
 
     <!-- Upload time + trend mode -->
     <div id="sv_t1_pubhub" class="sv-wrap"><div class="control-card" style="border-left:4px solid var(--accent);margin-bottom:14px;overflow:visible;">
@@ -1494,6 +1506,7 @@ input:focus, select:focus, textarea:focus {
         </div>
       </div>
       <div id="trendForecastBox" style="margin-top:14px;display:none;"></div>
+      <div id="scenarioBox" style="margin-top:10px;display:none;"></div>
     </div></div>
 
     <!-- Video age context banner -->
@@ -1547,7 +1560,7 @@ input:focus, select:focus, textarea:focus {
         <div class="input-box"><label data-tip="1">Total Views<span class="tip-popup"><strong>Total Views</strong> — cumulative view count for this video so far.<span class="tip-path">YouTube Studio → Content → view count shown in the list, or Analytics → Overview → Views</span></span></label><input type="number" id="viewsInput" value="0" min="0" oninput="updateTab1()"></div>
         <div class="input-box"><label data-tip="1">Likes<span class="tip-popup"><strong>Likes</strong> — total likes on the video. Used to compute like rate and detect controversy patterns.<span class="tip-path">YouTube Studio → Analytics → your video → Engagement tab → "Likes"</span></span></label><input type="number" id="likesInput" value="0" min="0" oninput="updateTab1()"></div>
         <div class="input-box"><label data-tip="1">Comments<span class="tip-popup"><strong>Comments</strong> — total comment count. A high comment-to-like ratio can indicate controversy, which YouTube limits in distribution.<span class="tip-path">YouTube Studio → Analytics → your video → Engagement tab → "Comments"</span></span></label><input type="number" id="commentsInput" value="0" min="0" oninput="updateTab1()"></div>
-        <div class="input-box"><label data-tip="1">Shares (if known)<span class="tip-popup"><strong>Shares</strong> — how many times viewers shared your video. One of the strongest positive engagement signals YouTube tracks.<span class="tip-path">YouTube Studio → Analytics → your video → Engagement tab → "Shares" (scroll down)</span></span></label><input type="number" id="sharesInput" value="0" min="0" oninput="updateTab1()"></div>
+        
       </div>
       <div id="engDetail" style="margin-top:8px;font-size:11px;color:var(--text-dim);line-height:1.7;"></div>
       <!-- hidden compat field — total likes+comments for old code paths -->
@@ -1561,6 +1574,7 @@ input:focus, select:focus, textarea:focus {
         <div class="input-box"><label data-tip="1">Channel Subscribers<span class="tip-popup"><strong>Your Total Subscribers</strong> — used to compute the views-per-subscriber ratio, which shows whether this video is reaching beyond your existing audience.<span class="tip-path">YouTube Studio → Dashboard → subscriber count shown top-right, or Analytics → Audience tab</span></span></label><input type="number" id="channelSubs" value="0" min="0" oninput="updateTab1()" placeholder="Your total subs"></div>
         <div class="input-box"><label data-tip="1">Avg Views Per Upload<span class="tip-popup"><strong>Your Channel Average Views</strong> — typical views a video on your channel gets. Used to judge whether this video is over or under-performing your baseline.<span class="tip-path">YouTube Studio → Analytics → Overview → scroll to see recent video averages, or check Content tab</span></span></label><input type="number" id="avgViewsPerUpload" value="0" min="0" oninput="updateTab1()" placeholder="Your typical video views"></div>
         <div class="input-box"><label data-tip="1">Subs Gained from This Video<span class="tip-popup"><strong>Subscribers Gained</strong> — how many new subscribers this specific video generated. YouTube rewards videos that grow channels with re-surfacing.<span class="tip-path">YouTube Studio → Analytics → your video → Audience tab → "Subscribers gained"</span></span></label><input type="number" id="subsGained" value="0" min="0" oninput="updateTab1()" placeholder="From Studio analytics"></div>
+        <div class="input-box"><label data-tip="1">Non-Subscriber Views %<span class="tip-popup"><strong>Non-Subscriber Views</strong> — what percentage of views came from people who do NOT subscribe to your channel. A high % means the algorithm is pushing your video to new audiences beyond your existing fanbase — the strongest sign of viral potential.<span class="tip-path">YouTube Studio → Analytics → your video → Audience tab → "Returning vs new viewers" or traffic sources breakdown</span></span></label><input type="number" id="nonSubViewPct" value="0" min="0" max="100" step="1" oninput="updateTab1()" placeholder="e.g. 70 (%)"></div>
       </div>
       <div style="margin-top:10px;">
         <label style="font-size:11px;font-weight:700;color:var(--text-dim);display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;">Primary Traffic Source</label>
@@ -3599,6 +3613,7 @@ input:focus, select:focus, textarea:focus {
     const today = new Date().toISOString().split('T')[0];
     document.getElementById('trk_date').value = today;
     document.getElementById('m_todayDate').value = today;
+  document.getElementById('m_todayDate').value = today;
     const end = new Date(); end.setFullYear(end.getFullYear() + 1);
     document.getElementById('m_targetDate').value = end.toISOString().split('T')[0];
 
@@ -3680,7 +3695,57 @@ input:focus, select:focus, textarea:focus {
   }
 
   /* ─── Full Save / Load (file-based) ─── */
-  function buildSavePayload() {
+
+  /* ═══════════════════════════════════════════════════════
+     COMPREHENSIVE FIELD SAVE / RESTORE
+     Saves every input, select, textarea across all tabs.
+     Forward-compatible: missing fields on restore are silently skipped.
+  ═══════════════════════════════════════════════════════ */
+  const ALL_SAVE_FIELDS = ['videoPublishedAt', 'viewVelocity', 'impressionsInput', 'vlMins', 'vlSecs', 'twMins', 'twSecs', 'newVideoToggle', 'viewsInput', 'likesInput', 'commentsInput', 'channelSubs', 'avgViewsPerUpload', 'subsGained', 'nonSubViewPct', 'midRetention', 'endRetention', 'cardCtr', 'rewatchRate', 'views24h', 'snap1_hours', 'views48h', 'snap2_hours', 'viewsCurrent', 'snap3_hours', 'ctrNum', 'retNum', 't2_vlMins', 't2_vlSecs', 't2_ctr', 't2_avd', 't2_views', 't2_subs', 'gp_avd', 'gp_earned', 'gp_stream_hrs', 'gp_stream_viewers', 'gp_months', 'c_views_min', 'c_views_max', 'c_rpm_minNum', 'c_rpm_maxNum', 'c_view_type', 'cs_views_min', 'cs_views_max', 'cs_rpm', 'cs_niche', 'roi_shorts_views', 'roi_shorts_time', 'roi_shorts_follow', 'roi_lf_views', 'roi_lf_time', 'roi_lf_follow', 'roi_lf_avd', 'roi_rpm', 'tt_views', 'tt_likes', 'tt_comments', 'tt_shares', 'tt_length', 'tt_velocity', 'tt_avdNum', 'tt_hookNum', 'tt_curr_subs', 'tt_monthly_views', 'tt_follow_rate', 'ig_views', 'ig_likes', 'ig_comments', 'ig_saves', 'ig_sends', 'ig_reach', 'ig_nonfollower', 'ig_velocity', 'ig_avdNum', 'ig_curr_subs', 'ig_monthly_views', 'ig_follow_rate', 'sch_tz', 'sch_niche', 'sch_freq', 'sch_format', 'cp_subs', 'cp_views', 'cp_avd', 'cp_sub_rate', 'cp_uploads', 'cp_ctr', 'cp_rpm', 'cp_opt_rate', 'cp_opt_views', 'cp_agg_uploads', 'cp_target_ctr', 'yt_curr_subs', 'yt_monthly_views', 'yt_sub_rate', 'yt_subs_7d', 'yt_subs_28d', 'yt_custom_month', 'yt_custom_day', 'yt_custom_year', 'ab_test_name', 'ab_total_impressions', 'ab_niche', 'cmp_id1', 'cmp_subs1', 'cmp_totalviews1', 'cmp_videocount1', 'cmp_views1', 'cmp_ctr1', 'cmp_avd1', 'cmp_rpm1', 'cmp_id2', 'cmp_subs2', 'cmp_totalviews2', 'cmp_videocount2', 'cmp_views2', 'cmp_ctr2', 'cmp_avd2', 'cmp_rpm2', 'cmp_id3', 'cmp_subs3', 'cmp_totalviews3', 'cmp_videocount3', 'cmp_views3', 'cmp_ctr3', 'cmp_avd3', 'cmp_rpm3', 'hook_topic', 'hook_niche', 'hook_platform', 'seo_title', 'seo_keyword', 'seo_type', 'sat_topic', 'sat_angle', 'sat_category', 'sat_volume', 'rc_length', 'rc_30s', 'rc_1min', 'rc_25pct', 'rc_50pct', 'rc_75pct', 'rc_90pct', 'rc_avd', 'es_length', 'es_avd', 'es_mid', 'es_70', 'es_80', 'es_90', 'es_dropoff', 'es_current_ctr', 'es_rewatch', 'es_high_start', 'es_high_end', 'es_card_goal',
+    // API keys and auth fields
+    'lst_twitch_clientid','lst_twitch_token','cmp_api_key'];
+
+  function saveAllFields() {
+    const data = {};
+    ALL_SAVE_FIELDS.forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (el.type === 'checkbox' || el.type === 'radio') {
+        data[id] = el.checked;
+      } else {
+        data[id] = el.value;
+      }
+    });
+    // Traffic source radio (named group, not individual IDs)
+    const radio = document.querySelector('input[name="trafficSource"]:checked');
+    if (radio) data['_trafficSource'] = radio.value;
+    return data;
+  }
+
+  function restoreAllFields(data) {
+    if (!data || typeof data !== 'object') return;
+    ALL_SAVE_FIELDS.forEach(id => {
+      if (!(id in data)) return;  // forward-compat: skip missing fields
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (el.type === 'checkbox' || el.type === 'radio') {
+        el.checked = !!data[id];
+      } else {
+        el.value = data[id];
+      }
+    });
+    if (data['_trafficSource']) {
+      const radio = document.getElementById('src_' + data['_trafficSource']);
+      if (radio) radio.checked = true;
+    }
+    // Sync sliders from text inputs
+    [['ctrNum','ctr'],['retNum','ret'],['c_rpm_minNum','c_rpm_min'],['c_rpm_maxNum','c_rpm_max'],
+     ['tt_avdNum','tt_avd'],['tt_hookNum','tt_hook'],['ig_avdNum','ig_avd']].forEach(([num,sl]) => {
+      syncNum(num, sl);
+    });
+  }
+
+    function buildSavePayload() {
     // Collect all account info fields
     const accountFields = ['ai_name','ai_username','ai_email','ai_password','ai_yt_link','ai_tt_link','ai_ig_link','ai_other_link','ai_bio'];
     const accountData = {};
@@ -3702,7 +3767,11 @@ input:focus, select:focus, textarea:focus {
         ytApiKey: document.getElementById('yt_api_key') ? document.getElementById('yt_api_key').value : '',
         ytVideoIds: document.getElementById('yt_video_ids') ? document.getElementById('yt_video_ids').value : ''
       },
-      sectionVisibility: Object.assign({}, sectionVisibility)
+      sectionVisibility: Object.assign({}, sectionVisibility),
+      videoProfiles: vpToSave(),
+      allFields: saveAllFields(),
+      liveTrackers: JSON.parse(JSON.stringify(liveTrackers)),
+      abSavedTests: JSON.parse(JSON.stringify(abSavedTests))
     };
   }
 
@@ -3775,9 +3844,25 @@ input:focus, select:focus, textarea:focus {
         }
 
         if (parsed.sectionVisibility) svFromSave(parsed.sectionVisibility);
+        if (parsed.videoProfiles) vpFromSave(parsed.videoProfiles);
+        if (parsed.allFields) restoreAllFields(parsed.allFields);
+        // Restore live tracked channels
+        if (Array.isArray(parsed.liveTrackers) && parsed.liveTrackers.length) {
+          liveTrackers = parsed.liveTrackers;
+          // Reset live intervals so they use restored data
+          if (liveTimerInterval) { clearInterval(liveTimerInterval); liveTimerInterval = null; }
+        }
+        // Restore saved A/B tests
+        if (Array.isArray(parsed.abSavedTests)) {
+          abSavedTests = parsed.abSavedTests;
+          try { localStorage.setItem('ccABTests', JSON.stringify(abSavedTests)); } catch(e) {}
+        }
         dismissOverlay();
         updateVideoDropdown();
         initAll();
+        // Re-render live trackers and A/B history after initAll
+        if (typeof renderLiveCards === 'function') renderLiveCards();
+        if (typeof ab_renderHistory === 'function') ab_renderHistory();
         showToast('✅ Session loaded successfully!', 'var(--secondary)');
       } catch(err) {
         alert('Could not read save file. Make sure it\'s a valid .vcsave file.');
@@ -3957,6 +4042,153 @@ input:focus, select:focus, textarea:focus {
     if (vlMins <= 1) return 80; if (vlMins <= 3) return 65; if (vlMins <= 8) return 55;
     if (vlMins <= 15) return 45; return 35;
   }
+  
+
+  /* ═══════════════════════════════════════════════════════
+     VIDEO PROFILES — save/restore multiple video stat sets
+  ═══════════════════════════════════════════════════════ */
+  const VP_FIELDS = ['vlMins', 'vlSecs', 'twMins', 'twSecs', 'viewsInput', 'likesInput', 'commentsInput', 'viewVelocity', 'impressionsInput', 'channelSubs', 'avgViewsPerUpload', 'subsGained', 'nonSubViewPct', 'midRetention', 'endRetention', 'cardCtr', 'rewatchRate', 'ctrNum', 'retNum'];
+  let videoProfiles = { 'Default': {} };  // { profileName: { fieldId: value, ... } }
+  let currentProfile = 'Default';
+
+  function vpRead() {
+    // Read current Tab1 inputs into an object
+    const data = {};
+    VP_FIELDS.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) data[id] = el.value;
+    });
+    // Save traffic source radio
+    const radio = document.querySelector('input[name="trafficSource"]:checked');
+    if (radio) data._trafficSource = radio.value;
+    return data;
+  }
+
+  function vpWrite(data) {
+    // Write profile data into Tab1 inputs
+    if (!data) return;
+    VP_FIELDS.forEach(id => {
+      const el = document.getElementById(id);
+      if (el && data[id] !== undefined) el.value = data[id];
+    });
+    if (data._trafficSource) {
+      const radio = document.getElementById('src_' + data._trafficSource);
+      if (radio) radio.checked = true;
+    }
+    // Sync sliders from text boxes
+    ['ctr','ret'].forEach(sliderId => {
+      const numId = sliderId + 'Num';
+      syncNum(numId, sliderId);
+    });
+    updateTab1();
+  }
+
+  function vpSave() {
+    // Save current field values to current profile
+    videoProfiles[currentProfile] = vpRead();
+  }
+
+  function vpSwitch(name) {
+    if (!videoProfiles[name]) return;
+    vpSave();            // save current before switching
+    currentProfile = name;
+    vpWrite(videoProfiles[name]);
+    vpUpdateSelect();
+  }
+
+  function vpAdd() {
+    const name = prompt('Name for new video profile:', 'Video ' + (Object.keys(videoProfiles).length + 1));
+    if (!name || name.trim() === '') return;
+    const n = name.trim();
+    if (videoProfiles[n]) { alert('A profile named "' + n + '" already exists.'); return; }
+    vpSave();                        // save current first
+    videoProfiles[n] = {};           // blank profile
+    currentProfile = n;
+    vpUpdateSelect();
+    // Clear fields for new profile
+    VP_FIELDS.forEach(id => { const el=document.getElementById(id); if(el) el.value='0'; });
+    const r = document.getElementById('src_unknown'); if(r) r.checked=true;
+    updateTab1();
+  }
+
+  function vpRename() {
+    const newName = prompt('Rename "' + currentProfile + '" to:', currentProfile);
+    if (!newName || newName.trim() === '' || newName.trim() === currentProfile) return;
+    const n = newName.trim();
+    if (videoProfiles[n]) { alert('A profile named "' + n + '" already exists.'); return; }
+    videoProfiles[n] = videoProfiles[currentProfile];
+    delete videoProfiles[currentProfile];
+    currentProfile = n;
+    vpUpdateSelect();
+  }
+
+  function vpDelete() {
+    if (Object.keys(videoProfiles).length <= 1) { alert('Cannot delete the only profile.'); return; }
+    if (!confirm('Delete profile "' + currentProfile + '"?')) return;
+    delete videoProfiles[currentProfile];
+    currentProfile = Object.keys(videoProfiles)[0];
+    vpWrite(videoProfiles[currentProfile]);
+    vpUpdateSelect();
+  }
+
+  function vpUpdateSelect() {
+    const sel = document.getElementById('vp_select');
+    if (!sel) return;
+    sel.innerHTML = Object.keys(videoProfiles)
+      .map(n => `<option value="${n}"${n===currentProfile?' selected':''}>${n}</option>`)
+      .join('');
+  }
+
+  function vpInit() {
+    // Called from initAll
+    vpUpdateSelect();
+  }
+
+  function vpToSave() {
+    vpSave(); // capture latest values
+    return { profiles: videoProfiles, current: currentProfile };
+  }
+
+  function vpFromSave(data) {
+    if (!data || !data.profiles) return;
+    videoProfiles = data.profiles;
+    currentProfile = data.current || Object.keys(data.profiles)[0] || 'Default';
+    vpWrite(videoProfiles[currentProfile] || {});
+    vpUpdateSelect();
+  }
+
+    function updateViralityGoals(channelSubs, avd, totalVl) {
+    // Show healthy benchmarks next to each input
+    const subs = channelSubs || 0;
+    const goals = {
+      ctrGoal:  subs > 100000 ? '4–8%'  : subs > 10000 ? '5–10%' : subs > 1000 ? '6–12%' : '7–15%',
+      avdGoal:  totalVl > 0 ? Math.round((totalVl / 60) * 0.5 * 10)/10 + '+ min (50%+ of video)' : '50%+ of video length',
+      retGoal:  '65–80%',
+      likeGoal: subs > 100000 ? '2–4%' : '3–6%',
+      cmtGoal:  subs > 100000 ? '0.3–0.8%' : '0.5–1.5%',
+      velGoal:  subs > 100000 ? '500+ views/hr (0–12h)' : subs > 10000 ? '50–200/hr' : subs > 1000 ? '10–50/hr' : '2–10/hr',
+      imprGoal: subs > 100000 ? '50k+ (12h)' : subs > 10000 ? '5k+ (12h)' : '500+ (12h)',
+    };
+    const setGoal = (id, text) => {
+      let el = document.getElementById(id + '_goal');
+      if (!el) {
+        const parent = document.getElementById(id);
+        if (!parent) return;
+        el = document.createElement('div');
+        el.id = id + '_goal';
+        el.style.cssText = 'font-size:10px;color:var(--text-muted);margin-top:3px;';
+        parent.parentNode.appendChild(el);
+      }
+      el.textContent = '✦ Healthy: ' + text;
+    };
+    setGoal('ctr',             goals.ctrGoal);
+    setGoal('retNum',          goals.retGoal);
+    setGoal('likesInput',      goals.likeGoal + ' like rate');
+    setGoal('commentsInput',   goals.cmtGoal + ' comment rate');
+    setGoal('viewVelocity',    goals.velGoal);
+    setGoal('impressionsInput',goals.imprGoal);
+  }
+
   function updateTab1() {
     // ── Read all inputs ───────────────────────────────────────────
     const vlMins      = parseInt(document.getElementById('vlMins').value)              || 0;
@@ -3978,6 +4210,7 @@ input:focus, select:focus, textarea:focus {
     const channelSubs = parseFloat(document.getElementById('channelSubs')?.value)      || 0;
     const avgViews    = parseFloat(document.getElementById('avgViewsPerUpload')?.value)|| 0;
     const subsGained  = parseFloat(document.getElementById('subsGained')?.value)       || 0;
+    const nonSubViewPct = parseFloat(document.getElementById('nonSubViewPct')?.value) || 0;
     const midRet      = parseFloat(document.getElementById('midRetention')?.value)     || 0;
     const endRet      = parseFloat(document.getElementById('endRetention')?.value)     || 0;
     const cardCtr     = parseFloat(document.getElementById('cardCtr')?.value)          || 0;
@@ -3985,11 +4218,11 @@ input:focus, select:focus, textarea:focus {
     const trafficSrc  = (document.querySelector('input[name="trafficSource"]:checked')?.value) || 'unknown';
 
     // Derived engagement
-    const totalEng = likes + comments + shares;
+    const totalEng = likes + comments;
     const eng      = views > 0 ? (totalEng / views) * 100 : 0;
     const likeRate = views > 0 ? (likes / views) * 100 : 0;
     const commentRate = views > 0 ? (comments / views) * 100 : 0;
-    const shareRate   = views > 0 ? (shares / views) * 100 : 0;
+    const shareRate   = 0; // Shares removed
     const subConvRate = views > 0 && subsGained > 0 ? (subsGained / views) * 100 : 0;
 
     // Sync hidden engInput for any legacy code paths
@@ -4027,7 +4260,7 @@ input:focus, select:focus, textarea:focus {
       const controversyFlag = commentRate > likeRate * 2 && comments > 20;
       let detail = '';
       detail += 'Likes: <strong>' + likeRate.toFixed(2) + '%</strong>  ·  Comments: <strong>' + commentRate.toFixed(2) + '%</strong>';
-      if (shares > 0) detail += '  ·  Shares: <strong>' + shareRate.toFixed(2) + '%</strong>';
+      // shares removed
       if (subsGained > 0) detail += '  ·  Sub conversion: <strong style="color:var(--success);">' + subConvRate.toFixed(2) + '%</strong>';
       if (clickBounce) detail += '<br><span style="color:var(--danger);font-weight:700;">⚠ Click-bounce detected:</span> CTR is strong (' + ctr.toFixed(1) + '%) but hook retention is very low (' + ret + '%). Viewers are clicking your thumbnail but leaving almost immediately — your title/thumbnail is overpromising what the video delivers. This is actively penalised by the algorithm.';
       if (controversyFlag) detail += '<br><span style="color:var(--warning);font-weight:700;">⚠ Comment-heavy pattern:</span> Comment rate (' + commentRate.toFixed(2) + '%) is much higher than like rate (' + likeRate.toFixed(2) + '%). This can indicate controversy — YouTube now limits distribution of polarising content even with high engagement.';
@@ -4071,6 +4304,13 @@ input:focus, select:focus, textarea:focus {
         else if (vsAvg > 1.2) ctxHtml += '<span style="color:var(--primary);">📈 <strong>' + vsAvg.toFixed(1) + 'x your channel average</strong> — above average performance.</span><br>';
         else if (vsAvg > 0.7) ctxHtml += '<span style="color:var(--text-dim);">Performing near your channel average (' + vsAvg.toFixed(2) + 'x).</span><br>';
         else                   ctxHtml += '<span style="color:var(--warning);">📉 Below channel average (' + vsAvg.toFixed(2) + 'x). This video is underperforming relative to your typical content.</span><br>';
+      }
+      // Non-subscriber view % insight
+      if (nonSubViewPct > 0) {
+        if      (nonSubViewPct >= 70) ctxHtml += '<span style="color:var(--success);">🚀 <strong>' + nonSubViewPct + '% non-subscriber views</strong> — excellent. The algorithm is serving this to brand-new audiences. Strong viral signal.</span><br>';
+        else if (nonSubViewPct >= 50) ctxHtml += '<span style="color:var(--primary);">📡 <strong>' + nonSubViewPct + '% non-subscriber views</strong> — the video is breaking beyond your existing audience. Healthy push.</span><br>';
+        else if (nonSubViewPct >= 30) ctxHtml += '<span style="color:var(--warning);">⚠ <strong>' + nonSubViewPct + '% non-subscriber views</strong> — mostly subscriber traffic. Algorithm testing but not broadly pushing yet.</span><br>';
+        else                          ctxHtml += '<span style="color:var(--danger);">🔒 <strong>' + nonSubViewPct + '% non-subscriber views</strong> — primarily reaching existing subscribers only. Video not yet breaking out to new viewers.</span><br>';
       }
       if (subsGained > 0 && views > 0) {
         if      (subConvRate > 3)   ctxHtml += '<span style="color:var(--success);">⭐ <strong>' + subConvRate.toFixed(1) + '% sub conversion</strong> — excellent. YouTube rewards videos that grow channels.</span><br>';
@@ -4244,6 +4484,53 @@ input:focus, select:focus, textarea:focus {
         +'<div style="background:var(--card2);border-radius:var(--radius);padding:8px 10px;font-size:11px;color:var(--text-dim);">&#x1F4CC; '+ctx+'</div></div>';
     } else if (forecast) forecast.style.display = 'none';
 
+    // ── Worst / Expected / Best case scenarios ───────────────────
+    const scenarioBox = document.getElementById('scenarioBox');
+    if (scenarioBox && velocity > 0 && hoursOld !== null && hoursOld < 72) {
+      // Derive scenario velocities from current velocity + CTR/AVD signals
+      // Best case: velocity holds or accelerates (strong CTR + AVD)
+      // Expected: gradual natural decay (~20–30% drop)
+      // Worst case: velocity stalls quickly (poor signals, no push continuation)
+      const decayFactor = (ctr >= 6 && avd >= 50) ? 0.85 : (ctr >= 4 && avd >= 40) ? 0.75 : 0.60;
+      const velBest     = velocity * 1.35;   // algorithm continues push
+      const velExpected = velocity * decayFactor;
+      const velWorst    = velocity * 0.30;   // push stops, organic tail only
+
+      const hrsLeft48 = Math.max(0, 48 - hoursOld);
+      const hrsLeft7d = Math.max(0, 7*24 - hoursOld);
+      const hrsLeft30d = Math.max(0, 30*24 - hoursOld);
+
+      const proj = (vel, hrs) => Math.max(baseViews, Math.round(baseViews + vel * hrs));
+
+      const scenarios = [
+        { label:'📉 Worst Case',    vel:velWorst,    color:'var(--danger)',    desc:'Push stalls — mostly subscriber organic tail, no new audiences reached.' },
+        { label:'📊 Expected',      vel:velExpected, color:'var(--warning)',   desc:'Natural decay — normal velocity drop as initial push winds down.' },
+        { label:'🚀 Best Case',     vel:velBest,     color:'var(--success)',   desc:'Algorithm continues push — Browse/Suggested distribution sustains or grows.' },
+      ];
+
+      const rows = scenarios.map(sc => {
+        const v48  = proj(sc.vel, hrsLeft48);
+        const v7d  = proj(sc.vel * 0.5, hrsLeft7d);   // further decay over 7d
+        const v30d = proj(sc.vel * 0.2, hrsLeft30d);  // long-tail decay
+        return `<div style="border:1px solid ${sc.color}30;border-radius:var(--radius);padding:10px 12px;background:${sc.color}08;">
+          <div style="font-size:10px;font-weight:700;color:${sc.color};text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">${sc.label}</div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;text-align:center;">
+            <div><div style="font-size:14px;font-weight:800;color:${sc.color};">${v48.toLocaleString()}</div><div style="font-size:9px;color:var(--text-muted);">48h views</div></div>
+            <div><div style="font-size:14px;font-weight:800;color:${sc.color};">${v7d.toLocaleString()}</div><div style="font-size:9px;color:var(--text-muted);">7-day views</div></div>
+            <div><div style="font-size:14px;font-weight:800;color:${sc.color};">${v30d.toLocaleString()}</div><div style="font-size:9px;color:var(--text-muted);">30-day views</div></div>
+          </div>
+          <div style="font-size:10px;color:var(--text-dim);margin-top:5px;">${sc.desc}</div>
+        </div>`;
+      }).join('');
+
+      scenarioBox.style.display = 'block';
+      scenarioBox.innerHTML = `<div style="background:var(--card);border:1px solid var(--border-hi);border-radius:var(--radius);padding:12px;">
+        <div style="font-size:11px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">🔮 Performance Scenarios — based on current velocity</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;">${rows}</div>
+        <div style="font-size:10px;color:var(--text-muted);margin-top:8px;">Projections assume current view velocity of <strong>${velocity.toFixed(1)} views/hr</strong>. Best case applies when CTR ≥ 6% and AVD ≥ 50%.</div>
+      </div>`;
+    } else if (scenarioBox) { scenarioBox.style.display = 'none'; }
+
     // ── Velocity context (age-adjusted, informational-first) ────────
     // KEY DESIGN PRINCIPLE:
     // Velocity WITHOUT a publish date = purely informational. No penalty, no cap.
@@ -4393,13 +4680,7 @@ input:focus, select:focus, textarea:focus {
     else               engPts=10;
     if (controversyFlag) engPts = Math.max(engPts - 5, -5); // controversy reduces eng value
 
-    // Shares bonus (separate from base engagement)
-    let sharesPts = 0;
-    if (shareRate > 1)        sharesPts = 5;
-    else if (shareRate > 0.3) sharesPts = 3;
-    else if (shareRate > 0.1) sharesPts = 1;
-    // Only count shares if traffic source is NOT external (circular)
-    if (trafficSrc === 'external') sharesPts = 0;
+    const sharesPts = 0; // Shares removed
 
     // Sub conversion bonus
     let subConvPts = 0;
@@ -4621,18 +4902,27 @@ input:focus, select:focus, textarea:focus {
     rawScore -= stallPenalty;
     const total = Math.max(0, Math.min(100, parseFloat(rawScore.toFixed(1))));
     document.getElementById('totalScore').innerText = total;
+    updateViralityGoals(channelSubs, avd, totalVl);
+    if (typeof vpSave === "function") vpSave();
 
     // ── Rating — age-aware ────────────────────────────────────────
     const css = getComputedStyle(document.documentElement);
     let r, c, d;
-    if      (total<20) {r='Struggling';     c=css.getPropertyValue('--danger').trim();}
-    else if (total<38) {r='Needs Work';     c='#fb923c';}
-    else if (total<54) {r='Growing';        c=css.getPropertyValue('--warning').trim();}
-    else if (total<68) {r='Strong Growth';  c=css.getPropertyValue('--success').trim();}
-    else if (total<83) {r='Viral Potential';c=css.getPropertyValue('--secondary').trim();}
-    else               {r='Viral Breakout'; c=css.getPropertyValue('--accent').trim();}
+    // Score thresholds aligned with descriptions:
+    // 0-24:  Struggling — not gaining traction
+    // 25-44: Needs Work — some signals but below healthy benchmarks
+    // 45-59: Growing — passing key thresholds, modest push
+    // 60-74: Strong Growth — above-average signals, clear push
+    // 75-89: Viral Potential — exceptional signals, broad distribution
+    // 90+:   Viral Breakout — all metrics firing, wide algorithmic push
+    if      (total<25) {r='Struggling';      c=css.getPropertyValue('--danger').trim();}
+    else if (total<45) {r='Needs Work';      c='#fb923c';}
+    else if (total<60) {r='Growing';         c=css.getPropertyValue('--warning').trim();}
+    else if (total<75) {r='Strong Growth';   c=css.getPropertyValue('--success').trim();}
+    else if (total<90) {r='Viral Potential'; c=css.getPropertyValue('--secondary').trim();}
+    else               {r='Viral Breakout';  c=css.getPropertyValue('--accent').trim();}
 
-    if      (agePhase==='seed'&&total>=40)     d='Promising seed-phase score, but wait 12–24h before drawing conclusions. CTR from subscribers is inflated.';
+    if      (agePhase==='seed'&&total>=45)     d='Promising seed-phase score, but wait 12–24h before drawing conclusions. CTR from subscribers is inflated.';
     else if (agePhase==='early'&&total>=50)    d='Strong early signals. The real test is 24–48h when the algorithm makes its push decision.';
     else if (agePhase==='decision') {
       if      (total>=60) d='Strong in the decision window. Algorithm very likely to sustain or scale distribution. Watch velocity over the next 24h.';
@@ -4678,7 +4968,6 @@ input:focus, select:focus, textarea:focus {
     if (retCurvePts!==0) bd+='<div><span>Retention curve:</span><span style="color:'+(retCurvePts<0?neg:pos)+'">'+(retCurvePts>=0?'+':'')+retCurvePts.toFixed(0)+'</span></div>';
     if (clickBouncePenalty<0) bd+='<div><span>Click-bounce penalty:</span><span style="color:'+neg+';">'+clickBouncePenalty+'</span></div>';
     bd+='<div><span>Engagement ('+eng.toFixed(2)+'%):</span><span style="color:'+(engPts<0?neg:pos)+'">'+(engPts>=0?'+':'')+engPts.toFixed(1)+' / 10</span></div>';
-    if (sharesPts>0) bd+='<div><span>Shares ('+(shareRate>0?shareRate.toFixed(2)+'%':shares+' total')+'): </span><span style="color:'+pos+';">+'+sharesPts+' / 5</span></div>';
     if (subConvPts>0) bd+='<div><span>Sub conversion ('+subConvRate.toFixed(2)+'%):</span><span style="color:'+pos+';">+'+subConvPts+' / 6</span></div>';
     if (channelCtxPts!==0) bd+='<div><span>Channel context:</span><span style="color:'+(channelCtxPts<0?neg:pos)+'">'+(channelCtxPts>=0?'+':'')+channelCtxPts+'</span></div>';
     if (trafficPts!==0) bd+='<div><span>Traffic source ('+trafficSrc+'):</span><span style="color:'+(trafficPts<0?neg:pos)+'">'+(trafficPts>=0?'+':'')+trafficPts+'</span></div>';
@@ -6062,6 +6351,7 @@ input:focus, select:focus, textarea:focus {
     const lstKey = document.getElementById('lst_apikey');
     if (lstKey && savedKey && !lstKey.value) lstKey.value = savedKey;
     svInit();
+    vpInit();
   }
 
   /* ═══════════════════════════════════
@@ -6166,27 +6456,26 @@ input:focus, select:focus, textarea:focus {
     { id:'stealth',  name:'Stealth',       bg:'#0a0a0a', dots:['#ffffff','#d4d4d4','#ff3b3b'], desc:'Dark brutalist military minimal' },
   ];
   const FONTS = [
-    { id:'inter',     name:'Inter',              family:'Inter,system-ui,sans-serif',               desc:'Clean, highly readable',       sample:'Aa' },
-    { id:'jakarta',   name:'Plus Jakarta Sans',  family:'Plus Jakarta Sans,system-ui,sans-serif',   desc:'Geometric, modern, friendly',  sample:'Aa' },
-    { id:'outfit',    name:'Outfit',             family:'Outfit,system-ui,sans-serif',              desc:'Rounded, great for dashboards',sample:'Aa' },
-    { id:'nunito',    name:'Nunito',             family:'Nunito,system-ui,sans-serif',              desc:'Soft rounded, warm and legible',sample:'Aa' },
-    { id:'dmsans',    name:'DM Sans',            family:'DM Sans,system-ui,sans-serif',             desc:'Low-contrast, balanced',       sample:'Aa' },
-    { id:'lexend',    name:'Lexend',             family:'Lexend,system-ui,sans-serif',              desc:'Reduces reading friction',     sample:'Aa' },
-    { id:'space',     name:'Space Grotesk',      family:'Space Grotesk,system-ui,sans-serif',       desc:'Geometric, editorial feel',    sample:'Aa' },
-    { id:'syne',      name:'Syne',               family:'Syne,system-ui,sans-serif',                desc:'Bold, expressive personality', sample:'Aa' },
-    { id:'bricolage', name:'Bricolage Grotesque',family:'Bricolage Grotesque,system-ui,sans-serif', desc:'Contemporary character',       sample:'Aa' },
-    { id:'cabinet',   name:'Cabinet Grotesk',    family:'Cabinet Grotesk,system-ui,sans-serif',     desc:'Sharp, confident, premium',    sample:'Aa' },
-    { id:'literata',  name:'Literata',           family:'Literata,Georgia,serif',                   desc:'Humanist serif, long reads',   sample:'Aa' },
-    { id:'fraunces',  name:'Fraunces',           family:'Fraunces,Georgia,serif',                   desc:'Optical serif, warm elegance', sample:'Aa' },
-    { id:'fira',      name:'Fira Code',          family:"Fira Code,'Courier New',monospace",        desc:'Monospace with ligatures',     sample:'Aa' },
-    { id:'source',    name:'Source Code Pro',    family:"'Source Code Pro','Courier New',monospace",desc:'Precise monospace',            sample:'Aa' },
-    { id:'mono',      name:'DM Mono',            family:"'DM Mono','Courier New',monospace",        desc:'Compact technical monospace',  sample:'Aa' },
-  ,
-    { id:'raleway',   name:'Raleway',         family:"'Raleway', sans-serif",       desc:'Elegant wide letters' },
-    { id:'josefin',   name:'Josefin Sans',     family:"'Josefin Sans', sans-serif",  desc:'Geometric minimal' },
-    { id:'playfair',  name:'Playfair Display', family:"'Playfair Display', serif",   desc:'Classic editorial serif' },
-    { id:'bebas',     name:'Bebas Neue',       family:"'Bebas Neue', sans-serif",    desc:'Bold all-caps display' },
-    { id:'exo',       name:'Exo 2',            family:"'Exo 2', sans-serif",         desc:'Futuristic tech feel' }
+    { id:'inter',     name:'Inter',              family:'Inter,system-ui,sans-serif',               desc:'Clean, highly readable',             sample:'Aa' },
+    { id:'jakarta',   name:'Plus Jakarta Sans',  family:'Plus Jakarta Sans,system-ui,sans-serif',   desc:'Geometric, modern, friendly',        sample:'Aa' },
+    { id:'outfit',    name:'Outfit',             family:'Outfit,system-ui,sans-serif',              desc:'Rounded, great for dashboards',      sample:'Aa' },
+    { id:'nunito',    name:'Nunito',             family:'Nunito,system-ui,sans-serif',              desc:'Soft rounded, warm and legible',     sample:'Aa' },
+    { id:'dmsans',    name:'DM Sans',            family:'DM Sans,system-ui,sans-serif',             desc:'Low-contrast, balanced',             sample:'Aa' },
+    { id:'lexend',    name:'Lexend',             family:'Lexend,system-ui,sans-serif',              desc:'Reduces reading friction',           sample:'Aa' },
+    { id:'space',     name:'Space Grotesk',      family:'Space Grotesk,system-ui,sans-serif',       desc:'Geometric, editorial feel',          sample:'Aa' },
+    { id:'syne',      name:'Syne',               family:'Syne,system-ui,sans-serif',                desc:'Bold, expressive personality',       sample:'Aa' },
+    { id:'bricolage', name:'Bricolage Grotesque',family:'Bricolage Grotesque,system-ui,sans-serif', desc:'Contemporary character',             sample:'Aa' },
+    { id:'cabinet',   name:'Cabinet Grotesk',    family:'Cabinet Grotesk,system-ui,sans-serif',     desc:'Sharp, confident, premium',          sample:'Aa' },
+    { id:'literata',  name:'Literata',           family:'Literata,Georgia,serif',                   desc:'Humanist serif, long reads',         sample:'Aa' },
+    { id:'fraunces',  name:'Fraunces',           family:'Fraunces,Georgia,serif',                   desc:'Optical serif, warm elegance',       sample:'Aa' },
+    { id:'fira',      name:'Fira Code',          family:"Fira Code,'Courier New',monospace",        desc:'Monospace with ligatures',           sample:'Aa' },
+    { id:'source',    name:'Source Code Pro',    family:"'Source Code Pro','Courier New',monospace",desc:'Precise monospace',                  sample:'Aa' },
+    { id:'mono',      name:'DM Mono',            family:"'DM Mono','Courier New',monospace",        desc:'Compact technical monospace',        sample:'Aa' },
+    { id:'raleway',   name:'Raleway',            family:"Raleway,sans-serif",                       desc:'Elegant wide letters',               sample:'Aa' },
+    { id:'josefin',   name:'Josefin Sans',       family:"'Josefin Sans',sans-serif",                desc:'Geometric minimal',                  sample:'Aa' },
+    { id:'playfair',  name:'Playfair Display',   family:"'Playfair Display',serif",                 desc:'Classic editorial serif',            sample:'Aa' },
+    { id:'bebas',     name:'Bebas Neue',         family:"'Bebas Neue',sans-serif",                  desc:'Bold all-caps display',              sample:'Aa' },
+    { id:'exo',       name:'Exo 2',              family:"'Exo 2',sans-serif",                       desc:'Futuristic tech feel',               sample:'Aa' }
   ];
   const TEXT_SIZES = { sm:'Small (13px)', md:'Medium (15px)', lg:'Large (17px)', xl:'X-Large (19px)', xxl:'Huge (22px)' };
 
@@ -6657,12 +6946,74 @@ input:focus, select:focus, textarea:focus {
         <div class="live-count">${t.count !== null ? t.count.toLocaleString() : '…'}</div>
         ${delta !== null && delta !== 0 ? `<div class="live-delta" style="color:${dColor};">${dStr} since last check</div>` : '<div style="height:18px;"></div>'}
         <div class="live-timer" id="lt_timer_${t.id}">Next refresh in ${liveCountdown}s</div>
-        <button onclick="removeLiveTracker(${t.id})" style="margin-top:10px;background:var(--danger-dim);color:var(--danger);border:1px solid var(--danger);border-radius:6px;padding:3px 10px;cursor:pointer;font-size:11px;">Remove</button>
+        <div style="display:flex;gap:6px;margin-top:10px;">
+          <button onclick="popoutTracker(${t.id})" style="flex:1;background:var(--primary-dim);color:var(--primary);border:1px solid var(--primary);border-radius:6px;padding:3px 10px;cursor:pointer;font-size:11px;">⤢ Pop Out</button>
+          <button onclick="removeLiveTracker(${t.id})" style="flex:1;background:var(--danger-dim);color:var(--danger);border:1px solid var(--danger);border-radius:6px;padding:3px 10px;cursor:pointer;font-size:11px;">Remove</button>
+        </div>
       </div>`;
     }).join('');
   }
 
-  function removeLiveTracker(id) {
+
+  function popoutTracker(id) {
+    const t = liveTrackers.find(x => x.id === id);
+    if (!t) return;
+    const pc = t.platform === 'youtube' ? '#ff4444' : '#9146ff';
+    const platLabel = t.platform === 'youtube' ? '▶ YouTube' : '🎮 Twitch';
+    const html = `<!DOCTYPE html><html><head><title>${t.name} — Live Subs</title>
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <style>
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{background:#0f0f13;color:#f1f5f9;font-family:system-ui,sans-serif;
+             display:flex;flex-direction:column;align-items:center;justify-content:center;
+             min-height:100vh;text-align:center;padding:24px;}
+        .plat{font-size:13px;font-weight:700;color:${pc};letter-spacing:1px;margin-bottom:6px;}
+        .name{font-size:18px;font-weight:700;margin-bottom:16px;color:#f8fafc;}
+        .count{font-size:56px;font-weight:900;color:#f8fafc;letter-spacing:-2px;line-height:1;}
+        .delta{font-size:14px;margin-top:8px;min-height:20px;}
+        .timer{font-size:11px;color:#94a3b8;margin-top:12px;}
+        .pulse{width:10px;height:10px;background:${pc};border-radius:50%;
+               animation:pulse 1.5s ease-in-out infinite;display:inline-block;margin-right:6px;}
+        @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(1.4);}}
+      </style></head><body>
+      <div class="plat"><span class="pulse"></span>${platLabel}</div>
+      <div class="name">${t.name}</div>
+      <div class="count" id="pc_count">${t.count !== null ? t.count.toLocaleString() : '…'}</div>
+      <div class="delta" id="pc_delta"></div>
+      <div class="timer" id="pc_timer">Updating…</div>
+      <script>
+        let prev = ${t.count !== null ? t.count : 'null'};
+        let countdown = 20;
+        function tick() {
+          document.getElementById('pc_timer').textContent = 'Next refresh in ' + countdown + 's';
+          if (--countdown <= 0) { countdown = 20; refresh(); }
+        }
+        async function refresh() {
+          try {
+            const url = '${t.platform === 'youtube' ? `https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${t.channelId}&key=` + (t.apiKey||'') : ''}';
+            if (!url || url.endsWith('=')) { countdown=30; return; }
+            const r = await fetch(url);
+            const d = await r.json();
+            const n = parseInt(d?.items?.[0]?.statistics?.subscriberCount || '0');
+            if (n) {
+              const el = document.getElementById('pc_count');
+              const de = document.getElementById('pc_delta');
+              const diff = prev !== null ? n - prev : 0;
+              el.textContent = n.toLocaleString();
+              de.textContent = diff !== 0 ? (diff > 0 ? '+' : '') + diff.toLocaleString() + ' since last check' : '';
+              de.style.color = diff > 0 ? '#4ade80' : diff < 0 ? '#f87171' : '#94a3b8';
+              prev = n;
+            }
+          } catch(e) {}
+          countdown = 30;
+        }
+        setInterval(tick, 1000);
+      </scr` + `ipt></body></html>`;
+    const w = window.open('', '_blank', 'width=320,height=320,resizable=yes,menubar=no,toolbar=no,location=no,status=no');
+    if (w) { w.document.open(); w.document.write(html); w.document.close(); }
+  }
+
+    function removeLiveTracker(id) {
     liveTrackers = liveTrackers.filter(t => t.id !== id);
     renderLiveCards();
     if (!liveTrackers.length) stopLiveTimer();
@@ -8675,13 +9026,10 @@ function refreshAdminStats() {
       Object.assign(sectionVisibility, data);
       svApplyAll();
     }
-  }
-</script>
-
-<div id="adminOverlay" s
-tyle="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.94);backdrop-filter:blur(8px);z-index:99999;overflow-y:auto;">
+  }</script>
+<div id="adminOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.94);backdrop-filter:blur(8px);z-index:99999;overflow-y:auto;">
   <div style="max-width:800px;margin:40px auto;padding:0 20px 60px;">
-    <div style="display:flex;justify-content:space-between;align-items:center;padding:24px 0;border-bottom:1px solid rgba(255,255,255,0.1);margin-bottom:28px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:24px 0;border-bottom:1px solid rgba(255,255,255,0.08);margin-bottom:32px;">
       <div>
         <div style="font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:2px;margin-bottom:4px;">⚙️ ADMIN PANEL</div>
         <h2 style="margin:0;color:var(--text-bright);font-size:22px;">The Social Spot — Dashboard Control</h2>
