@@ -1430,16 +1430,25 @@ input:focus, select:focus, textarea:focus {
     <p class="tab-subtitle">Input your current video stats to calculate algorithmic performance. The checker factors in video age to forecast likely 48-hour trajectory and distinguish early momentum from genuine sustained growth.</p>
 
     <!-- Video Profiles -->
-    <div id="sv_t1_vp_bar" class="sv-wrap"><div style="background:var(--card2);border:1px solid var(--border-hi);border-radius:var(--radius);padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-      <span style="font-size:11px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.5px;">🎬 Video Profile:</span>
-      <select id="vp_select" onchange="vpSwitch(this.value)" style="flex:1;min-width:160px;max-width:300px;padding:6px 10px;background:var(--bg);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:12px;color:var(--text-bright);">
-        <option value="Default">Default Video</option>
-      </select>
-      <button onclick="vpAdd()" style="padding:5px 12px;background:var(--primary-dim);color:var(--primary);border:1px solid var(--primary);border-radius:var(--radius);font-size:11px;font-weight:700;cursor:pointer;">+ New</button>
-      <button onclick="vpRename()" style="padding:5px 12px;background:var(--card);color:var(--text-dim);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:11px;cursor:pointer;">Rename</button>
-      <button onclick="vpDelete()" style="padding:5px 12px;background:var(--danger-dim);color:var(--danger);border:1px solid var(--danger);border-radius:var(--radius);font-size:11px;cursor:pointer;">Delete</button>
-    </div></div>
-
+    <div id="sv_t1_vp_bar" class="sv-wrap">
+    <div style="background:var(--card2);border:1px solid var(--border-hi);border-radius:var(--radius);padding:12px 16px;margin-bottom:14px;">
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+        <span style="font-size:11px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap;">🎬 Video</span>
+        <button onclick="vpPrev()" title="Previous video" style="padding:4px 9px;background:var(--card);color:var(--text-dim);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:13px;cursor:pointer;line-height:1;">&#9664;</button>
+        <select id="vp_select" onchange="vpSwitch(this.value)" style="flex:1;min-width:140px;max-width:260px;padding:6px 10px;background:var(--bg);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:13px;font-weight:600;color:var(--text-bright);">
+          <option value="Default">Default Video</option>
+        </select>
+        <button onclick="vpNext()" title="Next video" style="padding:4px 9px;background:var(--card);color:var(--text-dim);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:13px;cursor:pointer;line-height:1;">&#9654;</button>
+        <div style="display:flex;gap:6px;margin-left:auto;flex-wrap:wrap;">
+          <button onclick="vpAdd()" title="Add new video profile" style="padding:5px 12px;background:var(--primary-dim);color:var(--primary);border:1px solid var(--primary);border-radius:var(--radius);font-size:11px;font-weight:700;cursor:pointer;">+ New</button>
+          <button onclick="vpDuplicate()" title="Duplicate current profile" style="padding:5px 12px;background:var(--card);color:var(--text-dim);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:11px;cursor:pointer;">&#10697; Copy</button>
+          <button onclick="vpRename()" title="Rename profile" style="padding:5px 12px;background:var(--card);color:var(--text-dim);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:11px;cursor:pointer;">&#9998; Rename</button>
+          <button onclick="vpDelete()" title="Delete profile" style="padding:5px 10px;background:var(--danger-dim);color:var(--danger);border:1px solid var(--danger);border-radius:var(--radius);font-size:11px;cursor:pointer;">&#10005;</button>
+        </div>
+      </div>
+      <div id="vp_counter" style="font-size:10px;color:var(--text-muted);margin-top:6px;"></div>
+    </div>
+  </div>
     <!-- Upload time + trend mode -->
     <div id="sv_t1_pubhub" class="sv-wrap"><div class="control-card" style="border-left:4px solid var(--accent);margin-bottom:14px;overflow:visible;">
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;align-items:end;">
@@ -1580,13 +1589,13 @@ input:focus, select:focus, textarea:focus {
       </div>
       <div style="margin-top:10px;">
         <label style="font-size:11px;font-weight:700;color:var(--text-dim);display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;">Primary Traffic Source</label>
-        <div style="display:flex;flex-wrap:wrap;gap:8px;">
-          <label style="display:inline-flex;align-items:center;gap:5px;font-size:12px;cursor:pointer;"><input type="radio" name="trafficSource" value="browse" id="src_browse" onchange="updateTab1()"> Browse Features</label>
-          <label style="display:inline-flex;align-items:center;gap:5px;font-size:12px;cursor:pointer;"><input type="radio" name="trafficSource" value="suggested" id="src_suggested" onchange="updateTab1()"> Suggested Videos</label>
-          <label style="display:inline-flex;align-items:center;gap:5px;font-size:12px;cursor:pointer;"><input type="radio" name="trafficSource" value="search" id="src_search" onchange="updateTab1()"> Search</label>
-          <label style="display:inline-flex;align-items:center;gap:5px;font-size:12px;cursor:pointer;"><input type="radio" name="trafficSource" value="external" id="src_external" onchange="updateTab1()"> External / Direct</label>
-          <label style="display:inline-flex;align-items:center;gap:5px;font-size:12px;cursor:pointer;"><input type="radio" name="trafficSource" value="subs" id="src_subs" onchange="updateTab1()"> Subscriptions Feed</label>
-          <label style="display:inline-flex;align-items:center;gap:5px;font-size:12px;cursor:pointer;"><input type="radio" name="trafficSource" value="unknown" id="src_unknown" onchange="updateTab1()" checked> Not sure</label>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;">
+          <label style="display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:600;cursor:pointer;background:var(--card2);border:1px solid var(--border-hi);border-radius:8px;padding:7px 14px;"><input type="radio" name="trafficSource" value="browse" id="src_browse" onchange="updateTab1()"> Browse Features</label>
+          <label style="display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:600;cursor:pointer;background:var(--card2);border:1px solid var(--border-hi);border-radius:8px;padding:7px 14px;"><input type="radio" name="trafficSource" value="suggested" id="src_suggested" onchange="updateTab1()"> Suggested Videos</label>
+          <label style="display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:600;cursor:pointer;background:var(--card2);border:1px solid var(--border-hi);border-radius:8px;padding:7px 14px;"><input type="radio" name="trafficSource" value="search" id="src_search" onchange="updateTab1()"> Search</label>
+          <label style="display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:600;cursor:pointer;background:var(--card2);border:1px solid var(--border-hi);border-radius:8px;padding:7px 14px;"><input type="radio" name="trafficSource" value="external" id="src_external" onchange="updateTab1()"> External / Direct</label>
+          <label style="display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:600;cursor:pointer;background:var(--card2);border:1px solid var(--border-hi);border-radius:8px;padding:7px 14px;"><input type="radio" name="trafficSource" value="subs" id="src_subs" onchange="updateTab1()"> Subscriptions Feed</label>
+          <label style="display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:600;cursor:pointer;background:var(--card2);border:1px solid var(--border-hi);border-radius:8px;padding:7px 14px;"><input type="radio" name="trafficSource" value="unknown" id="src_unknown" onchange="updateTab1()" checked> Not sure</label>
         </div>
         <div id="trafficSourceNote" style="margin-top:8px;font-size:11px;color:var(--text-dim);"></div>
       </div>
@@ -4439,9 +4448,38 @@ input:focus, select:focus, textarea:focus {
   function vpUpdateSelect() {
     const sel = document.getElementById('vp_select');
     if (!sel) return;
-    sel.innerHTML = Object.keys(videoProfiles)
-      .map(n => `<option value="${n}"${n===currentProfile?' selected':''}>${n}</option>`)
-      .join('');
+    const keys = Object.keys(videoProfiles);
+    sel.innerHTML = keys.map(n => `<option value="${n}"${n===currentProfile?' selected':''}>${n}</option>`).join('');
+    const counter = document.getElementById('vp_counter');
+    if (counter) {
+      const idx = keys.indexOf(currentProfile) + 1;
+      counter.textContent = `${idx} of ${keys.length} video${keys.length !== 1 ? 's' : ''} — use ◀ ▶ to cycle`;
+    }
+  }
+
+  function vpPrev() {
+    const keys = Object.keys(videoProfiles);
+    if (keys.length <= 1) return;
+    const idx = keys.indexOf(currentProfile);
+    vpSwitch(keys[(idx - 1 + keys.length) % keys.length]);
+  }
+
+  function vpNext() {
+    const keys = Object.keys(videoProfiles);
+    if (keys.length <= 1) return;
+    const idx = keys.indexOf(currentProfile);
+    vpSwitch(keys[(idx + 1) % keys.length]);
+  }
+
+  function vpDuplicate() {
+    const baseName = currentProfile + ' (copy)';
+    let name = baseName, n = 2;
+    while (videoProfiles[name]) { name = baseName + ' ' + n++; }
+    vpSave();
+    videoProfiles[name] = JSON.parse(JSON.stringify(videoProfiles[currentProfile] || {}));
+    currentProfile = name;
+    vpUpdateSelect();
+    if (typeof showToast === 'function') showToast('\u29E7 Duplicated as "' + name + '"', 'var(--primary)');
   }
 
   function vpInit() {
@@ -4473,17 +4511,25 @@ input:focus, select:focus, textarea:focus {
   // Excluded (set-once): videoPublishedAt, vlMins/Secs, twMins/Secs,
   //   ctr, ret, channelSubs, avgViewsPerUpload, midRetention, endRetention,
   //   cardCtr, rewatchRate, trafficSource, subsGained, snap hours
-  const STALE_FIELD_DEFS = {
+  // Fields checked more frequently (every session — changes per refresh from Studio):
+  const STALE_FIELD_DEFS_FREQUENT = {
     viewsInput:       'Total Views',
     likesInput:       'Likes',
     commentsInput:    'Comments',
+    ctrNum:           'CTR',
     viewVelocity:     'View Velocity',
     impressionsInput: 'Impressions',
-    views24h:         'Snapshot 1 views',
-    views48h:         'Snapshot 2 views',
-    viewsCurrent:     'Snapshot 3 views',
-    nonSubViewPct:    'Non-Subscriber %',
+    viewsCurrent:     'Latest Snapshot Views',
+    snap3_hours:      'Latest Snapshot Hours',
   };
+  // Fields that update ~daily (YouTube refreshes at ~5am EST for this channel):
+  // Only warn if video is old enough that a daily update would have occurred
+  const STALE_FIELD_DEFS_DAILY = {
+    retNum:        '30s Hook Retention',
+    nonSubViewPct: 'Non-Subscriber %',
+  };
+  // Unified map for clear/reset operations
+  const STALE_FIELD_DEFS = { ...STALE_FIELD_DEFS_FREQUENT, ...STALE_FIELD_DEFS_DAILY };
 
   // Per-field last-edited timestamps  { fieldId: timestampMs }
   const _fieldTimestamps = {};
@@ -4491,50 +4537,104 @@ input:focus, select:focus, textarea:focus {
   const _fieldTimers = {};
 
   function markFieldEdited(fieldId) {
+    // Daily fields only get staleness tracking if the video is >24h old
+    if (STALE_FIELD_DEFS_DAILY[fieldId]) {
+      const pub = document.getElementById('videoPublishedAt')?.value;
+      if (pub) {
+        const hoursOld = (Date.now() - new Date(pub).getTime()) / 3600000;
+        if (hoursOld < 24) return; // too new — daily stats haven't updated yet
+      } else {
+        return; // no date → can't determine age → skip daily field tracking
+      }
+    }
     _fieldTimestamps[fieldId] = Date.now();
     // Clear any existing stale badge for this field
     clearFieldStale(fieldId);
     // Cancel previous timer
     if (_fieldTimers[fieldId]) clearTimeout(_fieldTimers[fieldId]);
     // Schedule stale check in 10 minutes
-    _fieldTimers[fieldId] = setTimeout(() => showFieldStale(fieldId), 10 * 60 * 1000);
+    _fieldTimers[fieldId] = setTimeout(() => showFieldStale(fieldId), 15 * 60 * 1000);
   }
 
   function showFieldStale(fieldId) {
     const el = document.getElementById(fieldId);
     if (!el) return;
+    // Skip hook retention if the toggle is checked (excluded)
+    if (fieldId === 'retNum') {
+      const cbx = document.getElementById('newVideoToggle');
+      if (cbx && cbx.checked) return;
+    }
     // Only warn if field has a meaningful value
     if (!el.value || parseFloat(el.value) <= 0) return;
     const ageMs   = Date.now() - (_fieldTimestamps[fieldId] || Date.now());
     const ageMins = Math.round(ageMs / 60000);
-    // Find or create the badge element, placed right after the input
+    // 15–29 min = yellow warning; 30+ min = red
+    const isRed = ageMins >= 30;
+    const dangerColor = isRed ? '#f87171' : '#fbbf24';
+    const bgAlpha     = isRed ? '0.12' : '0.10';
+    const icon        = isRed ? '🔴' : '🟡';
+    const suffix      = isRed ? '— data is old, update from Studio' : '— consider refreshing from Studio';
+    // Find or create badge
     let badge = document.getElementById('stale_' + fieldId);
     if (!badge) {
       badge = document.createElement('div');
       badge.id = 'stale_' + fieldId;
-      badge.style.cssText = [
-        'display:inline-flex',
-        'align-items:center',
-        'gap:4px',
-        'background:rgba(239,68,68,0.12)',
-        'border:1px solid var(--danger)',
-        'color:var(--danger)',
-        'font-size:10px',
-        'font-weight:700',
-        'padding:2px 7px',
-        'border-radius:4px',
-        'margin-top:3px',
-        'line-height:1.4',
-        'cursor:default',
-      ].join(';');
-      // Insert after input's parent .input-box, or directly after input
+      badge.style.cssText = 'display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;margin-top:3px;line-height:1.4;cursor:default;';
       const box = el.closest('.input-box') || el.parentElement;
       if (box) box.appendChild(badge);
     }
-    badge.innerHTML = '🔴 ' + ageMins + ' min ago — update from Studio';
-    // Also add a red border to the input itself
-    el.style.setProperty('border-color', 'var(--danger)', 'important');
-    el.style.setProperty('box-shadow', '0 0 0 2px rgba(239,68,68,0.25)', 'important');
+    badge.style.background = `rgba(${isRed?'239,68,68':'251,191,36'},${bgAlpha})`;
+    badge.style.border = `1px solid ${dangerColor}`;
+    badge.style.color  = dangerColor;
+    badge.innerHTML = `${icon} ${ageMins} min ago ${suffix}`;
+    el.style.setProperty('border-color', dangerColor, 'important');
+    el.style.setProperty('box-shadow', `0 0 0 2px rgba(${isRed?'239,68,68':'251,191,36'},0.25)`, 'important');
+    // If red, reschedule to keep refreshing the badge text
+    if (!_fieldTimers[fieldId + '_refresh']) {
+      _fieldTimers[fieldId + '_refresh'] = setInterval(() => {
+        if (document.getElementById('stale_' + fieldId)) showFieldStale(fieldId);
+        else clearInterval(_fieldTimers[fieldId + '_refresh']);
+      }, 60000); // refresh badge text every minute
+    }
+    // Check if ALL frequent fields are >24h stale → show collective popup
+    _checkCollectiveStale();
+  }
+
+  function _checkCollectiveStale() {
+    if (document.getElementById('stale_popup_shown')) return; // already shown
+    const now = Date.now();
+    const dayMs = 24 * 60 * 60 * 1000;
+    const staleCount = Object.keys(STALE_FIELD_DEFS_FREQUENT).filter(id => {
+      const ts = _fieldTimestamps[id];
+      if (!ts) return false;
+      const el = document.getElementById(id);
+      return el && parseFloat(el.value) > 0 && (now - ts) >= dayMs;
+    }).length;
+    const totalWithData = Object.keys(STALE_FIELD_DEFS_FREQUENT).filter(id => {
+      const el = document.getElementById(id);
+      return el && parseFloat(el.value) > 0 && _fieldTimestamps[id];
+    }).length;
+    if (totalWithData >= 4 && staleCount === totalWithData) {
+      _showCollectiveStalePopup();
+    }
+  }
+
+  function _showCollectiveStalePopup() {
+    if (document.getElementById('stale_popup')) return;
+    const popup = document.createElement('div');
+    popup.id = 'stale_popup';
+    popup.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:99998;background:var(--card);border:2px solid #f87171;border-radius:14px;padding:24px 28px;max-width:420px;width:90%;box-shadow:0 0 40px rgba(239,68,68,0.3);text-align:center;';
+    popup.innerHTML = '<div style="font-size:32px;margin-bottom:10px;">⏰</div>'
+      + '<div style="font-size:15px;font-weight:800;color:#f87171;margin-bottom:8px;">Data Is Over 24 Hours Old</div>'
+      + '<div style="font-size:13px;color:var(--text);line-height:1.7;margin-bottom:16px;">Your virality checker data was last entered more than a day ago. YouTube metrics change continuously — <strong>scores and projections will be inaccurate</strong> until you refresh the data from YouTube Studio.</div>'
+      + '<div style="font-size:11px;color:var(--text-dim);margin-bottom:16px;">Update: Total Views, Likes, Comments, CTR, View Velocity, Impressions, and your latest snapshot.</div>'
+      + '<button onclick="this.closest(\'#stale_popup\').remove();document.getElementById(\'stale_popup_shown\') && document.getElementById(\'stale_popup_shown\').remove();" style="background:#f87171;color:#fff;border:none;border-radius:8px;padding:9px 24px;font-size:13px;font-weight:700;cursor:pointer;">Got it — I\'ll update the data</button>';
+    document.body.appendChild(popup);
+    // Mark as shown so we don't show again this session
+    const marker = document.createElement('div');
+    marker.id = 'stale_popup_shown';
+    marker.style.display = 'none';
+    document.body.appendChild(marker);
   }
 
   function clearFieldStale(fieldId) {
@@ -4544,6 +4644,11 @@ input:focus, select:focus, textarea:focus {
     if (el) {
       el.style.removeProperty('border-color');
       el.style.removeProperty('box-shadow');
+    }
+    // Clear any refresh interval
+    if (_fieldTimers[fieldId + '_refresh']) {
+      clearInterval(_fieldTimers[fieldId + '_refresh']);
+      delete _fieldTimers[fieldId + '_refresh'];
     }
   }
 
@@ -4557,8 +4662,20 @@ input:focus, select:focus, textarea:focus {
 
   // Legacy aliases for profile switch / load code
   function markDataEdited()  {}   // no-op — replaced by per-field system
-  function checkStaleness()  { /* check all fields */ Object.keys(STALE_FIELD_DEFS).forEach(id => { if (_fieldTimestamps[id]) { const age = Date.now() - _fieldTimestamps[id]; if (age >= 10*60*1000) showFieldStale(id); } }); }
+  function checkStaleness()  { Object.keys(STALE_FIELD_DEFS).forEach(id => { if (_fieldTimestamps[id]) { const age = Date.now() - _fieldTimestamps[id]; if (age >= 15*60*1000) showFieldStale(id); } }); }
   function showStalenessWarnings() { checkStaleness(); }
+
+  // Scenario projection toggle handler
+  window._scenToggle = function(type, id) {
+    if (!window._scenToggles) window._scenToggles = { scenarios:['worst','expected','best'], windows:['w48h','w7d','w14d','w28d'] };
+    const arr = type === 'sc' ? window._scenToggles.scenarios : window._scenToggles.windows;
+    const i = arr.indexOf(id);
+    if (i === -1) arr.push(id);
+    else if (arr.length > 1) arr.splice(i, 1); // always keep at least 1
+    // Re-run updateTab1 to re-render with new toggles
+    if (typeof updateTab1 === 'function') updateTab1();
+  };
+
 
   function updateViralityGoals(channelSubs, avd, totalVl) {
     const subs = channelSubs || 0;
@@ -4576,7 +4693,7 @@ input:focus, select:focus, textarea:focus {
       if (!el) {
         const parent = document.getElementById(id);
         if (!parent) return;
-        el = document.createElement('div');
+        el = document.nt('div');
         el.id = id + '_goal';
         el.style.cssText = 'font-size:10px;color:var(--text-muted);margin-top:3px;';
         parent.parentNode.appendChild(el);
@@ -4894,67 +5011,171 @@ input:focus, select:focus, textarea:focus {
 
     // ── Worst / Expected / Best case scenarios ───────────────────
     const scenarioBox = document.getElementById('scenarioBox');
-    if (scenarioBox && velocity > 0 && hoursOld !== null && hoursOld < 72) {
-      // Derive scenario velocities from current velocity + CTR/AVD signals
-      // Best case: velocity holds or accelerates (strong CTR + AVD)
-      // Expected: gradual natural decay (~20–30% drop)
-      // Worst case: velocity stalls quickly (poor signals, no push continuation)
-      // Scenario decay modifiers based on CTR+AVD signal quality
+    const scenarioEmpty = document.getElementById('scenario_empty');
+    if (scenarioBox && velocity > 0) {
       const signalStrength = (ctr >= 6 && avd >= 50) ? 'strong'
                            : (ctr >= 4 && avd >= 40) ? 'moderate' : 'weak';
 
-      // Power-law decay: YouTube view velocity follows V(t) = V0 * (t0/t)^α
-      // Best case α ≈ 0.5 (algorithm sustaining), Expected α ≈ 0.8, Worst α ≈ 1.3
-      // We approximate this by applying decreasing multipliers over time windows
       function projPowerLaw(vel, hrsAhead, alphaDecay) {
-        // Views accumulate as integral of decaying velocity
-        // Simplified: views ≈ vel * hrs * (1 / (1 + alphaDecay * hrs/24))
         const viewsGained = vel * hrsAhead / (1 + alphaDecay * hrsAhead / 24);
         return Math.max(baseViews, Math.round(baseViews + viewsGained));
       }
 
-      const hrsLeft48  = Math.max(0, 48  - hoursOld);
-      const hrsLeft7d  = Math.max(0, 7*24  - hoursOld);
-      const hrsLeft30d = Math.max(0, 30*24 - hoursOld);
-
-      // Velocity modifiers: best case can increase if algorithm is building
       const velBest     = velocity * (signalStrength === 'strong' ? 1.4 : signalStrength === 'moderate' ? 1.15 : 0.9);
-      const velExpected = velocity;  // current velocity as baseline
+      const velExpected = velocity;
       const velWorst    = velocity * 0.25;
-
-      // Decay rates (α): higher = faster decay
       const alphaBest     = signalStrength === 'strong' ? 0.4 : 0.6;
       const alphaExpected = signalStrength === 'strong' ? 0.7 : signalStrength === 'moderate' ? 0.9 : 1.1;
-      const alphaWorst    = 2.0;  // rapid stall
+      const alphaWorst    = 2.0;
 
       const scenarios = [
-        { label:'📉 Worst Case',  vel:velWorst,    alpha:alphaWorst,    color:'var(--danger)',  desc:'Push stalls quickly — organic long-tail only. Common when AVD or CTR are weak.' },
-        { label:'📊 Expected',    vel:velExpected, alpha:alphaExpected, color:'var(--warning)', desc:'Natural power-law decay — momentum winds down normally after initial push.' },
-        { label:'🚀 Best Case',   vel:velBest,     alpha:alphaBest,     color:'var(--success)', desc:'Algorithm sustains or builds the push — Browse+Suggested hold strong.' },
+        { id:'worst',    label:'📉 Worst',   vel:velWorst,    alpha:alphaWorst,    color:'#f87171', desc:'Push stalls — long-tail only. Typical when AVD or CTR are weak.' },
+        { id:'expected', label:'📊 Expected', vel:velExpected, alpha:alphaExpected, color:'#fbbf24', desc:'Natural power-law decay — normal momentum wind-down after push.' },
+        { id:'best',     label:'🚀 Best',     vel:velBest,     alpha:alphaBest,     color:'#4ade80', desc:'Algorithm sustains push — Browse + Suggested hold strong.' },
       ];
 
-      const rows = scenarios.map(sc => {
-        const v48  = projPowerLaw(sc.vel, hrsLeft48,  sc.alpha);
-        const v7d  = projPowerLaw(sc.vel, hrsLeft7d,  sc.alpha + 0.3);   // extra decay 7d+
-        const v30d = projPowerLaw(sc.vel, hrsLeft30d, sc.alpha + 0.8);   // heavy long-tail decay
-        return `<div style="border:1px solid ${sc.color}30;border-radius:var(--radius);padding:10px 12px;background:${sc.color}08;">
-          <div style="font-size:10px;font-weight:700;color:${sc.color};text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">${sc.label}</div>
-          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;text-align:center;">
-            <div><div style="font-size:14px;font-weight:800;color:${sc.color};">${v48.toLocaleString()}</div><div style="font-size:9px;color:var(--text-muted);">48h views</div></div>
-            <div><div style="font-size:14px;font-weight:800;color:${sc.color};">${v7d.toLocaleString()}</div><div style="font-size:9px;color:var(--text-muted);">7-day views</div></div>
-            <div><div style="font-size:14px;font-weight:800;color:${sc.color};">${v30d.toLocaleString()}</div><div style="font-size:9px;color:var(--text-muted);">30-day views</div></div>
-          </div>
-          <div style="font-size:10px;color:var(--text-dim);margin-top:5px;">${sc.desc}</div>
-        </div>`;
+      // All 9 time windows
+      const windows = [
+        { id:'w48h', label:'48h',   hrs: 48 },
+        { id:'w3d',  label:'3 days', hrs: 72 },
+        { id:'w4d',  label:'4 days', hrs: 96 },
+        { id:'w5d',  label:'5 days', hrs: 120 },
+        { id:'w6d',  label:'6 days', hrs: 144 },
+        { id:'w7d',  label:'7 days', hrs: 168 },
+        { id:'w14d', label:'14 days',hrs: 336 },
+        { id:'w21d', label:'21 days',hrs: 504 },
+        { id:'w28d', label:'28 days',hrs: 672 },
+      ];
+
+      // Extra alpha decay for longer windows (natural long-tail dampening)
+      function windowAlpha(baseAlpha, hrs) {
+        if (hrs > 336) return baseAlpha + 1.2;   // 14d+ heavy long-tail
+        if (hrs > 168) return baseAlpha + 0.8;   // 7d–14d
+        if (hrs > 48)  return baseAlpha + 0.3;   // 3d–7d
+        return baseAlpha;                         // 48h: use base alpha
+      }
+
+      // Build projections table: scenarios × windows
+      const projData = {};
+      scenarios.forEach(sc => {
+        projData[sc.id] = {};
+        windows.forEach(w => {
+          const hrsAhead = Math.max(0, w.hrs - (hoursOld || 0));
+          projData[sc.id][w.id] = projPowerLaw(sc.vel, hrsAhead, windowAlpha(sc.alpha, w.hrs));
+        });
+      });
+
+      // Signal badge
+      const signalBadge = signalStrength === 'strong'
+        ? '<span style="background:#4ade8022;color:#4ade80;border:1px solid #4ade80;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700;">Strong Signals</span>'
+        : signalStrength === 'moderate'
+        ? '<span style="background:#fbbf2422;color:#fbbf24;border:1px solid #fbbf24;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700;">Moderate Signals</span>'
+        : '<span style="background:#f8717122;color:#f87171;border:1px solid #f87171;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700;">Weak Signals</span>';
+      const ageNote = hoursOld !== null
+        ? `<span style="font-size:10px;color:var(--text-dim);">${hoursOld.toFixed(1)}h old &middot; ${velocity.toFixed(1)} views/hr</span>`
+        : `<span style="font-size:10px;color:var(--text-dim);">${velocity.toFixed(1)} views/hr (no date)</span>`;
+
+      // Persist toggle state in a global so re-renders don't reset selections
+      if (!window._scenToggles) window._scenToggles = { scenarios:['worst','expected','best'], windows:['w48h','w7d','w14d','w28d'] };
+
+      // Read current toggle state from DOM if it exists (live update preserves selections)
+      const existingBox = scenarioBox.querySelector('[data-scen-toggles]');
+      if (existingBox) {
+        const activeSc  = [...existingBox.querySelectorAll('.sc-tog[data-active="1"]')].map(b => b.dataset.id);
+        const activeWin = [...existingBox.querySelectorAll('.win-tog[data-active="1"]')].map(b => b.dataset.id);
+        if (activeSc.length)  window._scenToggles.scenarios = activeSc;
+        if (activeWin.length) window._scenToggles.windows   = activeWin;
+      }
+
+      const activeSc  = window._scenToggles.scenarios;
+      const activeWin = window._scenToggles.windows;
+      const visScen   = scenarios.filter(s => activeSc.includes(s.id));
+      const visWin    = windows.filter(w => activeWin.includes(w.id));
+
+      // Scenario toggle buttons
+      const scToggleHTML = scenarios.map(sc => {
+        const on = activeSc.includes(sc.id);
+        return `<button class="sc-tog" data-id="${sc.id}" data-active="${on?'1':'0'}"
+          onclick="window._scenToggle('sc','${sc.id}')"
+          style="padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;transition:0.15s;
+            border:1px solid ${sc.color};
+            background:${on ? sc.color+'30' : 'transparent'};
+            color:${on ? sc.color : 'var(--text-dim)'};"
+        >${sc.label}</button>`;
       }).join('');
 
+      // Window toggle buttons
+      const winToggleHTML = windows.map(w => {
+        const on = activeWin.includes(w.id);
+        return `<button class="win-tog" data-id="${w.id}" data-active="${on?'1':'0'}"
+          onclick="window._scenToggle('win','${w.id}')"
+          style="padding:3px 10px;border-radius:14px;font-size:10px;font-weight:600;cursor:pointer;transition:0.15s;
+            border:1px solid ${on ? 'var(--primary)' : 'var(--border-hi)'};
+            background:${on ? 'var(--primary-dim)' : 'transparent'};
+            color:${on ? 'var(--primary)' : 'var(--text-dim)'};"
+        >${w.label}</button>`;
+      }).join('');
+
+      // Table: scenarios as rows, windows as columns
+      const colW = Math.max(60, Math.floor(260 / Math.max(visWin.length, 1)));
+      const tableHTML = visScen.length > 0 && visWin.length > 0 ? `
+        <div style="overflow-x:auto;margin-top:10px;">
+          <table style="border-collapse:collapse;width:100%;min-width:${visWin.length * 80 + 140}px;">
+            <thead>
+              <tr>
+                <th style="padding:7px 12px;text-align:left;font-size:10px;color:var(--text-dim);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid var(--border);white-space:nowrap;min-width:120px;">Scenario</th>
+                ${visWin.map(w => `<th style="padding:7px 8px;text-align:center;font-size:10px;color:var(--primary);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid var(--border);white-space:nowrap;">${w.label}</th>`).join('')}
+              </tr>
+            </thead>
+            <tbody>
+              ${visScen.map((sc, ri) => `
+                <tr style="background:${ri % 2 === 0 ? 'transparent' : 'var(--card2)'}">
+                  <td style="padding:9px 12px;border-bottom:1px solid var(--border);">
+                    <div style="font-size:12px;font-weight:800;color:${sc.color};">${sc.label}</div>
+                    <div style="font-size:9px;color:var(--text-muted);margin-top:2px;max-width:180px;line-height:1.3;">${sc.desc}</div>
+                  </td>
+                  ${visWin.map(w => {
+                    const v = projData[sc.id][w.id];
+                    const isBeyond = (hoursOld || 0) >= w.hrs;
+                    return `<td style="padding:9px 8px;text-align:center;border-bottom:1px solid var(--border);">
+                      <div style="font-size:13px;font-weight:800;color:${isBeyond ? 'var(--text-muted)' : sc.color};">${v.toLocaleString()}</div>
+                      ${isBeyond ? '<div style="font-size:8px;color:var(--text-muted);">past</div>' : ''}
+                    </td>`;
+                  }).join('')}
+                </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>` : `<div style="padding:12px 0;font-size:12px;color:var(--text-muted);">Select at least one scenario and one time window above.</div>`;
+
       scenarioBox.style.display = 'block';
-      scenarioBox.innerHTML = `<div style="background:var(--card);border:1px solid var(--border-hi);border-radius:var(--radius);padding:12px;">
-        <div style="font-size:11px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">🔮 Performance Scenarios — based on current velocity</div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;">${rows}</div>
-        <div style="font-size:10px;color:var(--text-muted);margin-top:8px;">Projections assume current view velocity of <strong>${velocity.toFixed(1)} views/hr</strong>. Best case applies when CTR ≥ 6% and AVD ≥ 50%.</div>
+      if (scenarioEmpty) scenarioEmpty.style.display = 'none';
+      scenarioBox.innerHTML = `<div data-scen-toggles="1" style="background:var(--card);border:1px solid var(--border-hi);border-radius:var(--radius);padding:14px;">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+          ${signalBadge} ${ageNote}
+        </div>
+
+        <div style="margin-bottom:8px;">
+          <div style="font-size:10px;color:var(--text-dim);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:5px;">Scenarios shown</div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;">${scToggleHTML}</div>
+        </div>
+
+        <div style="margin-bottom:4px;">
+          <div style="font-size:10px;color:var(--text-dim);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:5px;">Time windows shown</div>
+          <div style="display:flex;gap:5px;flex-wrap:wrap;">${winToggleHTML}</div>
+        </div>
+
+        ${tableHTML}
+
+        <div style="font-size:9px;color:var(--text-muted);margin-top:10px;border-top:1px solid var(--border);padding-top:6px;line-height:1.6;">
+          Views shown are <strong>cumulative totals</strong> at each point. Power-law decay model: α=${alphaBest.toFixed(1)} best / ${alphaExpected.toFixed(1)} expected / ${alphaWorst.toFixed(1)} worst.
+          "Past" windows are behind the video's current age. CTR ≥6% + AVD ≥50% = strong signal threshold.
+        </div>
       </div>`;
-    } else if (scenarioBox) { scenarioBox.style.display = 'none'; }
+
+    } else if (scenarioBox) {
+      scenarioBox.style.display = 'none';
+      if (scenarioEmpty) scenarioEmpty.style.display = 'block';
+    }
 
     // ── Velocity context (age-adjusted, informational-first) ────────
     // KEY DESIGN PRINCIPLE:
@@ -5425,12 +5646,13 @@ input:focus, select:focus, textarea:focus {
     // 60-74: Strong Growth — above-average signals, clear push
     // 75-89: Viral Potential — exceptional signals, broad distribution
     // 90+:   Viral Breakout — all metrics firing, wide algorithmic push
-    if      (total<25) {r='Struggling';      c=css.getPropertyValue('--danger').trim();}
+    // Colors exactly match SCORE_PHASES bands
+    if      (total<25) {r='Struggling';      c='#f87171';}
     else if (total<45) {r='Needs Work';      c='#fb923c';}
-    else if (total<60) {r='Growing';         c=css.getPropertyValue('--warning').trim();}
-    else if (total<75) {r='Strong Growth';   c=css.getPropertyValue('--success').trim();}
-    else if (total<90) {r='Viral Potential'; c=css.getPropertyValue('--secondary').trim();}
-    else               {r='Viral Breakout';  c=css.getPropertyValue('--accent').trim();}
+    else if (total<60) {r='Growing';         c='#fbbf24';}
+    else if (total<75) {r='Strong Growth';   c='#4ade80';}
+    else if (total<90) {r='Viral Potential'; c='#22d3ee';}
+    else               {r='Viral Breakout';  c='#bf5fff';}
 
     // Descriptions exactly match the six label bands (same thresholds: 25/45/60/75/90)
     // Each phase adds context on top of the base description.
@@ -5520,7 +5742,14 @@ input:focus, select:focus, textarea:focus {
 
     if (typeof renderPhaseBands==='function') renderPhaseBands(total);
     updateYTSubProjection();
-  }
+  };
+    if (velCtxEl) {
+      if (velocityContext){velCtxEl.style.display='block';velCtxEl.innerHTML='<div style="background:'+velocityContext.color+'18;border:1px solid '+velocityContext.color+';border-radius:var(--radius);padding:10px 12px;font-size:12px;line-height:1.7;color:var(--text);"><strong style="color:'+velocityContext.color+';">'+velocityContext.label+'</strong><br>'+velocityContext.note+'</div>';}
+      else velCtxEl.style.display='none';
+    }
+
+    if (typeof renderPhaseBands==='function') renderPhaseBands(total);
+    updateYTSubProjection();
 
   function updateTab2() {
     const vlMins = parseInt(document.getElementById('t2_vlMins').value)||0;
@@ -6978,7 +7207,12 @@ input:focus, select:focus, textarea:focus {
     svInit();
     vpInit();
     // Wire per-field staleness tracking to live data inputs
-    Object.keys(STALE_FIELD_DEFS).forEach(id => {
+    Object.keys(STALE_FIELD_DEFS_FREQUENT).forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('input', () => markFieldEdited(id), { passive: true });
+    });
+    // Daily fields wired separately (only activate if video is old enough)
+    Object.keys(STALE_FIELD_DEFS_DAILY).forEach(id => {
       const el = document.getElementById(id);
       if (el) el.addEventListener('input', () => markFieldEdited(id), { passive: true });
     });
@@ -6988,11 +7222,12 @@ input:focus, select:focus, textarea:focus {
      SCORE PHASE BANDS (NEW)
   ═══════════════════════════════════ */
   const SCORE_PHASES = [
-    { label:'🔴 Needs Work',      min:0,  max:39,  color:'#f87171' },
-    { label:'🟠 Growing',         min:40, max:54,  color:'#fb923c' },
-    { label:'🟡 Strong Growth',   min:55, max:74,  color:'#fbbf24' },
-    { label:'🚀 Viral Potential', min:75, max:89,  color:'#4ade80' },
-    { label:'🔥 Viral Breakout',  min:90, max:100, color:'#00f5ff' },
+    { label:'⛔ Struggling',      min:0,  max:24,  color:'#f87171' },
+    { label:'🔧 Needs Work',      min:25, max:44,  color:'#fb923c' },
+    { label:'📈 Growing',         min:45, max:59,  color:'#fbbf24' },
+    { label:'💪 Strong Growth',   min:60, max:74,  color:'#4ade80' },
+    { label:'🚀 Viral Potential', min:75, max:89,  color:'#22d3ee' },
+    { label:'🔥 Viral Breakout',  min:90, max:100, color:'#bf5fff' },
   ];
 
   function renderPhaseBands(score) {
@@ -9604,7 +9839,7 @@ function refreshAdminStats() {
      SECTION VISIBILITY SYSTEM
   ═══════════════════════════════════════════════════════ */
 
-  const SV_ALL_IDS = ['sv_fluff', 'sv_t1_pubhub', 'sv_t1_avd', 'sv_t1_ctr', 'sv_t1_hook', 'sv_t1_engagement', 'sv_t1_channel', 'sv_t1_ret_detail', 'sv_t1_stall', 'sv_t1_score', 'sv_t1_breakdown', 'sv_t1_insight', 'sv_t1_algo', 'sv_t2_inputs', 'sv_t2_tier', 'sv_t2_benchmarks', 'sv_t3_quickentry', 'sv_t3_eta', 'sv_t3_detailed', 'sv_t3_summary', 'sv_t3_planner', 'sv_t4_lf', 'sv_t4_shorts', 'sv_t4_bench', 'sv_t4_roi', 'sv_soc_switcher', 'sv_soc_tt_panel', 'sv_soc_ig_panel', 'sv_t7_inputs', 'sv_t7_schedule_type', 'sv_t7_schedule_result', 'sv_t7_windows', 'sv_t7_checklist', 'sv_t7_optimizer', 'sv_cp_t1', 'sv_cp_t2', 'sv_cp_t3', 'sv_cp_income', 'sv_vid_tracker', 'sv_tab_ab_setup', 'sv_tab_ab_results', 'sv_tab_ab_history', 'sv_tab_ab_tip', 'sv_cmp_lookup', 'sv_cmp_manual', 'sv_cmp_results', 'sv_live_add', 'sv_hook_inputs', 'sv_hook_results', 'sv_hook_tip', 'sv_seo_t1', 'sv_seo_t2', 'sv_rc_inputs', 'sv_rc_guide', 'sv_es_inputs', 'sv_es_cards', 'sv_es_rules', 'sv_seo_t1_res', 'sv_seo_t2_res', 'sv_soc_tt_bands', 'sv_soc_ig_bands', 'sv_soc_tt_score', 'sv_soc_tt_tiers', 'sv_soc_tt_proj', 'sv_soc_ig_score', 'sv_soc_ig_tiers', 'sv_soc_ig_proj', 'sv_t1_vp_bar', 'sv_t3_progress'];
+  const SV_ALL_IDS = ['sv_fluff', 'sv_t1_pubhub', 'sv_t1_avd', 'sv_t1_ctr', 'sv_t1_hook', 'sv_t1_engagement', 'sv_t1_channel', 'sv_t1_ret_detail', 'sv_t1_stall', 'sv_t1_score', 'sv_t1_breakdown', 'sv_t1_insight', 'sv_t1_algo', 'sv_t2_inputs', 'sv_t2_tier', 'sv_t2_benchmarks', 'sv_t3_quickentry', 'sv_t3_eta', 'sv_t3_detailed', 'sv_t3_summary', 'sv_t3_planner', 'sv_t4_lf', 'sv_t4_shorts', 'sv_t4_bench', 'sv_t4_roi', 'sv_soc_switcher', 'sv_soc_tt_panel', 'sv_soc_ig_panel', 'sv_t7_inputs', 'sv_t7_schedule_type', 'sv_t7_schedule_result', 'sv_t7_windows', 'sv_t7_checklist', 'sv_t7_optimizer', 'sv_cp_t1', 'sv_cp_t2', 'sv_cp_t3', 'sv_cp_income', 'sv_vid_tracker', 'sv_tab_ab_setup', 'sv_tab_ab_results', 'sv_tab_ab_history', 'sv_tab_ab_tip', 'sv_cmp_lookup', 'sv_cmp_manual', 'sv_cmp_results', 'sv_live_add', 'sv_hook_inputs', 'sv_hook_results', 'sv_hook_tip', 'sv_seo_t1', 'sv_seo_t2', 'sv_rc_inputs', 'sv_rc_guide', 'sv_es_inputs', 'sv_es_cards', 'sv_es_rules', 'sv_seo_t1_res', 'sv_seo_t2_res', 'sv_soc_tt_bands', 'sv_soc_ig_bands', 'sv_soc_tt_score', 'sv_soc_tt_tiers', 'sv_soc_tt_proj', 'sv_soc_ig_score', 'sv_soc_ig_tiers', 'sv_soc_ig_proj', 'sv_t1_vp_bar', 'sv_t3_progress', 'sv_t1_scenarios'];
 
   function svInit() {
     // Default: all visible
