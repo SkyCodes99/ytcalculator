@@ -1239,6 +1239,7 @@ input:focus, select:focus, textarea:focus {
 [data-font="exo"]      * { font-family: 'Exo 2', sans-serif !important; }
 
 /* ── Section Visibility Panel ── */
+.sv-hidden { display: none !important; }
 #svPanel {
   display:none; position:fixed; top:0; right:0; bottom:0;
   width:300px; max-width:90vw;
@@ -3782,7 +3783,10 @@ input:focus, select:focus, textarea:focus {
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     const safeName = (currentUser || 'session').replace(/[^a-z0-9_]/gi, '_').toLowerCase();
-    a.download = `social_spot_${safeName}_${new Date().toISOString().slice(0,10)}.vcsave`;
+    const _n = new Date();
+    const _pad = n => String(n).padStart(2,'0');
+    const _ts = `${_n.getFullYear()}${_pad(_n.getMonth()+1)}${_pad(_n.getDate())}_${_pad(_n.getHours())}${_pad(_n.getMinutes())}${_pad(_n.getSeconds())}`;
+    a.download = `social_spot_${safeName}_${_ts}.vcsave`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -8968,7 +8972,7 @@ function refreshAdminStats() {
   ═══════════════════════════════════════════════════════ */
   let sectionVisibility = {};  // { sv_id: true/false }
 
-  const SV_ALL_IDS = ['sv_t1_pubhub', 'sv_t1_avd', 'sv_t1_ctr', 'sv_t1_hook', 'sv_t1_engagement', 'sv_t1_channel', 'sv_t1_ret_detail', 'sv_t1_stall', 'sv_t1_score', 'sv_t1_breakdown', 'sv_t1_insight', 'sv_t1_algo', 'sv_t2_inputs', 'sv_t2_tier', 'sv_t2_benchmarks', 'sv_t3_eta', 'sv_t3_detailed', 'sv_t3_summary', 'sv_t3_planner', 'sv_t4_lf', 'sv_t4_shorts', 'sv_t4_bench', 'sv_t4_roi', 'sv_soc_tt_score', 'sv_soc_tt_bands', 'sv_soc_tt_tiers', 'sv_soc_tt_proj', 'sv_soc_ig_score', 'sv_soc_ig_bands', 'sv_soc_ig_tiers', 'sv_t7_windows', 'sv_t7_checklist', 'sv_t7_optimizer', 'sv_cp_t1', 'sv_cp_t2', 'sv_cp_t3', 'sv_cp_income', 'sv_tab_ab_setup', 'sv_tab_ab_results', 'sv_tab_ab_history', 'sv_tab_ab_tip', 'sv_ai_session', 'sv_ai_platforms', 'sv_ai_theme', 'sv_ai_bg', 'sv_ai_font', 'sv_ai_textsize', 'sv_ai_layout', 'sv_ai_profile', 'sv_ai_links', 'sv_cmp_lookup', 'sv_cmp_results', 'sv_hook_results', 'sv_hook_tip', 'sv_seo_t1', 'sv_seo_t1_res', 'sv_seo_t2', 'sv_seo_t2_res', 'sv_rc_inputs', 'sv_rc_guide', 'sv_es_inputs', 'sv_es_cards', 'sv_es_rules', 'sv_soc_ig_proj', 'sv_fluff'];
+  const SV_ALL_IDS = ['sv_fluff', 'sv_t1_pubhub', 'sv_t1_avd', 'sv_t1_ctr', 'sv_t1_hook', 'sv_t1_engagement', 'sv_t1_channel', 'sv_t1_ret_detail', 'sv_t1_stall', 'sv_t1_score', 'sv_t1_breakdown', 'sv_t1_insight', 'sv_t1_algo', 'sv_t2_inputs', 'sv_t2_tier', 'sv_t2_benchmarks', 'sv_t3_eta', 'sv_t3_detailed', 'sv_t3_summary', 'sv_t3_planner', 'sv_t4_lf', 'sv_t4_shorts', 'sv_t4_bench', 'sv_t4_roi', 'sv_soc_tt_score', 'sv_soc_tt_tiers', 'sv_soc_tt_proj', 'sv_soc_ig_score', 'sv_soc_ig_tiers', 'sv_soc_ig_proj', 'sv_t7_windows', 'sv_t7_checklist', 'sv_t7_optimizer', 'sv_cp_t1', 'sv_cp_t2', 'sv_cp_t3', 'sv_cp_income', 'sv_tab_ab_setup', 'sv_tab_ab_results', 'sv_tab_ab_history', 'sv_tab_ab_tip', 'sv_ai_session', 'sv_ai_platforms', 'sv_ai_theme', 'sv_ai_bg', 'sv_ai_font', 'sv_ai_textsize', 'sv_ai_layout', 'sv_ai_profile', 'sv_ai_links', 'sv_cmp_lookup', 'sv_cmp_results', 'sv_hook_results', 'sv_hook_tip', 'sv_seo_t1', 'sv_seo_t2', 'sv_rc_inputs', 'sv_rc_guide', 'sv_es_inputs', 'sv_es_cards', 'sv_es_rules'];
 
   function svInit() {
     // Default: all visible
@@ -8984,21 +8988,38 @@ function refreshAdminStats() {
     if (chk) chk.checked = vis;
     if (id === 'sv_fluff') {
       document.querySelectorAll('[data-sv-id="sv_fluff"]').forEach(el => {
-        el.style.display = !vis ? 'none' : '';
+        el.classList.toggle('sv-hidden', !vis);
       });
       return;
     }
     const el = document.getElementById(id);
-    if (el) el.style.display = !vis ? 'none' : '';
+    if (el) el.classList.toggle('sv-hidden', !vis);
   }
 
   function svApplyAll() {
     SV_ALL_IDS.forEach(svApply);
   }
 
-  function svToggle(id) {
-    sectionVisibility[id] = !(sectionVisibility[id] !== false);
-    svApply(id);
+
+  // Section groups: toggling any member toggles all in the group
+  const SV_GROUPS = {
+    'sv_seo_t1':     ['sv_seo_t1', 'sv_seo_t1_res'],
+    'sv_seo_t1_res': ['sv_seo_t1', 'sv_seo_t1_res'],
+    'sv_seo_t2':     ['sv_seo_t2', 'sv_seo_t2_res'],
+    'sv_seo_t2_res': ['sv_seo_t2', 'sv_seo_t2_res'],
+    'sv_soc_tt_score': ['sv_soc_tt_score', 'sv_soc_tt_bands'],
+    'sv_soc_tt_bands': ['sv_soc_tt_score', 'sv_soc_tt_bands'],
+    'sv_soc_ig_score': ['sv_soc_ig_score', 'sv_soc_ig_bands'],
+    'sv_soc_ig_bands': ['sv_soc_ig_score', 'sv_soc_ig_bands'],
+  };
+
+    function svToggle(id) {
+    const newVis = !(sectionVisibility[id] !== false);
+    const group = SV_GROUPS[id] || [id];
+    group.forEach(gid => {
+      sectionVisibility[gid] = newVis;
+      svApply(gid);
+    });
   }
 
   function svShowAll() {
@@ -9097,86 +9118,82 @@ function refreshAdminStats() {
     <button onclick="svHideAll()" style="flex:1;padding:5px;background:var(--card2);border:1px solid var(--border-hi);color:var(--text-dim);border-radius:var(--radius);font-size:11px;cursor:pointer;font-weight:700;">Hide All</button>
   </div>
   <div id="svList">
-<div class="sv-tab-header">🌐 GLOBAL</div>
-<div class="sv-item" onclick="svToggle('sv_fluff')"><label for="sv_chk_sv_fluff">💬 Extra tips, guides &amp; FAQ links</label><input type="checkbox" id="sv_chk_sv_fluff" checked onchange="svToggle('sv_fluff')" onclick="event.stopPropagation()"></div>
-<div class="sv-tab-header">⚡ Virality</div>
-<div class="sv-item" onclick="svToggle('sv_t1_pubhub')"><label for="sv_chk_sv_t1_pubhub">Virality — Publish Time + Velocity + Impressions</label><input type="checkbox" id="sv_chk_sv_t1_pubhub" checked onchange="svToggle('sv_t1_pubhub')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_t1_avd')"><label for="sv_chk_sv_t1_avd">Virality — Video Length & Retention inputs</label><input type="checkbox" id="sv_chk_sv_t1_avd" checked onchange="svToggle('sv_t1_avd')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_t1_ctr')"><label for="sv_chk_sv_t1_ctr">Virality — CTR Slider</label><input type="checkbox" id="sv_chk_sv_t1_ctr" checked onchange="svToggle('sv_t1_ctr')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_t1_hook')"><label for="sv_chk_sv_t1_hook">Virality — Hook Retention</label><input type="checkbox" id="sv_chk_sv_t1_hook" checked onchange="svToggle('sv_t1_hook')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_t1_engagement')"><label for="sv_chk_sv_t1_engagement">Virality — Engagement</label><input type="checkbox" id="sv_chk_sv_t1_engagement" checked onchange="svToggle('sv_t1_engagement')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_t1_channel')"><label for="sv_chk_sv_t1_channel">Virality — Channel Context</label><input type="checkbox" id="sv_chk_sv_t1_channel" checked onchange="svToggle('sv_t1_channel')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_t1_ret_detail')"><label for="sv_chk_sv_t1_ret_detail">Virality — Retention Detail</label><input type="checkbox" id="sv_chk_sv_t1_ret_detail" checked onchange="svToggle('sv_t1_ret_detail')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_t1_stall')"><label for="sv_chk_sv_t1_stall">Virality — Stall Detector</label><input type="checkbox" id="sv_chk_sv_t1_stall" checked onchange="svToggle('sv_t1_stall')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_t1_score')"><label for="sv_chk_sv_t1_score">Virality — Score + Rating</label><input type="checkbox" id="sv_chk_sv_t1_score" checked onchange="svToggle('sv_t1_score')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_t1_breakdown')"><label for="sv_chk_sv_t1_breakdown">Virality — Metric Breakdown</label><input type="checkbox" id="sv_chk_sv_t1_breakdown" checked onchange="svToggle('sv_t1_breakdown')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_t1_insight')"><label for="sv_chk_sv_t1_insight">Virality — Scoring Guide</label><input type="checkbox" id="sv_chk_sv_t1_insight" checked onchange="svToggle('sv_t1_insight')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_t1_algo')"><label for="sv_chk_sv_t1_algo">Virality — Algorithm Explainer</label><input type="checkbox" id="sv_chk_sv_t1_algo" checked onchange="svToggle('sv_t1_algo')" onclick="event.stopPropagation()"></div>
-<div class="sv-tab-header">📡 Algorithm</div>
-<div class="sv-item" onclick="svToggle('sv_t2_inputs')"><label for="sv_chk_sv_t2_inputs">Algorithm — Inputs</label><input type="checkbox" id="sv_chk_sv_t2_inputs" checked onchange="svToggle('sv_t2_inputs')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_t2_tier')"><label for="sv_chk_sv_t2_tier">Algorithm — Current Tier</label><input type="checkbox" id="sv_chk_sv_t2_tier" checked onchange="svToggle('sv_t2_tier')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_t2_benchmarks')"><label for="sv_chk_sv_t2_benchmarks">Algorithm — Phase Benchmarks + Notes</label><input type="checkbox" id="sv_chk_sv_t2_benchmarks" checked onchange="svToggle('sv_t2_benchmarks')" onclick="event.stopPropagation()"></div>
+<div class="sv-tab-header">🌐 Global</div>
+<div class="sv-item" onclick="svToggle('sv_fluff')"><label for="sv_chk_sv_fluff">💬 Extra tips, guides & FAQ links</label><input type="checkbox" id="sv_chk_sv_fluff" checked onchange="svToggle('sv_fluff')" onclick="event.stopPropagation()"></div>
+<div class="sv-tab-header">⚡ Virality Checker</div>
+<div class="sv-item" onclick="svToggle('sv_t1_pubhub')"><label for="sv_chk_sv_t1_pubhub">Publish Time, Velocity & Impressions</label><input type="checkbox" id="sv_chk_sv_t1_pubhub" checked onchange="svToggle('sv_t1_pubhub')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_t1_avd')"><label for="sv_chk_sv_t1_avd">Video Length & Retention inputs</label><input type="checkbox" id="sv_chk_sv_t1_avd" checked onchange="svToggle('sv_t1_avd')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_t1_ctr')"><label for="sv_chk_sv_t1_ctr">CTR Slider</label><input type="checkbox" id="sv_chk_sv_t1_ctr" checked onchange="svToggle('sv_t1_ctr')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_t1_hook')"><label for="sv_chk_sv_t1_hook">Hook Retention (30s)</label><input type="checkbox" id="sv_chk_sv_t1_hook" checked onchange="svToggle('sv_t1_hook')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_t1_engagement')"><label for="sv_chk_sv_t1_engagement">Engagement (Likes, Comments)</label><input type="checkbox" id="sv_chk_sv_t1_engagement" checked onchange="svToggle('sv_t1_engagement')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_t1_channel')"><label for="sv_chk_sv_t1_channel">Channel Context</label><input type="checkbox" id="sv_chk_sv_t1_channel" checked onchange="svToggle('sv_t1_channel')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_t1_ret_detail')"><label for="sv_chk_sv_t1_ret_detail">Retention Detail (mid / end / rewatch)</label><input type="checkbox" id="sv_chk_sv_t1_ret_detail" checked onchange="svToggle('sv_t1_ret_detail')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_t1_stall')"><label for="sv_chk_sv_t1_stall">Stall Detector</label><input type="checkbox" id="sv_chk_sv_t1_stall" checked onchange="svToggle('sv_t1_stall')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_t1_score')"><label for="sv_chk_sv_t1_score">Score + Rating Display</label><input type="checkbox" id="sv_chk_sv_t1_score" checked onchange="svToggle('sv_t1_score')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_t1_breakdown')"><label for="sv_chk_sv_t1_breakdown">Metric Breakdown</label><input type="checkbox" id="sv_chk_sv_t1_breakdown" checked onchange="svToggle('sv_t1_breakdown')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_t1_insight')"><label for="sv_chk_sv_t1_insight">Scoring Guide</label><input type="checkbox" id="sv_chk_sv_t1_insight" checked onchange="svToggle('sv_t1_insight')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_t1_algo')"><label for="sv_chk_sv_t1_algo">Algorithm Explainer</label><input type="checkbox" id="sv_chk_sv_t1_algo" checked onchange="svToggle('sv_t1_algo')" onclick="event.stopPropagation()"></div>
+<div class="sv-tab-header">📡 Algorithm Tracker</div>
+<div class="sv-item" onclick="svToggle('sv_t2_inputs')"><label for="sv_chk_sv_t2_inputs">Video Details Inputs</label><input type="checkbox" id="sv_chk_sv_t2_inputs" checked onchange="svToggle('sv_t2_inputs')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_t2_tier')"><label for="sv_chk_sv_t2_tier">Current Distribution Tier</label><input type="checkbox" id="sv_chk_sv_t2_tier" checked onchange="svToggle('sv_t2_tier')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_t2_benchmarks')"><label for="sv_chk_sv_t2_benchmarks">Phase Benchmarks + Notes</label><input type="checkbox" id="sv_chk_sv_t2_benchmarks" checked onchange="svToggle('sv_t2_benchmarks')" onclick="event.stopPropagation()"></div>
 <div class="sv-tab-header">💰 Monetization</div>
-<div class="sv-item" onclick="svToggle('sv_t3_eta')"><label for="sv_chk_sv_t3_eta">Monetization — ETA Scenarios</label><input type="checkbox" id="sv_chk_sv_t3_eta" checked onchange="svToggle('sv_t3_eta')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_t3_detailed')"><label for="sv_chk_sv_t3_detailed">Monetization — Detailed Inputs</label><input type="checkbox" id="sv_chk_sv_t3_detailed" checked onchange="svToggle('sv_t3_detailed')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_t3_summary')"><label for="sv_chk_sv_t3_summary">Monetization — Summary Stats</label><input type="checkbox" id="sv_chk_sv_t3_summary" checked onchange="svToggle('sv_t3_summary')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_t3_planner')"><label for="sv_chk_sv_t3_planner">Monetization — Watch Hour Goal Planner</label><input type="checkbox" id="sv_chk_sv_t3_planner" checked onchange="svToggle('sv_t3_planner')" onclick="event.stopPropagation()"></div>
-<div class="sv-tab-header">💹 RPM</div>
-<div class="sv-item" onclick="svToggle('sv_t4_lf')"><label for="sv_chk_sv_t4_lf">RPM — Long-Form Revenue</label><input type="checkbox" id="sv_chk_sv_t4_lf" checked onchange="svToggle('sv_t4_lf')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_t4_shorts')"><label for="sv_chk_sv_t4_shorts">RPM — Shorts Revenue</label><input type="checkbox" id="sv_chk_sv_t4_shorts" checked onchange="svToggle('sv_t4_shorts')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_t4_bench')"><label for="sv_chk_sv_t4_bench">RPM — Industry Benchmarks</label><input type="checkbox" id="sv_chk_sv_t4_bench" checked onchange="svToggle('sv_t4_bench')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_t4_roi')"><label for="sv_chk_sv_t4_roi">RPM — Shorts vs Long-Form ROI</label><input type="checkbox" id="sv_chk_sv_t4_roi" checked onchange="svToggle('sv_t4_roi')" onclick="event.stopPropagation()"></div>
-<div class="sv-tab-header">📱 Social</div>
-<div class="sv-item" onclick="svToggle('sv_soc_tt_score')"><label for="sv_chk_sv_soc_tt_score">Social — TikTok Score</label><input type="checkbox" id="sv_chk_sv_soc_tt_score" checked onchange="svToggle('sv_soc_tt_score')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_soc_tt_bands')"><label for="sv_chk_sv_soc_tt_bands">Social — TikTok Score Tier Bands</label><input type="checkbox" id="sv_chk_sv_soc_tt_bands" checked onchange="svToggle('sv_soc_tt_bands')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_soc_tt_tiers')"><label for="sv_chk_sv_soc_tt_tiers">Social — TikTok Distribution Tiers</label><input type="checkbox" id="sv_chk_sv_soc_tt_tiers" checked onchange="svToggle('sv_soc_tt_tiers')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_soc_tt_proj')"><label for="sv_chk_sv_soc_tt_proj">Social — TikTok Follower Projection</label><input type="checkbox" id="sv_chk_sv_soc_tt_proj" checked onchange="svToggle('sv_soc_tt_proj')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_soc_ig_score')"><label for="sv_chk_sv_soc_ig_score">Social — Reels Score</label><input type="checkbox" id="sv_chk_sv_soc_ig_score" checked onchange="svToggle('sv_soc_ig_score')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_soc_ig_bands')"><label for="sv_chk_sv_soc_ig_bands">Social — Reels Score Tier Bands</label><input type="checkbox" id="sv_chk_sv_soc_ig_bands" checked onchange="svToggle('sv_soc_ig_bands')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_soc_ig_tiers')"><label for="sv_chk_sv_soc_ig_tiers">Social — Reels Distribution Tiers</label><input type="checkbox" id="sv_chk_sv_soc_ig_tiers" checked onchange="svToggle('sv_soc_ig_tiers')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_soc_ig_proj')"><label for="sv_chk_sv_soc_ig_proj">Social — Reels Follower Projection</label><input type="checkbox" id="sv_chk_sv_soc_ig_proj" checked onchange="svToggle('sv_soc_ig_proj')" onclick="event.stopPropagation()"></div>
-<div class="sv-tab-header">⏰ Publishing</div>
-<div class="sv-item" onclick="svToggle('sv_t7_windows')"><label for="sv_chk_sv_t7_windows">Publishing — Windows + Schedule</label><input type="checkbox" id="sv_chk_sv_t7_windows" checked onchange="svToggle('sv_t7_windows')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_t7_checklist')"><label for="sv_chk_sv_t7_checklist">Publishing — Publish Day Checklist</label><input type="checkbox" id="sv_chk_sv_t7_checklist" checked onchange="svToggle('sv_t7_checklist')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_t7_optimizer')"><label for="sv_chk_sv_t7_optimizer">Publishing — Schedule Optimizer</label><input type="checkbox" id="sv_chk_sv_t7_optimizer" checked onchange="svToggle('sv_t7_optimizer')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_t3_eta')"><label for="sv_chk_sv_t3_eta">ETA Scenario Cards</label><input type="checkbox" id="sv_chk_sv_t3_eta" checked onchange="svToggle('sv_t3_eta')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_t3_detailed')"><label for="sv_chk_sv_t3_detailed">Detailed Inputs</label><input type="checkbox" id="sv_chk_sv_t3_detailed" checked onchange="svToggle('sv_t3_detailed')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_t3_summary')"><label for="sv_chk_sv_t3_summary">Summary Stats</label><input type="checkbox" id="sv_chk_sv_t3_summary" checked onchange="svToggle('sv_t3_summary')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_t3_planner')"><label for="sv_chk_sv_t3_planner">Watch Hour Goal Planner</label><input type="checkbox" id="sv_chk_sv_t3_planner" checked onchange="svToggle('sv_t3_planner')" onclick="event.stopPropagation()"></div>
+<div class="sv-tab-header">💹 RPM Predictor</div>
+<div class="sv-item" onclick="svToggle('sv_t4_lf')"><label for="sv_chk_sv_t4_lf">Long-Form Revenue</label><input type="checkbox" id="sv_chk_sv_t4_lf" checked onchange="svToggle('sv_t4_lf')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_t4_shorts')"><label for="sv_chk_sv_t4_shorts">Shorts Revenue</label><input type="checkbox" id="sv_chk_sv_t4_shorts" checked onchange="svToggle('sv_t4_shorts')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_t4_bench')"><label for="sv_chk_sv_t4_bench">Industry Benchmarks</label><input type="checkbox" id="sv_chk_sv_t4_bench" checked onchange="svToggle('sv_t4_bench')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_t4_roi')"><label for="sv_chk_sv_t4_roi">Shorts vs Long-Form ROI</label><input type="checkbox" id="sv_chk_sv_t4_roi" checked onchange="svToggle('sv_t4_roi')" onclick="event.stopPropagation()"></div>
+<div class="sv-tab-header">📱 Social Analytics</div>
+<div class="sv-item" onclick="svToggle('sv_soc_tt_score')"><label for="sv_chk_sv_soc_tt_score">TikTok Score + Tier Bands</label><input type="checkbox" id="sv_chk_sv_soc_tt_score" checked onchange="svToggle('sv_soc_tt_score')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_soc_tt_tiers')"><label for="sv_chk_sv_soc_tt_tiers">TikTok Distribution Tiers</label><input type="checkbox" id="sv_chk_sv_soc_tt_tiers" checked onchange="svToggle('sv_soc_tt_tiers')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_soc_tt_proj')"><label for="sv_chk_sv_soc_tt_proj">TikTok Follower Projection</label><input type="checkbox" id="sv_chk_sv_soc_tt_proj" checked onchange="svToggle('sv_soc_tt_proj')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_soc_ig_score')"><label for="sv_chk_sv_soc_ig_score">Reels Score + Tier Bands</label><input type="checkbox" id="sv_chk_sv_soc_ig_score" checked onchange="svToggle('sv_soc_ig_score')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_soc_ig_tiers')"><label for="sv_chk_sv_soc_ig_tiers">Reels Distribution Tiers</label><input type="checkbox" id="sv_chk_sv_soc_ig_tiers" checked onchange="svToggle('sv_soc_ig_tiers')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_soc_ig_proj')"><label for="sv_chk_sv_soc_ig_proj">Reels Follower Projection</label><input type="checkbox" id="sv_chk_sv_soc_ig_proj" checked onchange="svToggle('sv_soc_ig_proj')" onclick="event.stopPropagation()"></div>
+<div class="sv-tab-header">⏰ Publishing Hub</div>
+<div class="sv-item" onclick="svToggle('sv_t7_windows')"><label for="sv_chk_sv_t7_windows">Recommended Windows + Schedule</label><input type="checkbox" id="sv_chk_sv_t7_windows" checked onchange="svToggle('sv_t7_windows')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_t7_checklist')"><label for="sv_chk_sv_t7_checklist">Publish Day Checklist</label><input type="checkbox" id="sv_chk_sv_t7_checklist" checked onchange="svToggle('sv_t7_checklist')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_t7_optimizer')"><label for="sv_chk_sv_t7_optimizer">Schedule Optimizer</label><input type="checkbox" id="sv_chk_sv_t7_optimizer" checked onchange="svToggle('sv_t7_optimizer')" onclick="event.stopPropagation()"></div>
 <div class="sv-tab-header">📈 Projections</div>
-<div class="sv-item" onclick="svToggle('sv_cp_t1')"><label for="sv_chk_sv_cp_t1">Projections — Tool 1: Trajectory</label><input type="checkbox" id="sv_chk_sv_cp_t1" checked onchange="svToggle('sv_cp_t1')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_cp_t2')"><label for="sv_chk_sv_cp_t2">Projections — Tool 2: Scenarios</label><input type="checkbox" id="sv_chk_sv_cp_t2" checked onchange="svToggle('sv_cp_t2')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_cp_t3')"><label for="sv_chk_sv_cp_t3">Projections — Tool 3: Sub Growth + Date Lookup</label><input type="checkbox" id="sv_chk_sv_cp_t3" checked onchange="svToggle('sv_cp_t3')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_cp_income')"><label for="sv_chk_sv_cp_income">Projections — Income Over Time</label><input type="checkbox" id="sv_chk_sv_cp_income" checked onchange="svToggle('sv_cp_income')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_cp_t1')"><label for="sv_chk_sv_cp_t1">Tool 1 — Channel Trajectory</label><input type="checkbox" id="sv_chk_sv_cp_t1" checked onchange="svToggle('sv_cp_t1')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_cp_t2')"><label for="sv_chk_sv_cp_t2">Tool 2 — Growth Scenarios</label><input type="checkbox" id="sv_chk_sv_cp_t2" checked onchange="svToggle('sv_cp_t2')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_cp_t3')"><label for="sv_chk_sv_cp_t3">Tool 3 — Sub Growth + Date Lookup</label><input type="checkbox" id="sv_chk_sv_cp_t3" checked onchange="svToggle('sv_cp_t3')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_cp_income')"><label for="sv_chk_sv_cp_income">Income Projections Over Time</label><input type="checkbox" id="sv_chk_sv_cp_income" checked onchange="svToggle('sv_cp_income')" onclick="event.stopPropagation()"></div>
 <div class="sv-tab-header">🎯 A/B Checker</div>
-<div class="sv-item" onclick="svToggle('sv_tab_ab_setup')"><label for="sv_chk_sv_tab_ab_setup">A/B — Test Setup</label><input type="checkbox" id="sv_chk_sv_tab_ab_setup" checked onchange="svToggle('sv_tab_ab_setup')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_tab_ab_results')"><label for="sv_chk_sv_tab_ab_results">A/B — Live Results</label><input type="checkbox" id="sv_chk_sv_tab_ab_results" checked onchange="svToggle('sv_tab_ab_results')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_tab_ab_history')"><label for="sv_chk_sv_tab_ab_history">A/B — Saved Tests</label><input type="checkbox" id="sv_chk_sv_tab_ab_history" checked onchange="svToggle('sv_tab_ab_history')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_tab_ab_tip')"><label for="sv_chk_sv_tab_ab_tip">A/B — Best Practice Tip</label><input type="checkbox" id="sv_chk_sv_tab_ab_tip" checked onchange="svToggle('sv_tab_ab_tip')" onclick="event.stopPropagation()"></div>
-<div class="sv-tab-header">👤 Account</div>
-<div class="sv-item" onclick="svToggle('sv_ai_session')"><label for="sv_chk_sv_ai_session">Account — Session Save/Load</label><input type="checkbox" id="sv_chk_sv_ai_session" checked onchange="svToggle('sv_ai_session')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_ai_platforms')"><label for="sv_chk_sv_ai_platforms">Account — Active Platforms</label><input type="checkbox" id="sv_chk_sv_ai_platforms" checked onchange="svToggle('sv_ai_platforms')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_ai_theme')"><label for="sv_chk_sv_ai_theme">Account — Theme Picker</label><input type="checkbox" id="sv_chk_sv_ai_theme" checked onchange="svToggle('sv_ai_theme')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_ai_bg')"><label for="sv_chk_sv_ai_bg">Account — Background Picker</label><input type="checkbox" id="sv_chk_sv_ai_bg" checked onchange="svToggle('sv_ai_bg')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_ai_font')"><label for="sv_chk_sv_ai_font">Account — Font Picker</label><input type="checkbox" id="sv_chk_sv_ai_font" checked onchange="svToggle('sv_ai_font')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_ai_textsize')"><label for="sv_chk_sv_ai_textsize">Account — Text Size</label><input type="checkbox" id="sv_chk_sv_ai_textsize" checked onchange="svToggle('sv_ai_textsize')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_ai_layout')"><label for="sv_chk_sv_ai_layout">Account — Layout Mode</label><input type="checkbox" id="sv_chk_sv_ai_layout" checked onchange="svToggle('sv_ai_layout')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_ai_profile')"><label for="sv_chk_sv_ai_profile">Account — Creator Profile</label><input type="checkbox" id="sv_chk_sv_ai_profile" checked onchange="svToggle('sv_ai_profile')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_ai_links')"><label for="sv_chk_sv_ai_links">Account — Quick Channel Links</label><input type="checkbox" id="sv_chk_sv_ai_links" checked onchange="svToggle('sv_ai_links')" onclick="event.stopPropagation()"></div>
-<div class="sv-tab-header">⚖️ Compare</div>
-<div class="sv-item" onclick="svToggle('sv_cmp_lookup')"><label for="sv_chk_sv_cmp_lookup">Compare — Channel Lookup</label><input type="checkbox" id="sv_chk_sv_cmp_lookup" checked onchange="svToggle('sv_cmp_lookup')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_cmp_results')"><label for="sv_chk_sv_cmp_results">Compare — Results</label><input type="checkbox" id="sv_chk_sv_cmp_results" checked onchange="svToggle('sv_cmp_results')" onclick="event.stopPropagation()"></div>
-<div class="sv-tab-header">🪝 Hook Gen</div>
-<div class="sv-item" onclick="svToggle('sv_hook_results')"><label for="sv_chk_sv_hook_results">Hook Gen — Generated Hooks</label><input type="checkbox" id="sv_chk_sv_hook_results" checked onchange="svToggle('sv_hook_results')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_hook_tip')"><label for="sv_chk_sv_hook_tip">Hook Gen — Psychology Tip</label><input type="checkbox" id="sv_chk_sv_hook_tip" checked onchange="svToggle('sv_hook_tip')" onclick="event.stopPropagation()"></div>
-<div class="sv-tab-header">🔍 SEO</div>
-<div class="sv-item" onclick="svToggle('sv_seo_t1')"><label for="sv_chk_sv_seo_t1">SEO — Title SEO Scorer</label><input type="checkbox" id="sv_chk_sv_seo_t1" checked onchange="svToggle('sv_seo_t1')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_seo_t1_res')"><label for="sv_chk_sv_seo_t1_res">SEO — Title Score Results</label><input type="checkbox" id="sv_chk_sv_seo_t1_res" checked onchange="svToggle('sv_seo_t1_res')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_seo_t2')"><label for="sv_chk_sv_seo_t2">SEO — Niche Saturation Meter</label><input type="checkbox" id="sv_chk_sv_seo_t2" checked onchange="svToggle('sv_seo_t2')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_seo_t2_res')"><label for="sv_chk_sv_seo_t2_res">SEO — Saturation Results</label><input type="checkbox" id="sv_chk_sv_seo_t2_res" checked onchange="svToggle('sv_seo_t2_res')" onclick="event.stopPropagation()"></div>
-<div class="sv-tab-header">📊 Retention</div>
-<div class="sv-item" onclick="svToggle('sv_rc_inputs')"><label for="sv_chk_sv_rc_inputs">Retention — Inputs + Result</label><input type="checkbox" id="sv_chk_sv_rc_inputs" checked onchange="svToggle('sv_rc_inputs')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_rc_guide')"><label for="sv_chk_sv_rc_guide">Retention — How to Read</label><input type="checkbox" id="sv_chk_sv_rc_guide" checked onchange="svToggle('sv_rc_guide')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_tab_ab_setup')"><label for="sv_chk_sv_tab_ab_setup">New Test Setup</label><input type="checkbox" id="sv_chk_sv_tab_ab_setup" checked onchange="svToggle('sv_tab_ab_setup')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_tab_ab_results')"><label for="sv_chk_sv_tab_ab_results">Live Results</label><input type="checkbox" id="sv_chk_sv_tab_ab_results" checked onchange="svToggle('sv_tab_ab_results')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_tab_ab_history')"><label for="sv_chk_sv_tab_ab_history">Saved Tests History</label><input type="checkbox" id="sv_chk_sv_tab_ab_history" checked onchange="svToggle('sv_tab_ab_history')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_tab_ab_tip')"><label for="sv_chk_sv_tab_ab_tip">Best Practice Tip</label><input type="checkbox" id="sv_chk_sv_tab_ab_tip" checked onchange="svToggle('sv_tab_ab_tip')" onclick="event.stopPropagation()"></div>
+<div class="sv-tab-header">👤 Account & Prefs</div>
+<div class="sv-item" onclick="svToggle('sv_ai_session')"><label for="sv_chk_sv_ai_session">Session Save / Load</label><input type="checkbox" id="sv_chk_sv_ai_session" checked onchange="svToggle('sv_ai_session')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_ai_platforms')"><label for="sv_chk_sv_ai_platforms">Active Platforms</label><input type="checkbox" id="sv_chk_sv_ai_platforms" checked onchange="svToggle('sv_ai_platforms')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_ai_theme')"><label for="sv_chk_sv_ai_theme">Theme Picker</label><input type="checkbox" id="sv_chk_sv_ai_theme" checked onchange="svToggle('sv_ai_theme')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_ai_bg')"><label for="sv_chk_sv_ai_bg">Background Picker</label><input type="checkbox" id="sv_chk_sv_ai_bg" checked onchange="svToggle('sv_ai_bg')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_ai_font')"><label for="sv_chk_sv_ai_font">Font Picker</label><input type="checkbox" id="sv_chk_sv_ai_font" checked onchange="svToggle('sv_ai_font')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_ai_textsize')"><label for="sv_chk_sv_ai_textsize">Text Size</label><input type="checkbox" id="sv_chk_sv_ai_textsize" checked onchange="svToggle('sv_ai_textsize')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_ai_layout')"><label for="sv_chk_sv_ai_layout">Layout Mode</label><input type="checkbox" id="sv_chk_sv_ai_layout" checked onchange="svToggle('sv_ai_layout')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_ai_profile')"><label for="sv_chk_sv_ai_profile">Creator Profile</label><input type="checkbox" id="sv_chk_sv_ai_profile" checked onchange="svToggle('sv_ai_profile')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_ai_links')"><label for="sv_chk_sv_ai_links">Quick Channel Links</label><input type="checkbox" id="sv_chk_sv_ai_links" checked onchange="svToggle('sv_ai_links')" onclick="event.stopPropagation()"></div>
+<div class="sv-tab-header">⚖️ Channel Compare</div>
+<div class="sv-item" onclick="svToggle('sv_cmp_lookup')"><label for="sv_chk_sv_cmp_lookup">Channel ID Lookup</label><input type="checkbox" id="sv_chk_sv_cmp_lookup" checked onchange="svToggle('sv_cmp_lookup')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_cmp_results')"><label for="sv_chk_sv_cmp_results">Comparison Results</label><input type="checkbox" id="sv_chk_sv_cmp_results" checked onchange="svToggle('sv_cmp_results')" onclick="event.stopPropagation()"></div>
+<div class="sv-tab-header">🪝 Hook Generator</div>
+<div class="sv-item" onclick="svToggle('sv_hook_results')"><label for="sv_chk_sv_hook_results">Generated Hooks</label><input type="checkbox" id="sv_chk_sv_hook_results" checked onchange="svToggle('sv_hook_results')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_hook_tip')"><label for="sv_chk_sv_hook_tip">Hook Psychology Tip</label><input type="checkbox" id="sv_chk_sv_hook_tip" checked onchange="svToggle('sv_hook_tip')" onclick="event.stopPropagation()"></div>
+<div class="sv-tab-header">🔍 SEO Tools</div>
+<div class="sv-item" onclick="svToggle('sv_seo_t1')"><label for="sv_chk_sv_seo_t1">Title SEO Scorer (inputs + results)</label><input type="checkbox" id="sv_chk_sv_seo_t1" checked onchange="svToggle('sv_seo_t1')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_seo_t2')"><label for="sv_chk_sv_seo_t2">Niche Saturation Meter (inputs + results)</label><input type="checkbox" id="sv_chk_sv_seo_t2" checked onchange="svToggle('sv_seo_t2')" onclick="event.stopPropagation()"></div>
+<div class="sv-tab-header">📊 Retention Curve</div>
+<div class="sv-item" onclick="svToggle('sv_rc_inputs')"><label for="sv_chk_sv_rc_inputs">Retention Inputs + Diagnosis</label><input type="checkbox" id="sv_chk_sv_rc_inputs" checked onchange="svToggle('sv_rc_inputs')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_rc_guide')"><label for="sv_chk_sv_rc_guide">How to Read Guide</label><input type="checkbox" id="sv_chk_sv_rc_guide" checked onchange="svToggle('sv_rc_guide')" onclick="event.stopPropagation()"></div>
 <div class="sv-tab-header">🎬 End Screen</div>
-<div class="sv-item" onclick="svToggle('sv_es_inputs')"><label for="sv_chk_sv_es_inputs">End Screen — Retention Inputs</label><input type="checkbox" id="sv_chk_sv_es_inputs" checked onchange="svToggle('sv_es_inputs')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_es_cards')"><label for="sv_chk_sv_es_cards">End Screen — Card Optimizer</label><input type="checkbox" id="sv_chk_sv_es_cards" checked onchange="svToggle('sv_es_cards')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_es_rules')"><label for="sv_chk_sv_es_rules">End Screen — Rules Reference</label><input type="checkbox" id="sv_chk_sv_es_rules" checked onchange="svToggle('sv_es_rules')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_es_inputs')"><label for="sv_chk_sv_es_inputs">Retention Inputs</label><input type="checkbox" id="sv_chk_sv_es_inputs" checked onchange="svToggle('sv_es_inputs')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_es_cards')"><label for="sv_chk_sv_es_cards">Card Placement Optimizer</label><input type="checkbox" id="sv_chk_sv_es_cards" checked onchange="svToggle('sv_es_cards')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_es_rules')"><label for="sv_chk_sv_es_rules">Rules Reference</label><input type="checkbox" id="sv_chk_sv_es_rules" checked onchange="svToggle('sv_es_rules')" onclick="event.stopPropagation()"></div>
   </div>
 </div>
 <button class="sv-toggle-btn" onclick="svPanelToggle()" title="Toggle visible sections">👁</button>
