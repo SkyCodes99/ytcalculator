@@ -3704,7 +3704,9 @@ input:focus, select:focus, textarea:focus {
   ═══════════════════════════════════════════════════════ */
   const ALL_SAVE_FIELDS = ['videoPublishedAt', 'viewVelocity', 'impressionsInput', 'vlMins', 'vlSecs', 'twMins', 'twSecs', 'newVideoToggle', 'viewsInput', 'likesInput', 'commentsInput', 'channelSubs', 'avgViewsPerUpload', 'subsGained', 'nonSubViewPct', 'midRetention', 'endRetention', 'cardCtr', 'rewatchRate', 'views24h', 'snap1_hours', 'views48h', 'snap2_hours', 'viewsCurrent', 'snap3_hours', 'ctrNum', 'retNum', 't2_vlMins', 't2_vlSecs', 't2_ctr', 't2_avd', 't2_views', 't2_subs', 'gp_avd', 'gp_earned', 'gp_stream_hrs', 'gp_stream_viewers', 'gp_months', 'c_views_min', 'c_views_max', 'c_rpm_minNum', 'c_rpm_maxNum', 'c_view_type', 'cs_views_min', 'cs_views_max', 'cs_rpm', 'cs_niche', 'roi_shorts_views', 'roi_shorts_time', 'roi_shorts_follow', 'roi_lf_views', 'roi_lf_time', 'roi_lf_follow', 'roi_lf_avd', 'roi_rpm', 'tt_views', 'tt_likes', 'tt_comments', 'tt_shares', 'tt_length', 'tt_velocity', 'tt_avdNum', 'tt_hookNum', 'tt_curr_subs', 'tt_monthly_views', 'tt_follow_rate', 'ig_views', 'ig_likes', 'ig_comments', 'ig_saves', 'ig_sends', 'ig_reach', 'ig_nonfollower', 'ig_velocity', 'ig_avdNum', 'ig_curr_subs', 'ig_monthly_views', 'ig_follow_rate', 'sch_tz', 'sch_niche', 'sch_freq', 'sch_format', 'cp_subs', 'cp_views', 'cp_avd', 'cp_sub_rate', 'cp_uploads', 'cp_ctr', 'cp_rpm', 'cp_opt_rate', 'cp_opt_views', 'cp_agg_uploads', 'cp_target_ctr', 'yt_curr_subs', 'yt_monthly_views', 'yt_sub_rate', 'yt_subs_7d', 'yt_subs_28d', 'yt_custom_month', 'yt_custom_day', 'yt_custom_year', 'ab_test_name', 'ab_total_impressions', 'ab_niche', 'cmp_id1', 'cmp_subs1', 'cmp_totalviews1', 'cmp_videocount1', 'cmp_views1', 'cmp_ctr1', 'cmp_avd1', 'cmp_rpm1', 'cmp_id2', 'cmp_subs2', 'cmp_totalviews2', 'cmp_videocount2', 'cmp_views2', 'cmp_ctr2', 'cmp_avd2', 'cmp_rpm2', 'cmp_id3', 'cmp_subs3', 'cmp_totalviews3', 'cmp_videocount3', 'cmp_views3', 'cmp_ctr3', 'cmp_avd3', 'cmp_rpm3', 'hook_topic', 'hook_niche', 'hook_platform', 'seo_title', 'seo_keyword', 'seo_type', 'sat_topic', 'sat_angle', 'sat_category', 'sat_volume', 'rc_length', 'rc_30s', 'rc_1min', 'rc_25pct', 'rc_50pct', 'rc_75pct', 'rc_90pct', 'rc_avd', 'es_length', 'es_avd', 'es_mid', 'es_70', 'es_80', 'es_90', 'es_dropoff', 'es_current_ctr', 'es_rewatch', 'es_high_start', 'es_high_end', 'es_card_goal',
     // API keys and auth fields
-    'lst_twitch_clientid','lst_twitch_token','cmp_api_key'];
+    'lst_twitch_clientid','lst_twitch_token','cmp_api_key',
+    // Date picker dropdowns
+    'dt_month','dt_day','dt_year','dt_hour','dt_minute','dt_ampm'];
 
   function saveAllFields() {
     const data = {};
@@ -3720,6 +3722,9 @@ input:focus, select:focus, textarea:focus {
     // Traffic source radio (named group, not individual IDs)
     const radio = document.querySelector('input[name="trafficSource"]:checked');
     if (radio) data['_trafficSource'] = radio.value;
+    // Explicitly save the hidden videoPublishedAt (date picker populates this)
+    const pubHidden = document.getElementById('videoPublishedAt');
+    if (pubHidden && pubHidden.value) data['videoPublishedAt'] = pubHidden.value;
     return data;
   }
 
@@ -3729,21 +3734,34 @@ input:focus, select:focus, textarea:focus {
       if (!(id in data)) return;  // forward-compat: skip missing fields
       const el = document.getElementById(id);
       if (!el) return;
-      if (el.type === 'checkbox' || el.type === 'radio') {
+      if (el.type === 'checkbox') {
+        el.checked = !!data[id];
+      } else if (el.type === 'radio') {
         el.checked = !!data[id];
       } else {
         el.value = data[id];
       }
     });
+    // Restore traffic source radio
     if (data['_trafficSource']) {
       const radio = document.getElementById('src_' + data['_trafficSource']);
       if (radio) radio.checked = true;
     }
-    // Sync sliders from text inputs
+    // Sync all sliders from their text companions
     [['ctrNum','ctr'],['retNum','ret'],['c_rpm_minNum','c_rpm_min'],['c_rpm_maxNum','c_rpm_max'],
      ['tt_avdNum','tt_avd'],['tt_hookNum','tt_hook'],['ig_avdNum','ig_avd']].forEach(([num,sl]) => {
-      syncNum(num, sl);
+      if (document.getElementById(num) && document.getElementById(sl)) syncNum(num, sl);
     });
+    // Restore date picker display from the dropdown values that were just set
+    if (typeof dtUpdate === 'function') {
+      dtUpdate();  // rebuilds the trigger display text from dt_month/day/year/hour/minute/ampm
+      // Also sync the hidden videoPublishedAt from the dropdowns
+      if (typeof dtBuildIso === 'function') {
+        const iso = dtBuildIso();
+        const hidden = document.getElementById('videoPublishedAt');
+        if (hidden && iso) { hidden.value = iso; dtSetAgeLabel(iso); }
+      }
+    }
   }
 
     function buildSavePayload() {
@@ -3847,13 +3865,15 @@ input:focus, select:focus, textarea:focus {
           } catch(e) {}
         }
 
+        window._svLoading = true;  // block vpSave during restore
         if (parsed.sectionVisibility) svFromSave(parsed.sectionVisibility);
+        // Restore video profiles FIRST so vpFromSave sets currentProfile
         if (parsed.videoProfiles) vpFromSave(parsed.videoProfiles);
+        // Restore all field values (overrides what vpFromSave wrote)
         if (parsed.allFields) restoreAllFields(parsed.allFields);
         // Restore live tracked channels
         if (Array.isArray(parsed.liveTrackers) && parsed.liveTrackers.length) {
           liveTrackers = parsed.liveTrackers;
-          // Reset live intervals so they use restored data
           if (liveTimerInterval) { clearInterval(liveTimerInterval); liveTimerInterval = null; }
         }
         // Restore saved A/B tests
@@ -3864,9 +3884,14 @@ input:focus, select:focus, textarea:focus {
         dismissOverlay();
         updateVideoDropdown();
         initAll();
-        // Re-render live trackers and A/B history after initAll
+        // After initAll, re-apply restored field values (initAll may reset some)
+        if (parsed.allFields) restoreAllFields(parsed.allFields);
+        window._svLoading = false;
+        // Re-render components that depend on restored state
         if (typeof renderLiveCards === 'function') renderLiveCards();
         if (typeof ab_renderHistory === 'function') ab_renderHistory();
+        if (typeof vpUpdateSelect === 'function') vpUpdateSelect();
+        if (typeof renderGoalPlanner === 'function') renderGoalPlanner();
         showToast('✅ Session loaded successfully!', 'var(--secondary)');
       } catch(err) {
         alert('Could not read save file. Make sure it\'s a valid .vcsave file.');
@@ -4088,7 +4113,8 @@ input:focus, select:focus, textarea:focus {
   }
 
   function vpSave() {
-    // Save current field values to current profile
+    // Save current field values to current profile (skip during file load)
+    if (window._svLoading) return;
     videoProfiles[currentProfile] = vpRead();
   }
 
