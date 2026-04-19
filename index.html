@@ -1429,7 +1429,7 @@ input:focus, select:focus, textarea:focus {
     <p class="tab-subtitle">Input your current video stats to calculate algorithmic performance. The checker factors in video age to forecast likely 48-hour trajectory and distinguish early momentum from genuine sustained growth.</p>
 
     <!-- Video Profiles -->
-    <div style="background:var(--card2);border:1px solid var(--border-hi);border-radius:var(--radius);padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+    <div id="sv_t1_vp_bar" class="sv-wrap"><div style="background:var(--card2);border:1px solid var(--border-hi);border-radius:var(--radius);padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
       <span style="font-size:11px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.5px;">🎬 Video Profile:</span>
       <select id="vp_select" onchange="vpSwitch(this.value)" style="flex:1;min-width:160px;max-width:300px;padding:6px 10px;background:var(--bg);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:12px;color:var(--text-bright);">
         <option value="Default">Default Video</option>
@@ -1437,7 +1437,7 @@ input:focus, select:focus, textarea:focus {
       <button onclick="vpAdd()" style="padding:5px 12px;background:var(--primary-dim);color:var(--primary);border:1px solid var(--primary);border-radius:var(--radius);font-size:11px;font-weight:700;cursor:pointer;">+ New</button>
       <button onclick="vpRename()" style="padding:5px 12px;background:var(--card);color:var(--text-dim);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:11px;cursor:pointer;">Rename</button>
       <button onclick="vpDelete()" style="padding:5px 12px;background:var(--danger-dim);color:var(--danger);border:1px solid var(--danger);border-radius:var(--radius);font-size:11px;cursor:pointer;">Delete</button>
-    </div>
+    </div></div>
 
     <!-- Upload time + trend mode -->
     <div id="sv_t1_pubhub" class="sv-wrap"><div class="control-card" style="border-left:4px solid var(--accent);margin-bottom:14px;overflow:visible;">
@@ -1724,7 +1724,7 @@ input:focus, select:focus, textarea:focus {
       </div>
     </div></div>
 
-    <!-- ── Progress Bars ── -->
+    <div id="sv_t3_progress" class="sv-wrap"><!-- ── Progress Bars ── -->
     <div class="control-card">
       <!-- Subscribers bar -->
       <div style="margin-bottom:14px;">
@@ -1748,7 +1748,7 @@ input:focus, select:focus, textarea:focus {
     </div>
 
     <!-- ── ETA Scenario Cards ── -->
-    <div id="sv_t3_eta" class="sv-wrap"><h3>📊 ETA Scenarios</h3>
+    </div><div id="sv_t3_eta" class="sv-wrap"><h3>📊 ETA Scenarios</h3>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:20px;">
       <div class="stat-mini"><div class="label" style="color:var(--text-dim);">Videos Only</div><div class="value" id="m_estimatedDate" style="font-size:13px;color:var(--secondary);">---</div><div class="sub" id="m_estimatedDate_sub">At current pace</div></div>
       <div class="stat-mini"><div class="label" style="color:var(--warning);">3K Milestone</div><div class="value" id="m_estimatedDate3k" style="font-size:13px;color:var(--warning);">---</div><div class="sub">Shopping unlock</div></div>
@@ -2223,17 +2223,17 @@ input:focus, select:focus, textarea:focus {
 
     <div id="sv_t7_inputs" class="sv-wrap"><div class="control-card accent">
       <div class="input-grid">
-        <div class="input-box"><label>Content Format / Platform</label>
+        <div class="input-box"><label>Platform</label>
           <select id="u_format" onchange="calculateUploadTime()">
-            <option value="yt_long">YouTube Long-Form</option>
-            <option value="yt_short">YouTube Shorts</option>
-            <option value="tiktok">TikTok</option>
-            <option value="reels">Instagram Reels</option>
-            <option value="linkedin">LinkedIn Video</option>
-            <option value="twitter">Twitter/X Video</option>
+            <option value="yt_long">▶ YouTube Long-Form</option>
+            <option value="yt_short">▶ YouTube Shorts</option>
+            <option value="tiktok">♪ TikTok</option>
+            <option value="reels">📸 Instagram Reels</option>
+            <option value="linkedin">💼 LinkedIn Video</option>
+            <option value="twitter">🐦 Twitter/X Video</option>
           </select>
         </div>
-        <div class="input-box"><label>Audience Niche</label>
+        <div class="input-box"><label>Content Niche</label>
           <select id="u_niche" onchange="calculateUploadTime()">
             <option value="gaming">Gaming / Entertainment</option>
             <option value="vlogs">Vlogs / Lifestyle</option>
@@ -2247,35 +2247,27 @@ input:focus, select:focus, textarea:focus {
             <option value="kids">Kids / Family / Parenting</option>
           </select>
         </div>
-        <div class="input-box"><label>Target Timezone</label>
+        <div class="input-box"><label>Target Audience Timezone</label>
           <select id="u_tz" onchange="calculateUploadTime()">
-            <option value="HST">HST — Hawaii Standard Time (UTC-10)</option>
-            <option value="AKST">AKST — Alaska Standard Time (UTC-9)</option>
+            <option value="HST">HST — Hawaii (UTC-10)</option>
+            <option value="AKST">AKST — Alaska (UTC-9)</option>
             <option value="PST">PST — US Pacific (UTC-8)</option>
             <option value="MST">MST — US Mountain (UTC-7)</option>
             <option value="CST">CST — US Central (UTC-6)</option>
             <option value="EST" selected>EST — US Eastern (UTC-5)</option>
-            <option value="AST">AST — Atlantic Standard Time (UTC-4)</option>
-            <option value="BRT">BRT — Brasília Time (UTC-3)</option>
-            <option value="GST">GST — South Georgia Time (UTC-2)</option>
-            <option value="CVT">CVT — Cape Verde Time (UTC-1)</option>
-            <option value="GMT">GMT — Greenwich Mean Time (UTC+0)</option>
-            <option value="CET">CET — Central European Time (UTC+1)</option>
-            <option value="EET">EET — Eastern European Time (UTC+2)</option>
-            <option value="MSK">MSK — Moscow Time (UTC+3)</option>
-            <option value="GST4">GST — Gulf Standard Time (UTC+4)</option>
-            <option value="PKT">PKT — Pakistan Standard Time (UTC+5)</option>
-            <option value="IST">IST — India Standard Time (UTC+5:30)</option>
-            <option value="BST6">BST — Bangladesh Standard Time (UTC+6)</option>
-            <option value="ICT">ICT — Indochina Time (UTC+7)</option>
-            <option value="CST8">CST — China Standard Time (UTC+8)</option>
-            <option value="JST">JST — Japan Standard Time (UTC+9)</option>
-            <option value="AEST">AEST — Australian Eastern Time (UTC+10)</option>
-            <option value="SBT">SBT — Solomon Islands Time (UTC+11)</option>
-            <option value="NZST">NZST — New Zealand Standard Time (UTC+12)</option>
+            <option value="BRT">BRT — Brazil (UTC-3)</option>
+            <option value="GMT">GMT — UK / Ireland (UTC+0)</option>
+            <option value="CET">CET — Central Europe (UTC+1)</option>
+            <option value="EET">EET — Eastern Europe (UTC+2)</option>
+            <option value="MSK">MSK — Moscow (UTC+3)</option>
+            <option value="IST">IST — India (UTC+5:30)</option>
+            <option value="CST8">CST — China (UTC+8)</option>
+            <option value="JST">JST — Japan (UTC+9)</option>
+            <option value="AEST">AEST — Australia East (UTC+10)</option>
+            <option value="NZST">NZST — New Zealand (UTC+12)</option>
           </select>
         </div>
-        <div class="input-box"><label>Upload Frequency / Week</label>
+        <div class="input-box"><label>Uploads Per Week</label>
           <select id="u_freq" onchange="calculateUploadTime()">
             <option value="1">1× per week</option>
             <option value="2">2× per week</option>
@@ -2285,6 +2277,174 @@ input:focus, select:focus, textarea:focus {
             <option value="6">6× per week</option>
             <option value="7">Daily (7×)</option>
           </select>
+        </div>
+      </div>
+
+      <!-- YouTube-specific extras -->
+      <div id="pub_yt_extras" style="margin-top:14px;">
+        <div style="font-size:11px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">▶ YouTube Options</div>
+        <div class="input-grid">
+          <div class="input-box"><label>Video Length</label>
+            <select id="u_vidlen" onchange="calculateUploadTime()">
+              <option value="short">Under 5 min (Short-style)</option>
+              <option value="medium" selected>5–15 min</option>
+              <option value="long">15–30 min</option>
+              <option value="vlong">30+ min</option>
+            </select>
+          </div>
+          <div class="input-box"><label>Premiere or Direct Publish?</label>
+            <select id="u_yt_premiere" onchange="calculateUploadTime()">
+              <option value="direct">Direct publish</option>
+              <option value="premiere">Premiere (schedule 1–2 hr ahead)</option>
+            </select>
+          </div>
+          <div class="input-box"><label>Community Post Planned?</label>
+            <select id="u_yt_community" onchange="calculateUploadTime()">
+              <option value="yes">Yes — post within 30 min of upload</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+          <div class="input-box"><label>End Screen / Cards Ready?</label>
+            <select id="u_yt_endscreen" onchange="calculateUploadTime()">
+              <option value="yes" selected>Yes</option>
+              <option value="no">No — needs setup before publish</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- TikTok-specific extras -->
+      <div id="pub_tt_extras" style="display:none;margin-top:14px;">
+        <div style="font-size:11px;font-weight:700;color:#25f4ee;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">♪ TikTok Options</div>
+        <div class="input-grid">
+          <div class="input-box"><label>Video Length</label>
+            <select id="u_tt_length" onchange="calculateUploadTime()">
+              <option value="under15">Under 15s (Snap-style)</option>
+              <option value="15to60" selected>15–60s (Core short)</option>
+              <option value="60to180">1–3 min (Mid-form)</option>
+              <option value="3plus">3+ min (Long TikTok)</option>
+            </select>
+          </div>
+          <div class="input-box"><label>Loop Hook Strength</label>
+            <select id="u_tt_loop" onchange="calculateUploadTime()">
+              <option value="strong" selected>Strong — video loops naturally</option>
+              <option value="moderate">Moderate — partial loop</option>
+              <option value="none">No loop planned</option>
+            </select>
+          </div>
+          <div class="input-box"><label>Hashtag Strategy</label>
+            <select id="u_tt_hashtags" onchange="calculateUploadTime()">
+              <option value="niche3broad2">3 niche + 2 broad (recommended)</option>
+              <option value="trending">Trending sound + 2–3 niche tags</option>
+              <option value="minimal">Minimal (1–2 only)</option>
+            </select>
+          </div>
+          <div class="input-box"><label>Trending Sound Planned?</label>
+            <select id="u_tt_sound" onchange="calculateUploadTime()">
+              <option value="yes">Yes — using trending audio</option>
+              <option value="original">Original / voiceover</option>
+              <option value="no">No sound strategy yet</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Instagram Reels-specific extras -->
+      <div id="pub_ig_extras" style="display:none;margin-top:14px;">
+        <div style="font-size:11px;font-weight:700;color:#e1306c;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">📸 Reels Options</div>
+        <div class="input-grid">
+          <div class="input-box"><label>Reel Length</label>
+            <select id="u_ig_length" onchange="calculateUploadTime()">
+              <option value="under15">Under 15s</option>
+              <option value="15to30" selected>15–30s (Best reach)</option>
+              <option value="30to60">30–60s</option>
+              <option value="60to90">60–90s</option>
+            </select>
+          </div>
+          <div class="input-box"><label>Caption Style</label>
+            <select id="u_ig_caption" onchange="calculateUploadTime()">
+              <option value="short">Short + punchy (under 50 chars)</option>
+              <option value="cta" selected>CTA-focused (save / share / comment)</option>
+              <option value="story">Story caption (200+ chars)</option>
+            </select>
+          </div>
+          <div class="input-box"><label>Cover Frame Set?</label>
+            <select id="u_ig_cover" onchange="calculateUploadTime()">
+              <option value="yes" selected>Yes — custom cover selected</option>
+              <option value="no">No — using auto-frame</option>
+            </select>
+          </div>
+          <div class="input-box"><label>Also Sharing to Stories?</label>
+            <select id="u_ig_story" onchange="calculateUploadTime()">
+              <option value="yes" selected>Yes — immediately after post</option>
+              <option value="delay">Yes — 1–2 hrs later for 2nd wave</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- LinkedIn-specific extras -->
+      <div id="pub_li_extras" style="display:none;margin-top:14px;">
+        <div style="font-size:11px;font-weight:700;color:#0077b5;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">💼 LinkedIn Options</div>
+        <div class="input-grid">
+          <div class="input-box"><label>Content Type</label>
+            <select id="u_li_type" onchange="calculateUploadTime()">
+              <option value="native" selected>Native upload (best reach)</option>
+              <option value="link">Link post (reduced reach)</option>
+            </select>
+          </div>
+          <div class="input-box"><label>First Comment CTA Planned?</label>
+            <select id="u_li_comment" onchange="calculateUploadTime()">
+              <option value="yes" selected>Yes — post link in first comment</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+          <div class="input-box"><label>Tagging Industry Connections?</label>
+            <select id="u_li_tags" onchange="calculateUploadTime()">
+              <option value="yes">Yes (1–3 relevant people)</option>
+              <option value="no" selected>No</option>
+            </select>
+          </div>
+          <div class="input-box"><label>Open with Text Hook?</label>
+            <select id="u_li_hook" onchange="calculateUploadTime()">
+              <option value="yes" selected>Yes — first 2 lines are the hook</option>
+              <option value="no">No — standard description</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Twitter/X-specific extras -->
+      <div id="pub_tw_extras" style="display:none;margin-top:14px;">
+        <div style="font-size:11px;font-weight:700;color:#1da1f2;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">🐦 Twitter / X Options</div>
+        <div class="input-grid">
+          <div class="input-box"><label>Tweet Copy Style</label>
+            <select id="u_tw_copy" onchange="calculateUploadTime()">
+              <option value="hook" selected>Hook + context (recommended)</option>
+              <option value="question">Open question to audience</option>
+              <option value="bold">Bold statement / hot take</option>
+            </select>
+          </div>
+          <div class="input-box"><label>Thread Planned?</label>
+            <select id="u_tw_thread" onchange="calculateUploadTime()">
+              <option value="yes">Yes — thread for engagement</option>
+              <option value="no" selected>No — single tweet</option>
+            </select>
+          </div>
+          <div class="input-box"><label>Pinning to Profile?</label>
+            <select id="u_tw_pin" onchange="calculateUploadTime()">
+              <option value="yes">Yes — pin for 48hrs</option>
+              <option value="no" selected>No</option>
+            </select>
+          </div>
+          <div class="input-box"><label>Cross-posting Simultaneously?</label>
+            <select id="u_tw_cross" onchange="calculateUploadTime()">
+              <option value="yes">Yes — posting to multiple platforms</option>
+              <option value="stagger" selected>Staggered (30+ min apart)</option>
+              <option value="no">No cross-posts</option>
+            </select>
+          </div>
         </div>
       </div>
     </div></div>
@@ -3767,7 +3927,8 @@ input:focus, select:focus, textarea:focus {
     // API keys and auth fields
     'lst_twitch_clientid','lst_twitch_token','cmp_api_key',
     // Date picker dropdowns
-    'dt_month','dt_day','dt_year','dt_hour','dt_minute','dt_ampm'];
+    'dt_month','dt_day','dt_year','dt_hour','dt_minute','dt_ampm',
+    'u_yt_premiere','u_yt_community','u_yt_endscreen','u_tt_length','u_tt_loop','u_tt_hashtags','u_tt_sound','u_ig_length','u_ig_caption','u_ig_cover','u_ig_story','u_li_type','u_li_comment','u_li_tags','u_li_hook','u_tw_copy','u_tw_thread','u_tw_pin','u_tw_cross','u_age','u_geo','u_chsize','u_vidlen','u_format','u_niche','u_tz','u_freq'];
 
   function saveAllFields() {
     const data = {};
@@ -4129,8 +4290,18 @@ input:focus, select:focus, textarea:focus {
 
   /* ─── Tab1: Virality Checker ─── */
   function getAvdTarget(vlMins) {
-    if (vlMins <= 1) return 80; if (vlMins <= 3) return 65; if (vlMins <= 8) return 55;
-    if (vlMins <= 15) return 45; return 35;
+    // YouTube AVD benchmarks by video length (% of video watched on average)
+    // Source: YouTube Creator Academy + known industry benchmarks
+    if (vlMins <= 0.5) return 85;   // under 30s: near-full watch expected
+    if (vlMins <= 1)   return 75;   // 30s–1min
+    if (vlMins <= 3)   return 62;   // 1–3min
+    if (vlMins <= 5)   return 55;   // 3–5min
+    if (vlMins <= 8)   return 50;   // 5–8min
+    if (vlMins <= 12)  return 45;   // 8–12min
+    if (vlMins <= 20)  return 40;   // 12–20min
+    if (vlMins <= 30)  return 36;   // 20–30min
+    if (vlMins <= 45)  return 32;   // 30–45min
+    return 28;                      // 45min+
   }
   
 
@@ -4148,6 +4319,13 @@ input:focus, select:focus, textarea:focus {
     // Save traffic source radio
     const radio = document.querySelector('input[name="trafficSource"]:checked');
     if (radio) data._trafficSource = radio.value;
+    // Save date picker state
+    ['dt_month','dt_day','dt_year','dt_hour','dt_minute','dt_ampm'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) data[id] = el.value;
+    });
+    const pub = document.getElementById('videoPublishedAt');
+    if (pub) data._videoPublishedAt = pub.value;
     return data;
   }
 
@@ -4161,6 +4339,21 @@ input:focus, select:focus, textarea:focus {
     if (data._trafficSource) {
       const radio = document.getElementById('src_' + data._trafficSource);
       if (radio) radio.checked = true;
+    }
+    // Restore date picker dropdowns + hidden input + display
+    ['dt_month','dt_day','dt_year','dt_hour','dt_minute','dt_ampm'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el && data[id] !== undefined) el.value = data[id];
+    });
+    if (typeof dtUpdate === 'function') dtUpdate();
+    if (data._videoPublishedAt) {
+      const pub = document.getElementById('videoPublishedAt');
+      if (pub) pub.value = data._videoPublishedAt;
+      if (typeof dtSetAgeLabel === 'function') dtSetAgeLabel(data._videoPublishedAt);
+    } else if (typeof dtBuildIso === 'function') {
+      const iso = dtBuildIso();
+      const pub = document.getElementById('videoPublishedAt');
+      if (pub && iso) { pub.value = iso; if (typeof dtSetAgeLabel === 'function') dtSetAgeLabel(iso); }
     }
     // Sync sliders from text boxes
     ['ctr','ret'].forEach(sliderId => {
@@ -4246,13 +4439,12 @@ input:focus, select:focus, textarea:focus {
   }
 
     function updateViralityGoals(channelSubs, avd, totalVl) {
-    // Show healthy benchmarks next to each input
     const subs = channelSubs || 0;
     const goals = {
-      ctrGoal:  subs > 100000 ? '4–8%'  : subs > 10000 ? '5–10%' : subs > 1000 ? '6–12%' : '7–15%',
+      ctrGoal:  subs > 1000000 ? '3–6% Browse' : subs > 100000 ? '4–7% Browse' : subs > 10000 ? '4–8%' : subs > 1000 ? '5–10%' : '6–12%',
       avdGoal:  totalVl > 0 ? Math.round((totalVl / 60) * 0.5 * 10)/10 + '+ min (50%+ of video)' : '50%+ of video length',
       retGoal:  '65–80%',
-      likeGoal: subs > 100000 ? '2–4%' : '3–6%',
+      likeGoal: subs > 1000000 ? '1.5–3%' : subs > 100000 ? '2–4%' : subs > 10000 ? '2.5–5%' : '3–6%',
       cmtGoal:  subs > 100000 ? '0.3–0.8%' : '0.5–1.5%',
       velGoal:  subs > 100000 ? '500+ views/hr (0–12h)' : subs > 10000 ? '50–200/hr' : subs > 1000 ? '10–50/hr' : '2–10/hr',
       imprGoal: subs > 100000 ? '50k+ (12h)' : subs > 10000 ? '5k+ (12h)' : '500+ (12h)',
@@ -4267,14 +4459,14 @@ input:focus, select:focus, textarea:focus {
         el.style.cssText = 'font-size:10px;color:var(--text-muted);margin-top:3px;';
         parent.parentNode.appendChild(el);
       }
-      el.textContent = '✦ Healthy: ' + text;
+      el.textContent = '\u2746 Healthy: ' + text;
     };
-    setGoal('ctr',             goals.ctrGoal);
-    setGoal('retNum',          goals.retGoal);
-    setGoal('likesInput',      goals.likeGoal + ' like rate');
-    setGoal('commentsInput',   goals.cmtGoal + ' comment rate');
-    setGoal('viewVelocity',    goals.velGoal);
-    setGoal('impressionsInput',goals.imprGoal);
+    setGoal('ctr',              goals.ctrGoal);
+    setGoal('retNum',           goals.retGoal);
+    setGoal('likesInput',       goals.likeGoal + ' like rate');
+    setGoal('commentsInput',    goals.cmtGoal + ' comment rate');
+    setGoal('viewVelocity',     goals.velGoal);
+    setGoal('impressionsInput', goals.imprGoal);
   }
 
   function updateTab1() {
@@ -4287,12 +4479,17 @@ input:focus, select:focus, textarea:focus {
     const totalTw     = (twMins*60) + twSecs;
     const avd         = totalVl > 0 ? (totalTw / totalVl) * 100 : 0;
     const rawMins     = totalTw / 60;
-    const ctr         = parseFloat(document.getElementById('ctr').value)               || 0;
-    const ret         = parseFloat(document.getElementById('ret').value)               || 0;
+    // Read CTR/RET from text box first (more precise), fall back to slider
+    const _ctrEl   = document.getElementById('ctrNum') || document.getElementById('ctr');
+    const _retEl   = document.getElementById('retNum') || document.getElementById('ret');
+    const ctr      = parseFloat(_ctrEl?.value) || 0;
+    const ret      = parseFloat(_retEl?.value) || 0;
+    // Keep sliders in sync
+    if (document.getElementById('ctr'))    document.getElementById('ctr').value = ctr;
+    if (document.getElementById('ret'))    document.getElementById('ret').value = ret;
     const views       = parseFloat(document.getElementById('viewsInput').value)        || 0;
     const likes       = parseFloat(document.getElementById('likesInput')?.value)       || 0;
     const comments    = parseFloat(document.getElementById('commentsInput')?.value)    || 0;
-    const shares      = parseFloat(document.getElementById('sharesInput')?.value)      || 0;
     const velocity    = parseFloat(document.getElementById('viewVelocity')?.value)     || 0;
     const impr        = parseFloat(document.getElementById('impressionsInput')?.value) || 0;
     const channelSubs = parseFloat(document.getElementById('channelSubs')?.value)      || 0;
@@ -4310,7 +4507,6 @@ input:focus, select:focus, textarea:focus {
     const eng      = views > 0 ? (totalEng / views) * 100 : 0;
     const likeRate = views > 0 ? (likes / views) * 100 : 0;
     const commentRate = views > 0 ? (comments / views) * 100 : 0;
-    const shareRate   = 0; // Shares removed
     const subConvRate = views > 0 && subsGained > 0 ? (subsGained / views) * 100 : 0;
 
     // Sync hidden engInput for any legacy code paths
@@ -4333,11 +4529,14 @@ input:focus, select:focus, textarea:focus {
     const cb = document.getElementById('ctrBenchmark');
     if (cb) {
       if (!ctr)        cb.textContent = '';
-      else if (ctr<2)  cb.innerHTML = '<span style="color:var(--danger);">Below 2% — thumbnail/title blocking distribution.</span>';
-      else if (ctr<4)  cb.innerHTML = '<span style="color:var(--warning);">2–4% — average. Algorithm pushing but CTR not accelerating reach.</span>';
-      else if (ctr<7)  cb.innerHTML = '<span style="color:var(--success);">4–7% — strong. Browse and Suggested will actively favour this.</span>';
-      else if (ctr<12) cb.innerHTML = '<span style="color:var(--primary);">7–12% — excellent. Thumbnail competing well.</span>';
-      else             cb.innerHTML = '<span style="color:var(--accent);">12%+ — viral-tier CTR.</span>';
+      else if (ctr<1)  cb.innerHTML = '<span style="color:var(--danger);">Under 1% — thumbnail/title failing. Distribution actively blocked.</span>';
+      else if (ctr<2)  cb.innerHTML = '<span style="color:var(--danger);">1–2% — well below average. Suppressed on cold traffic.</span>';
+      else if (ctr<3)  cb.innerHTML = '<span style="color:var(--warning);">2–3% — below average on cold Browse/Suggested traffic.</span>';
+      else if (ctr<4)  cb.innerHTML = '<span style="color:var(--warning);">3–4% — approaching average. Algorithm testing but not accelerating.</span>';
+      else if (ctr<6)  cb.innerHTML = '<span style="color:var(--success);">4–6% — strong. Browse and Suggested will actively favour this video.</span>';
+      else if (ctr<9)  cb.innerHTML = '<span style="color:var(--primary);">6–9% — excellent. Top ~15% — broad distribution likely.</span>';
+      else if (ctr<14) cb.innerHTML = '<span style="color:var(--accent);">9–14% — viral-tier CTR. Top 5% of videos.</span>';
+      else             cb.innerHTML = '<span style="color:var(--secondary);">14%+ — exceptional. Usually subscriber-warmed or trending topic.</span>';
     }
 
     // ── Engagement detail display ─────────────────────────────────
@@ -4348,8 +4547,7 @@ input:focus, select:focus, textarea:focus {
       const controversyFlag = commentRate > likeRate * 2 && comments > 20;
       let detail = '';
       detail += 'Likes: <strong>' + likeRate.toFixed(2) + '%</strong>  ·  Comments: <strong>' + commentRate.toFixed(2) + '%</strong>';
-      // shares removed
-      if (subsGained > 0) detail += '  ·  Sub conversion: <strong style="color:var(--success);">' + subConvRate.toFixed(2) + '%</strong>';
+            if (subsGained > 0) detail += '  ·  Sub conversion: <strong style="color:var(--success);">' + subConvRate.toFixed(2) + '%</strong>';
       if (clickBounce) detail += '<br><span style="color:var(--danger);font-weight:700;">⚠ Click-bounce detected:</span> CTR is strong (' + ctr.toFixed(1) + '%) but hook retention is very low (' + ret + '%). Viewers are clicking your thumbnail but leaving almost immediately — your title/thumbnail is overpromising what the video delivers. This is actively penalised by the algorithm.';
       if (controversyFlag) detail += '<br><span style="color:var(--warning);font-weight:700;">⚠ Comment-heavy pattern:</span> Comment rate (' + commentRate.toFixed(2) + '%) is much higher than like rate (' + likeRate.toFixed(2) + '%). This can indicate controversy — YouTube now limits distribution of polarising content even with high engagement.';
       engDetailEl.innerHTML = '<div style="font-size:11px;color:var(--text-dim);line-height:1.8;">' + detail + '</div>';
@@ -4362,8 +4560,8 @@ input:focus, select:focus, textarea:focus {
       browse:    { text: 'Browse is the gold standard — the algorithm proactively showed this to users not searching for it. High CTR here means strong thumbnail/title performance.', color: 'var(--success)', pts: 4 },
       suggested: { text: 'Suggested means the algorithm is pairing this with other videos. Good AVD is critical here — viewers arrived from context and will leave fast if the video does not match expectations.', color: 'var(--primary)', pts: 2 },
       search:    { text: 'Search traffic is intent-driven and does not require algorithmic push. A high search share means the video is ranking for a query — valuable for long-tail but does not indicate viral potential.', color: 'var(--warning)', pts: 0 },
-      external:  { text: 'External traffic (Reddit, Twitter, blogs) does not reflect YouTube algorithmic performance. High external share can inflate views and CTR without the algorithm playing a role — remove this source when evaluating virality.', color: '#fb923c', pts: -3 },
-      subs:      { text: 'Subscriptions feed is your warmest audience. CTR here is always inflated vs cold traffic. Heavy subscriber-feed distribution means the video has not broken out to new viewers yet.', color: 'var(--accent)', pts: 1 },
+      external:  { text: 'External traffic (Reddit, Twitter, blogs) does not reflect YouTube algorithmic performance. External spikes can actually confuse the algorithm — it sees inflated CTR from a primed audience, then serves to cold YouTube users who click at a much lower rate, causing the algorithm to downgrade distribution. Exclude from virality evaluation.', color: '#fb923c', pts: -5 },
+      subs:      { text: 'Subscriptions feed is your warmest audience. CTR here is always inflated vs cold traffic. Heavy subscriber-feed distribution means the video has not broken out to new viewers yet — this is a signal the algorithm has not yet committed to a broad push.', color: 'var(--accent)', pts: -1 },
       unknown:   { text: '', color: 'var(--text-dim)', pts: 0 }
     };
     const srcData = srcNotes[trafficSrc] || srcNotes.unknown;
@@ -4579,27 +4777,44 @@ input:focus, select:focus, textarea:focus {
       // Best case: velocity holds or accelerates (strong CTR + AVD)
       // Expected: gradual natural decay (~20–30% drop)
       // Worst case: velocity stalls quickly (poor signals, no push continuation)
-      const decayFactor = (ctr >= 6 && avd >= 50) ? 0.85 : (ctr >= 4 && avd >= 40) ? 0.75 : 0.60;
-      const velBest     = velocity * 1.35;   // algorithm continues push
-      const velExpected = velocity * decayFactor;
-      const velWorst    = velocity * 0.30;   // push stops, organic tail only
+      // Scenario decay modifiers based on CTR+AVD signal quality
+      const signalStrength = (ctr >= 6 && avd >= 50) ? 'strong'
+                           : (ctr >= 4 && avd >= 40) ? 'moderate' : 'weak';
 
-      const hrsLeft48 = Math.max(0, 48 - hoursOld);
-      const hrsLeft7d = Math.max(0, 7*24 - hoursOld);
+      // Power-law decay: YouTube view velocity follows V(t) = V0 * (t0/t)^α
+      // Best case α ≈ 0.5 (algorithm sustaining), Expected α ≈ 0.8, Worst α ≈ 1.3
+      // We approximate this by applying decreasing multipliers over time windows
+      function projPowerLaw(vel, hrsAhead, alphaDecay) {
+        // Views accumulate as integral of decaying velocity
+        // Simplified: views ≈ vel * hrs * (1 / (1 + alphaDecay * hrs/24))
+        const viewsGained = vel * hrsAhead / (1 + alphaDecay * hrsAhead / 24);
+        return Math.max(baseViews, Math.round(baseViews + viewsGained));
+      }
+
+      const hrsLeft48  = Math.max(0, 48  - hoursOld);
+      const hrsLeft7d  = Math.max(0, 7*24  - hoursOld);
       const hrsLeft30d = Math.max(0, 30*24 - hoursOld);
 
-      const proj = (vel, hrs) => Math.max(baseViews, Math.round(baseViews + vel * hrs));
+      // Velocity modifiers: best case can increase if algorithm is building
+      const velBest     = velocity * (signalStrength === 'strong' ? 1.4 : signalStrength === 'moderate' ? 1.15 : 0.9);
+      const velExpected = velocity;  // current velocity as baseline
+      const velWorst    = velocity * 0.25;
+
+      // Decay rates (α): higher = faster decay
+      const alphaBest     = signalStrength === 'strong' ? 0.4 : 0.6;
+      const alphaExpected = signalStrength === 'strong' ? 0.7 : signalStrength === 'moderate' ? 0.9 : 1.1;
+      const alphaWorst    = 2.0;  // rapid stall
 
       const scenarios = [
-        { label:'📉 Worst Case',    vel:velWorst,    color:'var(--danger)',    desc:'Push stalls — mostly subscriber organic tail, no new audiences reached.' },
-        { label:'📊 Expected',      vel:velExpected, color:'var(--warning)',   desc:'Natural decay — normal velocity drop as initial push winds down.' },
-        { label:'🚀 Best Case',     vel:velBest,     color:'var(--success)',   desc:'Algorithm continues push — Browse/Suggested distribution sustains or grows.' },
+        { label:'📉 Worst Case',  vel:velWorst,    alpha:alphaWorst,    color:'var(--danger)',  desc:'Push stalls quickly — organic long-tail only. Common when AVD or CTR are weak.' },
+        { label:'📊 Expected',    vel:velExpected, alpha:alphaExpected, color:'var(--warning)', desc:'Natural power-law decay — momentum winds down normally after initial push.' },
+        { label:'🚀 Best Case',   vel:velBest,     alpha:alphaBest,     color:'var(--success)', desc:'Algorithm sustains or builds the push — Browse+Suggested hold strong.' },
       ];
 
       const rows = scenarios.map(sc => {
-        const v48  = proj(sc.vel, hrsLeft48);
-        const v7d  = proj(sc.vel * 0.5, hrsLeft7d);   // further decay over 7d
-        const v30d = proj(sc.vel * 0.2, hrsLeft30d);  // long-tail decay
+        const v48  = projPowerLaw(sc.vel, hrsLeft48,  sc.alpha);
+        const v7d  = projPowerLaw(sc.vel, hrsLeft7d,  sc.alpha + 0.3);   // extra decay 7d+
+        const v30d = projPowerLaw(sc.vel, hrsLeft30d, sc.alpha + 0.8);   // heavy long-tail decay
         return `<div style="border:1px solid ${sc.color}30;border-radius:var(--radius);padding:10px 12px;background:${sc.color}08;">
           <div style="font-size:10px;font-weight:700;color:${sc.color};text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">${sc.label}</div>
           <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;text-align:center;">
@@ -4633,13 +4848,23 @@ input:focus, select:focus, textarea:focus {
     if (velocity > 0) {
       // Thresholds per phase — what reads as strong / healthy / slow / low
       let thS, thM, thSl, thV;
-      if      (agePhase === 'seed')        { thS=300; thM=50;  thSl=8;    thV=1;    }
-      else if (agePhase === 'early')       { thS=400; thM=80;  thSl=15;   thV=3;    }
-      else if (agePhase === 'decision')    { thS=200; thM=40;  thSl=8;    thV=1.5;  }
-      else if (agePhase === 'established') { thS=50;  thM=10;  thSl=2;    thV=0.4;  }
-      else if (agePhase === 'longtail')    { thS=10;  thM=2;   thSl=0.4;  thV=0.08; }
-      else if (agePhase === 'evergreen')   { thS=5;   thM=0.8; thSl=0.15; thV=0.02; }
-      else /* no date — informational only */ { thS=500; thM=100; thSl=20; thV=5;   }
+      // Velocity thresholds scaled by channel size
+      // Larger channels naturally get more views per hour from notifications
+      // A 100K channel getting 50 views/hr is POOR; a 1K channel: EXCELLENT
+      const vScaleSub = channelSubs >= 1000000 ? 50
+                      : channelSubs >= 100000  ? 10
+                      : channelSubs >= 10000   ? 2
+                      : channelSubs >= 1000    ? 0.5
+                      : channelSubs >= 100     ? 0.15
+                      : 0.05;  // very small / no data
+      const vs = vScaleSub;  // velocity scale multiplier
+      if      (agePhase === 'seed')        { thS=200*vs; thM=30*vs;  thSl=5*vs;   thV=1*vs;    }
+      else if (agePhase === 'early')       { thS=300*vs; thM=50*vs;  thSl=10*vs;  thV=2*vs;    }
+      else if (agePhase === 'decision')    { thS=150*vs; thM=25*vs;  thSl=5*vs;   thV=1*vs;    }
+      else if (agePhase === 'established') { thS=40*vs;  thM=8*vs;   thSl=1.5*vs; thV=0.3*vs;  }
+      else if (agePhase === 'longtail')    { thS=8*vs;   thM=1.5*vs; thSl=0.3*vs; thV=0.06*vs; }
+      else if (agePhase === 'evergreen')   { thS=4*vs;   thM=0.6*vs; thSl=0.1*vs; thV=0.015*vs;}
+      else /* no date — informational only */ { thS=500; thM=100; thSl=20; thV=5; }
 
       // Penalty scale — only meaningful when age is known
       const isEarlyPhase = agePhase === 'seed' || agePhase === 'early';
@@ -4706,19 +4931,40 @@ input:focus, select:focus, textarea:focus {
 
     // ── SCORING ───────────────────────────────────────────────────
 
-    // CTR
+    // CTR scoring — S-curve matching YouTube's real distribution
+    // <1%:  Actively blocked (thumbnail/title failing hard)
+    // 1-2%: Well below average — suppressed
+    // 2-4%: Below average on cold traffic, average on warm
+    // 4-7%: Strong — Browse+Suggested will actively favour
+    // 7-10%: Excellent — top 15% of videos
+    // 10-15%: Viral-tier CTR — top 5%
+    // 15%+: Exceptional, often subscriber-warm traffic only
     let ctrPts;
-    if (ctr===0) ctrPts=0;
-    else if (ctr<1) ctrPts=-10;
-    else if (ctr<2) ctrPts=(ctr-1)*5-5;
-    else ctrPts=Math.min(35,(ctr/10)*35);
+    if      (ctr === 0)  ctrPts = 0;
+    else if (ctr < 1)    ctrPts = -12;
+    else if (ctr < 2)    ctrPts = -8 + (ctr - 1) * 4;          // -8 to -4
+    else if (ctr < 3)    ctrPts = -4 + (ctr - 2) * 6;          // -4 to +2
+    else if (ctr < 4)    ctrPts = 2  + (ctr - 3) * 8;          // 2 to 10 (avg threshold)
+    else if (ctr < 6)    ctrPts = 10 + (ctr - 4) * 7;          // 10 to 24
+    else if (ctr < 9)    ctrPts = 24 + (ctr - 6) * 3.5;        // 24 to 34.5
+    else                 ctrPts = Math.min(38, 34.5 + (ctr-9)); // 34.5 to 38 cap
 
-    // Traffic source adjustment on CTR
-    // External/subs traffic inflates CTR — reduce credit slightly
+    // CTR traffic source adjustment
+    // External/subs inflate CTR artificially — reduce credit
+    // Browse CTR is cold audience = highest quality signal
     let ctrAdjusted = ctrPts;
-    if (trafficSrc === 'external') ctrAdjusted = ctrPts * 0.6;
-    else if (trafficSrc === 'subs') ctrAdjusted = ctrPts * 0.75;
-    else if (trafficSrc === 'browse') ctrAdjusted = ctrPts * 1.1; // browse CTR is cold = more valuable
+    if      (trafficSrc === 'external')  ctrAdjusted = ctrPts * 0.5;  // heavily discounted
+    else if (trafficSrc === 'subs')      ctrAdjusted = ctrPts * 0.65; // warm audience inflation
+    else if (trafficSrc === 'search')    ctrAdjusted = ctrPts * 0.85; // intent-driven, slightly discounted
+    else if (trafficSrc === 'browse')    ctrAdjusted = ctrPts * 1.15; // cold browse = highest quality
+    else if (trafficSrc === 'suggested') ctrAdjusted = ctrPts * 1.0;  // baseline
+
+    // AVD traffic source adjustment
+    // Suggested viewers have MORE context than Browse — lower AVD is expected
+    // and therefore penalised more harshly when it's low on Suggested
+    const avdTrafficMult = trafficSrc === 'suggested' ? 1.1  // penalise low AVD more on Suggested
+                         : trafficSrc === 'external'  ? 0.7  // AVD from external audience is less meaningful
+                         : 1.0;
 
     // AVD
     const avdRatio = targetAvd > 0 ? avd / targetAvd : 0;
@@ -4730,10 +4976,17 @@ input:focus, select:focus, textarea:focus {
 
     // Retention curve bonus/penalty
     let retCurvePts = 0;
-    if (midRet > 0 && avd > 0) {
-      // Healthy curve: mid-retention should be roughly between AVD and hook
-      if (midRet > avd + 10) retCurvePts += 3; // holds up well in the middle
-      else if (midRet < avd - 15) retCurvePts -= 4; // sharp mid-drop despite ok AVD
+    if (midRet > 0) {
+      // Healthy retention curve: hook (ret) is highest, then decays to ~avd by mid
+      // midRet should ideally be ≥ avd (flat curve) and close to avd (not a cliff)
+      // If midRet ≥ avd: curve is flat/healthy — good
+      // If midRet < avd - 10: sharp cliff after hook — bad
+      // If midRet < avd - 20: very sharp cliff — very bad
+      if      (midRet >= avd + 5)  retCurvePts += 3;  // unusually strong mid — great
+      else if (midRet >= avd - 5)  retCurvePts += 1;  // flat curve — healthy
+      else if (midRet < avd - 20)  retCurvePts -= 5;  // severe cliff drop
+      else if (midRet < avd - 10)  retCurvePts -= 3;  // notable mid-drop
+      // Also compare midRet to hook: if mid is much higher than hook, data may be wrong
     }
     if (endRet > 25) retCurvePts += 2;
     if (rewatchRate > 5) retCurvePts += 3;
@@ -4741,58 +4994,105 @@ input:focus, select:focus, textarea:focus {
     if (cardCtr > 5) retCurvePts += 2;
     retCurvePts = Math.max(-6, Math.min(8, retCurvePts));
 
-    // Hook
+    // Hook retention (first 30 seconds % retained)
+    // YouTube benchmarks: 40-50% average, 60-70% good, 75%+ excellent
+    // Below 30% = title/thumbnail mismatch, 30-40% = poor pacing or weak hook
     let retPts = 0;
     if (!hookExcluded && ret > 0) {
       const autoExclude = hoursOld !== null && hoursOld < 12;
       const retWeight = autoExclude ? 0 : hoursOld !== null && hoursOld < 24 ? 0.5 : 1.0;
       if (retWeight > 0) {
-        if      (ret<35) retPts=((ret-35)/35)*10*retWeight;
-        else if (ret<55) retPts=0;
-        else if (ret<75) retPts=((ret-55)/20)*10*retWeight;
-        else             retPts=Math.min(15,10+((ret-75)/25)*5)*retWeight;
+        if      (ret < 25)  retPts = ((ret - 25) / 25) * 12 * retWeight;   // -12 to 0
+        else if (ret < 40)  retPts = 0;                                     // poor but neutral
+        else if (ret < 55)  retPts = ((ret - 40) / 15) * 5 * retWeight;    // 0 to 5
+        else if (ret < 70)  retPts = (5 + ((ret - 55) / 15) * 5) * retWeight; // 5 to 10
+        else                retPts = Math.min(15, (10 + ((ret - 70) / 30) * 5)) * retWeight; // 10 to 15
       }
     }
 
-    // Click-bounce penalty: high CTR + very low hook = misleading thumbnail
-    const clickBouncePenalty = (ctr >= 4 && ret > 0 && ret < 25 && !hookExcluded) ? -8 : 0;
+    // Click-bounce: strong CTR but very poor hook = title/thumbnail overpromise
+    // Real signal: CTR > 6% with ret < 22% is a strong mismatch indicator
+    // CTR 4-6% with ret < 20% is moderate concern
+    const clickBouncePenalty = (ctr > 0 && ret > 0 && !hookExcluded)
+      ? (ctr >= 6 && ret < 22 ? -10 : ctr >= 4 && ret < 20 ? -5 : 0)
+      : 0;
 
-    // Engagement
-    let engPts;
-    const controversyFlag = commentRate > likeRate * 2 && comments > 20;
-    if (eng===0)       engPts=0;
-    else if (eng<0.5)  engPts=-3;
-    else if (eng<1.5)  engPts=0;
-    else if (eng<3)    engPts=5;
-    else if (eng<6)    engPts=8;
-    else               engPts=10;
-    if (controversyFlag) engPts = Math.max(engPts - 5, -5); // controversy reduces eng value
+    // Engagement — YouTube weights like rate most, comment rate second
+    // Benchmark like rates: <0.5% poor, 0.5-1.5% below avg, 2-4% strong, 4%+ exceptional
+    // Benchmark comment rates: 0.1-0.3% typical, 0.5%+ strong, 1%+ exceptional
+    const controversyFlag = commentRate > likeRate * 2.5 && comments > 30;
+    let likePts = 0;
+    if      (likeRate === 0)   likePts = 0;
+    else if (likeRate < 0.5)   likePts = -2;
+    else if (likeRate < 1.5)   likePts = 0;
+    else if (likeRate < 2.5)   likePts = 3;
+    else if (likeRate < 4)     likePts = 5;
+    else if (likeRate < 6)     likePts = 7;
+    else                       likePts = 9;
 
-    const sharesPts = 0; // Shares removed
+    let commentPts = 0;
+    if      (commentRate === 0)  commentPts = 0;
+    else if (commentRate < 0.1)  commentPts = 0;
+    else if (commentRate < 0.3)  commentPts = 1;
+    else if (commentRate < 0.7)  commentPts = 2;
+    else if (commentRate < 1.5)  commentPts = 3;
+    else                         commentPts = 4;
 
-    // Sub conversion bonus
+    let engPts = likePts + commentPts;
+    // Controversy penalty: high comment-to-like ratio signals divisive content
+    // YouTube's classifier reduces distribution on polarising content
+    if (controversyFlag) engPts = Math.max(engPts - 6, -4);
+    engPts = Math.max(-4, Math.min(13, engPts));
+
+
+    // Sub conversion — channel growth signal (YouTube rewards long-term, not viral push)
+    // Reduced weight: sub conversion tells you the video builds your channel,
+    // not necessarily that the algorithm will push it harder to new audiences.
     let subConvPts = 0;
-    if (subConvRate > 3)   subConvPts = 6;
-    else if (subConvRate > 1) subConvPts = 3;
+    if (subConvRate > 3)    subConvPts = 3;
+    else if (subConvRate > 1) subConvPts = 2;
     else if (subConvRate > 0.3) subConvPts = 1;
 
-    // Channel context modifier
+    // Channel context — contextual modifier, not a primary viral signal
+    // Uses the STRONGER of: views-per-sub ratio OR vs-channel-average ratio
+    // (not additive — both measure the same underlying thing: outperformance)
     let channelCtxPts = 0;
+    let vpsScore = 0, vsAvgScore = 0;
     if (channelSubs > 0 && views > 0) {
       const vps = views / channelSubs;
-      if      (vps > 2)   channelCtxPts = 5;
-      else if (vps > 1)   channelCtxPts = 3;
-      else if (vps > 0.3) channelCtxPts = 0;
-      else if (vps > 0.1) channelCtxPts = -3;
-      else                channelCtxPts = -6;
+      if      (vps > 2)   vpsScore = 4;
+      else if (vps > 1)   vpsScore = 2;
+      else if (vps > 0.3) vpsScore = 0;
+      else if (vps > 0.1) vpsScore = -2;
+      else                vpsScore = -5;
     }
     if (avgViews > 0 && views > 0) {
       const vsAvg = views / avgViews;
-      if      (vsAvg > 3)   channelCtxPts += 5;
-      else if (vsAvg > 1.5) channelCtxPts += 3;
-      else if (vsAvg < 0.5) channelCtxPts -= 3;
+      if      (vsAvg > 3)   vsAvgScore = 4;
+      else if (vsAvg > 1.5) vsAvgScore = 2;
+      else if (vsAvg > 0.8) vsAvgScore = 0;
+      else if (vsAvg < 0.4) vsAvgScore = -3;
+      else                  vsAvgScore = -1;
     }
-    channelCtxPts = Math.max(-8, Math.min(8, channelCtxPts));
+    // Use the stronger signal (or average if both present)
+    if (channelSubs > 0 && avgViews > 0) {
+      channelCtxPts = Math.round((vpsScore + vsAvgScore) / 2);
+    } else {
+      channelCtxPts = vpsScore || vsAvgScore;
+    }
+    channelCtxPts = Math.max(-5, Math.min(5, channelCtxPts));
+
+    // Non-subscriber view % — one of the strongest algorithmic push signals
+    // YouTube shows this explicitly in Studio as a key distribution indicator
+    // High non-sub % means the algorithm is actively serving to new audiences
+    let nonSubPts = 0;
+    if (nonSubViewPct > 0) {
+      if      (nonSubViewPct >= 80) nonSubPts = 7;   // exceptional — algorithm-driven
+      else if (nonSubViewPct >= 65) nonSubPts = 5;   // strong push to new audiences
+      else if (nonSubViewPct >= 50) nonSubPts = 3;   // breaking beyond subscriber base
+      else if (nonSubViewPct >= 35) nonSubPts = 1;   // modest non-sub reach
+      else if (nonSubViewPct < 20)  nonSubPts = -2;  // trapped in subscriber feed
+    }
 
     // Impressions
     let imprPts = 0, imprNote = '', imprColor = 'var(--text-dim)';
@@ -4902,7 +5202,7 @@ input:focus, select:focus, textarea:focus {
     function isVeryEarly_flag() { return agePhase === 'seed' || agePhase === 'early'; }
 
     // Age modifier
-    let rawScore = (ctrAdjusted + avdPts + retPts + retCurvePts + engPts + sharesPts + subConvPts + channelCtxPts + imprPts + trafficPts + clickBouncePenalty) * ageModifier;
+    let rawScore = (ctrAdjusted + avdPts + retPts + retCurvePts + engPts + subConvPts + channelCtxPts + nonSubPts + imprPts + trafficPts + clickBouncePenalty) * ageModifier;
 
     // Velocity: apply penalty, then phase-appropriate caps
     // No date = no penalty, no cap (already handled by penalty=0 above)
@@ -5010,30 +5310,51 @@ input:focus, select:focus, textarea:focus {
     else if (total<90) {r='Viral Potential'; c=css.getPropertyValue('--secondary').trim();}
     else               {r='Viral Breakout';  c=css.getPropertyValue('--accent').trim();}
 
-    if      (agePhase==='seed'&&total>=45)     d='Promising seed-phase score, but wait 12–24h before drawing conclusions. CTR from subscribers is inflated.';
-    else if (agePhase==='early'&&total>=50)    d='Strong early signals. The real test is 24–48h when the algorithm makes its push decision.';
-    else if (agePhase==='decision') {
-      if      (total>=60) d='Strong in the decision window. Algorithm very likely to sustain or scale distribution. Watch velocity over the next 24h.';
-      else if (total>=40) d='Moderate in the decision window. Limited distribution likely — broad push unlikely without metric improvement.';
-      else                d='Weak signals in the decision window. Algorithm is likely wrapping up its push. Focus on the next video.';
-    } else if (agePhase==='established') {
-      if      (total>=60) d='Still performing well for its age. Continued Suggested and Browse placements are likely.';
-      else if (total>=40) d='Decent retention. Algorithm still occasionally surfacing it — main push has passed.';
-      else                d='Push has ended. Video entering long-tail mode — normal at this age.';
-    } else if (agePhase==='longtail') {
-      if (total>=50)      d='Good for long-tail. CTR and AVD at this level mean periodic re-promotion via Search and Suggested.';
-      else                d='Typical long-tail territory — primarily search-driven. Normal for most videos at this age.';
-    } else if (agePhase==='evergreen') {
-      if (total>=50)      d='Strong evergreen. YouTube still considers this a quality recommendation alongside newer content.';
-      else                d='Evergreen long-tail. Algorithmic window has closed — any views are from Search or incidental Suggested.';
+    // Descriptions exactly match the six label bands (same thresholds: 25/45/60/75/90)
+    // Each phase adds context on top of the base description.
+    // Base description comes first — always aligned with the label shown.
+    if (total < 25) {
+      d = 'Core signals are blocking distribution. The algorithm is not pushing this video. CTR is the highest-leverage fix — if CTR is over 4%, focus on AVD next.';
+    } else if (total < 45) {
+      d = 'Some signals present but below the thresholds that trigger algorithmic push. The video is reaching existing subscribers but not breaking out to new audiences yet.';
+    } else if (total < 60) {
+      d = 'Passing key thresholds — the algorithm is testing this video beyond your subscriber base. A modest push is underway. Strong CTR or AVD improvement could accelerate it.';
+    } else if (total < 75) {
+      d = 'Above-average signals across the board. The algorithm is actively distributing this video to new audiences via Browse and Suggested. Maintain posting cadence to capitalise.';
+    } else if (total < 90) {
+      d = 'Exceptional signals. The algorithm is running a broad push across Browse Features and Suggested. This video is competing in the top tier of your niche.';
     } else {
-      if      (total<20) d='Core signals actively blocking distribution. CTR is the highest-leverage fix.';
-      else if (total<38) d='Below average — not scaling beyond initial audience.';
-      else if (total<54) d='Decent signals — reaching your niche but not triggering a broad push.';
-      else if (total<68) d='All signals healthy. Algorithm expanding reach beyond subscribers.';
-      else if (total<83) d='Excellent signals — broad push likely. Videos break out here.';
-      else               d='Exceptional. Very few videos reach this range.';
+      d = 'All signals firing at elite level. Wide algorithmic distribution — Browse, Suggested, and Search are all contributing. Very few videos reach this range.';
     }
+
+    // Phase-specific context appended after the base description
+    if (agePhase === 'seed') {
+      if (total >= 75)    d += ' However, seed-phase scores are inflated by warm subscriber CTR — wait 12–24h for a reliable reading.';
+      else if (total >= 45) d += ' Seed-phase scores carry a modifier — subscriber CTR inflates early numbers. The 12–24h mark will give a clearer picture.';
+      else                d += ' Early signals are weak, but the seed window is still open. Strong CTR and AVD in the next few hours can still trigger a push.';
+    } else if (agePhase === 'early') {
+      if (total >= 60)    d += ' Strong early signal. The real decision point is 24–48h when the algorithm commits to sustained or reduced distribution.';
+      else if (total >= 45) d += ' Decent early reading. AVD is the most predictive signal at this stage — monitor it closely.';
+      else                d += ' Weak early signals. The algorithm may still push if CTR or AVD improve, but the window is narrowing.';
+    } else if (agePhase === 'decision') {
+      if (total >= 75)    d += ' In the decision window, this score strongly indicates the algorithm will sustain or scale distribution over the next 24h.';
+      else if (total >= 60) d += ' Solid position in the decision window. Continued velocity above threshold should sustain the push.';
+      else if (total >= 45) d += ' Borderline in the decision window. The algorithm may plateau without a CTR or AVD improvement.';
+      else                d += ' Weak position in the decision window. The algorithm is likely reducing distribution. Focus on the next video.';
+    } else if (agePhase === 'established') {
+      if (total >= 75)    d += ' Exceptionally strong for a video at this age — continued Browse and Suggested placement is very likely.';
+      else if (total >= 60) d += ' Still performing well past the initial push window. Occasional re-surfacing via Suggested is likely.';
+      else if (total >= 45) d += ' The main push has passed. Video is settling into normal decay — this is expected at this age.';
+      else                d += ' Push has ended. Video entering long-tail mode. Normal for most videos after the first week.';
+    } else if (agePhase === 'longtail') {
+      if (total >= 60)    d += ' Unusually strong for long-tail — periodic re-promotion via Search and Suggested is likely. Strong evergreen candidate.';
+      else if (total >= 45) d += ' Healthy long-tail. CTR and AVD quality at this level earn periodic re-surfacing via Search.';
+      else                d += ' Typical long-tail territory. Primarily search-driven — low velocity is completely normal at this age.';
+    } else if (agePhase === 'evergreen') {
+      if (total >= 60)    d += ' Strong evergreen performance. YouTube is still pairing this alongside newer content via Suggested.';
+      else                d += ' Algorithmic push window has closed. Any remaining views are from Search or incidental Suggested pairings.';
+    }
+    // No date entered: base description alone is used (already accurate to label)
 
     document.getElementById('ratingText').innerText = r;
     document.getElementById('ratingText').style.cssText = 'background:'+c+'22;color:'+c+';border:1px solid '+c+';display:inline-block;padding:6px 20px;border-radius:20px;font-size:14px;font-weight:700;margin-bottom:10px;';
@@ -5059,6 +5380,7 @@ input:focus, select:focus, textarea:focus {
     if (subConvPts>0) bd+='<div><span>Sub conversion ('+subConvRate.toFixed(2)+'%):</span><span style="color:'+pos+';">+'+subConvPts+' / 6</span></div>';
     if (channelCtxPts!==0) bd+='<div><span>Channel context:</span><span style="color:'+(channelCtxPts<0?neg:pos)+'">'+(channelCtxPts>=0?'+':'')+channelCtxPts+'</span></div>';
     if (trafficPts!==0) bd+='<div><span>Traffic source ('+trafficSrc+'):</span><span style="color:'+(trafficPts<0?neg:pos)+'">'+(trafficPts>=0?'+':'')+trafficPts+'</span></div>';
+    if (nonSubPts!==0) bd+='<div><span>Non-sub reach ('+nonSubViewPct+'%):</span><span style="color:'+(nonSubPts<0?neg:pos)+'">'+(nonSubPts>=0?'+':'')+nonSubPts+' / 7</span></div>';
     if (impr>0) bd+='<div><span>Impression reach:</span><span style="color:'+(imprPts<0?neg:pos)+'">'+(imprPts>=0?'+':'')+imprPts+' / 6</span></div>';
     if (ageModifier<1) bd+='<div><span>Seed phase adjustment:</span><span style="color:var(--warning);">×'+ageModifier.toFixed(2)+'</span></div>';
     if (agePenalty>0) bd+='<div><span>Age penalty:</span><span style="color:'+neg+';">−'+agePenalty+'</span></div>';
@@ -5078,7 +5400,6 @@ input:focus, select:focus, textarea:focus {
     updateYTSubProjection();
   }
 
-  /* ─── Tab2: Algorithm Tracker ─── */
   function updateTab2() {
     const vlMins = parseInt(document.getElementById('t2_vlMins').value)||0;
     const baseAvd = getAvdTarget(vlMins);
@@ -5984,82 +6305,171 @@ input:focus, select:focus, textarea:focus {
   }
 
   /* ─── Publishing Hub ─── */
-  function calculateUploadTime() {
-    const f = document.getElementById('u_format').value;
-    const n = document.getElementById('u_niche').value;
-    const tz = document.getElementById('u_tz').value;
-    const freq = parseInt(document.getElementById('u_freq').value)||3;
-    const age = document.getElementById('u_age') ? document.getElementById('u_age').value : 'any';
-    const geo = document.getElementById('u_geo') ? document.getElementById('u_geo').value : 'us';
-    const chsize = document.getElementById('u_chsize') ? document.getElementById('u_chsize').value : 'mid';
-    const vidlen = document.getElementById('u_vidlen') ? document.getElementById('u_vidlen').value : 'medium';
+  
+  function updatePublishChecklist(platform) {
+    const before_el = document.getElementById('pubChecklist_before');
+    const after_el  = document.getElementById('pubChecklist_after');
+    if (!before_el || !after_el) return;
 
-    const tzUTCOffsets = {
-      HST: -10, AKST: -9, PST: -8, MST: -7, CST: -6, EST: -5,
-      AST: -4, BRT: -3, GST: -2, CVT: -1, GMT: 0, CET: 1, EET: 2,
-      MSK: 3, GST4: 4, PKT: 5, IST: 5.5, BST6: 6, ICT: 7, CST8: 8,
-      JST: 9, AEST: 10, SBT: 11, NZST: 12
+    const checklists = {
+      yt_long: {
+        before: ['☐ Thumbnail A/B tested (use Title/Thumbnail Checker)','☐ Title has a number, emotion, or power word','☐ First 30 seconds reviewed — hook is strong','☐ End screen and cards set up','☐ Description with timestamps and relevant links','☐ Tags set (15–20 relevant tags)','☐ Subtitles / CC added (boosts watch time ~10%)'],
+        after:  ['☐ Community Post linking to video (within 30 min)','☐ Story / Reel teaser posted','☐ Pin video in comments section','☐ Share to relevant Discord / Reddit / Facebook groups','☐ Reply to first 10–15 comments within 1 hour','☐ Check Studio for flagging or copyright issues']
+      },
+      yt_short: {
+        before: ['☐ First 1–2 seconds are the hook — no intro','☐ Vertical 9:16 format verified','☐ Captions / text overlays for muted viewing','☐ Loop ending considered (last frame → first frame)','☐ Hashtag #Shorts included in title or description','☐ Thumbnail set (optional for Shorts but helps in Search)'],
+        after:  ['☐ Share to Community tab immediately','☐ Share clip to Instagram Reels / TikTok if repurposing','☐ Reply to early comments within 30 min','☐ Check if it appears in the Shorts shelf (can take 10–30 min)','☐ Post a second Short within 24 hrs to maintain cadence']
+      },
+      tiktok: {
+        before: ['☐ First 1–3 seconds have a visual or audio hook','☐ Caption written with CTA (follow / duet / comment)','☐ 3–5 relevant hashtags added (mix niche + broad)','☐ Trending sound selected (if applicable)','☐ Loop ending reviewed — last frame connects to first','☐ Captions / subtitles added for muted viewing'],
+        after:  ['☐ Reply to every comment in first hour (boosts video in FYP)','☐ Share to Instagram Stories as a cross-post','☐ Duet / Stitch with a trending video in niche (optional)','☐ Check For You Page performance after 30 min','☐ If <500 views in 2 hrs, consider re-posting at a different time']
+      },
+      reels: {
+        before: ['☐ Vertical 9:16 format, no black bars','☐ Cover frame set (custom still, not auto-generated)','☐ First 1–2 seconds are the hook — no slow intros','☐ Caption includes CTA: "save this" / "share with a friend"','☐ 3–5 hashtags added (niche-specific, not mega-tags)','☐ Audio: original voice-over has captions added'],
+        after:  ['☐ Share to Stories immediately (2nd distribution wave)','☐ Share to Close Friends Story if applicable','☐ Reply to early comments within 30 min','☐ Check Insights after 1 hr — watch reach vs follower ratio','☐ If Reels is underperforming, re-share to Stories with a teaser hook']
+      },
+      linkedin: {
+        before: ['☐ First 2 lines of text are the hook (visible before "see more")','☐ Video uploaded natively (NOT as a link post)','☐ No external links in the post body — put URL in first comment','☐ Tag 1–3 relevant connections (not spamming)','☐ Subtitles added — 80%+ of LinkedIn video watched muted'],
+        after:  ['☐ Post your link as the first comment immediately after publishing','☐ Reply to every comment within 2 hrs (LinkedIn rewards dwell time)','☐ Share to relevant LinkedIn Groups','☐ DM 3–5 connections who would genuinely find it useful','☐ Check reach at 24 hrs — LinkedIn content peaks at 18–24 hr mark']
+      },
+      twitter: {
+        before: ['☐ Tweet copy is hook + context (not just a title re-paste)','☐ Video is under 2:20 (Twitter/X native limit)','☐ If thread: first tweet stands alone as a complete thought','☐ Pinning strategy decided — pin for 24–48 hrs if expecting virality'],
+        after:  ['☐ Engage with replies within 30 min (retweet velocity matters)','☐ If thread: reply #2 posted within 10 min','☐ Bookmark and quote-tweet from secondary account (if available)','☐ Share to relevant Spaces or communities','☐ Check impressions at 2 hr mark — Twitter content has 2–4 hr half-life']
+      }
     };
-    const hDiff = (tzUTCOffsets[tz] ?? -5) - (-5);
 
-    function shiftTime(timeStr, hrs) {
-      const match = timeStr.match(/(\d+):(\d+)\s*(AM|PM)/);
-      if (!match) return timeStr;
-      let h = parseInt(match[1]); const m = match[2]; let period = match[3];
-      if (period==='PM' && h!==12) h+=12;
-      if (period==='AM' && h===12) h=0;
-      h = ((h+hrs)%24+24)%24;
-      return `${h%12===0?12:h%12}:${m} ${h>=12?'PM':'AM'}`;
+    const cl = checklists[platform] || checklists.yt_long;
+    before_el.innerHTML = cl.before.map(i => `<div>${i}</div>`).join('');
+    after_el.innerHTML  = cl.after.map(i  => `<div>${i}</div>`).join('');
+  }
+
+  function calculateUploadTime() {
+    const f      = document.getElementById('u_format').value;
+    const n      = document.getElementById('u_niche').value;
+    const tz     = document.getElementById('u_tz').value;
+    const freq   = parseInt(document.getElementById('u_freq').value) || 3;
+    const age    = document.getElementById('u_age')?.value    || 'any';
+    const geo    = document.getElementById('u_geo')?.value    || 'us';
+    const chsize = document.getElementById('u_chsize')?.value || 'mid';
+    const vidlen = document.getElementById('u_vidlen')?.value || 'medium';
+
+    // ── Show / hide platform extra panels ─────────────────────────
+    const platforms = ['yt','tt','ig','li','tw'];
+    const activeExtras = { yt_long:'yt', yt_short:'yt', tiktok:'tt', reels:'ig', linkedin:'li', twitter:'tw' };
+    const activePlat = activeExtras[f] || 'yt';
+    platforms.forEach(p => {
+      const el = document.getElementById('pub_' + p + '_extras');
+      if (el) el.style.display = activePlat === p ? '' : 'none';
+    });
+    // Show/hide vidlen (only relevant for YT long-form and Reels)
+    const vidlenBox = document.getElementById('u_vidlen')?.closest('.input-box');
+    if (vidlenBox) vidlenBox.style.display = (f === 'yt_long' || f === 'reels') ? '' : 'none';
+
+    // ── UTC offset map ─────────────────────────────────────────────
+    const tzOff = { HST:-10, AKST:-9, PST:-8, MST:-7, CST:-6, EST:-5, BRT:-3, GMT:0, CET:1, EET:2, MSK:3, IST:5.5, CST8:8, JST:9, AEST:10, NZST:12 };
+    const hDiff = (tzOff[tz] ?? -5) - (-5);  // offset from EST baseline
+    function shiftTime(t, hrs) {
+      const m = t.match(/(\d+):(\d+)\s*(AM|PM)/);
+      if (!m) return t;
+      let h = parseInt(m[1]); const mn = m[2]; let p = m[3];
+      if (p==='PM' && h!==12) h+=12;
+      if (p==='AM' && h===12) h=0;
+      h = ((h + hrs) % 24 + 24) % 24;
+      return `${h%12===0?12:h%12}:${mn} ${h>=12?'PM':'AM'}`;
     }
 
-    // Extended niche data — 10 niches, 4 slots each
+    // ── Niche × platform timing data ──────────────────────────────
+    // Each niche has long-form YT slots + per-platform short slots
     const nicheData = {
-      gaming:       { slots:[{l:'Primary',t:'4:00 PM'},{l:'Alt 1',t:'7:00 PM'},{l:'Alt 2',t:'9:00 AM'},{l:'Late Night',t:'9:00 PM'}], peak:'6:00 PM', days:['Tuesday','Thursday','Saturday','Sunday','Monday','Wednesday','Friday'], logic:'Gaming audiences spike after school/work (3–9 PM). Thursday–Sunday evenings dominate. Teen/young adult demographic peaks on weekends.' },
-      finance:      { slots:[{l:'Primary',t:'6:30 AM'},{l:'Alt 1',t:'8:00 AM'},{l:'Lunch',t:'12:00 PM'},{l:'Evening',t:'7:00 PM'}], peak:'8:00 AM', days:['Tuesday','Wednesday','Thursday','Monday','Friday','Saturday','Sunday'], logic:'Finance viewers engage during morning commute. Tuesday–Thursday dominate. Early AM uploads capture pre-market traders.' },
-      vlogs:        { slots:[{l:'Primary',t:'3:00 PM'},{l:'Alt 1',t:'5:30 PM'},{l:'Alt 2',t:'11:00 AM'},{l:'Evening',t:'8:00 PM'}], peak:'5:00 PM', days:['Wednesday','Friday','Sunday','Tuesday','Thursday','Monday','Saturday'], logic:'Lifestyle peaks at prime time. Wednesday and Friday capture end-of-week browsing surges. Sunday morning is strong for long-form.' },
-      tech:         { slots:[{l:'Primary',t:'12:00 PM'},{l:'Alt 1',t:'2:00 PM'},{l:'Morning',t:'8:00 AM'},{l:'Evening',t:'6:00 PM'}], peak:'2:00 PM', days:['Tuesday','Thursday','Wednesday','Monday','Friday','Saturday','Sunday'], logic:'Tech audiences peak during lunch and early afternoon. Tuesday and Thursday have highest CTR for this niche.' },
-      collectibles: { slots:[{l:'Primary',t:'2:00 PM'},{l:'Alt 1',t:'4:30 PM'},{l:'Alt 2',t:'7:00 PM'},{l:'Morning',t:'10:00 AM'}], peak:'4:00 PM', days:['Saturday','Sunday','Friday','Wednesday','Thursday','Tuesday','Monday'], logic:'Hobby audiences most active on weekends and Friday evenings. Saturday afternoon is the top window.' },
-      fitness:      { slots:[{l:'Primary',t:'6:00 AM'},{l:'Lunch',t:'12:00 PM'},{l:'Alt 1',t:'5:00 PM'},{l:'Evening',t:'7:30 PM'}], peak:'6:00 AM', days:['Monday','Wednesday','Friday','Tuesday','Thursday','Saturday','Sunday'], logic:'Fitness audiences watch during morning workout time and lunch. Monday is #1 — people restart routines. Post-work evening is strong.' },
-      food:         { slots:[{l:'Brunch',t:'11:00 AM'},{l:'Primary',t:'5:00 PM'},{l:'Dinner Prep',t:'6:30 PM'},{l:'Morning',t:'9:00 AM'}], peak:'11:00 AM', days:['Sunday','Thursday','Wednesday','Friday','Saturday','Tuesday','Monday'], logic:'Food content peaks before meal times — brunch and dinner prep windows. Sunday and Thursday are highest engagement days.' },
-      beauty:       { slots:[{l:'Primary',t:'3:00 PM'},{l:'Alt 1',t:'7:00 PM'},{l:'Morning',t:'10:00 AM'},{l:'Weekend',t:'11:00 AM'}], peak:'5:00 PM', days:['Wednesday','Friday','Saturday','Sunday','Tuesday','Thursday','Monday'], logic:'Beauty audiences active after school/work. Weekday afternoons and Saturday mornings perform best.' },
-      news:         { slots:[{l:'AM',t:'7:30 AM'},{l:'Lunch',t:'12:00 PM'},{l:'Evening',t:'5:00 PM'},{l:'Late',t:'9:00 PM'}], peak:'8:00 AM', days:['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'], logic:'News audiences check in at morning, lunch, and after work. Publish ASAP for breaking news. Weekdays dominate.' },
-      kids:         { slots:[{l:'After School',t:'2:30 PM'},{l:'Morning',t:'9:00 AM'},{l:'Alt 1',t:'5:30 PM'},{l:'Weekend AM',t:'8:30 AM'}], peak:'3:30 PM', days:['Saturday','Sunday','Friday','Monday','Wednesday','Tuesday','Thursday'], logic:'Kids content peaks after school and on weekend mornings. Saturday is #1. Parents often pre-load content.' }
+      gaming:       { slots:[{l:'Prime',t:'4:00 PM'},{l:'Alt',t:'7:00 PM'},{l:'Morning',t:'10:00 AM'},{l:'Late',t:'9:00 PM'}],   peak:'6:00 PM', days:['Thursday','Saturday','Sunday','Friday','Tuesday','Wednesday','Monday'],    logic:'Gaming peaks after school/work (3–9 PM). Thu–Sun evenings dominate. Weekend afternoons are #1 for discovery.' },
+      finance:      { slots:[{l:'Prime',t:'6:30 AM'},{l:'Alt',t:'8:00 AM'},{l:'Lunch',t:'12:00 PM'},{l:'Evening',t:'7:00 PM'}],  peak:'8:00 AM', days:['Tuesday','Wednesday','Thursday','Monday','Friday','Sunday','Saturday'],    logic:'Finance viewers engage on morning commute. Tue–Thu lead in CTR. Pre-market uploads (6–8 AM) capture high-intent viewers.' },
+      vlogs:        { slots:[{l:'Prime',t:'3:00 PM'},{l:'Alt',t:'5:30 PM'},{l:'Mid',t:'11:00 AM'},{l:'Evening',t:'8:00 PM'}],    peak:'5:00 PM', days:['Wednesday','Friday','Sunday','Tuesday','Thursday','Monday','Saturday'],    logic:'Lifestyle peaks at prime time. Wed/Fri drive end-of-week browsing. Sunday mid-morning is strong for longer vlogs.' },
+      tech:         { slots:[{l:'Lunch',t:'12:00 PM'},{l:'Prime',t:'2:00 PM'},{l:'Morning',t:'8:00 AM'},{l:'Evening',t:'6:00 PM'}], peak:'2:00 PM', days:['Tuesday','Thursday','Wednesday','Monday','Friday','Saturday','Sunday'], logic:'Tech peaks lunch and early afternoon. Tue/Thu deliver highest CTR in this niche. Avoid weekends for announcements.' },
+      collectibles: { slots:[{l:'Prime',t:'2:00 PM'},{l:'Alt',t:'4:30 PM'},{l:'Evening',t:'7:00 PM'},{l:'Morning',t:'10:00 AM'}], peak:'4:00 PM', days:['Saturday','Sunday','Friday','Wednesday','Thursday','Tuesday','Monday'],   logic:'Hobby audiences dominate weekends and Friday evenings. Saturday 2–5 PM is the top discovery window.' },
+      fitness:      { slots:[{l:'AM Prime',t:'6:00 AM'},{l:'Lunch',t:'12:00 PM'},{l:'Alt',t:'5:00 PM'},{l:'Evening',t:'7:30 PM'}], peak:'6:00 AM', days:['Monday','Wednesday','Friday','Tuesday','Thursday','Saturday','Sunday'],  logic:'Fitness peaks at morning workout and lunch. Monday is #1 — new-week motivation spike. Post-work 5–7 PM is strong.' },
+      food:         { slots:[{l:'Brunch',t:'11:00 AM'},{l:'Prime',t:'5:00 PM'},{l:'Dinner',t:'6:30 PM'},{l:'Morning',t:'9:00 AM'}], peak:'11:00 AM', days:['Sunday','Thursday','Wednesday','Friday','Saturday','Tuesday','Monday'], logic:'Food content spikes before meal times. Sunday brunch and weeknight dinner-prep (5–7 PM) are highest-engagement windows.' },
+      beauty:       { slots:[{l:'Prime',t:'3:00 PM'},{l:'Evening',t:'7:00 PM'},{l:'Morning',t:'10:00 AM'},{l:'Weekend',t:'11:00 AM'}], peak:'5:00 PM', days:['Wednesday','Friday','Saturday','Sunday','Tuesday','Thursday','Monday'], logic:'Beauty peaks post-school/work. Weekday afternoons and Saturday mornings drive the highest saves and shares.' },
+      news:         { slots:[{l:'AM',t:'7:30 AM'},{l:'Lunch',t:'12:00 PM'},{l:'Evening',t:'5:00 PM'},{l:'Late',t:'9:00 PM'}],    peak:'8:00 AM', days:['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'],    logic:'News audiences engage at morning (7–9 AM), lunch, and post-work. Weekdays dominate. Publish ASAP for breaking content.' },
+      kids:         { slots:[{l:'After School',t:'2:30 PM'},{l:'Morning',t:'9:00 AM'},{l:'Alt',t:'5:30 PM'},{l:'Weekend AM',t:'8:30 AM'}], peak:'3:30 PM', days:['Saturday','Sunday','Friday','Monday','Wednesday','Tuesday','Thursday'], logic:'Kids peaks after school and weekend mornings. Saturday is #1. Parents frequently pre-load content for the week.' }
     };
 
-    // Short-form platform-specific slots
-    const shortSlots = {
-      yt_short: [{l:'Primary',t:'12:00 PM'},{l:'Alt 1',t:'6:00 PM'},{l:'Morning',t:'9:00 AM'},{l:'Night',t:'9:00 PM'}],
-      tiktok:   [{l:'Evening',t:'7:00 PM'},{l:'Peak Night',t:'9:00 PM'},{l:'Lunch',t:'12:00 PM'},{l:'Morning',t:'10:00 AM'}],
-      reels:    [{l:'Morning',t:'8:00 AM'},{l:'Primary',t:'11:00 AM'},{l:'Prime Time',t:'7:00 PM'},{l:'Late Eve',t:'9:30 PM'}],
-      linkedin: [{l:'Early AM',t:'7:30 AM'},{l:'Morning',t:'9:00 AM'},{l:'Lunch',t:'12:00 PM'},{l:'PM',t:'5:00 PM'}],
-      twitter:  [{l:'Morning',t:'8:00 AM'},{l:'Lunch',t:'12:00 PM'},{l:'Evening',t:'5:30 PM'},{l:'Night',t:'9:00 PM'}]
+    // Platform-specific short-form slots (override niche when short-form is selected)
+    const platformSlots = {
+      yt_short: { slots:[{l:'Midday',t:'12:00 PM'},{l:'Evening',t:'6:00 PM'},{l:'Morning',t:'9:00 AM'},{l:'Night',t:'9:00 PM'}],    logic:'YouTube Shorts are pushed via the Shorts shelf and Home feed. Midday and evening see the largest browse sessions. Post consistently — daily posting accelerates shelf presence.' },
+      tiktok:   { slots:[{l:'Prime',t:'7:00 PM'},{l:'Late Eve',t:'9:00 PM'},{l:'Lunch',t:'12:00 PM'},{l:'Morning',t:'10:00 AM'}],   logic:'TikTok\'s For You Page is time-agnostic but initial batch testing happens within 30–60 min of posting. Evening (7–10 PM) delivers highest initial engagement velocity. Posting 3–5× daily accelerates FYP exposure.' },
+      reels:    { slots:[{l:'Morning',t:'8:00 AM'},{l:'Brunch',t:'11:00 AM'},{l:'Prime Eve',t:'7:00 PM'},{l:'Night',t:'9:30 PM'}],  logic:'Instagram Reels reach peaks mid-morning and evening. Cover frame quality matters as much as timing. Share to Stories immediately after posting for a 2nd distribution wave.' },
+      linkedin: { slots:[{l:'Early AM',t:'7:30 AM'},{l:'Morning',t:'9:00 AM'},{l:'Lunch',t:'12:00 PM'},{l:'PM',t:'5:00 PM'}],       logic:'LinkedIn engagement peaks on business days during commute and work hours. Tuesday–Thursday 7–10 AM is the prime window. Avoid weekends — reach drops by 60%+.' },
+      twitter:  { slots:[{l:'Morning',t:'8:00 AM'},{l:'Lunch',t:'12:00 PM'},{l:'Evening',t:'5:30 PM'},{l:'Night',t:'9:00 PM'}],     logic:'Twitter/X content has a very short half-life (2–4 hrs). Post at peak browse windows and be ready to engage immediately. A thread or reply chain in the first hour drives virality.' }
     };
 
-    const isShort = ['yt_short','tiktok','reels','linkedin','twitter'].includes(f);
+    const isShortPlatform = f !== 'yt_long';
     const nd = nicheData[n] || nicheData.vlogs;
-    const baseSlots = isShort ? (shortSlots[f] || shortSlots.tiktok) : nd.slots;
-    const adjusted = baseSlots.map(s => ({...s, t: shiftTime(s.t, hDiff)}));
-    const tzLabel = tz.replace(/\d/g,'');
+    const pd = platformSlots[f];
+    const baseSlots = isShortPlatform ? (pd?.slots || nd.slots) : nd.slots;
+    const baseLogic = isShortPlatform ? (pd?.logic || nd.logic) : nd.logic;
+    const adjusted  = baseSlots.map(s => ({...s, t: shiftTime(s.t, hDiff)}));
+    const tzLabel   = tz.replace(/\d/g,'');
 
-    // Audience profile adjustments
+    // ── Platform-specific extra input advice ──────────────────────
+    const ytPremiere = document.getElementById('u_yt_premiere')?.value || 'direct';
+    const ytCommunity = document.getElementById('u_yt_community')?.value || 'yes';
+    const ttLoop    = document.getElementById('u_tt_loop')?.value     || 'strong';
+    const ttSound   = document.getElementById('u_tt_sound')?.value    || 'original';
+    const igStory   = document.getElementById('u_ig_story')?.value    || 'yes';
+    const igCaption = document.getElementById('u_ig_caption')?.value  || 'cta';
+    const liComment = document.getElementById('u_li_comment')?.value  || 'yes';
+    const liHook    = document.getElementById('u_li_hook')?.value     || 'yes';
+    const twThread  = document.getElementById('u_tw_thread')?.value   || 'no';
+    const twPin     = document.getElementById('u_tw_pin')?.value      || 'no';
+    const twCross   = document.getElementById('u_tw_cross')?.value    || 'stagger';
+
+    // Build extra advice based on platform inputs
+    let platformAdvice = '';
+    if (f === 'yt_long' || f === 'yt_short') {
+      const premNote  = ytPremiere === 'premiere' ? '🎬 <strong>Premiere:</strong> Schedule 1–2 hours ahead of your target window. The waiting room builds initial subscriber engagement before the view count clock starts.' : '';
+      const commNote  = ytCommunity === 'yes'     ? '📣 <strong>Community Post:</strong> Fire within 30 min of publish — this drives notification clicks which boost CTR signals in the first hour.' : '';
+      const lenNote   = vidlen === 'vlong'        ? '⏱ <strong>30+ min video:</strong> Publish 3–4 hours before peak — indexing and notification delivery takes longer for longer content.' :
+                        vidlen === 'long'         ? '⏱ <strong>15–30 min video:</strong> Publish 2 hours before your audience\'s peak active window.' :
+                        f === 'yt_short'          ? '⚡ <strong>Shorts:</strong> Post during the peak window — first 30 min determine batch expansion size.' : '⏱ Publish 1.5–2 hours before peak for notification delivery.';
+      platformAdvice = [premNote, commNote, lenNote].filter(Boolean).join('<br>');
+    } else if (f === 'tiktok') {
+      const loopNote  = ttLoop === 'strong' ? '🔁 <strong>Loop hook:</strong> Great — TikTok heavily rewards completion and loop rate. Your first and last frames should connect.' : ttLoop === 'none' ? '⚠️ <strong>No loop:</strong> Consider ending with a visual or audio cue that encourages replays — loop rate is a key FYP signal.' : '';
+      const soundNote = ttSound === 'yes'   ? '🎵 <strong>Trending audio:</strong> This can 2–5× FYP distribution. Post within the trend\'s first 3–5 days for maximum benefit.' : '🎤 <strong>Original audio:</strong> Focus on strong visual hook in the first 2s. Captions help retention for voice-only content.';
+      platformAdvice = [loopNote, soundNote].filter(Boolean).join('<br>');
+    } else if (f === 'reels') {
+      const storyNote   = igStory === 'yes'    ? '📲 <strong>Stories share:</strong> Post to Stories immediately — triggers a 2nd distribution wave to non-feed followers.' :
+                          igStory === 'delay'  ? '📲 <strong>Delayed Stories share:</strong> 1–2 hr gap creates a second engagement spike. Good strategy for reactivating cold audience.' : '';
+      const captionNote = igCaption === 'cta'  ? '💬 <strong>CTA caption:</strong> "Save this" and "Share with a friend" drive the save/share signals that boost Explore reach.' :
+                          igCaption === 'story' ? '📝 <strong>Story caption:</strong> Only the first 2 lines show before "more" — make them the hook. Instagram rewards long captions for saves.' : '';
+      platformAdvice = [storyNote, captionNote].filter(Boolean).join('<br>');
+    } else if (f === 'linkedin') {
+      const commNote  = liComment === 'yes' ? '💡 <strong>First-comment link:</strong> LinkedIn suppresses reach for posts with external links in the body. Put your URL in the first comment — this is now standard practice.' : '';
+      const hookNote  = liHook === 'yes'    ? '✍️ <strong>Text hook:</strong> The first 2 lines before "see more" are critical. Strong hook = more dwell time = more reach.' : '⚠️ <strong>No text hook:</strong> LinkedIn native video auto-plays muted — your text hook above the video is the primary click driver.';
+      platformAdvice = [commNote, hookNote].filter(Boolean).join('<br>');
+    } else if (f === 'twitter') {
+      const threadNote = twThread === 'yes' ? '🧵 <strong>Thread:</strong> Tweet threads get 2–3× more engagement than single tweets. Reply #2 should provide value, not just continuation.' : '';
+      const pinNote    = twPin    === 'yes' ? '📌 <strong>Pinned tweet:</strong> Pin for 24–48 hrs to maximise profile-visit conversions during the viral window.' : '';
+      const crossNote  = twCross  === 'stagger' ? '⏳ <strong>Staggered cross-posts:</strong> 30+ min between platforms avoids duplicate-content penalties and creates multiple engagement spikes.' :
+                         twCross  === 'yes'     ? '⚠️ <strong>Simultaneous cross-post:</strong> Can dilute engagement signals. Staggering by 30+ min is generally better.' : '';
+      platformAdvice = [threadNote, pinNote, crossNote].filter(Boolean).join('<br>');
+    }
+
+    // ── Audience profile notes ─────────────────────────────────────
     const notes = [];
-    if (age==='u18')    notes.push('Under-18 audience: favour after-school (3–6 PM) and weekend mornings.');
-    if (age==='45plus') notes.push('45+ audience: morning (7–10 AM) and evening (7–9 PM) outperform afternoon slots.');
-    if (age==='25-34')  notes.push('25–34 audience: lunch breaks (11 AM–1 PM) and post-work evenings (6–9 PM) are peak.');
-    if (geo==='eu')     notes.push('European audience: add 5–6 hours — morning uploads here hit European prime time.');
-    if (geo==='asia')   notes.push('Asia Pacific: 13–16 hr offset from EST. Evening here = morning there.');
-    if (chsize==='new') notes.push('New channel: prioritise consistency over perfect timing — volume helps the algorithm learn your pattern.');
-    if (chsize==='large') notes.push('Large channel: your notification subscribers matter most — publish at their active window.');
-    if (vidlen==='vlong') notes.push('30+ min video: publish 3–4 hours before peak — longer indexing window needed.');
+    if (age === 'u18')    notes.push('Under-18 audience: favour after-school (3–6 PM) and weekend mornings.');
+    if (age === '45plus') notes.push('45+ audience: morning (7–10 AM) and evening (7–9 PM) outperform afternoon slots.');
+    if (age === '25-34')  notes.push('25–34: lunch breaks (11 AM–1 PM) and post-work evenings (6–9 PM) are peak.');
+    if (geo === 'eu')     notes.push('European audience: add 5–6 hours to EST baseline — morning uploads here hit EU prime time.');
+    if (geo === 'asia')   notes.push('Asia Pacific: 13–16 hr offset from EST. Evening here = morning there.');
+    if (chsize === 'new') notes.push('New channel: consistency over perfect timing — volume trains the algorithm\'s pattern recognition.');
+    if (chsize === 'large') notes.push('Large channel: your notification subscribers are primary. Publish at their active window.');
 
     const contextNote = notes.length ? '<br><br>📌 <strong style="color:var(--secondary);">Audience adjustments:</strong> ' + notes.join(' ') : '';
-    const formatNote = isShort
-      ? `<br><br><strong style="color:var(--primary);">Short-Form Logic:</strong> Post <em>during</em> the peak window — the first 30–60 minutes determine batch expansion.`
-      : `<br><br><strong style="color:var(--primary);">Long-Form Logic:</strong> Post 2 hours <em>before</em> peak so YouTube's indexing and notification delivery complete before your audience's active session.`;
+    const platformAdviceHTML = platformAdvice ? `<br><br>⚙️ <strong style="color:var(--accent);">Platform inputs:</strong><br>${platformAdvice}` : '';
 
-    document.getElementById('u_logic').innerHTML = nd.logic + contextNote + formatNote;
+    document.getElementById('u_logic').innerHTML = baseLogic + contextNote + platformAdviceHTML;
 
-    // Render multi-slot cards
+    // ── Render slot cards ─────────────────────────────────────────
     const slotsEl = document.getElementById('u_publish_slots');
     if (slotsEl) {
       slotsEl.innerHTML = adjusted.map((s,i) => `
@@ -6070,38 +6480,43 @@ input:focus, select:focus, textarea:focus {
         </div>`).join('');
     }
 
+    // ── Render weekly schedule grid ────────────────────────────────
     const days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
     const publishDays = nd.days.slice(0, freq);
     const primaryTime = adjusted[0]?.t || '';
     document.getElementById('u_schedule_grid').innerHTML = days.map(day => {
       const isPub = publishDays.includes(day);
       return `<div style="border-radius:10px;padding:14px 10px;text-align:center;font-size:12px;font-weight:700;
-        background:${isPub?'var(--accent-dim)':'var(--card)'};
-        color:${isPub?'var(--accent)':'var(--text-dim)'};
+        background:${isPub?'var(--accent-dim)':'var(--card)'};color:${isPub?'var(--accent)':'var(--text-dim)'};
         border:${isPub?'1px solid var(--accent)':'1px solid var(--border)'};
-        box-shadow:${isPub?'0 0 16px rgba(191,95,255,0.15)':'none'};
-        font-family:var(--font-sans);">
-        <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;opacity:0.7;font-family:var(--font-mono);">${day.substring(0,3)}</div>
+        box-shadow:${isPub?'0 0 16px rgba(191,95,255,0.15)':'none'};font-family:var(--font-sans);">
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;opacity:0.7;">${day.substring(0,3)}</div>
         <div style="font-size:18px;margin-bottom:5px;">${isPub?'🎬':'—'}</div>
         <div style="letter-spacing:1px;">${isPub?'PUBLISH':'Rest'}</div>
-        ${isPub?`<div style="font-size:10px;margin-top:5px;opacity:0.8;font-family:var(--font-mono);">${primaryTime}</div>`:''}
-      </div>`;
+        ${isPub?`<div style="font-size:10px;margin-top:5px;opacity:0.8;">${primaryTime}</div>`:''}</div>`;
     }).join('');
 
-    const nLabel = n.charAt(0).toUpperCase()+n.slice(1);
+    // ── Render insights panel ──────────────────────────────────────
+    const isShortForm = isShortPlatform;
+    const platformName = {yt_long:'YouTube',yt_short:'YouTube Shorts',tiktok:'TikTok',reels:'Instagram Reels',linkedin:'LinkedIn',twitter:'Twitter/X'}[f] || f;
+    const nLabel = n.charAt(0).toUpperCase() + n.slice(1);
+
     document.getElementById('u_insights').innerHTML = `
       <div class="control-card" style="margin:0;border-top:3px solid var(--danger);">
-        <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--danger);margin-bottom:8px;font-family:var(--font-mono);letter-spacing:1px;">📊 Consistency Signal</div>
-        <p style="margin:0;font-size:13px;color:var(--text);">YouTube models your upload cadence. A <strong>predictable schedule</strong> trains subscriber notifications and helps the algorithm forecast your next video's performance window.</p>
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--danger);margin-bottom:8px;">📊 Consistency Signal</div>
+        <p style="margin:0;font-size:13px;color:var(--text);">${isShortForm ? `${platformName} rewards posting frequency. A <strong>predictable daily or near-daily schedule</strong> trains the algorithm's distribution patterns far more than occasional viral posts.` : `YouTube models your upload cadence. A <strong>predictable schedule</strong> trains subscriber notifications and helps the algorithm forecast your next video's performance window.`}</p>
       </div>
       <div class="control-card" style="margin:0;border-top:3px solid var(--secondary);">
-        <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--secondary);margin-bottom:8px;font-family:var(--font-mono);letter-spacing:1px;">⚡ ${isShort?'First 60 Minutes':'First 48 Hours'}</div>
-        <p style="margin:0;font-size:13px;color:var(--text);">${isShort?'Short-form platforms batch-test within the <strong>first hour</strong>. Share to Stories and DMs immediately after posting.':'YouTube evaluates momentum during the <strong>first 48 hours</strong>. Schedule cross-posts and Community Posts to fire within the first few hours.'}</p>
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--secondary);margin-bottom:8px;">⚡ First ${isShortForm?'60 Minutes':'48 Hours'}</div>
+        <p style="margin:0;font-size:13px;color:var(--text);">${isShortForm ? `${platformName} batch-tests content in the <strong>first 30–60 minutes</strong>. Share to Stories / DMs / community immediately. Early engagement signals determine distribution tier.` : `YouTube evaluates momentum during the <strong>first 48 hours</strong>. Schedule Community Posts and cross-shares to fire within the first few hours to amplify the initial push.`}</p>
       </div>
       <div class="control-card" style="margin:0;border-top:3px solid var(--primary);">
-        <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--primary);margin-bottom:8px;font-family:var(--font-mono);letter-spacing:1px;">📅 Best Days for ${nLabel}</div>
-        <p style="margin:0;font-size:13px;color:var(--text);">Audience activity ranking: <strong style="color:var(--primary);">${nd.days.slice(0,4).join(' › ')}</strong>. Reserve highest-production uploads for top 1–2 days.</p>
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--primary);margin-bottom:8px;">📅 Best Days for ${nLabel} on ${platformName}</div>
+        <p style="margin:0;font-size:13px;color:var(--text);">Audience activity ranking: <strong style="color:var(--primary);">${nd.days.slice(0,4).join(' › ')}</strong>. Reserve highest-production uploads for your top 1–2 days.</p>
       </div>`;
+
+    // ── Update platform-specific checklist ─────────────────────────
+    updatePublishChecklist(f);
   }
 
   /* ─── Account Info ─── */
@@ -6178,7 +6593,7 @@ input:focus, select:focus, textarea:focus {
     document.getElementById('ytDropdownBtn').innerText = text + ' ▼';
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.getElementById('ytDropdownBtn').classList.add('active');
-    document.getElementById('ytDropdownMenu').classList.remove('open');
+    // Don't close the menu — let mouseleave handle that (matches Creator Tools behaviour)
   }
   function openTab(evt, tabName) {
     document.querySelectorAll('.tabcontent').forEach(t => t.style.display='none');
@@ -6730,6 +7145,31 @@ input:focus, select:focus, textarea:focus {
       const p = b.dataset.plat;
       if (p) b.classList.toggle('active', activePlatforms.includes(p));
     });
+    // Hide/show sections within tabs based on active platforms
+    const hasYT  = activePlatforms.includes('youtube');
+    const hasTT  = activePlatforms.includes('tiktok');
+    const hasIG  = activePlatforms.includes('instagram');
+    const hasTW  = activePlatforms.includes('twitch');
+    // YouTube-only sections
+    ['sv_vid_tracker','sv_t2_inputs','sv_t2_tier','sv_t2_benchmarks',
+     'sv_tab_ab_setup','sv_tab_ab_results','sv_tab_ab_history','sv_tab_ab_tip',
+     'sv_cp_t1','sv_cp_t2','sv_cp_t3','sv_cp_income',
+     'sv_cmp_lookup','sv_cmp_manual','sv_cmp_results'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.classList.toggle('sv-hidden', !hasYT);
+    });
+    // TikTok-only panel
+    const ttPanel = document.getElementById('sv_soc_tt_panel');
+    if (ttPanel) ttPanel.classList.toggle('sv-hidden', !hasTT);
+    // Instagram-only panel
+    const igPanel = document.getElementById('sv_soc_ig_panel');
+    if (igPanel) igPanel.classList.toggle('sv-hidden', !hasIG);
+    // Social switcher: only if at least one social platform active
+    const socSwitch = document.getElementById('sv_soc_switcher');
+    if (socSwitch) socSwitch.classList.toggle('sv-hidden', !hasTT && !hasIG);
+    // Live tracker add form: only if YT or Twitch
+    const liveAdd = document.getElementById('sv_live_add');
+    if (liveAdd) liveAdd.classList.toggle('sv-hidden', !hasYT && !hasTW);
   }
 
   // ── Render pickers ──
@@ -6861,7 +7301,7 @@ input:focus, select:focus, textarea:focus {
   ═══════════════════════════════════════════════ */
   liveTrackers = [];
   liveTimerInterval = null;
-  liveCountdown = 10;
+  liveCountdown = 20;
 
   function lst_platformChanged() {
     const plat = document.getElementById('lst_platform')?.value;
@@ -6915,7 +7355,7 @@ input:focus, select:focus, textarea:focus {
           const cj = await cr.json();
           if (!cj.items?.length) throw new Error('Could not resolve channel');
           const item = cj.items[0];
-          liveTrackers.push({ platform, handle, name: item.snippet.title, count: parseInt(item.statistics.subscriberCount)||0, prevCount: parseInt(item.statistics.subscriberCount)||0, apiKey, id: Date.now() });
+          liveTrackers.push({ platform, handle, name: item.snippet.title, count: parseInt(item.statistics.subscriberCount)||0, prevCount: parseInt(item.statistics.subscriberCount)||0, viewCount: parseInt(item.statistics.viewCount)||0, prevViewCount: parseInt(item.statistics.viewCount)||0, trackViews: false, apiKey, channelId: item.id, id: Date.now() });
         } else {
           const item = data.items[0];
           liveTrackers.push({ platform, handle, name: item.snippet.title, count: parseInt(item.statistics.subscriberCount)||0, prevCount: parseInt(item.statistics.subscriberCount)||0, apiKey, id: Date.now() });
@@ -6983,6 +7423,10 @@ input:focus, select:focus, textarea:focus {
         <div class="live-count">${t.count !== null ? t.count.toLocaleString() : '…'}</div>
         ${delta !== null && delta !== 0 ? `<div class="live-delta" style="color:${dColor};">${dStr} since last check</div>` : '<div style="height:18px;"></div>'}
         <div class="live-timer" id="lt_timer_${t.id}">Next refresh in ${liveCountdown}s</div>
+        ${t.platform==='youtube'?`<div style="display:flex;align-items:center;gap:6px;margin-top:8px;font-size:11px;color:var(--text-dim);cursor:pointer;" onclick="toggleTrackViews(${t.id})">
+          <input type="checkbox" ${t.trackViews?'checked':''} style="margin:0;cursor:pointer;" onclick="event.stopPropagation();toggleTrackViews(${t.id})"> Track total video views
+        </div>
+        ${t.trackViews?`<div style="margin-top:4px;"><div style="font-size:11px;color:var(--text-dim);">Total Views</div><div style="font-size:22px;font-weight:800;color:var(--secondary);">${t.viewCount!==undefined?t.viewCount.toLocaleString():'…'}</div>${(t.viewCount!==undefined&&t.prevViewCount!==undefined&&t.viewCount-t.prevViewCount!==0)?`<div style="font-size:11px;color:${t.viewCount-t.prevViewCount>0?'var(--success)':'var(--danger)'};">${t.viewCount-t.prevViewCount>0?'+':''}${(t.viewCount-t.prevViewCount).toLocaleString()} since last check</div>`:''}</div>`:''}`:''}
         <div style="display:flex;gap:6px;margin-top:10px;">
           <button onclick="popoutTracker(${t.id})" style="flex:1;background:var(--primary-dim);color:var(--primary);border:1px solid var(--primary);border-radius:6px;padding:3px 10px;cursor:pointer;font-size:11px;">⤢ Pop Out</button>
           <button onclick="removeLiveTracker(${t.id})" style="flex:1;background:var(--danger-dim);color:var(--danger);border:1px solid var(--danger);border-radius:6px;padding:3px 10px;cursor:pointer;font-size:11px;">Remove</button>
@@ -6997,29 +7441,37 @@ input:focus, select:focus, textarea:focus {
     if (!t) return;
     const pc = t.platform === 'youtube' ? '#ff4444' : '#9146ff';
     const platLabel = t.platform === 'youtube' ? '▶ YouTube' : '🎮 Twitch';
-    const html = `<!DOCTYPE html><html><head><title>${t.name} — Live Subs</title>
+    const showViews = t.platform === 'youtube' && t.trackViews;
+    const html = `<!DOCTYPE html><html><head><title>${t.name} — Live Tracker</title>
       <meta name="viewport" content="width=device-width,initial-scale=1">
       <style>
         *{margin:0;padding:0;box-sizing:border-box;}
         body{background:#0f0f13;color:#f1f5f9;font-family:system-ui,sans-serif;
              display:flex;flex-direction:column;align-items:center;justify-content:center;
-             min-height:100vh;text-align:center;padding:24px;}
+             min-height:100vh;text-align:center;padding:24px;gap:0;}
         .plat{font-size:13px;font-weight:700;color:${pc};letter-spacing:1px;margin-bottom:6px;}
-        .name{font-size:18px;font-weight:700;margin-bottom:16px;color:#f8fafc;}
-        .count{font-size:56px;font-weight:900;color:#f8fafc;letter-spacing:-2px;line-height:1;}
-        .delta{font-size:14px;margin-top:8px;min-height:20px;}
-        .timer{font-size:11px;color:#94a3b8;margin-top:12px;}
+        .name{font-size:18px;font-weight:700;margin-bottom:12px;color:#f8fafc;}
+        .label{font-size:10px;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;}
+        .count{font-size:52px;font-weight:900;color:#f8fafc;letter-spacing:-2px;line-height:1;}
+        .view-count{font-size:32px;font-weight:800;color:#a78bfa;letter-spacing:-1px;line-height:1;margin-top:16px;}
+        .delta{font-size:13px;margin-top:4px;min-height:18px;}
+        .timer{font-size:11px;color:#94a3b8;margin-top:14px;}
         .pulse{width:10px;height:10px;background:${pc};border-radius:50%;
                animation:pulse 1.5s ease-in-out infinite;display:inline-block;margin-right:6px;}
         @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(1.4);}}
       </style></head><body>
       <div class="plat"><span class="pulse"></span>${platLabel}</div>
       <div class="name">${t.name}</div>
+      <div class="label">Subscribers</div>
       <div class="count" id="pc_count">${t.count !== null ? t.count.toLocaleString() : '…'}</div>
       <div class="delta" id="pc_delta"></div>
+      ${showViews ? `<div class="label" style="margin-top:14px;">Total Video Views</div>
+      <div class="view-count" id="pc_views">${t.viewCount !== undefined ? t.viewCount.toLocaleString() : '…'}</div>
+      <div class="delta" id="pc_vdelta"></div>` : ''}
       <div class="timer" id="pc_timer">Updating…</div>
-      <script>
-        let prev = ${t.count !== null ? t.count : 'null'};
+      <scr` + `ipt>
+        let prevSubs = ${t.count !== null ? t.count : 'null'};
+        let prevViews = ${t.viewCount !== undefined ? t.viewCount : 'null'};
         let countdown = 20;
         function tick() {
           document.getElementById('pc_timer').textContent = 'Next refresh in ' + countdown + 's';
@@ -7027,29 +7479,46 @@ input:focus, select:focus, textarea:focus {
         }
         async function refresh() {
           try {
-            const url = '${t.platform === 'youtube' ? `https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${t.channelId}&key=` + (t.apiKey||'') : ''}';
-            if (!url || url.endsWith('=')) { countdown=30; return; }
-            const r = await fetch(url);
+            const apiKey = '${t.apiKey || ''}';
+            if (!apiKey) { countdown=20; return; }
+            const channelId = '${t.channelId || t.handle || ''}';
+            const param = channelId.startsWith('UC') ? 'id=' + encodeURIComponent(channelId) : 'forHandle=' + encodeURIComponent(channelId.startsWith('@')?channelId:'@'+channelId);
+            const r = await fetch('https://www.googleapis.com/youtube/v3/channels?part=statistics&' + param + '&key=' + apiKey);
             const d = await r.json();
-            const n = parseInt(d?.items?.[0]?.statistics?.subscriberCount || '0');
-            if (n) {
-              const el = document.getElementById('pc_count');
-              const de = document.getElementById('pc_delta');
-              const diff = prev !== null ? n - prev : 0;
-              el.textContent = n.toLocaleString();
-              de.textContent = diff !== 0 ? (diff > 0 ? '+' : '') + diff.toLocaleString() + ' since last check' : '';
-              de.style.color = diff > 0 ? '#4ade80' : diff < 0 ? '#f87171' : '#94a3b8';
-              prev = n;
+            const stats = d?.items?.[0]?.statistics;
+            if (!stats) { countdown=20; return; }
+            const subs = parseInt(stats.subscriberCount||0);
+            const views = parseInt(stats.viewCount||0);
+            const el = document.getElementById('pc_count');
+            const de = document.getElementById('pc_delta');
+            if (el && subs) {
+              const diff = prevSubs !== null ? subs - prevSubs : 0;
+              el.textContent = subs.toLocaleString();
+              if (de) { de.textContent = diff !== 0 ? (diff>0?'+':'')+diff.toLocaleString()+' since last check' : ''; de.style.color = diff>0?'#4ade80':diff<0?'#f87171':'#94a3b8'; }
+              prevSubs = subs;
+            }
+            const ve = document.getElementById('pc_views');
+            const vd = document.getElementById('pc_vdelta');
+            if (ve && views) {
+              const vdiff = prevViews !== null ? views - prevViews : 0;
+              ve.textContent = views.toLocaleString();
+              if (vd) { vd.textContent = vdiff !== 0 ? (vdiff>0?'+':'')+vdiff.toLocaleString()+' since last check' : ''; vd.style.color = vdiff>0?'#a78bfa':'#94a3b8'; }
+              prevViews = views;
             }
           } catch(e) {}
-          countdown = 30;
+          countdown = 20;
         }
         setInterval(tick, 1000);
       </scr` + `ipt></body></html>`;
-    const w = window.open('', '_blank', 'width=320,height=320,resizable=yes,menubar=no,toolbar=no,location=no,status=no');
+    const w = window.open('', '_blank', 'width=340,height=' + (showViews ? 420 : 320) + ',resizable=yes,menubar=no,toolbar=no,location=no,status=no');
     if (w) { w.document.open(); w.document.write(html); w.document.close(); }
   }
 
+  
+  function toggleTrackViews(id) {
+    const t = liveTrackers.find(x => x.id === id);
+    if (t) { t.trackViews = !t.trackViews; renderLiveCards(); }
+  }
     function removeLiveTracker(id) {
     liveTrackers = liveTrackers.filter(t => t.id !== id);
     renderLiveCards();
@@ -7063,7 +7532,7 @@ input:focus, select:focus, textarea:focus {
   }
 
   async function lstRefreshNow() {
-    liveCountdown = 10;
+    liveCountdown = 20;
     await doLiveRefresh();
   }
 
@@ -7078,6 +7547,8 @@ input:focus, select:focus, textarea:focus {
           if (j.error || !j.items?.length) continue;
           t.prevCount = t.count;
           t.count = parseInt(j.items[0].statistics.subscriberCount) || t.count;
+          t.prevViewCount = t.viewCount || 0;
+          t.viewCount = parseInt(j.items[0].statistics.viewCount) || t.viewCount || 0;
         } else if (t.platform === 'twitch') {
           const r = await fetch(`https://api.twitch.tv/helix/channels/followers?broadcaster_id=${t.userId}`, {
             headers: { 'Client-ID': t.clientId, 'Authorization': `Bearer ${t.token}` }
@@ -7094,7 +7565,7 @@ input:focus, select:focus, textarea:focus {
 
   function startLiveTimer() {
     if (liveTimerInterval) return;
-    liveCountdown = 10;
+    liveCountdown = 20;
     const dot = document.getElementById('lst_dot');
     const txt = document.getElementById('lst_status_text');
     const nxt = document.getElementById('lst_next_refresh');
@@ -7109,7 +7580,7 @@ input:focus, select:focus, textarea:focus {
         if (el) el.textContent = `Next refresh in ${liveCountdown}s`;
       });
       if (liveCountdown <= 0) {
-        liveCountdown = 10;
+        liveCountdown = 20;
         doLiveRefresh();
       }
     }, 1000);
@@ -8425,7 +8896,10 @@ input:focus, select:focus, textarea:focus {
     const tz     = document.getElementById('sch_tz')?.value     || 'us_east';
     const niche  = document.getElementById('sch_niche')?.value  || 'entertainment';
     const freq   = parseInt(document.getElementById('sch_freq')?.value)  || 1;
-    const format = document.getElementById('sch_format')?.value || 'longform';
+    const formatFromPub = document.getElementById('u_format')?.value;
+    const format = document.getElementById('sch_format')?.value ||
+      (formatFromPub === 'yt_short' || formatFromPub === 'tiktok' || formatFromPub === 'reels' ? 'shorts' :
+       formatFromPub === 'linkedin' || formatFromPub === 'twitter' ? 'longform' : 'longform');
     const el     = document.getElementById('sch_result');
     if (!el) return;
 
@@ -9003,7 +9477,7 @@ function refreshAdminStats() {
      SECTION VISIBILITY SYSTEM
   ═══════════════════════════════════════════════════════ */
 
-  const SV_ALL_IDS = ['sv_fluff', 'sv_t1_pubhub', 'sv_t1_avd', 'sv_t1_ctr', 'sv_t1_hook', 'sv_t1_engagement', 'sv_t1_channel', 'sv_t1_ret_detail', 'sv_t1_stall', 'sv_t1_score', 'sv_t1_breakdown', 'sv_t1_insight', 'sv_t1_algo', 'sv_t2_inputs', 'sv_t2_tier', 'sv_t2_benchmarks', 'sv_t3_quickentry', 'sv_t3_eta', 'sv_t3_detailed', 'sv_t3_summary', 'sv_t3_planner', 'sv_t4_lf', 'sv_t4_shorts', 'sv_t4_bench', 'sv_t4_roi', 'sv_soc_switcher', 'sv_soc_tt_panel', 'sv_soc_ig_panel', 'sv_t7_inputs', 'sv_t7_schedule_type', 'sv_t7_schedule_result', 'sv_t7_windows', 'sv_t7_checklist', 'sv_t7_optimizer', 'sv_cp_t1', 'sv_cp_t2', 'sv_cp_t3', 'sv_cp_income', 'sv_vid_tracker', 'sv_tab_ab_setup', 'sv_tab_ab_results', 'sv_tab_ab_history', 'sv_tab_ab_tip', 'sv_cmp_lookup', 'sv_cmp_manual', 'sv_cmp_results', 'sv_live_add', 'sv_hook_inputs', 'sv_hook_results', 'sv_hook_tip', 'sv_seo_t1', 'sv_seo_t2', 'sv_rc_inputs', 'sv_rc_guide', 'sv_es_inputs', 'sv_es_cards', 'sv_es_rules', 'sv_seo_t1_res', 'sv_seo_t2_res', 'sv_soc_tt_bands', 'sv_soc_ig_bands', 'sv_soc_tt_score', 'sv_soc_tt_tiers', 'sv_soc_tt_proj', 'sv_soc_ig_score', 'sv_soc_ig_tiers', 'sv_soc_ig_proj'];
+  const SV_ALL_IDS = ['sv_fluff', 'sv_t1_pubhub', 'sv_t1_avd', 'sv_t1_ctr', 'sv_t1_hook', 'sv_t1_engagement', 'sv_t1_channel', 'sv_t1_ret_detail', 'sv_t1_stall', 'sv_t1_score', 'sv_t1_breakdown', 'sv_t1_insight', 'sv_t1_algo', 'sv_t2_inputs', 'sv_t2_tier', 'sv_t2_benchmarks', 'sv_t3_quickentry', 'sv_t3_eta', 'sv_t3_detailed', 'sv_t3_summary', 'sv_t3_planner', 'sv_t4_lf', 'sv_t4_shorts', 'sv_t4_bench', 'sv_t4_roi', 'sv_soc_switcher', 'sv_soc_tt_panel', 'sv_soc_ig_panel', 'sv_t7_inputs', 'sv_t7_schedule_type', 'sv_t7_schedule_result', 'sv_t7_windows', 'sv_t7_checklist', 'sv_t7_optimizer', 'sv_cp_t1', 'sv_cp_t2', 'sv_cp_t3', 'sv_cp_income', 'sv_vid_tracker', 'sv_tab_ab_setup', 'sv_tab_ab_results', 'sv_tab_ab_history', 'sv_tab_ab_tip', 'sv_cmp_lookup', 'sv_cmp_manual', 'sv_cmp_results', 'sv_live_add', 'sv_hook_inputs', 'sv_hook_results', 'sv_hook_tip', 'sv_seo_t1', 'sv_seo_t2', 'sv_rc_inputs', 'sv_rc_guide', 'sv_es_inputs', 'sv_es_cards', 'sv_es_rules', 'sv_seo_t1_res', 'sv_seo_t2_res', 'sv_soc_tt_bands', 'sv_soc_ig_bands', 'sv_soc_tt_score', 'sv_soc_tt_tiers', 'sv_soc_tt_proj', 'sv_soc_ig_score', 'sv_soc_ig_tiers', 'sv_soc_ig_proj', 'sv_t1_vp_bar', 'sv_t3_progress'];
 
   function svInit() {
     // Default: all visible
@@ -9154,15 +9628,16 @@ function refreshAdminStats() {
   </div>
   <div id="svList">
 <div class="sv-tab-header">🌐 Global</div>
-<div class="sv-item" onclick="svToggle('sv_fluff')"><label for="sv_chk_sv_fluff">💬 Extra tips, guides & FAQ links (all tabs)</label><input type="checkbox" id="sv_chk_sv_fluff" checked onchange="svToggle('sv_fluff')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_fluff')"><label for="sv_chk_sv_fluff">Extra tips, guides & FAQ links</label><input type="checkbox" id="sv_chk_sv_fluff" checked onchange="svToggle('sv_fluff')" onclick="event.stopPropagation()"></div>
 <div class="sv-tab-header">⚡ Virality</div>
+<div class="sv-item" onclick="svToggle('sv_t1_vp_bar')"><label for="sv_chk_sv_t1_vp_bar">Video Profile Selector</label><input type="checkbox" id="sv_chk_sv_t1_vp_bar" checked onchange="svToggle('sv_t1_vp_bar')" onclick="event.stopPropagation()"></div>
 <div class="sv-item" onclick="svToggle('sv_t1_pubhub')"><label for="sv_chk_sv_t1_pubhub">Publish Time, Velocity & Impressions</label><input type="checkbox" id="sv_chk_sv_t1_pubhub" checked onchange="svToggle('sv_t1_pubhub')" onclick="event.stopPropagation()"></div>
 <div class="sv-item" onclick="svToggle('sv_t1_avd')"><label for="sv_chk_sv_t1_avd">Video Length & AVD</label><input type="checkbox" id="sv_chk_sv_t1_avd" checked onchange="svToggle('sv_t1_avd')" onclick="event.stopPropagation()"></div>
 <div class="sv-item" onclick="svToggle('sv_t1_ctr')"><label for="sv_chk_sv_t1_ctr">CTR</label><input type="checkbox" id="sv_chk_sv_t1_ctr" checked onchange="svToggle('sv_t1_ctr')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_t1_hook')"><label for="sv_chk_sv_t1_hook">Hook Retention (30s)</label><input type="checkbox" id="sv_chk_sv_t1_hook" checked onchange="svToggle('sv_t1_hook')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_t1_hook')"><label for="sv_chk_sv_t1_hook">Hook Retention</label><input type="checkbox" id="sv_chk_sv_t1_hook" checked onchange="svToggle('sv_t1_hook')" onclick="event.stopPropagation()"></div>
 <div class="sv-item" onclick="svToggle('sv_t1_engagement')"><label for="sv_chk_sv_t1_engagement">Likes & Comments</label><input type="checkbox" id="sv_chk_sv_t1_engagement" checked onchange="svToggle('sv_t1_engagement')" onclick="event.stopPropagation()"></div>
 <div class="sv-item" onclick="svToggle('sv_t1_channel')"><label for="sv_chk_sv_t1_channel">Channel Context</label><input type="checkbox" id="sv_chk_sv_t1_channel" checked onchange="svToggle('sv_t1_channel')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_t1_ret_detail')"><label for="sv_chk_sv_t1_ret_detail">Retention Detail (mid / end / rewatch)</label><input type="checkbox" id="sv_chk_sv_t1_ret_detail" checked onchange="svToggle('sv_t1_ret_detail')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_t1_ret_detail')"><label for="sv_chk_sv_t1_ret_detail">Retention Detail</label><input type="checkbox" id="sv_chk_sv_t1_ret_detail" checked onchange="svToggle('sv_t1_ret_detail')" onclick="event.stopPropagation()"></div>
 <div class="sv-item" onclick="svToggle('sv_t1_stall')"><label for="sv_chk_sv_t1_stall">Stall Detector</label><input type="checkbox" id="sv_chk_sv_t1_stall" checked onchange="svToggle('sv_t1_stall')" onclick="event.stopPropagation()"></div>
 <div class="sv-item" onclick="svToggle('sv_t1_score')"><label for="sv_chk_sv_t1_score">Score + Rating</label><input type="checkbox" id="sv_chk_sv_t1_score" checked onchange="svToggle('sv_t1_score')" onclick="event.stopPropagation()"></div>
 <div class="sv-item" onclick="svToggle('sv_t1_breakdown')"><label for="sv_chk_sv_t1_breakdown">Metric Breakdown</label><input type="checkbox" id="sv_chk_sv_t1_breakdown" checked onchange="svToggle('sv_t1_breakdown')" onclick="event.stopPropagation()"></div>
@@ -9170,14 +9645,15 @@ function refreshAdminStats() {
 <div class="sv-item" onclick="svToggle('sv_t1_algo')"><label for="sv_chk_sv_t1_algo">Algorithm Explainer</label><input type="checkbox" id="sv_chk_sv_t1_algo" checked onchange="svToggle('sv_t1_algo')" onclick="event.stopPropagation()"></div>
 <div class="sv-tab-header">📡 Algorithm</div>
 <div class="sv-item" onclick="svToggle('sv_t2_inputs')"><label for="sv_chk_sv_t2_inputs">Video Details Inputs</label><input type="checkbox" id="sv_chk_sv_t2_inputs" checked onchange="svToggle('sv_t2_inputs')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_t2_tier')"><label for="sv_chk_sv_t2_tier">Current Distribution Tier</label><input type="checkbox" id="sv_chk_sv_t2_tier" checked onchange="svToggle('sv_t2_tier')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_t2_benchmarks')"><label for="sv_chk_sv_t2_benchmarks">Phase Benchmarks + Notes</label><input type="checkbox" id="sv_chk_sv_t2_benchmarks" checked onchange="svToggle('sv_t2_benchmarks')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_t2_tier')"><label for="sv_chk_sv_t2_tier">Distribution Tier</label><input type="checkbox" id="sv_chk_sv_t2_tier" checked onchange="svToggle('sv_t2_tier')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_t2_benchmarks')"><label for="sv_chk_sv_t2_benchmarks">Phase Benchmarks</label><input type="checkbox" id="sv_chk_sv_t2_benchmarks" checked onchange="svToggle('sv_t2_benchmarks')" onclick="event.stopPropagation()"></div>
 <div class="sv-tab-header">💰 Monetization</div>
-<div class="sv-item" onclick="svToggle('sv_t3_quickentry')"><label for="sv_chk_sv_t3_quickentry">Quick Entry + Progress Bars</label><input type="checkbox" id="sv_chk_sv_t3_quickentry" checked onchange="svToggle('sv_t3_quickentry')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_t3_eta')"><label for="sv_chk_sv_t3_eta">ETA Scenario Cards</label><input type="checkbox" id="sv_chk_sv_t3_eta" checked onchange="svToggle('sv_t3_eta')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_t3_quickentry')"><label for="sv_chk_sv_t3_quickentry">Quick Entry</label><input type="checkbox" id="sv_chk_sv_t3_quickentry" checked onchange="svToggle('sv_t3_quickentry')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_t3_progress')"><label for="sv_chk_sv_t3_progress">Progress Bars</label><input type="checkbox" id="sv_chk_sv_t3_progress" checked onchange="svToggle('sv_t3_progress')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_t3_eta')"><label for="sv_chk_sv_t3_eta">ETA Scenarios</label><input type="checkbox" id="sv_chk_sv_t3_eta" checked onchange="svToggle('sv_t3_eta')" onclick="event.stopPropagation()"></div>
 <div class="sv-item" onclick="svToggle('sv_t3_detailed')"><label for="sv_chk_sv_t3_detailed">Detailed Inputs</label><input type="checkbox" id="sv_chk_sv_t3_detailed" checked onchange="svToggle('sv_t3_detailed')" onclick="event.stopPropagation()"></div>
 <div class="sv-item" onclick="svToggle('sv_t3_summary')"><label for="sv_chk_sv_t3_summary">Summary Stats</label><input type="checkbox" id="sv_chk_sv_t3_summary" checked onchange="svToggle('sv_t3_summary')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_t3_planner')"><label for="sv_chk_sv_t3_planner">Watch Hour Goal Planner</label><input type="checkbox" id="sv_chk_sv_t3_planner" checked onchange="svToggle('sv_t3_planner')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_t3_planner')"><label for="sv_chk_sv_t3_planner">Goal Planner</label><input type="checkbox" id="sv_chk_sv_t3_planner" checked onchange="svToggle('sv_t3_planner')" onclick="event.stopPropagation()"></div>
 <div class="sv-tab-header">💹 RPM</div>
 <div class="sv-item" onclick="svToggle('sv_t4_lf')"><label for="sv_chk_sv_t4_lf">Long-Form Revenue</label><input type="checkbox" id="sv_chk_sv_t4_lf" checked onchange="svToggle('sv_t4_lf')" onclick="event.stopPropagation()"></div>
 <div class="sv-item" onclick="svToggle('sv_t4_shorts')"><label for="sv_chk_sv_t4_shorts">Shorts Revenue</label><input type="checkbox" id="sv_chk_sv_t4_shorts" checked onchange="svToggle('sv_t4_shorts')" onclick="event.stopPropagation()"></div>
@@ -9191,14 +9667,14 @@ function refreshAdminStats() {
 <div class="sv-item" onclick="svToggle('sv_t7_inputs')"><label for="sv_chk_sv_t7_inputs">Video Details Inputs</label><input type="checkbox" id="sv_chk_sv_t7_inputs" checked onchange="svToggle('sv_t7_inputs')" onclick="event.stopPropagation()"></div>
 <div class="sv-item" onclick="svToggle('sv_t7_schedule_type')"><label for="sv_chk_sv_t7_schedule_type">Schedule & Niche Picker</label><input type="checkbox" id="sv_chk_sv_t7_schedule_type" checked onchange="svToggle('sv_t7_schedule_type')" onclick="event.stopPropagation()"></div>
 <div class="sv-item" onclick="svToggle('sv_t7_schedule_result')"><label for="sv_chk_sv_t7_schedule_result">Recommended Schedule</label><input type="checkbox" id="sv_chk_sv_t7_schedule_result" checked onchange="svToggle('sv_t7_schedule_result')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_t7_windows')"><label for="sv_chk_sv_t7_windows">Publishing Windows + Weekly Schedule</label><input type="checkbox" id="sv_chk_sv_t7_windows" checked onchange="svToggle('sv_t7_windows')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_t7_windows')"><label for="sv_chk_sv_t7_windows">Publishing Windows</label><input type="checkbox" id="sv_chk_sv_t7_windows" checked onchange="svToggle('sv_t7_windows')" onclick="event.stopPropagation()"></div>
 <div class="sv-item" onclick="svToggle('sv_t7_checklist')"><label for="sv_chk_sv_t7_checklist">Publish Day Checklist</label><input type="checkbox" id="sv_chk_sv_t7_checklist" checked onchange="svToggle('sv_t7_checklist')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_t7_optimizer')"><label for="sv_chk_sv_t7_optimizer">Upload Schedule Optimizer</label><input type="checkbox" id="sv_chk_sv_t7_optimizer" checked onchange="svToggle('sv_t7_optimizer')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_t7_optimizer')"><label for="sv_chk_sv_t7_optimizer">Schedule Optimizer</label><input type="checkbox" id="sv_chk_sv_t7_optimizer" checked onchange="svToggle('sv_t7_optimizer')" onclick="event.stopPropagation()"></div>
 <div class="sv-tab-header">📈 Projections</div>
 <div class="sv-item" onclick="svToggle('sv_cp_t1')"><label for="sv_chk_sv_cp_t1">Tool 1 — Channel Trajectory</label><input type="checkbox" id="sv_chk_sv_cp_t1" checked onchange="svToggle('sv_cp_t1')" onclick="event.stopPropagation()"></div>
 <div class="sv-item" onclick="svToggle('sv_cp_t2')"><label for="sv_chk_sv_cp_t2">Tool 2 — Growth Scenarios</label><input type="checkbox" id="sv_chk_sv_cp_t2" checked onchange="svToggle('sv_cp_t2')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_cp_t3')"><label for="sv_chk_sv_cp_t3">Tool 3 — Sub Growth + Date Lookup</label><input type="checkbox" id="sv_chk_sv_cp_t3" checked onchange="svToggle('sv_cp_t3')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_cp_income')"><label for="sv_chk_sv_cp_income">Income Projections Over Time</label><input type="checkbox" id="sv_chk_sv_cp_income" checked onchange="svToggle('sv_cp_income')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_cp_t3')"><label for="sv_chk_sv_cp_t3">Tool 3 — Sub Growth + Dates</label><input type="checkbox" id="sv_chk_sv_cp_t3" checked onchange="svToggle('sv_cp_t3')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_cp_income')"><label for="sv_chk_sv_cp_income">Income Projections</label><input type="checkbox" id="sv_chk_sv_cp_income" checked onchange="svToggle('sv_cp_income')" onclick="event.stopPropagation()"></div>
 <div class="sv-tab-header">🎬 Video Tracker</div>
 <div class="sv-item" onclick="svToggle('sv_vid_tracker')"><label for="sv_chk_sv_vid_tracker">API + Tracker</label><input type="checkbox" id="sv_chk_sv_vid_tracker" checked onchange="svToggle('sv_vid_tracker')" onclick="event.stopPropagation()"></div>
 <div class="sv-tab-header">🎯 A/B Checker</div>
@@ -9207,24 +9683,24 @@ function refreshAdminStats() {
 <div class="sv-item" onclick="svToggle('sv_tab_ab_history')"><label for="sv_chk_sv_tab_ab_history">Saved Tests</label><input type="checkbox" id="sv_chk_sv_tab_ab_history" checked onchange="svToggle('sv_tab_ab_history')" onclick="event.stopPropagation()"></div>
 <div class="sv-item" onclick="svToggle('sv_tab_ab_tip')"><label for="sv_chk_sv_tab_ab_tip">Best Practice Tip</label><input type="checkbox" id="sv_chk_sv_tab_ab_tip" checked onchange="svToggle('sv_tab_ab_tip')" onclick="event.stopPropagation()"></div>
 <div class="sv-tab-header">⚖️ Compare</div>
-<div class="sv-item" onclick="svToggle('sv_cmp_lookup')"><label for="sv_chk_sv_cmp_lookup">Channel Lookup Tool</label><input type="checkbox" id="sv_chk_sv_cmp_lookup" checked onchange="svToggle('sv_cmp_lookup')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_cmp_lookup')"><label for="sv_chk_sv_cmp_lookup">Channel Lookup</label><input type="checkbox" id="sv_chk_sv_cmp_lookup" checked onchange="svToggle('sv_cmp_lookup')" onclick="event.stopPropagation()"></div>
 <div class="sv-item" onclick="svToggle('sv_cmp_manual')"><label for="sv_chk_sv_cmp_manual">Manual Entry Cards</label><input type="checkbox" id="sv_chk_sv_cmp_manual" checked onchange="svToggle('sv_cmp_manual')" onclick="event.stopPropagation()"></div>
 <div class="sv-item" onclick="svToggle('sv_cmp_results')"><label for="sv_chk_sv_cmp_results">Comparison Results</label><input type="checkbox" id="sv_chk_sv_cmp_results" checked onchange="svToggle('sv_cmp_results')" onclick="event.stopPropagation()"></div>
 <div class="sv-tab-header">🔴 Live Tracker</div>
 <div class="sv-item" onclick="svToggle('sv_live_add')"><label for="sv_chk_sv_live_add">Add Channel Form</label><input type="checkbox" id="sv_chk_sv_live_add" checked onchange="svToggle('sv_live_add')" onclick="event.stopPropagation()"></div>
 <div class="sv-tab-header">🪝 Hook Generator</div>
-<div class="sv-item" onclick="svToggle('sv_hook_inputs')"><label for="sv_chk_sv_hook_inputs">Inputs (Topic, Niche, Platform)</label><input type="checkbox" id="sv_chk_sv_hook_inputs" checked onchange="svToggle('sv_hook_inputs')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_hook_inputs')"><label for="sv_chk_sv_hook_inputs">Inputs</label><input type="checkbox" id="sv_chk_sv_hook_inputs" checked onchange="svToggle('sv_hook_inputs')" onclick="event.stopPropagation()"></div>
 <div class="sv-item" onclick="svToggle('sv_hook_results')"><label for="sv_chk_sv_hook_results">Generated Hooks</label><input type="checkbox" id="sv_chk_sv_hook_results" checked onchange="svToggle('sv_hook_results')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_hook_tip')"><label for="sv_chk_sv_hook_tip">Hook Psychology Tip</label><input type="checkbox" id="sv_chk_sv_hook_tip" checked onchange="svToggle('sv_hook_tip')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_hook_tip')"><label for="sv_chk_sv_hook_tip">Hook Tip</label><input type="checkbox" id="sv_chk_sv_hook_tip" checked onchange="svToggle('sv_hook_tip')" onclick="event.stopPropagation()"></div>
 <div class="sv-tab-header">🔍 SEO</div>
-<div class="sv-item" onclick="svToggle('sv_seo_t1')"><label for="sv_chk_sv_seo_t1">Title SEO Scorer (inputs + results)</label><input type="checkbox" id="sv_chk_sv_seo_t1" checked onchange="svToggle('sv_seo_t1')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_seo_t2')"><label for="sv_chk_sv_seo_t2">Niche Saturation Meter (inputs + results)</label><input type="checkbox" id="sv_chk_sv_seo_t2" checked onchange="svToggle('sv_seo_t2')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_seo_t1')"><label for="sv_chk_sv_seo_t1">Title SEO Scorer</label><input type="checkbox" id="sv_chk_sv_seo_t1" checked onchange="svToggle('sv_seo_t1')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_seo_t2')"><label for="sv_chk_sv_seo_t2">Niche Saturation Meter</label><input type="checkbox" id="sv_chk_sv_seo_t2" checked onchange="svToggle('sv_seo_t2')" onclick="event.stopPropagation()"></div>
 <div class="sv-tab-header">📊 Retention</div>
 <div class="sv-item" onclick="svToggle('sv_rc_inputs')"><label for="sv_chk_sv_rc_inputs">Inputs + Diagnosis</label><input type="checkbox" id="sv_chk_sv_rc_inputs" checked onchange="svToggle('sv_rc_inputs')" onclick="event.stopPropagation()"></div>
 <div class="sv-item" onclick="svToggle('sv_rc_guide')"><label for="sv_chk_sv_rc_guide">How to Read Guide</label><input type="checkbox" id="sv_chk_sv_rc_guide" checked onchange="svToggle('sv_rc_guide')" onclick="event.stopPropagation()"></div>
 <div class="sv-tab-header">🎬 End Screen</div>
 <div class="sv-item" onclick="svToggle('sv_es_inputs')"><label for="sv_chk_sv_es_inputs">Retention Inputs</label><input type="checkbox" id="sv_chk_sv_es_inputs" checked onchange="svToggle('sv_es_inputs')" onclick="event.stopPropagation()"></div>
-<div class="sv-item" onclick="svToggle('sv_es_cards')"><label for="sv_chk_sv_es_cards">Card Placement Optimizer</label><input type="checkbox" id="sv_chk_sv_es_cards" checked onchange="svToggle('sv_es_cards')" onclick="event.stopPropagation()"></div>
+<div class="sv-item" onclick="svToggle('sv_es_cards')"><label for="sv_chk_sv_es_cards">Card Optimizer</label><input type="checkbox" id="sv_chk_sv_es_cards" checked onchange="svToggle('sv_es_cards')" onclick="event.stopPropagation()"></div>
 <div class="sv-item" onclick="svToggle('sv_es_rules')"><label for="sv_chk_sv_es_rules">Rules Reference</label><input type="checkbox" id="sv_chk_sv_es_rules" checked onchange="svToggle('sv_es_rules')" onclick="event.stopPropagation()"></div>
   </div>
 </div>
