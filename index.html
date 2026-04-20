@@ -3778,38 +3778,46 @@ input:focus, select:focus, textarea:focus {
   </div>
 </div>
 <script>
- const originalGetId = document.getElementById.bind(document);
-document.getElementById = function(id) {
-    const el = originalGetId(id);
-    if (!el) {
-        console.warn("Bypassed missing element: " + id);
-        return { 
-            value: '', innerHTML: '', style: {}, textContent: '', dataset: {}, checked: false,
-            classList: { add:()=>{}, remove:()=>{}, toggle:()=>{} }, 
-            addEventListener: ()=>{}, setAttribute: ()=>{}, getAttribute: ()=>null
-        };
-    }
-    return el;
-};
-const originalQuery = document.querySelector.bind(document);
-document.querySelector = function(selector) {
-    const el = originalQuery(selector);
-    if (!el) {
-        return { 
-            value: '', innerHTML: '', style: {}, textContent: '', dataset: {}, checked: false,
-            classList: { add:()=>{}, remove:()=>{}, toggle:()=>{} }, 
-            addEventListener: ()=>{}, setAttribute: ()=>{}, getAttribute: ()=>null
-        };
-    }
-    return el;
-};
   /* ─── State ─── */
   let currentUser = null;
   let trackingDataObj = { "Default Video": [] };
   let currentVideoKey = "Default Video";
   let currentTheme = 'default';
   let currentFont = 'inter';
+  let currentBg = 'none';
+  let currentTextSize = 'md';
+  let currentLayout = 'default';
+  let hasUnsavedChanges = false;
+  let videoProfiles = { 'Video 1': {} };
+  let currentProfile = 'Video 1';
+  let sectionVisibility = {};
+  let activePlatforms = ['youtube'];
+  let liveTrackers = [];
+  let liveTimerInterval = null;
+  let liveCountdown = 20;
+  let abSavedTests = [];
+  let bgAnimFrame = null;
+  let _fieldTimestamps = {};
+  let _fieldTimers = {};
+  let adminUnlocked = false;
 
+
+  const VP_FIELDS = [
+    'viewsInput','likesInput','commentsInput','ctrNum','ctr','ret','retNum',
+    'viewVelocity','impressionsInput','viewsCurrent','snap3_hours',
+    'vlMins','vlSecs','twMins','twSecs','engInput',
+    'dt_month','dt_day','dt_year','dt_hour','dt_minute','dt_ampm',
+  ];
+
+
+  const SCORE_PHASES = [
+    { label:'⛔ Struggling',      min:0,  max:24,  color:'#f87171' },
+    { label:'🔧 Needs Work',      min:25, max:44,  color:'#fb923c' },
+    { label:'📈 Growing',         min:45, max:59,  color:'#fbbf24' },
+    { label:'💪 Strong Growth',   min:60, max:74,  color:'#4ade80' },
+    { label:'🚀 Viral Potential', min:75, max:89,  color:'#22d3ee' },
+    { label:'🔥 Viral Breakout',  min:90, max:100, color:'#bf5fff' },
+  ];
   /* ─── Theme/Font stubs — real implementations defined below in V7 block ─── */
   /* These will be overwritten when the V7 design system JS initialises */
 
@@ -3841,6 +3849,8 @@ document.querySelector = function(selector) {
     const storedUser = localStorage.getItem('ccAnalytics_session');
     if (storedUser && !currentUser) {
       currentUser = storedUser;
+      var _lo = document.getElementById('landingOverlay');
+      if (_lo) _lo.classList.add('hidden');
       dismissOverlay();
       loadTrackerData();
     }
@@ -3890,7 +3900,9 @@ document.querySelector = function(selector) {
     if (!user) { if (nameInput) nameInput.focus(); return; }
     currentUser = user;
     try { localStorage.setItem('ccAnalytics_session', currentUser); } catch(e) {}
-    // Hide overlay immediately
+    // Hide both overlays
+    var lo = document.getElementById('landingOverlay');
+    if (lo) lo.classList.add('hidden');
     var ov = document.getElementById('authOverlay');
     if (ov) ov.style.display = 'none';
     var bar = document.getElementById('userBar');
@@ -4306,18 +4318,18 @@ document.querySelector = function(selector) {
     if (vlMins <= 15) return 45; return 35;
   }
   function updateTab1() {
-    const isNew = document.getElementById('newVideoToggle').checked;
-    const vlMins = parseInt(document.getElementById('vlMins').value)||0;
-    const vlSecs = parseInt(document.getElementById('vlSecs').value)||0;
-    const twMins = parseInt(document.getElementById('twMins').value)||0;
-    const twSecs = parseInt(document.getElementById('twSecs').value)||0;
+    const isNew = (document.getElementById('newVideoToggle')?.checked ?? false);
+    const vlMins = parseInt(document.getElementById('vlMins')?.value || '0')||0;
+    const vlSecs = parseInt(document.getElementById('vlSecs')?.value || '0')||0;
+    const twMins = parseInt(document.getElementById('twMins')?.value || '0')||0;
+    const twSecs = parseInt(document.getElementById('twSecs')?.value || '0')||0;
     const totalVl = (vlMins*60)+vlSecs; const totalTw = (twMins*60)+twSecs;
     const avd = totalVl > 0 ? (totalTw/totalVl)*100 : 0;
     const raw = totalTw/60;
-    const ctr = parseFloat(document.getElementById('ctr').value);
-    const ret = parseFloat(document.getElementById('ret').value);
-    const views = parseFloat(document.getElementById('viewsInput').value)||0;
-    const engInput = parseFloat(document.getElementById('engInput').value)||0;
+    const ctr = parseFloat(document.getElementById('ctr')?.value || '0');
+    const ret = parseFloat(document.getElementById('ret')?.value || '0');
+    const views = parseFloat(document.getElementById('viewsInput')?.value || '0')||0;
+    const engInput = parseFloat(document.getElementById('engInput')?.value || '0')||0;
     const eng = views > 0 ? (engInput/views)*100 : 0;
     document.getElementById('twDisplay').innerText = avd.toFixed(1)+'% AVD | '+raw.toFixed(1)+' min raw';
     document.getElementById('ctrVal').innerText = ctr.toFixed(1)+'%';
@@ -4328,19 +4340,25 @@ document.querySelector = function(selector) {
     const rawPts = Math.min((raw/8)*20, 20);
     const engPts = Math.min((eng/5)*10, 10);
     let avdPts, retPts, avdMax;
-    if (isNew) { document.getElementById('retGroup').style.opacity='0.4'; retPts=0; avdMax=45; avdPts=Math.min((avd/targetAvd)*avdMax,avdMax); }
-    else { document.getElementById('retGroup').style.opacity='1'; avdMax=30; retPts=Math.min((ret/70)*15,15); avdPts=Math.min((avd/targetAvd)*avdMax,avdMax); }
+    if (isNew) { document.getElementById('retGroup').style.opacity ='0.4'; retPts=0; avdMax=45; avdPts=Math.min((avd/targetAvd)*avdMax,avdMax); }
+    else { document.getElementById('retGroup').style.opacity ='1'; avdMax=30; retPts=Math.min((ret/70)*15,15); avdPts=Math.min((avd/targetAvd)*avdMax,avdMax); }
     const total = (ctrPts+avdPts+retPts+rawPts+engPts).toFixed(1);
     document.getElementById('totalScore').innerText = total;
+    // 6-band rating using SCORE_PHASES
+    const totalNum = parseFloat(total);
     let r, c, d;
-    if (total < 40) { r='Underperforming'; c=getComputedStyle(document.documentElement).getPropertyValue('--danger').trim(); d='Metrics are below seed-pool thresholds. Review your thumbnail, title, and hook.'; }
-    else if (total < 75) { r='Strong Growth'; c='#F59E0B'; d='Consistent audience reach. This video satisfies your core niche well.'; }
-    else { r='Viral Breakout! 🚀'; c=getComputedStyle(document.documentElement).getPropertyValue('--secondary').trim(); d='Exceptional metrics. The algorithm is likely pushing this to non-subscribers rapidly.'; }
+    if      (totalNum < 25) { r='⛔ Struggling';      c='#f87171'; d='Below seed-pool thresholds. Review thumbnail, title, and hook.'; }
+    else if (totalNum < 45) { r='🔧 Needs Work';      c='#fb923c'; d='Some signals are weak. Focus on AVD and CTR improvements.'; }
+    else if (totalNum < 60) { r='📈 Growing';         c='#fbbf24'; d='Decent performance. Consistent audience reach in your niche.'; }
+    else if (totalNum < 75) { r='💪 Strong Growth';   c='#4ade80'; d='Strong metrics. Algorithm is rewarding your content well.'; }
+    else if (totalNum < 90) { r='🚀 Viral Potential'; c='#22d3ee'; d='Exceptional signals. Algorithm likely pushing to non-subscribers.'; }
+    else                    { r='🔥 Viral Breakout';  c='#bf5fff'; d='Top-tier metrics. Maximum algorithm amplification.'; }
     document.getElementById('ratingText').innerText = r;
-    document.getElementById('ratingText').style.background = c+'22';
+    document.getElementById('ratingText').style.background = c + '22';
     document.getElementById('ratingText').style.color = c;
     document.getElementById('ratingText').style.borderColor = c;
     document.getElementById('ratingDesc').innerText = d;
+    if (typeof renderPhaseBands === 'function') renderPhaseBands(totalNum);
     document.getElementById('breakdown-content').innerHTML =
       `<div><span>Packaging (CTR):</span><span>${ctrPts.toFixed(1)} pts</span></div>
        <div><span>AVD Quality:</span><span>${avdPts.toFixed(1)} pts</span></div>
@@ -4641,7 +4659,7 @@ document.querySelector = function(selector) {
 
   /* ─── Tab2: Algorithm Tracker ─── */
   function updateTab2() {
-    const vlMins = parseInt(document.getElementById('t2_vlMins').value)||0;
+    const vlMins = parseInt(document.getElementById('t2_vlMins')?.value || '0')||0;
     const baseAvd = getAvdTarget(vlMins);
     const tiers = [
       { name: 'Subscriber Seed Pool', c: '4–8', m: 1.15, d: 'Shown first to existing subscribers. Core fans watch more — highest AVD expectations here.', goal: 'Impress your most loyal viewers first — they set the baseline score.' },
@@ -4664,13 +4682,13 @@ document.querySelector = function(selector) {
 
   /* ─── Tab3: Monetization Tracker ─── */
   function updateTab3() {
-    const curr = parseFloat(document.getElementById('m_currentHours').value)||0;
-    const vel = parseFloat(document.getElementById('m_currentDailyVelocity').value)||0;
-    const d1 = new Date(document.getElementById('m_todayDate').value);
-    const d2 = new Date(document.getElementById('m_targetDate').value);
+    const curr = parseFloat(document.getElementById('m_currentHours')?.value || '0')||0;
+    const vel = parseFloat(document.getElementById('m_currentDailyVelocity')?.value || '0')||0;
+    const d1 = new Date((document.getElementById('m_todayDate')?.value ?? ''));
+    const d2 = new Date((document.getElementById('m_targetDate')?.value ?? ''));
     const diffDays = Math.max(Math.ceil((d2-d1)/(1000*60*60*24)),1);
-    const sHrs = parseFloat(document.getElementById('m_streamHrs').value)||0;
-    const sView = parseFloat(document.getElementById('m_streamViewers').value)||0;
+    const sHrs = parseFloat(document.getElementById('m_streamHrs')?.value || '0')||0;
+    const sView = parseFloat(document.getElementById('m_streamViewers')?.value || '0')||0;
     const sTotalWk = sHrs*sView;
     const sDailyHrs = sTotalWk/7;
     const rem3k = Math.max(3000-curr, 0);
@@ -4705,13 +4723,13 @@ document.querySelector = function(selector) {
       const estD2=new Date(d1); estD2.setDate(estD2.getDate()+daysNeeded);
       document.getElementById('m_estimatedDateStream').innerText = estD2.toLocaleDateString(undefined,{weekday:'short',year:'numeric',month:'short',day:'numeric'});
       if (vel>0) { const saved=Math.ceil(rem4k/vel)-daysNeeded; document.getElementById('m_streamDaysSaved').innerText = saved>0?`⚡ ${saved} days sooner`:''; }
-    } else { document.getElementById('m_estimatedDateStream').innerText = curr>=4000?'✅ Goal Hit!':'Enter stream data'; document.getElementById('m_streamDaysSaved').innerText=''; }
+    } else { document.getElementById('m_estimatedDateStream').innerText = curr>=4000?'✅ Goal Hit!':'Enter stream data'; document.getElementById('m_streamDaysSaved').innerText =''; }
 
     // Velocity
     if (rem4k>0 && diffDays>0) {
       const reqHPD = Math.max((rem4k/diffDays)-sDailyHrs, 0);
-      const avdMins = parseFloat(document.getElementById('m_avdMins').value)||0;
-      const totalAvd = avdMins+((parseFloat(document.getElementById('m_avdSecs').value)||0)/60);
+      const avdMins = parseFloat(document.getElementById('m_avdMins')?.value || '0')||0;
+      const totalAvd = avdMins+((parseFloat(document.getElementById('m_avdSecs')?.value || '0')||0)/60);
       const dailyViews = totalAvd>0?(reqHPD*60)/totalAvd:0;
       document.getElementById('m_dailyHours').innerText = reqHPD.toFixed(1);
       document.getElementById('m_streamPerDay').innerText = sDailyHrs.toFixed(1);
@@ -4719,7 +4737,7 @@ document.querySelector = function(selector) {
       document.getElementById('m_dailyViews').innerText = Math.ceil(dailyViews).toLocaleString();
       document.getElementById('m_conclusion').innerHTML = `To hit your goal by ${d2.toLocaleDateString()}, you need <strong style="color:var(--primary);">${(reqHPD+sDailyHrs).toFixed(1)} combined watch hrs/day</strong>${sDailyHrs>0?` — streams already cover <strong>${sDailyHrs.toFixed(1)} hrs/day</strong>, so your videos need <strong>${reqHPD.toFixed(1)} hrs/day</strong>`:' — add stream data above to accelerate this'}.`;
     } else if (rem4k<=0) {
-      document.getElementById('m_dailyHours').innerText='0.0'; document.getElementById('m_streamPerDay').innerText=sDailyHrs.toFixed(1); document.getElementById('m_weeklyHours').innerText=(sDailyHrs*7).toFixed(1);
+      document.getElementById('m_dailyHours').innerText ='0.0'; document.getElementById('m_streamPerDay').innerText =sDailyHrs.toFixed(1); document.getElementById('m_weeklyHours').innerText =(sDailyHrs*7).toFixed(1);
       document.getElementById('m_conclusion').innerHTML = '🎉 <strong>You\'ve hit the 4,000 hour threshold!</strong> Apply for YPP now if you also have 1,000 subscribers.';
     }
     document.getElementById('m_stat_remaining').innerText = rem4k.toLocaleString()+' hrs';
@@ -4730,8 +4748,8 @@ document.querySelector = function(selector) {
 
   /* ─── Tab4: RPM Predictor ─── */
   function updateRpmSliders(changed) {
-    let min = parseFloat(document.getElementById('c_rpm_min').value);
-    let max = parseFloat(document.getElementById('c_rpm_max').value);
+    let min = parseFloat(document.getElementById('c_rpm_min')?.value || '0');
+    let max = parseFloat(document.getElementById('c_rpm_max')?.value || '0');
     if (min>max) { if (changed==='min') { document.getElementById('c_rpm_max').value=min; max=min; } else { document.getElementById('c_rpm_min').value=max; min=max; } }
     document.getElementById('c_rpm_val').innerText = `$${min.toFixed(2)} – $${max.toFixed(2)}`;
     const avg = (min+max)/2; let s = '';
@@ -4757,11 +4775,11 @@ document.querySelector = function(selector) {
     const sRpm=parseFloat(document.getElementById('cs_rpm').value)||0.05;
     const sMinRev=(sMinV/1000)*sRpm; const sMaxRev=(sMaxV/1000)*sRpm;
     const tMinM=revMin+sMinRev; const tMaxM=revMax+sMaxRev;
-    document.getElementById('r_vod_monthly').innerText=`$${Math.floor(revMin).toLocaleString()} – $${Math.floor(revMax).toLocaleString()}`;
-    document.getElementById('r_shorts_monthly').innerText=`$${Math.floor(sMinRev).toLocaleString()} – $${Math.floor(sMaxRev).toLocaleString()}`;
-    document.getElementById('r_monthly').innerText=`$${Math.floor(tMinM).toLocaleString()} – $${Math.floor(tMaxM).toLocaleString()}`;
-    document.getElementById('r_yearly').innerText=`$${Math.floor(tMinM*12).toLocaleString()} – $${Math.floor(tMaxM*12).toLocaleString()}`;
-    if (tMinM>0||tMaxM>0) document.getElementById('c_report').style.display='block';
+    document.getElementById('r_vod_monthly').innerText =`$${Math.floor(revMin).toLocaleString()} – $${Math.floor(revMax).toLocaleString()}`;
+    document.getElementById('r_shorts_monthly').innerText =`$${Math.floor(sMinRev).toLocaleString()} – $${Math.floor(sMaxRev).toLocaleString()}`;
+    document.getElementById('r_monthly').innerText =`$${Math.floor(tMinM).toLocaleString()} – $${Math.floor(tMaxM).toLocaleString()}`;
+    document.getElementById('r_yearly').innerText =`$${Math.floor(tMinM*12).toLocaleString()} – $${Math.floor(tMaxM*12).toLocaleString()}`;
+    if (tMinM>0||tMaxM>0) document.getElementById('c_report').style.display ='block';
   }
 
   /* ─── Subscriber Projections ─── */
@@ -4775,54 +4793,114 @@ document.querySelector = function(selector) {
     }).join('');
   }
   function updateYTSubProjection() {
-    const curr = parseInt(document.getElementById('yt_curr_subs').value)||0;
-    const monthly = parseInt(document.getElementById('yt_monthly_views').value)||0;
-    const rate = parseFloat(document.getElementById('yt_sub_rate').value)||1;
+    const curr = parseInt(document.getElementById('yt_curr_subs')?.value || '0')||0;
+    const monthly = parseInt(document.getElementById('yt_monthly_views')?.value || '0')||0;
+    const rate = parseFloat(document.getElementById('yt_sub_rate')?.value || '0')||1;
     document.getElementById('yt_sub_projection').innerHTML = buildSubProjectionHTML(curr,monthly,rate,'subscribers');
   }
   function updateTTSubProjection() {
-    const curr = parseInt(document.getElementById('tt_curr_subs').value)||0;
-    const monthly = parseInt(document.getElementById('tt_monthly_views').value)||0;
-    const rate = parseFloat(document.getElementById('tt_follow_rate').value)||2;
+    const curr = parseInt(document.getElementById('tt_curr_subs')?.value || '0')||0;
+    const monthly = parseInt(document.getElementById('tt_monthly_views')?.value || '0')||0;
+    const rate = parseFloat(document.getElementById('tt_follow_rate')?.value || '0')||2;
     document.getElementById('tt_sub_projection').innerHTML = buildSubProjectionHTML(curr,monthly,rate,'followers');
   }
   function updateIGSubProjection() {
-    const curr = parseInt(document.getElementById('ig_curr_subs').value)||0;
-    const monthly = parseInt(document.getElementById('ig_monthly_views').value)||0;
-    const rate = parseFloat(document.getElementById('ig_follow_rate').value)||1.5;
+    const curr = parseInt(document.getElementById('ig_curr_subs')?.value || '0')||0;
+    const monthly = parseInt(document.getElementById('ig_monthly_views')?.value || '0')||0;
+    const rate = parseFloat(document.getElementById('ig_follow_rate')?.value || '0')||1.5;
     document.getElementById('ig_sub_projection').innerHTML = buildSubProjectionHTML(curr,monthly,rate,'followers');
   }
 
   /* ─── TikTok & IG ─── */
   function updateTT() {
-    const a=document.getElementById('tt_avd').value; const h=document.getElementById('tt_hook').value; const s=document.getElementById('tt_share').value;
-    document.getElementById('tt_avdVal').innerText=a+'%'; document.getElementById('tt_hookVal').innerText=h+'%'; document.getElementById('tt_shareVal').innerText=s+'%';
-    const score=((a/55)*40+(h/50)*30+(s/3)*30).toFixed(1);
-    document.getElementById('tt_totalScore').innerText=score;
-    const r=score<40?'Low Reach':(score<80?'FYP Trending':'Viral Breakout 🚀');
-    document.getElementById('tt_ratingText').innerText=r;
+    const avd   = parseFloat(document.getElementById('tt_avdNum')?.value) || 0;
+    const hook  = parseFloat(document.getElementById('tt_hookNum')?.value) || 0;
+    const views = parseFloat(document.getElementById('tt_views')?.value)   || 0;
+    const likes = parseFloat(document.getElementById('tt_likes')?.value)   || 0;
+    const comments = parseFloat(document.getElementById('tt_comments')?.value) || 0;
+    const vel   = parseFloat(document.getElementById('tt_velocity')?.value) || 0;
+
+    const engRate = views > 0 ? ((likes + comments) / views * 100) : 0;
+    const avdPts  = Math.min((avd / 55) * 35, 35);
+    const hookPts = Math.min((hook / 50) * 30, 30);
+    const engPts  = Math.min((engRate / 5) * 20, 20);
+    const velPts  = Math.min((vel / 500) * 15, 15);
+    const score   = (avdPts + hookPts + engPts + velPts).toFixed(1);
+
+    const setEl = (id, val) => { const el = document.getElementById(id); if (el) el.innerText = val; };
+    setEl('tt_avdVal',    avd.toFixed(1) + '%');
+    setEl('tt_hookVal',   hook.toFixed(1) + '%');
+    setEl('tt_totalScore', score);
+
+    let r, c;
+    if      (score < 30) { r = '📉 Low Reach';       c = '#f87171'; }
+    else if (score < 55) { r = '📈 Growing';         c = '#fbbf24'; }
+    else if (score < 75) { r = '🚀 FYP Trending';    c = '#4ade80'; }
+    else                 { r = '🔥 Viral Breakout';   c = '#bf5fff'; }
+    setEl('tt_ratingText', r);
+    const rtEl = document.getElementById('tt_ratingText');
+    if (rtEl) { rtEl.style.color = c; rtEl.style.borderColor = c; rtEl.style.background = c + '22'; }
+
+    // Breakdown
+    const bdEl = document.getElementById('tt_breakdown');
+    if (bdEl) bdEl.innerHTML =
+      '<div><span>AVD Quality:</span><span>' + avdPts.toFixed(1) + ' / 35</span></div>' +
+      '<div><span>Hook Retention:</span><span>' + hookPts.toFixed(1) + ' / 30</span></div>' +
+      '<div><span>Engagement Rate:</span><span>' + engPts.toFixed(1) + ' / 20</span></div>' +
+      '<div><span>Velocity:</span><span>' + velPts.toFixed(1) + ' / 15</span></div>';
   }
   function updateIG() {
-    const a=document.getElementById('ig_avd').value; const s=document.getElementById('ig_save').value;
-    document.getElementById('ig_avdVal').innerText=a+'%'; document.getElementById('ig_saveVal').innerText=s+'%';
-    const score=((a/100)*50+(s/3)*50).toFixed(1);
-    document.getElementById('ig_totalScore').innerText=score;
-    const r=score<50?'Static':(score<85?'Explore Feed':'Global Reach 🌍');
-    document.getElementById('ig_ratingText').innerText=r;
+    const avd      = parseFloat(document.getElementById('ig_avdNum')?.value)   || 0;
+    const saves    = parseFloat(document.getElementById('ig_saves')?.value)    || 0;
+    const sends    = parseFloat(document.getElementById('ig_sends')?.value)    || 0;
+    const reach    = parseFloat(document.getElementById('ig_reach')?.value)    || 0;
+    const nonfol   = parseFloat(document.getElementById('ig_nonfollower')?.value) || 0;
+    const views    = parseFloat(document.getElementById('ig_views')?.value)    || 0;
+    const vel      = parseFloat(document.getElementById('ig_velocity')?.value) || 0;
+
+    const saveRate = views > 0 ? (saves / views * 100) : 0;
+    const sendRate = views > 0 ? (sends / views * 100) : 0;
+    const avdPts   = Math.min((avd / 100) * 30, 30);
+    const savePts  = Math.min((saveRate / 5) * 25, 25);
+    const sendPts  = Math.min((sendRate / 3) * 20, 20);
+    const nfPts    = Math.min((nonfol / 60) * 15, 15);
+    const velPts   = Math.min((vel / 300) * 10, 10);
+    const score    = (avdPts + savePts + sendPts + nfPts + velPts).toFixed(1);
+
+    const setEl = (id, val) => { const el = document.getElementById(id); if (el) el.innerText = val; };
+    setEl('ig_avdVal',    avd.toFixed(1) + '%');
+    setEl('ig_totalScore', score);
+
+    let r, c;
+    if      (score < 25) { r = '📉 Static';        c = '#f87171'; }
+    else if (score < 50) { r = '📈 Growing';       c = '#fbbf24'; }
+    else if (score < 75) { r = '🚀 Explore Feed';  c = '#4ade80'; }
+    else                 { r = '🌍 Global Reach';   c = '#bf5fff'; }
+    setEl('ig_ratingText', r);
+    const rtEl = document.getElementById('ig_ratingText');
+    if (rtEl) { rtEl.style.color = c; rtEl.style.borderColor = c; rtEl.style.background = c + '22'; }
+
+    const bdEl = document.getElementById('ig_breakdown');
+    if (bdEl) bdEl.innerHTML =
+      '<div><span>AVD Quality:</span><span>' + avdPts.toFixed(1) + ' / 30</span></div>' +
+      '<div><span>Save Rate:</span><span>' + savePts.toFixed(1) + ' / 25</span></div>' +
+      '<div><span>Send Rate:</span><span>' + sendPts.toFixed(1) + ' / 20</span></div>' +
+      '<div><span>Non-follower %:</span><span>' + nfPts.toFixed(1) + ' / 15</span></div>' +
+      '<div><span>Velocity:</span><span>' + velPts.toFixed(1) + ' / 10</span></div>';
   }
 
   /* ─── Channel Projections ─── */
   function updateChannelProjections() {
-    const subs = parseInt(document.getElementById('cp_subs').value)||0;
-    const views = parseInt(document.getElementById('cp_views').value)||0;
-    const avd = parseFloat(document.getElementById('cp_avd').value)||0;
-    const rate = parseFloat(document.getElementById('cp_sub_rate').value)||1;
-    const uploads = parseInt(document.getElementById('cp_uploads').value)||4;
-    const ctr = parseFloat(document.getElementById('cp_ctr').value)||3;
-    const optRate = parseFloat(document.getElementById('cp_opt_rate').value)||2.5;
-    const optViews = parseInt(document.getElementById('cp_opt_views').value)||views;
-    const aggUploads = parseInt(document.getElementById('cp_agg_uploads').value)||12;
-    const targetCtr = parseFloat(document.getElementById('cp_target_ctr').value)||5;
+    const subs = parseInt(document.getElementById('cp_subs')?.value || '0')||0;
+    const views = parseInt(document.getElementById('cp_views')?.value || '0')||0;
+    const avd = parseFloat(document.getElementById('cp_avd')?.value || '0')||0;
+    const rate = parseFloat(document.getElementById('cp_sub_rate')?.value || '0')||1;
+    const uploads = parseInt(document.getElementById('cp_uploads')?.value || '0')||4;
+    const ctr = parseFloat(document.getElementById('cp_ctr')?.value || '0')||3;
+    const optRate = parseFloat(document.getElementById('cp_opt_rate')?.value || '0')||2.5;
+    const optViews = parseInt(document.getElementById('cp_opt_views')?.value || '0')||views;
+    const aggUploads = parseInt(document.getElementById('cp_agg_uploads')?.value || '0')||12;
+    const targetCtr = parseFloat(document.getElementById('cp_target_ctr')?.value || '0')||5;
 
     // Monthly new subs at current rate
     const monthlySubs = views*(rate/100);
@@ -4942,14 +5020,14 @@ document.querySelector = function(selector) {
 
   /* ─── Publishing Hub ─── */
   function calculateUploadTime() {
-    const f = document.getElementById('u_format').value;
-    const n = document.getElementById('u_niche').value;
-    const tz = document.getElementById('u_tz').value;
-    const freq = parseInt(document.getElementById('u_freq').value)||3;
-    const age = document.getElementById('u_age') ? document.getElementById('u_age').value : 'any';
-    const geo = document.getElementById('u_geo') ? document.getElementById('u_geo').value : 'us';
-    const chsize = document.getElementById('u_chsize') ? document.getElementById('u_chsize').value : 'mid';
-    const vidlen = document.getElementById('u_vidlen') ? document.getElementById('u_vidlen').value : 'medium';
+    const f = (document.getElementById('u_format')?.value ?? '');
+    const n = (document.getElementById('u_niche')?.value ?? '');
+    const tz = (document.getElementById('u_tz')?.value ?? '');
+    const freq = parseInt(document.getElementById('u_freq')?.value || '0')||3;
+    const age = document.getElementById('u_age') ? (document.getElementById('u_age')?.value ?? '') : 'any';
+    const geo = document.getElementById('u_geo') ? (document.getElementById('u_geo')?.value ?? '') : 'us';
+    const chsize = document.getElementById('u_chsize') ? (document.getElementById('u_chsize')?.value ?? '') : 'mid';
+    const vidlen = document.getElementById('u_vidlen') ? (document.getElementById('u_vidlen')?.value ?? '') : 'medium';
 
     const tzUTCOffsets = {
       HST: -10, AKST: -9, PST: -8, MST: -7, CST: -6, EST: -5,
@@ -5383,11 +5461,23 @@ document.querySelector = function(selector) {
   }
 
   function initAll() {
-    updateTab1(); updateTab2(); updateTab3(); updateRpmSliders('min');
-    updateTT(); updateIG(); calculateUploadTime();
-    updateYTSubProjection(); updateTTSubProjection(); updateIGSubProjection();
-    updateChannelProjections();
-    // Auto-fill live tracker API key from saved key
+    const _safe = (fn, name) => { try { fn(); } catch(e) { console.warn('initAll', name, e.message); } };
+    _safe(() => updateTab1(),            'updateTab1');
+    _safe(() => updateTab2(),            'updateTab2');
+    _safe(() => updateTab3(),            'updateTab3');
+    _safe(() => updateRpmSliders('min'), 'updateRpmSliders');
+    _safe(() => updateTT(),              'updateTT');
+    _safe(() => updateIG(),              'updateIG');
+    _safe(() => calculateUploadTime(),   'calculateUploadTime');
+    _safe(() => updateYTSubProjection(), 'updateYTSubProjection');
+    _safe(() => updateTTSubProjection(), 'updateTTSubProjection');
+    _safe(() => updateIGSubProjection(), 'updateIGSubProjection');
+    _safe(() => updateChannelProjections(),'updateChannelProjections');
+    try {
+      if (typeof vpInit === 'function') vpInit();
+      if (typeof svInit === 'function') svInit();
+      if (typeof dtUpdate === 'function') dtUpdate();
+    } catch(e) { console.warn('initAll extras', e.message); }
     const savedKey = localStorage.getItem('ccYTApiKey') || '';
     const lstKey = document.getElementById('lst_apikey');
     if (lstKey && savedKey && !lstKey.value) lstKey.value = savedKey;
@@ -5396,14 +5486,6 @@ document.querySelector = function(selector) {
   /* ═══════════════════════════════════
      SCORE PHASE BANDS (NEW)
   ═══════════════════════════════════ */
-  const SCORE_PHASES = [
-    { label:'⛔ Struggling',      min:0,  max:24,  color:'#f87171' },
-    { label:'🔧 Needs Work',      min:25, max:44,  color:'#fb923c' },
-    { label:'📈 Growing',         min:45, max:59,  color:'#fbbf24' },
-    { label:'💪 Strong Growth',   min:60, max:74,  color:'#4ade80' },
-    { label:'🚀 Viral Potential', min:75, max:89,  color:'#22d3ee' },
-    { label:'🔥 Viral Breakout',  min:90, max:100, color:'#bf5fff' },
-  ];
 
   function renderPhaseBands(score) {
     const el = document.getElementById('scorePhaseBands');
@@ -5467,8 +5549,8 @@ document.querySelector = function(selector) {
   /* ═══════════════════════════════════
      LIVE SUB TRACKER (NEW)
   ═══════════════════════════════════ */
-  let liveTrackers = [];
-  let liveTimerInterval = null;
+  liveTrackers = [];
+  liveTimerInterval = null;
 
   /* ═══════════════════════════════════════════════
      DESIGN SYSTEM — Themes, Fonts, Layout
@@ -5510,7 +5592,7 @@ document.querySelector = function(selector) {
 
   currentTheme = localStorage.getItem('ccTheme') || 'default';
   currentFont  = localStorage.getItem('ccFont')  || 'inter';
-  let currentLayout = localStorage.getItem('ccLayout') || 'default';
+  currentLayout = localStorage.getItem('ccLayout') || 'default';
 
   function applyTheme(id, skipSave) {
     currentTheme = id;
@@ -5595,7 +5677,7 @@ document.querySelector = function(selector) {
   /* ═══════════════════════════════════════════════
      UNSAVED CHANGES GUARD
   ═══════════════════════════════════════════════ */
-  let hasUnsavedChanges = false;
+  hasUnsavedChanges = false;
   let allowClose = false;
 
   function markUnsaved() {
@@ -5846,7 +5928,7 @@ document.querySelector = function(selector) {
   /* ═══════════════════════════════════════════════
      A/B TITLE / THUMBNAIL CHECKER
   ═══════════════════════════════════════════════ */
-  let abSavedTests = JSON.parse(localStorage.getItem('ccABTests') || '[]');
+  abSavedTests = JSON.parse(localStorage.getItem('ccABTests') || '[]');
   const AB_COLORS = ['var(--primary)','var(--secondary)','var(--accent)','var(--warning)','var(--danger)'];
 
   function ab_recalculate() {
@@ -5882,7 +5964,7 @@ document.querySelector = function(selector) {
       }
     });
 
-    if (results.every(r => r.impr === 0)) { document.getElementById('ab_results_panel').style.display='none'; return; }
+    if (results.every(r => r.impr === 0)) { document.getElementById('ab_results_panel').style.display ='none'; return; }
     document.getElementById('ab_results_panel').style.display = 'block';
 
     const winner = results.reduce((a, b) => a.score > b.score ? a : b);
@@ -6155,14 +6237,12 @@ document.querySelector = function(selector) {
     };
   })();
 
-  // Patch updateTab1: add phase bands + unsaved tracking
+  // Patch updateTab1: track unsaved changes
   (function() {
     const _orig = updateTab1;
     updateTab1 = function() {
       _orig();
-      const score = parseFloat(document.getElementById('totalScore')?.innerText) || 0;
-      if (typeof renderPhaseBands === 'function') renderPhaseBands(score);
-      markUnsaved();
+      if (typeof markUnsaved === 'function') markUnsaved();
     };
   })();
 
@@ -6459,9 +6539,8 @@ document.querySelector = function(selector) {
     var trig  = document.getElementById('dtTrigger');
     if (panel) panel.style.display = 'none';
     if (trig)  trig.style.borderColor = '';
-    updateTab1()
-
-
+    updateTab1();
+  }
 
   function dtClear() {
     ['dt_month','dt_day','dt_year','dt_hour','dt_minute'].forEach(function(id) {
@@ -7492,7 +7571,6 @@ document.querySelector = function(selector) {
     wrap.innerHTML=html;
     if(note&&hiAvd&&monthsSel){const tv2=Math.round(remaining*60/hiAvd);const v2=Math.round(tv2/(12*(monthsSel+1)));const d2=Math.round(tv2/(30.5*(monthsSel+1)));note.innerHTML='Views/vid: <strong style="color:var(--success);">'+v2.toLocaleString()+'</strong> · Daily: <strong style="color:var(--success);">'+d2.toLocaleString()+'</strong>';}else if(note)note.innerHTML='';
   }
-}
 
 </script>
 <div id="adminOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.94);backdrop-filter:blur(8px);z-index:99999;overflow-y:auto;">
