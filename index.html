@@ -3778,29 +3778,31 @@ input:focus, select:focus, textarea:focus {
   </div>
 </div>
 <script>
-  // 1. Wait for the DOM to load before running initializations
-document.addEventListener("DOMContentLoaded", () => {
-    // 2. Safely override getElementById to prevent 'null' crashes
-    const originalGetElementById = document.getElementById.bind(document);
-    document.getElementById = function(id) {
-        const el = originalGetElementById(id);
-        if (!el) {
-            // If Claude's code looks for a missing element, give it a fake one so it doesn't crash
-            return { value: '', innerHTML: '', style: {}, textContent: '', dataset: {}, classList: { add:()=>{}, remove:()=>{}, toggle:()=>{} }, addEventListener: ()=>{} };
-        }
-        return el;
-    };
-
-    // 3. Safely override querySelector to prevent 'null' crashes
-    const originalQuerySelector = document.querySelector.bind(document);
-    document.querySelector = function(selector) {
-        const el = originalQuerySelector(selector);
-        if (!el) {
-            return { value: '', innerHTML: '', style: {}, textContent: '', dataset: {}, classList: { add:()=>{}, remove:()=>{}, toggle:()=>{} }, addEventListener: ()=>{} };
-        }
-        return el;
-    };
-});
+ const originalGetId = document.getElementById.bind(document);
+document.getElementById = function(id) {
+    const el = originalGetId(id);
+    if (!el) {
+        console.warn("Bypassed missing element: " + id);
+        return { 
+            value: '', innerHTML: '', style: {}, textContent: '', dataset: {}, checked: false,
+            classList: { add:()=>{}, remove:()=>{}, toggle:()=>{} }, 
+            addEventListener: ()=>{}, setAttribute: ()=>{}, getAttribute: ()=>null
+        };
+    }
+    return el;
+};
+const originalQuery = document.querySelector.bind(document);
+document.querySelector = function(selector) {
+    const el = originalQuery(selector);
+    if (!el) {
+        return { 
+            value: '', innerHTML: '', style: {}, textContent: '', dataset: {}, checked: false,
+            classList: { add:()=>{}, remove:()=>{}, toggle:()=>{} }, 
+            addEventListener: ()=>{}, setAttribute: ()=>{}, getAttribute: ()=>null
+        };
+    }
+    return el;
+};
   /* ─── State ─── */
   let currentUser = null;
   let trackingDataObj = { "Default Video": [] };
