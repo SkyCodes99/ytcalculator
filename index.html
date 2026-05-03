@@ -1747,25 +1747,61 @@ input:focus, select:focus, textarea:focus {
 
     <div id="sv_t3_progress" class="sv-wrap"><!-- ── Progress Bars ── -->
     <div class="control-card">
-      <!-- Subscribers bar -->
-      <div style="margin-bottom:14px;">
-        <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:var(--primary);margin-bottom:5px;"><span>👥 1,000 SUBSCRIBER GOAL</span><span id="m_subsPct">0%</span></div>
-        <div class="progress-track"><div id="m_progressSubs" style="background:linear-gradient(90deg,var(--primary),var(--secondary));height:100%;border-radius:20px;width:0%;transition:width 0.4s;"></div></div>
-      </div>
-      <!-- 3K milestone bar -->
-      <div style="margin-bottom:14px;">
-        <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:var(--warning);margin-bottom:5px;"><span>⭐ 3,000 HR MILESTONE (Shopping affiliate unlock)</span><span id="m_progressPct3k">0%</span></div>
-        <div class="progress-track"><div id="m_progress3k" style="background:linear-gradient(90deg,var(--warning),#FF8C00);height:100%;border-radius:20px;width:0%;transition:width 0.4s;"></div></div>
-      </div>
-      <!-- 4K YPP bar -->
-      <div>
-        <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:var(--secondary);margin-bottom:5px;"><span>🏆 4,000 HR YPP GOAL</span><span id="m_progressPct">0%</span></div>
-        <div class="progress-track" style="overflow:hidden;">
-          <div id="m_progressVod2" style="background:linear-gradient(90deg,var(--danger),#FF6699);height:100%;border-radius:20px 0 0 20px;width:0%;position:relative;z-index:2;transition:width 0.4s;display:inline-block;float:left;"></div>
-          <div id="m_progressStream2" style="background:linear-gradient(90deg,var(--accent),var(--primary));height:100%;border-radius:0 20px 20px 0;width:0%;transition:width 0.4s;display:inline-block;float:left;opacity:0.8;"></div>
+
+      <!-- TIER 1: 500 Subs + 3,000 Watch Hours → Shopping Affiliate -->
+      <div style="margin-bottom:20px;padding:14px;background:var(--card2);border-radius:var(--radius);border:1px solid var(--border);">
+        <div style="font-size:10px;font-weight:800;color:var(--warning);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:10px;">
+          🛒 TIER 1 — Shopping Affiliate Unlock
+          <span style="font-weight:400;color:var(--text-muted);margin-left:6px;">500 subscribers + 3,000 watch hours</span>
         </div>
-        <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:8px;font-size:11px;font-weight:600;"><span style="color:var(--danger);">■ VIDEO HOURS</span><span style="color:var(--accent);">■ STREAM HOURS</span><span style="color:var(--text-muted);">TARGET: 4,000 HRS</span></div>
+        <!-- 500 Subs bar -->
+        <div style="margin-bottom:10px;">
+          <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:var(--warning);margin-bottom:5px;">
+            <span>👥 500 Subscribers</span><span id="m_subs500Pct">0%</span>
+          </div>
+          <div class="progress-track"><div id="m_progressSubs500" style="background:linear-gradient(90deg,var(--warning),#e8a44a);height:100%;border-radius:20px;width:0%;transition:width 0.4s;"></div></div>
+          <div style="font-size:10px;color:var(--text-muted);margin-top:3px;" id="m_subs500Detail"></div>
+        </div>
+        <!-- 3K Watch Hours bar -->
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:var(--warning);margin-bottom:5px;">
+            <span>⏱ 3,000 Watch Hours</span><span id="m_progressPct3k">0%</span>
+          </div>
+          <div class="progress-track"><div id="m_progress3k" style="background:linear-gradient(90deg,var(--warning),#FF8C00);height:100%;border-radius:20px;width:0%;transition:width 0.4s;"></div></div>
+        </div>
       </div>
+
+      <!-- TIER 2: 1,000 Subs + 4,000 Watch Hours → Full YPP -->
+      <div style="padding:14px;background:var(--card2);border-radius:var(--radius);border:1px solid var(--border);">
+        <div style="font-size:10px;font-weight:800;color:var(--primary);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:10px;">
+          🏆 TIER 2 — Full YPP (Ad Revenue)
+          <span style="font-weight:400;color:var(--text-muted);margin-left:6px;">1,000 subscribers + 4,000 watch hours</span>
+        </div>
+        <!-- 1K Subs bar -->
+        <div style="margin-bottom:10px;">
+          <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:var(--primary);margin-bottom:5px;">
+            <span>👥 1,000 Subscribers</span><span id="m_subsPct">0%</span>
+          </div>
+          <div class="progress-track"><div id="m_progressSubs" style="background:linear-gradient(90deg,var(--primary),var(--secondary));height:100%;border-radius:20px;width:0%;transition:width 0.4s;"></div></div>
+          <div style="font-size:10px;color:var(--text-muted);margin-top:3px;" id="m_subsDetail"></div>
+        </div>
+        <!-- 4K Watch Hours bar (video + stream) -->
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:var(--secondary);margin-bottom:5px;">
+            <span>⏱ 4,000 Watch Hours</span><span id="m_progressPct">0%</span>
+          </div>
+          <div class="progress-track" style="overflow:hidden;">
+            <div id="m_progressVod2" style="background:linear-gradient(90deg,var(--danger),#FF6699);height:100%;border-radius:20px 0 0 20px;width:0%;position:relative;z-index:2;transition:width 0.4s;display:inline-block;float:left;"></div>
+            <div id="m_progressStream2" style="background:linear-gradient(90deg,var(--accent),var(--primary));height:100%;border-radius:0 20px 20px 0;width:0%;transition:width 0.4s;display:inline-block;float:left;opacity:0.8;"></div>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:8px;font-size:11px;font-weight:600;">
+            <span style="color:var(--danger);">■ VIDEO HOURS</span>
+            <span style="color:var(--accent);">■ STREAM HOURS</span>
+            <span style="color:var(--text-muted);">TARGET: 4,000 HRS</span>
+          </div>
+        </div>
+      </div>
+
     </div>
 
     <!-- ── ETA Scenario Cards ── -->
@@ -4047,16 +4083,32 @@ input:focus, select:focus, textarea:focus {
     accountFields.forEach(f => { const el = document.getElementById(f); if (el) accountData[f] = el.value; });
 
     return {
-      version: '4.1.0',
+      version: '4.2.0',
       savedAt: new Date().toISOString(),
       creator: currentUser,
+      // Appearance
       theme: currentTheme,
       font: currentFont,
-      trackerData: trackingDataObj,
-      accountInfo: accountData,
-      videoProfiles: vpToSave(),
-      allFields: saveAllFields(),
+      bg: currentBg,
+      layout: currentLayout,
+      textSize: currentTextSize,
+      // Platforms
+      platforms: activePlatforms,
+      // Section visibility
       sectionVisibility: sectionVisibility,
+      // Video profiles (full data for all profiles)
+      videoProfiles: vpToSave(),
+      // All field values across every tab
+      allFields: saveAllFields(),
+      // Tracker
+      trackerData: trackingDataObj,
+      // Account info
+      accountInfo: accountData,
+      // A/B tests
+      abSavedTests: abSavedTests,
+      // Live trackers (channel list only, not live counts)
+      liveTrackers: liveTrackers.map(t => ({ ...t, count: t.count, prevCount: t.prevCount })),
+      // API keys
       apiKeys: {
         ytApiKey: document.getElementById('yt_api_key') ? document.getElementById('yt_api_key').value : '',
         ytVideoIds: document.getElementById('yt_video_ids') ? document.getElementById('yt_video_ids').value : ''
@@ -4367,6 +4419,78 @@ input:focus, select:focus, textarea:focus {
     if (vlMins <= 1) return 80; if (vlMins <= 3) return 65; if (vlMins <= 8) return 55;
     if (vlMins <= 15) return 45; return 35;
   }
+
+  // ── Module-level scenario state ──
+  // Stored outside updateTab1 so the toggle handler always has access
+  let _scenData = {
+    projData: null, scenarios: null, windows: null,
+    hoursOld: null, baseViews: 0, showWH: false, rawMins: 0,
+    toggleState: { sc: ['worst','below_expected','expected','above_expected','best'], win: ['w48h','w7d','w14d','w28d'] }
+  };
+
+  function _buildScenarioCards(visSc, visWin) {
+    const { projData, hoursOld, baseViews, showWH, rawMins } = _scenData;
+    if (!projData || visSc.length === 0 || visWin.length === 0) {
+      return '<div class="scen-cards-wrap" style="padding:10px 0;font-size:12px;color:var(--text-muted);">Select at least one scenario and one time window.</div>';
+    }
+    const fmtNum = n => n >= 1000000 ? (n/1000000).toFixed(2)+'M'
+                      : n >= 1000    ? (n/1000).toFixed(1)+'K'
+                      : n.toLocaleString();
+    const cards = visWin.map(w => {
+      const isPast = (hoursOld || 0) >= w.hrs;
+      const bestV  = projData['best'][w.id].views;
+      const rows = visSc.map(sc => {
+        const d = projData[sc.id][w.id];
+        const barPct = bestV > baseViews
+          ? Math.min(((d.views - baseViews) / (bestV - baseViews)) * 100, 100)
+          : 0;
+        const viewsLabel = isPast ? 'past' : fmtNum(d.views);
+        const viewsColor = isPast ? 'var(--text-muted)' : sc.color;
+        const whLabel = (!isPast && showWH && d.wh != null)
+          ? `<div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border);">
+              <div style="font-size:15px;font-weight:900;color:${viewsColor};line-height:1;font-variant-numeric:tabular-nums;">${d.wh.toFixed(1)}</div>
+              <div style="font-size:11px;font-weight:600;color:var(--text-dim);margin-top:3px;letter-spacing:0.2px;">watch hrs</div>
+            </div>`
+          : '';
+        return `<div style="display:flex;align-items:center;justify-content:space-between;
+          padding:9px 12px;border-bottom:1px solid var(--border);
+          ${isPast ? 'opacity:0.45;' : ''}transition:background 0.12s;"
+          onmouseenter="this.style.background='${sc.color}10'"
+          onmouseleave="this.style.background=''">
+          <div style="display:flex;align-items:center;gap:9px;flex:1;min-width:0;">
+            <div style="width:3px;min-height:36px;border-radius:2px;background:${sc.color};flex-shrink:0;align-self:stretch;"></div>
+            <div style="min-width:0;flex:1;">
+              <div style="font-size:11px;font-weight:700;color:${sc.color};white-space:nowrap;">${sc.label}</div>
+              <div style="font-size:9px;color:var(--text-muted);margin-top:1px;line-height:1.3;
+                white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${sc.desc}</div>
+              ${!isPast ? `<div style="margin-top:5px;height:3px;background:var(--border);border-radius:2px;">
+                <div style="height:100%;width:${Math.max(0,barPct).toFixed(1)}%;background:${sc.color};border-radius:2px;transition:width 0.3s;"></div>
+              </div>` : ''}
+            </div>
+          </div>
+          <div style="text-align:right;flex-shrink:0;padding-left:12px;">
+            <div style="font-size:17px;font-weight:900;color:${viewsColor};line-height:1;
+              font-variant-numeric:tabular-nums;">${viewsLabel}</div>
+            ${!isPast ? `<div style="font-size:11px;font-weight:600;color:var(--text-dim);margin-top:3px;letter-spacing:0.2px;">views</div>` : ''}
+            ${whLabel}
+          </div>
+        </div>`;
+      }).join('');
+      return `<div style="background:var(--card);border:1px solid var(--border-hi);border-radius:10px;
+        overflow:hidden;flex:1;min-width:200px;${isPast ? 'opacity:0.55;' : ''}">
+        <div style="background:var(--card2);padding:9px 12px;border-bottom:2px solid var(--border-hi);
+          display:flex;align-items:center;justify-content:space-between;">
+          <div style="font-size:14px;font-weight:900;color:var(--primary);">${w.label}</div>
+          <div style="font-size:9px;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:0.6px;">
+            ${isPast ? 'passed' : (w.hrs/24 >= 1 ? (w.hrs/24)+'d' : w.hrs+'h') + ' from now'}
+          </div>
+        </div>
+        ${rows}
+      </div>`;
+    }).join('');
+    return `<div class="scen-cards-wrap" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;">${cards}</div>`;
+  }
+
   function updateTab1() {
     const isNew = (document.getElementById('newVideoToggle')?.checked ?? false);
     const vlMins = parseInt(document.getElementById('vlMins')?.value || '0')||0;
@@ -4519,100 +4643,78 @@ input:focus, select:focus, textarea:focus {
       if (!isNaN(pub.getTime())) hoursOld = (Date.now() - pub.getTime()) / 3600000;
     }
 
-    const scenarioBox = document.getElementById('scenarioProjBox');
+    const showWH    = rawMins > 0;
+    const baseViews = views > 0 ? views
+                    : (velocity > 0 && hoursOld > 0 ? Math.round(velocity * hoursOld) : 0);
+
+    // Signal strength for scenario modifiers
+    const _nonSubPctV = parseFloat(document.getElementById('nonSubViewPct')?.value) || 0;
+    const _rewatchRV  = parseFloat(document.getElementById('rewatchRate')?.value) || 0;
+    const _impressV   = parseFloat(document.getElementById('impressionsInput')?.value) || 0;
+    const _ctrSig  = ctr >= 8 ? 3 : ctr >= 5 ? 2 : ctr >= 3 ? 1 : 0;
+    const _avdSig  = avd >= 60 ? 3 : avd >= 45 ? 2 : avd >= 30 ? 1 : 0;
+    const _nsSig   = _nonSubPctV >= 60 ? 2 : _nonSubPctV >= 35 ? 1 : 0;
+    const _rwSig   = _rewatchRV >= 8 ? 1 : 0;
+    const _impSig  = (_impressV > 0 && views > 0)
+      ? ((views/_impressV)*100 >= 7 ? 1 : (views/_impressV)*100 >= 4 ? 0 : -1) : 0;
+    const _sigTotal = _ctrSig + _avdSig + _nsSig + _rwSig + _impSig;
+    const signalStrength = _sigTotal >= 7 ? 'strong' : _sigTotal >= 3 ? 'moderate' : 'weak';
+    const scenarioBox   = document.getElementById('scenarioProjBox');
     const scenarioEmpty = document.getElementById('scenario_empty');
-    if (scenarioBox && velocity > 0) {
-      // Enhanced signal strength calculation using all available inputs
-      const nonSubPctV = parseFloat(document.getElementById('nonSubViewPct')?.value) || 0;
-      const rewatchRV  = parseFloat(document.getElementById('rewatchRate')?.value) || 0;
-      const impressV   = parseFloat(document.getElementById('impressionsInput')?.value) || 0;
-
-      // CTR signal
-      const ctrSignal = ctr >= 8 ? 3 : ctr >= 5 ? 2 : ctr >= 3 ? 1 : 0;
-      // AVD signal
-      const avdSignal = avd >= 60 ? 3 : avd >= 45 ? 2 : avd >= 30 ? 1 : 0;
-      // Non-sub signal (viral spread indicator)
-      const nonSubSignal = nonSubPctV >= 60 ? 2 : nonSubPctV >= 35 ? 1 : 0;
-      // Rewatch signal
-      const rewatchSignal = rewatchRV >= 8 ? 1 : 0;
-      // Impressions-to-views ratio (true CTR from impressions)
-      const impSignal = (impressV > 0 && views > 0)
-        ? ((views/impressV)*100 >= 7 ? 1 : (views/impressV)*100 >= 4 ? 0 : -1)
-        : 0;
-
-      const signalTotal = ctrSignal + avdSignal + nonSubSignal + rewatchSignal + impSignal;
-      const signalStrength = signalTotal >= 7 ? 'strong'
-                           : signalTotal >= 3 ? 'moderate' : 'weak';
-
-      // baseViews: current total, or estimate from velocity×age if views not entered
-      const baseViews = views > 0 ? views
-                      : (velocity > 0 && hoursOld > 0 ? Math.round(velocity * hoursOld) : 0);
-
-      // Projection model: cumulative views using log-integral of power-law decay
-      // V_new = vel * (24/alpha) * ln(1 + alpha * T_hours/24)
-      // This correctly accumulates views over the entire window (more time = more views)
-      // alpha controls how fast velocity decays: low = sustained, high = quick stall
-      function projViews(vel, hrsAhead, alpha) {
-        if (hrsAhead <= 0 || vel <= 0) return baseViews;
-        const newViews = alpha > 0
-          ? vel * (24 / alpha) * Math.log(1 + alpha * hrsAhead / 24)
-          : vel * hrsAhead;  // alpha=0 = constant velocity (no decay)
-        return Math.round(baseViews + newViews);
+    // Show scenarios if we have velocity OR enough view data to project from
+    if (scenarioBox && (velocity > 0 || baseViews > 0)) {
+      // ── PROJECTION MODEL ──
+      function projNewViews(vel, hrsAhead, alpha) {
+        if (hrsAhead <= 0 || vel <= 0) return 0;
+        const T = hrsAhead / 24;
+        if (alpha <= 0)  return vel * hrsAhead;
+        if (Math.abs(alpha - 1) < 0.001) return vel * 24 * Math.log(T + 1);
+        return Math.max(0, vel * 24 * (Math.pow(T + 1, 1 - alpha) - 1) / (1 - alpha));
       }
-
-      // Watch hours from projected new views: new_views × avg_minutes / 60
-      // rawMins = totalTw / 60 (the actual per-viewer average minutes watched)
-      function projWatchHrs(projectedTotal) {
+      function projTotalViews(vel, hrsAhead, alpha) {
+        return Math.round(baseViews + projNewViews(vel, hrsAhead, alpha));
+      }
+      function projTotalWatchHrs(totalV) {
         if (rawMins <= 0) return null;
-        const newViews = Math.max(0, projectedTotal - baseViews);
-        return (newViews * rawMins / 60);
+        return (totalV * rawMins) / 60;
       }
 
-      // Velocity modifiers per scenario
-      const velBest          = velocity * (signalStrength === 'strong' ? 1.45 : signalStrength === 'moderate' ? 1.20 : 1.0);
-      const velAboveExpected = velocity * (signalStrength === 'strong' ? 1.20 : signalStrength === 'moderate' ? 1.08 : 0.88);
+      // ── SCENARIO PARAMETERS ──
+      const velBest          = velocity * (signalStrength === 'strong' ? 1.5  : signalStrength === 'moderate' ? 1.25 : 1.05);
+      const velAboveExpected = velocity * (signalStrength === 'strong' ? 1.2  : signalStrength === 'moderate' ? 1.08 : 0.92);
       const velExpected      = velocity;
-      const velBelowExpected = velocity * (signalStrength === 'strong' ? 0.65 : signalStrength === 'moderate' ? 0.55 : 0.42);
-      const velWorst         = velocity * 0.18;  // push stalls to ~18% of current
+      const velBelowExpected = velocity * (signalStrength === 'strong' ? 0.60 : signalStrength === 'moderate' ? 0.50 : 0.40);
+      const velWorst         = velocity * 0.15;
 
-      // Decay rates (alpha): how quickly velocity decays per 24h
-      // Low alpha = sustained push; high alpha = rapid decline
-      const alphaBest          = signalStrength === 'strong' ? 0.25 : 0.45;  // slowest decay
-      const alphaAboveExpected = signalStrength === 'strong' ? 0.50 : signalStrength === 'moderate' ? 0.70 : 0.90;
-      const alphaExpected      = signalStrength === 'strong' ? 0.80 : signalStrength === 'moderate' ? 1.1 : 1.4;
-      const alphaBelowExpected = signalStrength === 'strong' ? 1.6  : signalStrength === 'moderate' ? 2.0 : 2.4;
-      const alphaWorst         = 4.0;  // rapid stall — most views in first few hours
-
-      // Window-level alpha adjustments to model long-tail natural decay
-      function windowAlpha(base, hrs) {
-        if (hrs > 336) return base + 0.4;    // 14d+: some additional long-tail suppression
-        if (hrs > 168) return base + 0.2;    // 7–14d
-        return base;
-      }
+      const alphaBest          = signalStrength === 'strong' ? 0.30 : 0.50;
+      const alphaAboveExpected = signalStrength === 'strong' ? 0.60 : signalStrength === 'moderate' ? 0.75 : 0.90;
+      const alphaExpected      = signalStrength === 'strong' ? 0.90 : signalStrength === 'moderate' ? 1.05 : 1.20;
+      const alphaBelowExpected = 1.60;
+      const alphaWorst         = 2.50;
 
       const scenarios = [
         { id:'worst',         label:'📉 Worst',          vel:velWorst,         alpha:alphaWorst,         color:'#f87171',
-          desc:'Algorithm stalls quickly. ~82% velocity loss. Organic long-tail only.' },
+          desc:'Algorithm stalls fast. ~85% velocity loss within hours.' },
         { id:'below_expected',label:'⚠️ Below Expected', vel:velBelowExpected, alpha:alphaBelowExpected, color:'#fb923c',
-          desc:'Weaker than usual push. CTR or AVD not sustaining distribution fully.' },
+          desc:'Weaker push than normal. Decay faster than typical.' },
         { id:'expected',      label:'📊 Expected',        vel:velExpected,      alpha:alphaExpected,      color:'#fbbf24',
-          desc:'Natural decay after initial push winds down. Most videos follow this.' },
+          desc:'Standard lifecycle. Most videos follow this curve.' },
         { id:'above_expected',label:'📈 Above Expected',  vel:velAboveExpected, alpha:alphaAboveExpected, color:'#86efac',
-          desc:'Stronger than average push — algorithm favoring your signals above norm.' },
+          desc:'Algorithm holds the push longer than usual.' },
         { id:'best',          label:'🚀 Best',             vel:velBest,          alpha:alphaBest,          color:'#4ade80',
-          desc:'Algorithm sustains or builds the push. Browse + Suggested hold strong.' },
+          desc:'Sustained push. Browse + Suggested stay active.' },
       ];
 
       const windows = [
-        { id:'w48h', label:'48h',    hrs: 48  },
-        { id:'w3d',  label:'3d',     hrs: 72  },
-        { id:'w4d',  label:'4d',     hrs: 96  },
-        { id:'w5d',  label:'5d',     hrs: 120 },
-        { id:'w6d',  label:'6d',     hrs: 144 },
-        { id:'w7d',  label:'7d',     hrs: 168 },
-        { id:'w14d', label:'14d',    hrs: 336 },
-        { id:'w21d', label:'21d',    hrs: 504 },
-        { id:'w28d', label:'28d',    hrs: 672 },
+        { id:'w48h', label:'48h',  hrs: 48  },
+        { id:'w3d',  label:'3d',   hrs: 72  },
+        { id:'w4d',  label:'4d',   hrs: 96  },
+        { id:'w5d',  label:'5d',   hrs: 120 },
+        { id:'w6d',  label:'6d',   hrs: 144 },
+        { id:'w7d',  label:'7d',   hrs: 168 },
+        { id:'w14d', label:'14d',  hrs: 336 },
+        { id:'w21d', label:'21d',  hrs: 504 },
+        { id:'w28d', label:'28d',  hrs: 672 },
       ];
 
       // Pre-compute all projections
@@ -4621,21 +4723,27 @@ input:focus, select:focus, textarea:focus {
         projData[sc.id] = {};
         windows.forEach(w => {
           const hrsAhead = Math.max(0, w.hrs - (hoursOld || 0));
-          const alpha    = windowAlpha(sc.alpha, w.hrs);
-          const totalV   = projViews(sc.vel, hrsAhead, alpha);
-          const wh       = projWatchHrs(totalV);
-          projData[sc.id][w.id] = { views: totalV, wh };
+          const totalV   = projTotalViews(sc.vel, hrsAhead, sc.alpha);
+          const totalWH  = projTotalWatchHrs(totalV);
+          projData[sc.id][w.id] = { views: totalV, wh: totalWH };
         });
       });
 
-      // ── Toggle state — stored on the DOM element to survive updateTab1 re-runs ──
-      // We store on the scenarioBox element itself so it survives innerHTML overwrites
-      // by reading BEFORE we overwrite, not after.
-      const prevToggles = scenarioBox._scenToggles;
-      const activeSc  = (prevToggles && prevToggles.sc)  || ['worst','below_expected','expected','above_expected','best'];
-      const activeWin = (prevToggles && prevToggles.win) || ['w48h','w7d','w14d','w28d'];
-      const visScen = scenarios.filter(s => activeSc.includes(s.id));
-      const visWin  = windows.filter(w => activeWin.includes(w.id));
+      // Store all state at module level so toggle handler always has it
+      _scenData.projData  = projData;
+      _scenData.scenarios = scenarios;
+      _scenData.windows   = windows;
+      _scenData.hoursOld  = hoursOld;
+      _scenData.baseViews = baseViews;
+      _scenData.showWH    = showWH;
+      _scenData.rawMins   = rawMins;
+
+      // Read toggle state (preserved across renders)
+      const ts       = _scenData.toggleState;
+      const activeSc = ts.sc;
+      const activeWin= ts.win;
+      const visScen  = scenarios.filter(s => activeSc.includes(s.id));
+      const visWin   = windows.filter(w => activeWin.includes(w.id));
 
       // Signal badge + age info
       const signalBadge = signalStrength === 'strong'
@@ -4647,173 +4755,88 @@ input:focus, select:focus, textarea:focus {
         ? `<span style="font-size:10px;color:var(--text-dim);">${hoursOld.toFixed(1)}h old &middot; ${velocity.toFixed(1)} views/hr &middot; base ${baseViews.toLocaleString()} views</span>`
         : `<span style="font-size:10px;color:var(--text-dim);">${velocity.toFixed(1)} views/hr &middot; ${baseViews.toLocaleString()} base views</span>`;
 
-      // Build toggle button HTML — uses data-active for visual state only
+      // Shared button style
+      const btnBase = 'padding:5px 13px;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;transition:0.15s;';
+
       const scToggleHTML = scenarios.map(sc => {
         const on = activeSc.includes(sc.id);
-        const bg = on ? `${sc.color}28` : 'var(--card)';
-        const border = on ? sc.color : 'var(--border-hi)';
-        const col = on ? sc.color : 'var(--text-dim)';
         return `<button data-scen-id="${sc.id}" data-scen-type="sc"
-          style="padding:5px 14px;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;
-            border:1.5px solid ${border};background:${bg};color:${col};transition:0.15s;"
+          style="${btnBase}border:1.5px solid ${on ? sc.color : 'var(--border-hi)'};
+            background:${on ? sc.color+'28' : 'var(--card)'};
+            color:${on ? sc.color : 'var(--text-dim)'};"
         >${sc.label}</button>`;
       }).join('');
 
       const winToggleHTML = windows.map(w => {
         const on = activeWin.includes(w.id);
-        const border = on ? 'var(--primary)' : 'var(--border-hi)';
-        const bg = on ? 'var(--primary-dim)' : 'var(--card)';
-        const col = on ? 'var(--primary)' : 'var(--text-dim)';
         return `<button data-scen-id="${w.id}" data-scen-type="win"
-          style="padding:3px 10px;border-radius:14px;font-size:10px;font-weight:600;cursor:pointer;
-            border:1px solid ${border};background:${bg};color:${col};transition:0.15s;"
+          style="${btnBase}border:1.5px solid ${on ? 'var(--primary)' : 'var(--border-hi)'};
+            background:${on ? 'var(--primary-dim)' : 'var(--card)'};
+            color:${on ? 'var(--primary)' : 'var(--text-dim)'};"
         >${w.label}</button>`;
       }).join('');
 
-      // Table HTML
-      const showWH = rawMins > 0;
-      const tableHTML = visScen.length > 0 && visWin.length > 0 ? `
-        <div style="overflow-x:auto;margin-top:10px;">
-          <table style="border-collapse:collapse;width:100%;font-size:11px;">
-            <thead>
-              <tr>
-                <th style="padding:6px 10px;text-align:left;color:var(--text-dim);font-size:10px;text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid var(--border);white-space:nowrap;min-width:110px;"></th>
-                ${visWin.map(w => `<th colspan="${showWH ? 2 : 1}" style="padding:6px 6px;text-align:center;color:var(--primary);font-size:10px;font-weight:700;text-transform:uppercase;border-bottom:1px solid var(--border);white-space:nowrap;">${w.label}</th>`).join('')}
-              </tr>
-              ${showWH ? `<tr>
-                <th style="padding:3px 10px;border-bottom:1px solid var(--border);"></th>
-                ${visWin.map(() => `
-                  <th style="padding:3px 5px;text-align:center;font-size:9px;color:var(--text-muted);font-weight:600;border-bottom:1px solid var(--border);">Views</th>
-                  <th style="padding:3px 5px;text-align:center;font-size:9px;color:var(--text-muted);font-weight:600;border-bottom:1px solid var(--border);">Watch hrs</th>
-                `).join('')}
-              </tr>` : ''}
-            </thead>
-            <tbody>
-              ${visScen.map((sc, ri) => {
-                const rowBg = ri % 2 === 0 ? 'transparent' : 'var(--card2)';
-                return `<tr style="background:${rowBg}">
-                  <td style="padding:9px 10px;border-bottom:1px solid var(--border);">
-                    <div style="font-size:12px;font-weight:800;color:${sc.color};">${sc.label}</div>
-                    <div style="font-size:9px;color:var(--text-muted);margin-top:2px;line-height:1.3;max-width:160px;">${sc.desc}</div>
-                  </td>
-                  ${visWin.map(w => {
-                    const d = projData[sc.id][w.id];
-                    const isPast = (hoursOld || 0) >= w.hrs;
-                    const vColor = isPast ? 'var(--text-muted)' : sc.color;
-                    const viewsStr = isPast ? `<div style="font-size:11px;color:var(--text-muted);">past</div>` : `<div style="font-size:12px;font-weight:800;color:${vColor};">${d.views.toLocaleString()}</div>`;
-                    const whStr = showWH
-                      ? (isPast
-                          ? `<td style="padding:9px 5px;text-align:center;border-bottom:1px solid var(--border);"><div style="font-size:11px;color:var(--text-muted);">—</div></td>`
-                          : `<td style="padding:9px 5px;text-align:center;border-bottom:1px solid var(--border);"><div style="font-size:12px;font-weight:700;color:${sc.color};">${d.wh != null ? d.wh.toFixed(1) : '—'}</div></td>`)
-                      : '';
-                    return `<td style="padding:9px 5px;text-align:center;border-bottom:1px solid var(--border);">${viewsStr}</td>${whStr}`;
-                  }).join('')}
-                </tr>`;
-              }).join('')}
-            </tbody>
-          </table>
-        </div>` : `<div style="padding:10px 0;font-size:12px;color:var(--text-muted);">Select at least one scenario and one time window.</div>`;
+      const tableHTML = _buildScenarioCards(visScen, visWin);
 
       scenarioBox.style.display = 'block';
       if (scenarioEmpty) scenarioEmpty.style.display = 'none';
       scenarioBox.innerHTML = `<div style="background:var(--card);border:1px solid var(--border-hi);border-radius:var(--radius);padding:14px;">
-        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
           ${signalBadge} ${ageNote}
         </div>
         <div style="margin-bottom:8px;">
-          <div style="font-size:10px;color:var(--text-dim);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:5px;">Scenarios</div>
-          <div id="_scen_sc_btns" style="display:flex;gap:6px;flex-wrap:wrap;">${scToggleHTML}</div>
+          <div style="font-size:10px;color:var(--text-dim);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Scenarios</div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;">${scToggleHTML}</div>
         </div>
-        <div style="margin-bottom:6px;">
-          <div style="font-size:10px;color:var(--text-dim);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:5px;">Time windows</div>
-          <div id="_scen_win_btns" style="display:flex;gap:5px;flex-wrap:wrap;">${winToggleHTML}</div>
+        <div style="margin-bottom:4px;">
+          <div style="font-size:10px;color:var(--text-dim);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Time Windows</div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;">${winToggleHTML}</div>
         </div>
         ${tableHTML}
-        <div style="font-size:9px;color:var(--text-muted);margin-top:8px;border-top:1px solid var(--border);padding-top:6px;line-height:1.6;">
-          Cumulative totals from current position. Decay model: α ${alphaBest.toFixed(1)} best · ${alphaExpected.toFixed(1)} expected · ${alphaWorst.toFixed(1)} worst.${showWH ? ` Watch hrs use ${rawMins.toFixed(1)} min avg per view.` : ' Enter avg time watched for watch hour projections.'}
+        <div style="font-size:9px;color:var(--text-muted);margin-top:10px;border-top:1px solid var(--border);padding-top:7px;line-height:1.7;">
+          All view counts are <strong>total cumulative</strong> at that point in time.${showWH ? ` Watch hours are total lifetime hours (AVD: ${rawMins.toFixed(1)} min/view).` : ' Enter avg time watched above to see watch hour projections.'}
         </div>
       </div>`;
 
-      // Store toggle state on the DOM node so it survives re-renders
-      scenarioBox._scenToggles = { sc: activeSc.slice(), win: activeWin.slice() };
-
-      // Wire toggle buttons via event delegation on scenarioBox
-      scenarioBox.addEventListener('click', function _scenClick(e) {
-        const btn = e.target.closest('[data-scen-id][data-scen-type]');
-        if (!btn) return;
-        const type = btn.dataset.scenType;
-        const id   = btn.dataset.scenId;
-        const ts   = scenarioBox._scenToggles || { sc:['worst','below_expected','expected','above_expected','best'], win:['w48h','w7d','w14d','w28d'] };
-        const arr  = type === 'sc' ? ts.sc : ts.win;
-        const i    = arr.indexOf(id);
-        if (i === -1) { arr.push(id); }
-        else if (arr.length > 1) { arr.splice(i, 1); }
-        scenarioBox._scenToggles = ts;
-        // Re-render: rebuild just the visible parts without calling full updateTab1
-        // to avoid the DOM-reading loop bug
-        const updBtn = scenarioBox.querySelectorAll('[data-scen-id][data-scen-type]');
-        updBtn.forEach(b => {
-          const bType = b.dataset.scenType;
-          const bId   = b.dataset.scenId;
-          const bArr  = bType === 'sc' ? ts.sc : ts.win;
-          const isOn  = bArr.includes(bId);
-          const sc    = scenarios.find(x => x.id === bId);
-          const col   = sc ? sc.color : 'var(--primary)';
-          if (bType === 'sc') {
-            b.style.background = isOn ? `${col}28` : 'var(--card)';
-            b.style.borderColor = isOn ? col : 'var(--border-hi)';
-            b.style.color = isOn ? col : 'var(--text-dim)';
-          } else {
-            b.style.background = isOn ? 'var(--primary-dim)' : 'var(--card)';
-            b.style.borderColor = isOn ? 'var(--primary)' : 'var(--border-hi)';
-            b.style.color = isOn ? 'var(--primary)' : 'var(--text-dim)';
-          }
+      // Wire toggle buttons — only attach once; re-attaching on every updateTab1 would stack handlers
+      if (!scenarioBox._toggleBound) {
+        scenarioBox._toggleBound = true;
+        scenarioBox.addEventListener('click', function(e) {
+          const btn = e.target.closest('[data-scen-id][data-scen-type]');
+          if (!btn) return;
+          const type = btn.dataset.scenType;
+          const id   = btn.dataset.scenId;
+          const ts2  = _scenData.toggleState;
+          const arr  = type === 'sc' ? ts2.sc : ts2.win;
+          const i    = arr.indexOf(id);
+          if (i === -1) arr.push(id);
+          else if (arr.length > 1) arr.splice(i, 1);
+          // Update button visuals
+          scenarioBox.querySelectorAll('[data-scen-id][data-scen-type]').forEach(b => {
+            const bType = b.dataset.scenType;
+            const bId   = b.dataset.scenId;
+            const bArr  = bType === 'sc' ? ts2.sc : ts2.win;
+            const isOn  = bArr.includes(bId);
+            const sc    = (_scenData.scenarios||[]).find(x => x.id === bId);
+            const col   = sc ? sc.color : 'var(--primary)';
+            if (bType === 'sc') {
+              b.style.background  = isOn ? col+'28' : 'var(--card)';
+              b.style.borderColor = isOn ? col : 'var(--border-hi)';
+              b.style.color       = isOn ? col : 'var(--text-dim)';
+            } else {
+              b.style.background  = isOn ? 'var(--primary-dim)' : 'var(--card)';
+              b.style.borderColor = isOn ? 'var(--primary)' : 'var(--border-hi)';
+              b.style.color       = isOn ? 'var(--primary)' : 'var(--text-dim)';
+            }
+          });
+          // Re-render cards using module-level function and state
+          const newVisSc  = (_scenData.scenarios||[]).filter(s => ts2.sc.includes(s.id));
+          const newVisWin = (_scenData.windows||[]).filter(w => ts2.win.includes(w.id));
+          const newCards  = _buildScenarioCards(newVisSc, newVisWin);
+          const existing  = scenarioBox.querySelector('.scen-cards-wrap');
+          if (existing) existing.outerHTML = newCards;
         });
-        // Re-render table only
-        const newVisSc  = scenarios.filter(s => ts.sc.includes(s.id));
-        const newVisWin = windows.filter(w => ts.win.includes(w.id));
-        const newTable  = newVisSc.length > 0 && newVisWin.length > 0
-          ? (() => {
-              const inner = newVisSc.map((sc2, ri) => {
-                const rowBg = ri % 2 === 0 ? 'transparent' : 'var(--card2)';
-                return '<tr style="background:' + rowBg + '">' +
-                  '<td style="padding:9px 10px;border-bottom:1px solid var(--border);">' +
-                    '<div style="font-size:12px;font-weight:800;color:' + sc2.color + ';">' + sc2.label + '</div>' +
-                    '<div style="font-size:9px;color:var(--text-muted);margin-top:2px;line-height:1.3;max-width:160px;">' + sc2.desc + '</div>' +
-                  '</td>' +
-                  newVisWin.map(w2 => {
-                    const d2 = projData[sc2.id][w2.id];
-                    const isPast2 = (hoursOld || 0) >= w2.hrs;
-                    const vC = isPast2 ? 'var(--text-muted)' : sc2.color;
-                    const vStr = isPast2
-                      ? '<div style="font-size:11px;color:var(--text-muted);">past</div>'
-                      : '<div style="font-size:12px;font-weight:800;color:' + vC + ';">' + d2.views.toLocaleString() + '</div>';
-                    const whC = showWH
-                      ? (isPast2
-                          ? '<td style="padding:9px 5px;text-align:center;border-bottom:1px solid var(--border);"><div style="font-size:11px;color:var(--text-muted);">—</div></td>'
-                          : '<td style="padding:9px 5px;text-align:center;border-bottom:1px solid var(--border);"><div style="font-size:12px;font-weight:700;color:' + sc2.color + ';">' + (d2.wh != null ? d2.wh.toFixed(1) : '—') + '</div></td>')
-                      : '';
-                    return '<td style="padding:9px 5px;text-align:center;border-bottom:1px solid var(--border);">' + vStr + '</td>' + whC;
-                  }).join('') +
-                '</tr>';
-              }).join('');
-              return '<div style="overflow-x:auto;margin-top:10px;"><table style="border-collapse:collapse;width:100%;font-size:11px;"><thead><tr>' +
-                '<th style="padding:6px 10px;text-align:left;color:var(--text-dim);font-size:10px;text-transform:uppercase;border-bottom:1px solid var(--border);min-width:110px;"></th>' +
-                newVisWin.map(w2 => '<th colspan="' + (showWH ? 2 : 1) + '" style="padding:6px 6px;text-align:center;color:var(--primary);font-size:10px;font-weight:700;text-transform:uppercase;border-bottom:1px solid var(--border);white-space:nowrap;">' + w2.label + '</th>').join('') +
-                '</tr>' + (showWH ? '<tr><th style="border-bottom:1px solid var(--border);"></th>' + newVisWin.map(() => '<th style="padding:3px 5px;text-align:center;font-size:9px;color:var(--text-muted);font-weight:600;border-bottom:1px solid var(--border);">Views</th><th style="padding:3px 5px;text-align:center;font-size:9px;color:var(--text-muted);font-weight:600;border-bottom:1px solid var(--border);">Watch hrs</th>').join('') + '</tr>' : '') +
-                '</thead><tbody>' + inner + '</tbody></table></div>';
-            })()
-          : '<div style="padding:10px 0;font-size:12px;color:var(--text-muted);">Select at least one scenario and one time window.</div>';
-        // Replace table in DOM
-        const existingTable = scenarioBox.querySelector('table');
-        const noTableMsg    = scenarioBox.querySelector('.no-scen-msg');
-        const tableWrapper  = existingTable ? existingTable.closest('div[style*="overflow-x"]') : noTableMsg;
-        if (tableWrapper) {
-          tableWrapper.outerHTML = newTable;
-        } else {
-          scenarioBox.querySelector('[style*="border-top:1px"]')?.insertAdjacentHTML('beforebegin', newTable);
-        }
-      }, { once: false });
+      }
 
     } else if (scenarioBox) {
       scenarioBox.style.display = 'none';
@@ -4861,15 +4884,37 @@ input:focus, select:focus, textarea:focus {
     const rem4k = Math.max(4000-curr, 0);
 
     // Progress bars
-    const vod3kPct = Math.min((curr/3000)*100, 100);
-    const vod4kPct = Math.min((curr/4000)*100, 100);
+    const currSubs    = parseFloat(document.getElementById('m_currSubs')?.value || '0')||0;
+    const vod3kPct    = Math.min((curr/3000)*100, 100);
+    const vod4kPct    = Math.min((curr/4000)*100, 100);
+    const subs500Pct  = Math.min((currSubs/500)*100, 100);
+    const subs1kPct   = Math.min((currSubs/1000)*100, 100);
     const streamAccum = sTotalWk*(diffDays/7);
     const stream4kPct = Math.min((streamAccum/4000)*100, 100-vod4kPct);
-    document.getElementById('m_progress3k').style.width = vod3kPct.toFixed(1)+'%';
-    document.getElementById('m_progressVod2').style.width = vod4kPct.toFixed(1)+'%';
-    document.getElementById('m_progressStream2').style.width = Math.max(stream4kPct,0).toFixed(1)+'%';
-    document.getElementById('m_progressPct3k').innerText = vod3kPct.toFixed(1)+'%';
-    document.getElementById('m_progressPct').innerText = vod4kPct.toFixed(1)+'%'+(stream4kPct>0?` + ${stream4kPct.toFixed(1)}% stream`:'');
+
+    document.getElementById('m_progress3k').style.width        = vod3kPct.toFixed(1)+'%';
+    document.getElementById('m_progressVod2').style.width      = vod4kPct.toFixed(1)+'%';
+    document.getElementById('m_progressStream2').style.width   = Math.max(stream4kPct,0).toFixed(1)+'%';
+    document.getElementById('m_progressSubs500').style.width   = subs500Pct.toFixed(1)+'%';
+    document.getElementById('m_progressSubs').style.width      = subs1kPct.toFixed(1)+'%';
+    document.getElementById('m_progressPct3k').innerText       = vod3kPct.toFixed(1)+'%';
+    document.getElementById('m_progressPct').innerText         = vod4kPct.toFixed(1)+'%'+(stream4kPct>0?` + ${stream4kPct.toFixed(1)}% stream`:'');
+    document.getElementById('m_subs500Pct').innerText          = subs500Pct.toFixed(1)+'%';
+    document.getElementById('m_subsPct').innerText             = subs1kPct.toFixed(1)+'%';
+
+    // Subscriber detail lines
+    const s500El = document.getElementById('m_subs500Detail');
+    if (s500El) {
+      if (currSubs >= 500) s500El.innerHTML = '<span style="color:var(--success);">✅ Reached!</span>';
+      else s500El.textContent = (500-currSubs).toLocaleString()+' subscribers to go';
+    }
+    const s1kEl = document.getElementById('m_subsDetail');
+    if (s1kEl) {
+      if (currSubs >= 1000) s1kEl.innerHTML = '<span style="color:var(--success);">✅ Reached!</span>';
+      else s1kEl.textContent = (1000-currSubs).toLocaleString()+' subscribers to go';
+    }
+    const subsNeededEl = document.getElementById('m_subs_needed');
+    if (subsNeededEl) subsNeededEl.innerText = currSubs>=1000 ? '✅ Done' : (1000-currSubs).toLocaleString();
 
     document.getElementById('m_streamTotal').innerText = Math.floor(sTotalWk).toLocaleString()+' hrs / week';
 
@@ -7806,20 +7851,9 @@ input:focus, select:focus, textarea:focus {
 
   function markFieldEdited(fieldId){if(typeof STALE_FIELD_DEFS_DAILY!=='undefined'&&STALE_FIELD_DEFS_DAILY[fieldId]){const pub=document.getElementById('videoPublishedAt');if(!pub||!pub.value)return;if((Date.now()-new Date(pub.value).getTime())/3600000<24)return;}_fieldTimestamps[fieldId]=Date.now();clearFieldStale(fieldId);if(_fieldTimers[fieldId])clearTimeout(_fieldTimers[fieldId]);_fieldTimers[fieldId]=setTimeout(()=>showFieldStale(fieldId),15*60*1000);}
 
-  function showFieldStale(fieldId){const el=document.getElementById(fieldId);if(!el||!el.value||parseFloat(el.value)<=0)return;if(fieldId==='retNum'){const cbx=document.getElementById('newVideoToggle');if(cbx&&cbx.checked)return;}const ageMs=Date.now()-(_fieldTimestamps[fieldId]||Date.now());const ageMins=Math.round(ageMs/60000);const isRed=ageMins>=30;const col=isRed?'#f87171':'#fbbf24';let badge=document.getElementById('stale_'+fieldId);if(!badge){badge=document.createElement('div');badge.id='stale_'+fieldId;badge.style.cssText='display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;margin-top:3px;line-height:1.4;cursor:pointer;';const box=el.closest('.input-box')||el.parentElement;if(box)box.appendChild(badge);}badge.style.background='rgba('+(isRed?'239,68,68':'251,191,36')+',0.12)';badge.style.border='1px solid '+col;badge.style.color=col;const fieldLabel=STALE_FIELD_DEFS[fieldId]||fieldId;badge.innerHTML=(isRed?'🔴':'🟡')+' '+ageMins+'min — '+(isRed?'<strong>Out of date</strong>':'consider refreshing')+' <span style="text-decoration:underline;cursor:pointer;" onclick="confirmStaleField(\''+fieldId+'\')">[✓ Still current]</span>';el.style.setProperty('border-color',col,'important');el.style.setProperty('box-shadow','0 0 0 2px rgba('+(isRed?'239,68,68':'251,191,36')+',0.25)','important');// Show confirm popup for 30+ min fields
-  if(isRed) _showConfirmStalePopup(fieldId, fieldLabel, ageMins);
-  // Schedule re-check at 30 min if currently at 15 min
-  if(!isRed&&_fieldTimers[fieldId+'_to30']===undefined){_fieldTimers[fieldId+'_to30']=setTimeout(()=>{delete _fieldTimers[fieldId+'_to30'];showFieldStale(fieldId);},15*60*1000);}
-  _checkCollectiveStale();}
+  function showFieldStale(fieldId){const el=document.getElementById(fieldId);if(!el||!el.value||parseFloat(el.value)<=0)return;if(fieldId==='retNum'){const cbx=document.getElementById('newVideoToggle');if(cbx&&cbx.checked)return;}const ageMs=Date.now()-(_fieldTimestamps[fieldId]||Date.now());const ageMins=Math.round(ageMs/60000);const isRed=ageMins>=30;const col=isRed?'#f87171':'#fbbf24';let badge=document.getElementById('stale_'+fieldId);if(!badge){badge=document.createElement('div');badge.id='stale_'+fieldId;badge.style.cssText='display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;margin-top:3px;line-height:1.4;cursor:pointer;';const box=el.closest('.input-box')||el.parentElement;if(box)box.appendChild(badge);}badge.style.background='rgba('+(isRed?'239,68,68':'251,191,36')+',0.12)';badge.style.border='1px solid '+col;badge.style.color=col;const fieldLabel=STALE_FIELD_DEFS[fieldId]||fieldId;badge.innerHTML=(isRed?'🔴':'🟡')+' '+ageMins+'min — '+(isRed?'<strong>Out of date</strong>':'consider refreshing')+' <span style="text-decoration:underline;cursor:pointer;" onclick="confirmStaleField(\''+fieldId+'\')">[✓ Still current]</span>';el.style.setProperty('border-color',col,'important');el.style.setProperty('box-shadow','0 0 0 2px rgba('+(isRed?'239,68,68':'251,191,36')+',0.25)','important');if(!isRed&&_fieldTimers[fieldId+'_to30']===undefined){_fieldTimers[fieldId+'_to30']=setTimeout(()=>{delete _fieldTimers[fieldId+'_to30'];showFieldStale(fieldId);},15*60*1000);}}
 
-  function _showConfirmStalePopup(fieldId, fieldLabel, ageMins){const popId='stale_confirm_'+fieldId;if(document.getElementById(popId))return;const p=document.createElement('div');p.id=popId;p.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:99998;background:var(--card);border:2px solid #f87171;border-radius:14px;padding:22px 26px;max-width:400px;width:90%;box-shadow:0 0 40px rgba(239,68,68,0.35);text-align:center;';p.innerHTML='<div style="font-size:28px;margin-bottom:8px;">🔴</div><div style="font-size:14px;font-weight:800;color:#f87171;margin-bottom:6px;">'+fieldLabel+' may be out of date</div><div style="font-size:12px;color:var(--text);margin-bottom:4px;">This data was entered <strong>'+ageMins+' minutes ago</strong>.</div><div style="font-size:11px;color:var(--text-dim);margin-bottom:16px;">Is this still your latest reading from YouTube Studio?</div><div style="display:flex;gap:10px;justify-content:center;"><button onclick="confirmStaleField(\''+fieldId+'\');document.getElementById(\''+popId+'\').remove();" style="background:var(--success);color:#fff;border:none;border-radius:8px;padding:8px 20px;font-size:12px;font-weight:700;cursor:pointer;">✅ Yes, still current</button><button onclick="document.getElementById(\''+popId+'\').remove();" style="background:var(--danger-dim);color:#f87171;border:1px solid #f87171;border-radius:8px;padding:8px 20px;font-size:12px;font-weight:700;cursor:pointer;">🔄 I\'ll update now</button></div>';document.body.appendChild(p);}
-
-  function confirmStaleField(fieldId){// User confirmed data is still current — reset the staleness clock
-  _fieldTimestamps[fieldId]=Date.now();clearFieldStale(fieldId);if(_fieldTimers[fieldId])clearTimeout(_fieldTimers[fieldId]);_fieldTimers[fieldId]=setTimeout(()=>showFieldStale(fieldId),15*60*1000);showToast('✅ '+(STALE_FIELD_DEFS[fieldId]||fieldId)+' confirmed current','var(--success)');}
-
-  function _checkCollectiveStale(){if(document.getElementById('stale_popup_shown'))return;if(typeof STALE_FIELD_DEFS_FREQUENT==='undefined')return;const now=Date.now(),dayMs=86400000,keys=Object.keys(STALE_FIELD_DEFS_FREQUENT);const withData=keys.filter(id=>{const el=document.getElementById(id);return el&&parseFloat(el.value)>0&&_fieldTimestamps[id];});const stale=withData.filter(id=>(now-_fieldTimestamps[id])>=dayMs);if(withData.length>=4&&stale.length===withData.length)_showCollectiveStalePopup();}
-
-  function _showCollectiveStalePopup(){if(document.getElementById('stale_popup'))return;const p=document.createElement('div');p.id='stale_popup';p.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:99998;background:var(--card);border:2px solid #f87171;border-radius:14px;padding:24px 28px;max-width:420px;width:90%;box-shadow:0 0 40px rgba(239,68,68,0.3);text-align:center;';p.innerHTML='<div style="font-size:32px;margin-bottom:10px;">⏰</div><div style="font-size:15px;font-weight:800;color:#f87171;margin-bottom:8px;">Data Over 24h Old</div><div style="font-size:13px;color:var(--text);margin-bottom:16px;">Refresh metrics from YouTube Studio for accurate readings.</div><button onclick="document.getElementById(\"stale_popup\").remove();" style="background:#f87171;color:#fff;border:none;border-radius:8px;padding:9px 24px;font-size:13px;font-weight:700;cursor:pointer;">Got it</button>';document.body.appendChild(p);const m=document.createElement('div');m.id='stale_popup_shown';m.style.display='none';document.body.appendChild(m);}
+  function confirmStaleField(fieldId){_fieldTimestamps[fieldId]=Date.now();clearFieldStale(fieldId);if(_fieldTimers[fieldId])clearTimeout(_fieldTimers[fieldId]);_fieldTimers[fieldId]=setTimeout(()=>showFieldStale(fieldId),15*60*1000);showToast('✅ '+(STALE_FIELD_DEFS[fieldId]||fieldId)+' confirmed current','var(--success)');}
 
   function clearFieldStale(fieldId){const b=document.getElementById('stale_'+fieldId);if(b)b.remove();const el=document.getElementById(fieldId);if(el){el.style.removeProperty('border-color');el.style.removeProperty('box-shadow');}if(_fieldTimers&&_fieldTimers[fieldId+'_refresh']){clearInterval(_fieldTimers[fieldId+'_refresh']);delete _fieldTimers[fieldId+'_refresh'];}}
 
@@ -8315,8 +8349,306 @@ input:focus, select:focus, textarea:focus {
     wrap.innerHTML=html;
     if(note&&hiAvd&&monthsSel){const tv2=Math.round(remaining*60/hiAvd);const v2=Math.round(tv2/(12*(monthsSel+1)));const d2=Math.round(tv2/(30.5*(monthsSel+1)));note.innerHTML='Views/vid: <strong style="color:var(--success);">'+v2.toLocaleString()+'</strong> · Daily: <strong style="color:var(--success);">'+d2.toLocaleString()+'</strong>';}else if(note)note.innerHTML='';
   }
+  /* ═══════════════════════════════════════════════════════
+     RESET SYSTEM
+     Page-level and section-level reset buttons.
+     resetFields(ids) zeroes/clears a list of field IDs.
+     resetPage(tabId) resets all fields on a given tab.
+     Buttons are injected into the DOM after load.
+  ═══════════════════════════════════════════════════════ */
+
+  // Field groups per tab/section — used by both page-reset and section-reset
+  const RESET_GROUPS = {
+    // ── Tab1: Virality Checker ──
+    tab1_pubhub:     ['viewVelocity','impressionsInput','dt_month','dt_day','dt_year','dt_hour','dt_minute','dt_ampm','videoPublishedAt'],
+    tab1_avd:        ['vlMins','vlSecs','twMins','twSecs'],
+    tab1_ctr:        ['ctrNum','ctr'],
+    tab1_hook:       ['retNum','ret','newVideoToggle'],
+    tab1_engagement: ['viewsInput','likesInput','commentsInput','engInput'],
+    tab1_channel:    ['channelSubs','avgViewsPerUpload','subsGained','nonSubViewPct'],
+    tab1_retention:  ['midRetention','endRetention','cardCtr','rewatchRate'],
+    tab1_stall:      ['views24h','snap1_hours','views48h','snap2_hours','viewsCurrent','snap3_hours'],
+    // ── Tab2: Algorithm Tracker ──
+    tab2_inputs:     ['t2_vlMins','t2_vlSecs','t2_ctr','t2_avd','t2_views','t2_subs'],
+    // ── Tab3: Monetization Tracker ──
+    tab3_quick:      ['m_currentHours','m_currentDailyVelocity','m_currSubs','m_streamHrsQuick','m_streamViewersQuick'],
+    tab3_detailed:   ['m_videosPerWeek','m_avgVideoLen','m_avgViews','m_avdMins','m_avdSecs','m_streamHrs','m_streamViewers'],
+    // ── Tab4: RPM Predictor ──
+    tab4_lf:         ['c_views_min','c_views_max','c_rpm_minNum','c_rpm_maxNum'],
+    tab4_shorts:     ['cs_views_min','cs_views_max','cs_rpm'],
+    tab4_roi:        ['roi_shorts_views','roi_shorts_time','roi_shorts_follow','roi_lf_views','roi_lf_time','roi_lf_follow','roi_lf_avd','roi_rpm'],
+    // ── Social ──
+    social_tt:       ['tt_views','tt_likes','tt_comments','tt_shares','tt_length','tt_velocity','tt_avdNum','tt_hookNum'],
+    social_ig:       ['ig_views','ig_likes','ig_comments','ig_saves','ig_sends','ig_reach','ig_nonfollower','ig_velocity','ig_avdNum'],
+    // ── Channel Projections ──
+    cp_inputs:       ['cp_subs','cp_views','cp_avd','cp_sub_rate','cp_uploads','cp_ctr','cp_rpm','cp_opt_rate','cp_opt_views','cp_agg_uploads','cp_target_ctr','yt_curr_subs','yt_monthly_views','yt_sub_rate'],
+    // ── SEO ──
+    seo_title:       ['seo_title','seo_keyword'],
+    seo_sat:         ['sat_topic','sat_angle'],
+    // ── Retention Curve ──
+    rc_inputs:       ['rc_length','rc_30s','rc_1min','rc_25pct','rc_50pct','rc_75pct','rc_90pct','rc_avd'],
+    // ── End Screen ──
+    es_inputs:       ['es_length','es_avd','es_mid','es_70','es_80','es_90','es_dropoff','es_current_ctr'],
+    // ── Compare ──
+    cmp_all:         ['cmp_id1','cmp_subs1','cmp_totalviews1','cmp_videocount1','cmp_views1','cmp_ctr1','cmp_avd1','cmp_rpm1',
+                      'cmp_id2','cmp_subs2','cmp_totalviews2','cmp_videocount2','cmp_views2','cmp_ctr2','cmp_avd2','cmp_rpm2',
+                      'cmp_id3','cmp_subs3','cmp_totalviews3','cmp_videocount3','cmp_views3','cmp_ctr3','cmp_avd3','cmp_rpm3'],
+    // ── Hook Generator ──
+    hook_inputs:     ['hook_topic'],
+    // ── A/B Checker ──
+    ab_inputs:       ['ab_test_name','ab_total_impressions'],
+  };
+
+  // Map each tab to all its section groups
+  const TAB_GROUPS = {
+    Tab1:       ['tab1_pubhub','tab1_avd','tab1_ctr','tab1_hook','tab1_engagement','tab1_channel','tab1_retention','tab1_stall'],
+    Tab2:       ['tab2_inputs'],
+    Tab3:       ['tab3_quick','tab3_detailed'],
+    Tab4:       ['tab4_lf','tab4_shorts','tab4_roi'],
+    TabSocial:  ['social_tt','social_ig'],
+    TabCP:      ['cp_inputs'],
+    TabSEO:     ['seo_title','seo_sat'],
+    TabRetCurve:['rc_inputs'],
+    TabEndScreen:['es_inputs'],
+    TabCompare: ['cmp_all'],
+    TabHook:    ['hook_inputs'],
+    TabAB:      ['ab_inputs'],
+  };
+
+  function resetFields(ids) {
+    ids.forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (el.type === 'checkbox') { el.checked = false; }
+      else if (el.type === 'hidden') { el.value = ''; }
+      else if (el.tagName === 'SELECT') { el.selectedIndex = 0; }
+      else { el.value = ''; }
+    });
+    // Special handling for date picker clear
+    if (ids.some(id => ['dt_month','dt_day','dt_year','dt_hour','dt_minute','dt_ampm'].includes(id))) {
+      const amEl = document.getElementById('dt_ampm'); if (amEl) amEl.value = 'AM';
+      const pubH = document.getElementById('videoPublishedAt'); if (pubH) pubH.value = '';
+      if (typeof dtUpdate === 'function') dtUpdate();
+      if (typeof dtSetAgeLabel === 'function') dtSetAgeLabel('');
+    }
+    // Sync sliders after reset
+    [['ctrNum','ctr'],['retNum','ret']].forEach(([num,sl]) => {
+      if (ids.includes(num) || ids.includes(sl)) {
+        const nEl = document.getElementById(num); const sEl = document.getElementById(sl);
+        if (nEl && !nEl.value) nEl.value = '0';
+        if (sEl && !sEl.value) sEl.value = '0';
+        if (typeof syncNum === 'function' && nEl && sEl) syncNum(num, sl);
+      }
+    });
+    // Recalculate whichever tab is active
+    if (typeof updateTab1 === 'function') try { updateTab1(); } catch(e) {}
+    if (typeof updateTab3 === 'function') try { updateTab3(); } catch(e) {}
+    if (typeof updateTab2 === 'function') try { updateTab2(); } catch(e) {}
+    if (typeof generateReport === 'function') try { generateReport(); } catch(e) {}
+    showToast('↺ Section reset', 'var(--text-dim)');
+  }
+
+  function resetPage(tabId) {
+    const groups = TAB_GROUPS[tabId] || [];
+    const allIds = groups.flatMap(g => RESET_GROUPS[g] || []);
+    if (allIds.length === 0) { showToast('Nothing to reset on this page', 'var(--text-muted)'); return; }
+    resetFields(allIds);
+    // Also reset traffic source on Tab1
+    if (tabId === 'Tab1') {
+      const r = document.getElementById('src_unknown'); if (r) r.checked = true;
+    }
+    showToast('↺ Page reset', 'var(--text-dim)');
+  }
+
+  // Inject reset buttons into the DOM after load
+  (function injectResetButtons() {
+    const BTN_STYLE = 'display:inline-flex;align-items:center;gap:4px;padding:4px 10px;font-size:10px;font-weight:700;cursor:pointer;border-radius:6px;background:transparent;color:var(--text-muted);border:1px solid var(--border);transition:0.15s;white-space:nowrap;';
+    const BTN_HOVER = 'onmouseenter="this.style.color=\'var(--text-dim)\';this.style.borderColor=\'var(--border-hi)\'" onmouseleave="this.style.color=\'var(--text-muted)\';this.style.borderColor=\'var(--border)\'"';
+
+    // Section-level reset: attach to each sv-wrap that maps to a RESET_GROUP
+    const SECTION_MAP = {
+      'sv_t1_pubhub':    'tab1_pubhub',
+      'sv_t1_avd':       'tab1_avd',
+      'sv_t1_ctr':       'tab1_ctr',
+      'sv_t1_hook':      'tab1_hook',
+      'sv_t1_engagement':'tab1_engagement',
+      'sv_t1_channel':   'tab1_channel',
+      'sv_t1_ret_detail':'tab1_retention',
+      'sv_t1_stall':     'tab1_stall',
+      'sv_t2_inputs':    'tab2_inputs',
+      'sv_t3_quickentry':'tab3_quick',
+      'sv_t3_detailed':  'tab3_detailed',
+      'sv_t4_lf':        'tab4_lf',
+      'sv_t4_shorts':    'tab4_shorts',
+      'sv_t4_roi':       'tab4_roi',
+      'sv_soc_tt_panel': 'social_tt',
+      'sv_soc_ig_panel': 'social_ig',
+      'sv_cp_t1':        'cp_inputs',
+      'sv_seo_t1':       'seo_title',
+      'sv_seo_t2':       'seo_sat',
+      'sv_rc_inputs':    'rc_inputs',
+      'sv_es_inputs':    'es_inputs',
+      'sv_cmp_manual':   'cmp_all',
+      'sv_hook_inputs':  'hook_inputs',
+      'sv_tab_ab_setup': 'ab_inputs',
+    };
+
+    Object.entries(SECTION_MAP).forEach(([svId, groupKey]) => {
+      const wrap = document.getElementById(svId);
+      if (!wrap) return;
+      const card = wrap.querySelector('.control-card') || wrap.firstElementChild;
+      if (!card) return;
+
+      // Create reset button
+      const btn = document.createElement('button');
+      btn.title = 'Reset this section';
+      btn.style.cssText = BTN_STYLE + 'margin-left:auto;flex-shrink:0;';
+      btn.innerHTML = '↺ Reset';
+      btn.setAttribute('onmouseenter', "this.style.color='var(--text-dim)';this.style.borderColor='var(--border-hi)'");
+      btn.setAttribute('onmouseleave', "this.style.color='var(--text-muted)';this.style.borderColor='var(--border)'");
+      btn.onclick = function(e) { e.stopPropagation(); resetFields(RESET_GROUPS[groupKey] || []); };
+
+      // Try to find an existing header element (h3, or a bold label div) to sit alongside
+      const h3 = card.querySelector(':scope > h3');
+      const labelDiv = card.querySelector(':scope > div[style*="font-weight:700"], :scope > div[style*="font-weight: 700"]');
+      const labelFlex = card.querySelector(':scope > .label-flex');
+
+      if (h3) {
+        // Wrap h3 in a flex row with the button
+        const row = document.createElement('div');
+        row.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:' + (h3.style.marginBottom || '0') + ';';
+        h3.style.marginBottom = '0';
+        h3.parentNode.insertBefore(row, h3);
+        row.appendChild(h3);
+        row.appendChild(btn);
+      } else if (labelFlex) {
+        // Already a flex row — just append
+        labelFlex.appendChild(btn);
+      } else if (labelDiv) {
+        // Wrap the label div in a flex row
+        const row = document.createElement('div');
+        row.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:' + (labelDiv.style.marginBottom || '0') + ';';
+        labelDiv.style.marginBottom = '0';
+        labelDiv.parentNode.insertBefore(row, labelDiv);
+        row.appendChild(labelDiv);
+        row.appendChild(btn);
+      } else {
+        // No header found — prepend a slim reset bar at the very top
+        const bar = document.createElement('div');
+        bar.style.cssText = 'display:flex;justify-content:flex-end;margin-bottom:8px;';
+        bar.appendChild(btn);
+        card.insertBefore(bar, card.firstChild);
+      }
+    });
+
+    // Page-level reset: inject into each tab's h2 heading
+    Object.keys(TAB_GROUPS).forEach(tabId => {
+      const tab = document.getElementById(tabId);
+      if (!tab) return;
+      const h2 = tab.querySelector('h2');
+      if (!h2) return;
+      h2.style.display = 'flex';
+      h2.style.alignItems = 'center';
+      h2.style.justifyContent = 'space-between';
+      h2.style.flexWrap = 'wrap';
+      h2.style.gap = '8px';
+      const btn = document.createElement('button');
+      btn.title = 'Reset all data on this page';
+      btn.style.cssText = 'display:inline-flex;align-items:center;gap:5px;padding:6px 14px;font-size:11px;font-weight:700;cursor:pointer;border-radius:8px;background:var(--card2);color:var(--text-dim);border:1px solid var(--border-hi);transition:0.15s;flex-shrink:0;';
+      btn.innerHTML = '↺ Reset Page';
+      btn.setAttribute('onmouseenter', "this.style.background='var(--danger-dim)';this.style.color='var(--danger)';this.style.borderColor='var(--danger)'");
+      btn.setAttribute('onmouseleave', "this.style.background='var(--card2)';this.style.color='var(--text-dim)';this.style.borderColor='var(--border-hi)'");
+      btn.onclick = function(e) {
+        e.stopPropagation();
+        if (confirm('Reset all data entered on this page?')) resetPage(tabId);
+      };
+      h2.appendChild(btn);
+    });
+  })();
+
+  /* ═══════════════════════════════════════════════════════
+     TOOLTIP SYSTEM — single delegated listener, no MutationObserver
+     .tip-popup children of label[data-tip] and .tip-wrap show on hover.
+  ═══════════════════════════════════════════════════════ */
+  (function initTooltips() {
+    let currentPopup = null;
+    let hideTimer    = null;
+
+    // One floating container that we reuse for all tooltips
+    const floater = document.createElement('div');
+    floater.id = 'tip-floater';
+    floater.style.cssText = [
+      'display:none', 'position:fixed', 'z-index:99990',
+      'background:var(--card)', 'border:1px solid var(--border-hi)',
+      'border-radius:var(--radius)', 'padding:10px 13px',
+      'font-size:11px', 'line-height:1.65', 'color:var(--text)',
+      'width:260px', 'max-width:80vw', 'box-shadow:0 8px 32px rgba(0,0,0,0.5)',
+      'pointer-events:none', 'font-weight:400', 'white-space:normal'
+    ].join(';');
+    document.body.appendChild(floater);
+
+    function showAt(popup, triggerRect) {
+      if (!popup) return;
+      floater.innerHTML = popup.innerHTML;
+      floater.style.display = 'block';
+      floater.style.left = '-9999px';
+      floater.style.top  = '-9999px';
+
+      const fw = floater.offsetWidth  || 260;
+      const fh = floater.offsetHeight || 80;
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+
+      let left = triggerRect.left;
+      let top  = triggerRect.bottom + 6;
+      if (left + fw > vw - 8) left = vw - fw - 8;
+      if (left < 8)           left = 8;
+      if (top  + fh > vh - 8) top  = triggerRect.top - fh - 6;
+      if (top  < 8)           top  = 8;
+
+      floater.style.left = left + 'px';
+      floater.style.top  = top  + 'px';
+    }
+
+    function hide() {
+      floater.style.display = 'none';
+      currentPopup = null;
+    }
+
+    // Find the nearest tooltip trigger ancestor of an element
+    function getTrigger(el) {
+      return el.closest('label[data-tip], .tip-wrap');
+    }
+
+    document.addEventListener('mouseover', function(e) {
+      const trigger = getTrigger(e.target);
+      if (!trigger) return;
+      const popup = trigger.querySelector(':scope > .tip-popup');
+      if (!popup) return;
+      clearTimeout(hideTimer);
+      currentPopup = popup;
+      showAt(popup, trigger.getBoundingClientRect());
+    });
+
+    document.addEventListener('mouseout', function(e) {
+      const trigger = getTrigger(e.target);
+      if (!trigger) return;
+      // Only hide if we're actually leaving the trigger (not moving to a child)
+      if (trigger.contains(e.relatedTarget)) return;
+      clearTimeout(hideTimer);
+      hideTimer = setTimeout(hide, 80);
+    });
+
+    // Hide when scrolling or tabbing away
+    document.addEventListener('scroll', hide, true);
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') hide();
+    });
+  })();
 
 </script>
+
+
 <div id="adminOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.94);backdrop-filter:blur(8px);z-index:99999;overflow-y:auto;">
   <div style="max-width:800px;margin:40px auto;padding:0 20px 60px;">
     <div style="display:flex;justify-content:space-between;align-items:center;padding:24px 0;border-bottom:1px solid rgba(255,255,255,0.08);margin-bottom:32px;">
