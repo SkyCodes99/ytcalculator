@@ -1446,7 +1446,7 @@ input:focus, select:focus, textarea:focus {
           <button onclick="vpDelete()" title="Delete profile" style="padding:5px 10px;background:var(--danger-dim);color:var(--danger);border:1px solid var(--danger);border-radius:var(--radius);font-size:11px;cursor:pointer;">&#10005;</button>
         </div>
       </div>
-      <div id="vp_counter" style="font-size:10px;color:var(--text-muted);margin-top:6px;"></div>
+      <div id="vp_counter" style="font-size:10px;color:var(--text-muted);margin-top:6px;">Profile 1 of 1 — data auto-saves per profile</div>
     </div>
   </div>
     <!-- Upload time + trend mode -->
@@ -1665,11 +1665,13 @@ input:focus, select:focus, textarea:focus {
         <div id="sv_t1_insight" class="sv-wrap"><div class="insight-box" style="margin-top:12px;">
       <span class="icon">📐</span>
       <div style="font-size:11px;line-height:1.9;color:var(--text);">
-        <strong style="color:var(--primary);display:block;margin-bottom:4px;">When each metric starts scoring:</strong>
-        <b style="color:var(--text-dim);">CTR:</b> &lt;1% = penalty &nbsp;·&nbsp; 2% = neutral &nbsp;·&nbsp; 3%+ = positive &nbsp;·&nbsp; 10% = max (35 pts)<br>
-        <b style="color:var(--text-dim);">AVD:</b> &lt;40% of length target = penalty &nbsp;·&nbsp; 70% = neutral &nbsp;·&nbsp; 100%+ = positive &nbsp;·&nbsp; 130%+ = max (35 pts)<br>
-        <b style="color:var(--text-dim);">Hook:</b> &lt;35% = penalty &nbsp;·&nbsp; 35–55% = neutral &nbsp;·&nbsp; 55%+ = positive &nbsp;·&nbsp; 75%+ = max (15 pts)<br>
-        <b style="color:var(--text-dim);">Engagement:</b> &lt;0.5% = small penalty &nbsp;·&nbsp; 1.5% = neutral &nbsp;·&nbsp; 3%+ = positive &nbsp;·&nbsp; 6%+ = max (10 pts)
+        <strong style="color:var(--primary);display:block;margin-bottom:4px;">When each metric starts scoring (max pts in brackets):</strong>
+        <b style="color:var(--text-dim);">CTR [35]:</b> &lt;2% = penalty &nbsp;·&nbsp; 2–4% = neutral &nbsp;·&nbsp; 4–7% = rewarded &nbsp;·&nbsp; 10%+ = exceptional<br>
+        <b style="color:var(--text-dim);">AVD [35–40]:</b> below length target = weak &nbsp;·&nbsp; at target = 25 pts &nbsp;·&nbsp; 130%+ = max<br>
+        <b style="color:var(--text-dim);">Hook [25]:</b> &lt;35% = low &nbsp;·&nbsp; 55% = solid &nbsp;·&nbsp; 75%+ = max<br>
+        <b style="color:var(--text-dim);">Abs Watch [15]:</b> calibrated to video length × 45% benchmark<br>
+        <b style="color:var(--text-dim);">Engagement [20]:</b> like-rate × 65% + comment-rate × 35% quality score<br>
+        <b style="color:var(--text-dim);">Bonus [10]:</b> Non-sub reach, rewatch rate, mid/end retention, sub conversion, card CTR
       </div>
     </div></div>
 
@@ -1732,6 +1734,8 @@ input:focus, select:focus, textarea:focus {
         <div class="input-box"><label>✅ Watch Hours Earned So Far</label><input type="number" id="m_currentHours" value="0" oninput="updateTab3()" placeholder="e.g. 1240"></div>
         <div class="input-box"><label>📈 Daily Watch Hours (videos)</label><input type="number" id="m_currentDailyVelocity" value="0" step="0.1" oninput="updateTab3()" placeholder="From Studio Analytics"></div>
         <div class="input-box"><label>👥 Current Subscribers</label><input type="number" id="m_currSubs" value="0" oninput="updateTab3()" placeholder="e.g. 320"></div>
+        <div class="input-box"><label>🎮 Stream Hrs / Week <span style="font-size:10px;color:var(--accent);">(adds to progress bar)</span></label><input type="number" id="m_streamHrsQuick" value="0" min="0" oninput="syncStreamQuick();updateTab3()" placeholder="e.g. 4"></div>
+        <div class="input-box"><label>👁 Avg Concurrent Stream Viewers</label><input type="number" id="m_streamViewersQuick" value="0" min="0" oninput="syncStreamQuick();updateTab3()" placeholder="e.g. 15"></div>
       </div>
       <!-- ETA Headline -->
       <div id="m_eta_headline" style="margin-top:16px;background:var(--card2);border-radius:var(--radius);padding:16px;display:none;">
@@ -1953,8 +1957,8 @@ input:focus, select:focus, textarea:focus {
           <span class="val-badge" id="c_rpm_val" style="color:var(--secondary);border-color:var(--secondary);background:var(--secondary-dim);">$2.00 – $5.00</span>
         </div>
         <div style="display:flex;gap:20px;margin-top:10px;">
-          <div style="flex:1;"><label style="font-size:11px;color:var(--text-dim);font-weight:700;font-family:var(--font-mono);display:block;margin-bottom:6px;">Min RPM ($)</label><input type="range" id="c_rpm_min" min="0.5" max="50" step="0.1" value="2.0" oninput="syncSlider('c_rpm_min','c_rpm_minNum');updateRpmSliders('min')"><input type="text" inputmode="decimal" id="c_rpm_minNum" value="2.0" style="width:70px;margin-top:4px;padding:4px 6px;background:var(--bg2);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:11px;color:var(--text-bright);" oninput="syncNum('c_rpm_minNum','c_rpm_min');updateRpmSliders('min');updateRpmSliders('min')"></div>
-          <div style="flex:1;"><label style="font-size:11px;color:var(--text-dim);font-weight:700;font-family:var(--font-mono);display:block;margin-bottom:6px;">Max RPM ($)</label><input type="range" id="c_rpm_max" min="0.5" max="50" step="0.1" value="5.0" oninput="syncSlider('c_rpm_max','c_rpm_maxNum');updateRpmSliders('max')"><input type="text" inputmode="decimal" id="c_rpm_maxNum" value="5.0" style="width:70px;margin-top:4px;padding:4px 6px;background:var(--bg2);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:11px;color:var(--text-bright);" oninput="syncNum('c_rpm_maxNum','c_rpm_max');updateRpmSliders('max');updateRpmSliders('max')"></div>
+          <div style="flex:1;"><label style="font-size:11px;color:var(--text-dim);font-weight:700;font-family:var(--font-mono);display:block;margin-bottom:6px;">Min RPM ($) <span style="color:var(--text-muted);font-weight:400;">slider: $0.50–$50</span></label><input type="range" id="c_rpm_min" min="0.5" max="50" step="0.1" value="2.0" oninput="syncSlider('c_rpm_min','c_rpm_minNum');updateRpmSliders('min')"><input type="text" inputmode="decimal" id="c_rpm_minNum" value="2.0" style="width:70px;margin-top:4px;padding:4px 6px;background:var(--bg2);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:11px;color:var(--text-bright);" oninput="syncNum('c_rpm_minNum','c_rpm_min');updateRpmSliders('min');updateRpmSliders('min')"></div>
+          <div style="flex:1;"><label style="font-size:11px;color:var(--text-dim);font-weight:700;font-family:var(--font-mono);display:block;margin-bottom:6px;">Max RPM ($) <span style="color:var(--text-muted);font-weight:400;">type any value up to $50+</span></label><input type="range" id="c_rpm_max" min="0.5" max="50" step="0.1" value="5.0" oninput="syncSlider('c_rpm_max','c_rpm_maxNum');updateRpmSliders('max')"><input type="text" inputmode="decimal" id="c_rpm_maxNum" value="5.0" style="width:70px;margin-top:4px;padding:4px 6px;background:var(--bg2);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:11px;color:var(--text-bright);" oninput="syncNum('c_rpm_maxNum','c_rpm_max');updateRpmSliders('max');updateRpmSliders('max')"></div>
         </div>
         <div class="insight-box">
           <span class="icon">🎯</span>
@@ -3788,8 +3792,8 @@ input:focus, select:focus, textarea:focus {
   let currentTextSize = 'md';
   let currentLayout = 'default';
   let hasUnsavedChanges = false;
-  let videoProfiles = { 'Video 1': {} };
-  let currentProfile = 'Video 1';
+  let videoProfiles = { 'Default Video': {} };
+  let currentProfile = 'Default Video';
   let sectionVisibility = {};
   let activePlatforms = ['youtube'];
   let liveTrackers = [];
@@ -3807,6 +3811,9 @@ input:focus, select:focus, textarea:focus {
     'viewVelocity','impressionsInput','viewsCurrent','snap3_hours',
     'vlMins','vlSecs','twMins','twSecs','engInput',
     'dt_month','dt_day','dt_year','dt_hour','dt_minute','dt_ampm',
+    'nonSubViewPct','rewatchRate','midRetention','endRetention','cardCtr',
+    'channelSubs','avgViewsPerUpload','subsGained',
+    'views24h','snap1_hours','views48h','snap2_hours',
   ];
 
 
@@ -3818,6 +3825,43 @@ input:focus, select:focus, textarea:focus {
     { label:'🚀 Viral Potential', min:75, max:89,  color:'#22d3ee' },
     { label:'🔥 Viral Breakout',  min:90, max:100, color:'#bf5fff' },
   ];
+
+  // ── STALENESS SYSTEM ──
+  // Fields that should be flagged when data is potentially outdated
+  const STALE_FIELD_DEFS = {
+    'viewVelocity': 'View Velocity',
+    'impressionsInput': 'Impressions',
+    'twMins': 'AVD Minutes',
+    'twSecs': 'AVD Seconds',
+    'ctr': 'CTR',
+    'viewsInput': 'Total Views',
+    'likesInput': 'Likes',
+    'commentsInput': 'Comments',
+  };
+  // Subset that applies even before 24h
+  const STALE_FIELD_DEFS_FREQUENT = {
+    'viewVelocity': true,
+    'impressionsInput': true,
+    'twMins': true,
+    'twSecs': true,
+    'ctr': true,
+    'viewsInput': true,
+    'likesInput': true,
+    'commentsInput': true,
+  };
+  // Subset that only matters after video is > 24h old
+  const STALE_FIELD_DEFS_DAILY = {};
+
+  // Card-level staleness mapping: cardId → fieldIds that should have data
+  const STALE_CARDS = {
+    'sv_t1_pubhub':     ['viewVelocity', 'impressionsInput'],
+    'sv_t1_avd':        ['twMins', 'twSecs'],
+    'sv_t1_ctr':        ['ctr'],
+    'sv_t1_engagement': ['viewsInput', 'likesInput', 'commentsInput'],
+  };
+
+  let _dataLastEdited = null;
+  let _stalenessTimer = null;
   /* ─── Theme/Font stubs — real implementations defined below in V7 block ─── */
   /* These will be overwritten when the V7 design system JS initialises */
 
@@ -3994,19 +4038,25 @@ input:focus, select:focus, textarea:focus {
   }
 
   function buildSavePayload() {
+    // Capture latest values into current profile before saving
+    vpSave();
+
     // Collect all account info fields
     const accountFields = ['ai_name','ai_username','ai_email','ai_password','ai_yt_link','ai_tt_link','ai_ig_link','ai_other_link','ai_bio'];
     const accountData = {};
     accountFields.forEach(f => { const el = document.getElementById(f); if (el) accountData[f] = el.value; });
 
     return {
-      version: '4.0.0',
+      version: '4.1.0',
       savedAt: new Date().toISOString(),
       creator: currentUser,
       theme: currentTheme,
       font: currentFont,
       trackerData: trackingDataObj,
       accountInfo: accountData,
+      videoProfiles: vpToSave(),
+      allFields: saveAllFields(),
+      sectionVisibility: sectionVisibility,
       apiKeys: {
         ytApiKey: document.getElementById('yt_api_key') ? document.getElementById('yt_api_key').value : '',
         ytVideoIds: document.getElementById('yt_video_ids') ? document.getElementById('yt_video_ids').value : ''
@@ -4336,16 +4386,104 @@ input:focus, select:focus, textarea:focus {
     document.getElementById('retVal').innerText = ret.toFixed(0)+'%';
     document.getElementById('engVal').innerText = eng.toFixed(1)+'% Rate';
     const targetAvd = getAvdTarget(totalVl/60);
-    const ctrPts = Math.min((ctr/10)*25, 25);
-    const rawPts = Math.min((raw/8)*20, 20);
-    const engPts = Math.min((eng/5)*10, 10);
-    let avdPts, retPts, avdMax;
-    if (isNew) { document.getElementById('retGroup').style.opacity ='0.4'; retPts=0; avdMax=45; avdPts=Math.min((avd/targetAvd)*avdMax,avdMax); }
-    else { document.getElementById('retGroup').style.opacity ='1'; avdMax=30; retPts=Math.min((ret/70)*15,15); avdPts=Math.min((avd/targetAvd)*avdMax,avdMax); }
-    const total = (ctrPts+avdPts+retPts+rawPts+engPts).toFixed(1);
-    document.getElementById('totalScore').innerText = total;
+
+    // ── REFINED VIRALITY ALGORITHM (YouTube-aligned) ──
+    // Based on YouTube's documented ranking signals:
+    // CTR (clickability), AVD (satisfaction), Hook/Retention,
+    // Raw watch time (absolute signal), Engagement quality,
+    // Non-subscriber reach (distribution signal), Impressions-to-views ratio,
+    // Rewatch rate, and Channel performance vs baseline.
+
+    // 1. CTR — non-linear curve matching YT's actual distribution reward
+    //    < 2% = penalty zone, 2–4% = neutral, 4–7% = rewarded, 7–10% = strong, 10%+ = exceptional
+    const ctrCurve = ctr <= 0 ? 0
+      : ctr < 2   ? Math.max(0, (ctr/2)*8)           // 0–8 pts (penalty zone)
+      : ctr < 4   ? 8 + ((ctr-2)/2)*9                // 8–17 pts (neutral→positive)
+      : ctr < 7   ? 17 + ((ctr-4)/3)*8               // 17–25 pts (rewarded)
+      : ctr < 10  ? 25 + ((ctr-7)/3)*5               // 25–30 pts (strong)
+      :             Math.min(30 + ((ctr-10)/5)*5, 35);// 30–35 pts (exceptional)
+    const ctrPts = Math.min(ctrCurve, 35);
+
+    // 2. AVD% — core satisfaction signal (most weighted)
+    //    YouTube compares AVD against content length benchmark
+    const avdRatio = targetAvd > 0 ? avd/targetAvd : 0;
+    const avdPtsRaw = avdRatio <= 0 ? 0
+      : avdRatio < 0.5 ? avdRatio * 20           // below threshold = small pts
+      : avdRatio < 0.8 ? 10 + (avdRatio-0.5)*50  // approaching target
+      : avdRatio < 1.0 ? 25 + (avdRatio-0.8)*50  // at target
+      : avdRatio < 1.3 ? 35 + (avdRatio-1.0)*33  // above target (strong)
+      :                   Math.min(35 + (avdRatio-1.3)*15, 40); // exceptional
+
+    // 3. Hook/Early Retention
+    let retPts = 0;
+    const avdMax = isNew ? 40 : 35;
+    const avdPts = Math.min(avdPtsRaw, avdMax);
+    if (isNew) {
+      document.getElementById('retGroup').style.opacity = '0.4';
+    } else {
+      document.getElementById('retGroup').style.opacity = '1';
+      // Hook retention: 35% = baseline, 55% = good, 75%+ = excellent
+      retPts = ret <= 0 ? 0
+        : ret < 35 ? Math.max(0, ret/35*8)
+        : ret < 55 ? 8 + ((ret-35)/20)*7
+        : ret < 75 ? 15 + ((ret-55)/20)*5
+        :             Math.min(20 + (ret-75)/25*5, 25);
+      retPts = Math.min(retPts, 25);
+    }
+
+    // 4. Absolute watch time (raw minutes) — YouTube values absolute session contribution
+    //    Calibrated per video length: longer content has harder benchmark
+    const rawBenchmark = Math.max(2, Math.min(totalVl/60 * 0.45, 12)); // 45% of vid length, capped at 12min
+    const rawPts = raw <= 0 ? 0
+      : Math.min((raw / rawBenchmark) * 15, 15);
+
+    // 5. Engagement quality score — likes/comments weighted, rewards genuine interaction
+    //    YouTube internally weights likes > comments for distribution
+    const likesN    = parseFloat(document.getElementById('likesInput')?.value) || 0;
+    const commentsN = parseFloat(document.getElementById('commentsInput')?.value) || 0;
+    const likeRate    = views > 0 ? (likesN/views)*100 : 0;
+    const commentRate = views > 0 ? (commentsN/views)*100 : 0;
+    const engQuality = (likeRate * 0.65) + (commentRate * 0.35); // like-weighted engagement
+    const engPts = engQuality <= 0 ? 0
+      : engQuality < 1   ? engQuality * 3
+      : engQuality < 3   ? 3 + (engQuality-1)*3
+      : engQuality < 6   ? 9 + (engQuality-3)*2
+      :                     Math.min(15 + (engQuality-6), 20);
+    const engPtsFinal = Math.min(engPts, 20);
+
+    // 6. Bonus signals (up to 10 pts) — these reflect YouTube's secondary ranking factors
+    let bonusPts = 0;
+    const nonSubPct   = parseFloat(document.getElementById('nonSubViewPct')?.value) || 0;
+    const rewatchR    = parseFloat(document.getElementById('rewatchRate')?.value) || 0;
+    const midRet      = parseFloat(document.getElementById('midRetention')?.value) || 0;
+    const endRet      = parseFloat(document.getElementById('endRetention')?.value) || 0;
+    const cardCtrV    = parseFloat(document.getElementById('cardCtr')?.value) || 0;
+    const impressionsV = parseFloat(document.getElementById('impressionsInput')?.value) || 0;
+    const subsGainedV = parseFloat(document.getElementById('subsGained')?.value) || 0;
+
+    // Non-sub reach: strongest distribution indicator
+    if (nonSubPct > 0) bonusPts += Math.min((nonSubPct/100)*4, 4);
+    // Rewatch rate: YouTube heavily rewards content people loop
+    if (rewatchR > 0) bonusPts += Math.min((rewatchR/10)*2, 2);
+    // Mid-video retention: signals compelling storytelling
+    if (midRet > 0) bonusPts += midRet >= 50 ? 1.5 : midRet >= 35 ? 0.8 : 0;
+    // End retention: signals binge-worthy content
+    if (endRet > 0) bonusPts += endRet >= 30 ? 1.5 : endRet >= 20 ? 0.8 : 0;
+    // Subscriber conversion: YouTube rewards growth-generating content
+    if (subsGainedV > 0 && views > 0) {
+      const subConvRate = (subsGainedV/views)*100;
+      bonusPts += Math.min(subConvRate * 0.5, 1.5);
+    }
+    // Card/end screen CTR: signals strong session extension
+    if (cardCtrV > 0) bonusPts += Math.min((cardCtrV/10)*1.5, 1.5);
+
+    bonusPts = Math.min(bonusPts, 10);
+
+    const total = (ctrPts + avdPts + retPts + rawPts + engPtsFinal + bonusPts).toFixed(1);
     // 6-band rating using SCORE_PHASES
     const totalNum = parseFloat(total);
+    // Clip display at 100 but store actual for breakdown
+    document.getElementById('totalScore').innerText = Math.min(Math.round(totalNum), 100);
     let r, c, d;
     if      (totalNum < 25) { r='⛔ Struggling';      c='#f87171'; d='Below seed-pool thresholds. Review thumbnail, title, and hook.'; }
     else if (totalNum < 45) { r='🔧 Needs Work';      c='#fb923c'; d='Some signals are weak. Focus on AVD and CTR improvements.'; }
@@ -4360,11 +4498,12 @@ input:focus, select:focus, textarea:focus {
     document.getElementById('ratingDesc').innerText = d;
     if (typeof renderPhaseBands === 'function') renderPhaseBands(totalNum);
     document.getElementById('breakdown-content').innerHTML =
-      `<div><span>Packaging (CTR):</span><span>${ctrPts.toFixed(1)} pts</span></div>
-       <div><span>AVD Quality:</span><span>${avdPts.toFixed(1)} pts</span></div>
-       <div><span>Hook Efficiency:</span><span>${retPts.toFixed(1)} pts</span></div>
-       <div><span>Session Watch Time:</span><span>${rawPts.toFixed(1)} pts</span></div>
-       <div><span>Engagement Rate:</span><span>${engPts.toFixed(1)} pts</span></div>`;
+      `<div><span>📊 CTR (Packaging):</span><span>${ctrPts.toFixed(1)} / 35</span></div>
+       <div><span>⏱ AVD Satisfaction:</span><span>${avdPts.toFixed(1)} / ${avdMax}</span></div>
+       <div><span>🎣 Hook / Early Retention:</span><span>${retPts.toFixed(1)} / ${isNew ? '0' : '25'}</span></div>
+       <div><span>📺 Abs Watch Time:</span><span>${rawPts.toFixed(1)} / 15</span></div>
+       <div><span>💬 Engagement Quality:</span><span>${engPtsFinal.toFixed(1)} / 20</span></div>
+       <div><span>✨ Bonus Signals:</span><span>${bonusPts.toFixed(1)} / 10</span></div>`;
     const velocity    = parseFloat(document.getElementById('viewVelocity')?.value) || 0;
     const impressions = parseFloat(document.getElementById('impressionsInput')?.value) || 0;
     const viewsCurrent = parseFloat(document.getElementById('viewsCurrent')?.value) || 0;
@@ -4383,8 +4522,27 @@ input:focus, select:focus, textarea:focus {
     const scenarioBox = document.getElementById('scenarioProjBox');
     const scenarioEmpty = document.getElementById('scenario_empty');
     if (scenarioBox && velocity > 0) {
-      const signalStrength = (ctr >= 6 && avd >= 50) ? 'strong'
-                           : (ctr >= 4 && avd >= 40) ? 'moderate' : 'weak';
+      // Enhanced signal strength calculation using all available inputs
+      const nonSubPctV = parseFloat(document.getElementById('nonSubViewPct')?.value) || 0;
+      const rewatchRV  = parseFloat(document.getElementById('rewatchRate')?.value) || 0;
+      const impressV   = parseFloat(document.getElementById('impressionsInput')?.value) || 0;
+
+      // CTR signal
+      const ctrSignal = ctr >= 8 ? 3 : ctr >= 5 ? 2 : ctr >= 3 ? 1 : 0;
+      // AVD signal
+      const avdSignal = avd >= 60 ? 3 : avd >= 45 ? 2 : avd >= 30 ? 1 : 0;
+      // Non-sub signal (viral spread indicator)
+      const nonSubSignal = nonSubPctV >= 60 ? 2 : nonSubPctV >= 35 ? 1 : 0;
+      // Rewatch signal
+      const rewatchSignal = rewatchRV >= 8 ? 1 : 0;
+      // Impressions-to-views ratio (true CTR from impressions)
+      const impSignal = (impressV > 0 && views > 0)
+        ? ((views/impressV)*100 >= 7 ? 1 : (views/impressV)*100 >= 4 ? 0 : -1)
+        : 0;
+
+      const signalTotal = ctrSignal + avdSignal + nonSubSignal + rewatchSignal + impSignal;
+      const signalStrength = signalTotal >= 7 ? 'strong'
+                           : signalTotal >= 3 ? 'moderate' : 'weak';
 
       // baseViews: current total, or estimate from velocity×age if views not entered
       const baseViews = views > 0 ? views
@@ -4411,15 +4569,19 @@ input:focus, select:focus, textarea:focus {
       }
 
       // Velocity modifiers per scenario
-      const velBest     = velocity * (signalStrength === 'strong' ? 1.35 : signalStrength === 'moderate' ? 1.15 : 0.95);
-      const velExpected = velocity;
-      const velWorst    = velocity * 0.20;  // push stalls to ~20% of current
+      const velBest          = velocity * (signalStrength === 'strong' ? 1.45 : signalStrength === 'moderate' ? 1.20 : 1.0);
+      const velAboveExpected = velocity * (signalStrength === 'strong' ? 1.20 : signalStrength === 'moderate' ? 1.08 : 0.88);
+      const velExpected      = velocity;
+      const velBelowExpected = velocity * (signalStrength === 'strong' ? 0.65 : signalStrength === 'moderate' ? 0.55 : 0.42);
+      const velWorst         = velocity * 0.18;  // push stalls to ~18% of current
 
       // Decay rates (alpha): how quickly velocity decays per 24h
       // Low alpha = sustained push; high alpha = rapid decline
-      const alphaBest     = signalStrength === 'strong' ? 0.3 : 0.5;   // slow decay
-      const alphaExpected = signalStrength === 'strong' ? 0.8 : signalStrength === 'moderate' ? 1.1 : 1.4;
-      const alphaWorst    = 3.5;  // rapid stall — most views in first few hours
+      const alphaBest          = signalStrength === 'strong' ? 0.25 : 0.45;  // slowest decay
+      const alphaAboveExpected = signalStrength === 'strong' ? 0.50 : signalStrength === 'moderate' ? 0.70 : 0.90;
+      const alphaExpected      = signalStrength === 'strong' ? 0.80 : signalStrength === 'moderate' ? 1.1 : 1.4;
+      const alphaBelowExpected = signalStrength === 'strong' ? 1.6  : signalStrength === 'moderate' ? 2.0 : 2.4;
+      const alphaWorst         = 4.0;  // rapid stall — most views in first few hours
 
       // Window-level alpha adjustments to model long-tail natural decay
       function windowAlpha(base, hrs) {
@@ -4429,11 +4591,15 @@ input:focus, select:focus, textarea:focus {
       }
 
       const scenarios = [
-        { id:'worst',    label:'📉 Worst',   vel:velWorst,    alpha:alphaWorst,    color:'#f87171',
-          desc:'Algorithm stalls quickly. ~80% velocity loss. Organic long-tail only.' },
-        { id:'expected', label:'📊 Expected', vel:velExpected, alpha:alphaExpected, color:'#fbbf24',
+        { id:'worst',         label:'📉 Worst',          vel:velWorst,         alpha:alphaWorst,         color:'#f87171',
+          desc:'Algorithm stalls quickly. ~82% velocity loss. Organic long-tail only.' },
+        { id:'below_expected',label:'⚠️ Below Expected', vel:velBelowExpected, alpha:alphaBelowExpected, color:'#fb923c',
+          desc:'Weaker than usual push. CTR or AVD not sustaining distribution fully.' },
+        { id:'expected',      label:'📊 Expected',        vel:velExpected,      alpha:alphaExpected,      color:'#fbbf24',
           desc:'Natural decay after initial push winds down. Most videos follow this.' },
-        { id:'best',     label:'🚀 Best',     vel:velBest,     alpha:alphaBest,     color:'#4ade80',
+        { id:'above_expected',label:'📈 Above Expected',  vel:velAboveExpected, alpha:alphaAboveExpected, color:'#86efac',
+          desc:'Stronger than average push — algorithm favoring your signals above norm.' },
+        { id:'best',          label:'🚀 Best',             vel:velBest,          alpha:alphaBest,          color:'#4ade80',
           desc:'Algorithm sustains or builds the push. Browse + Suggested hold strong.' },
       ];
 
@@ -4466,7 +4632,7 @@ input:focus, select:focus, textarea:focus {
       // We store on the scenarioBox element itself so it survives innerHTML overwrites
       // by reading BEFORE we overwrite, not after.
       const prevToggles = scenarioBox._scenToggles;
-      const activeSc  = (prevToggles && prevToggles.sc)  || ['worst','expected','best'];
+      const activeSc  = (prevToggles && prevToggles.sc)  || ['worst','below_expected','expected','above_expected','best'];
       const activeWin = (prevToggles && prevToggles.win) || ['w48h','w7d','w14d','w28d'];
       const visScen = scenarios.filter(s => activeSc.includes(s.id));
       const visWin  = windows.filter(w => activeWin.includes(w.id));
@@ -4577,7 +4743,7 @@ input:focus, select:focus, textarea:focus {
         if (!btn) return;
         const type = btn.dataset.scenType;
         const id   = btn.dataset.scenId;
-        const ts   = scenarioBox._scenToggles || { sc:['worst','expected','best'], win:['w48h','w7d','w14d','w28d'] };
+        const ts   = scenarioBox._scenToggles || { sc:['worst','below_expected','expected','above_expected','best'], win:['w48h','w7d','w14d','w28d'] };
         const arr  = type === 'sc' ? ts.sc : ts.win;
         const i    = arr.indexOf(id);
         if (i === -1) { arr.push(id); }
@@ -4758,7 +4924,8 @@ input:focus, select:focus, textarea:focus {
     else if (avg<10) s='<strong>Collectibles</strong>, <strong>DIY</strong>, <strong>Cooking</strong>, <strong>Fitness</strong>, <strong>Travel</strong>.';
     else if (avg<16) s='<strong>Tech Reviews</strong>, <strong>Education</strong>, <strong>Automotive</strong>, <strong>Photography</strong>.';
     else if (avg<25) s='<strong>Software</strong>, <strong>Real Estate</strong>, <strong>Medical</strong>, <strong>High-End Lifestyle</strong>.';
-    else s='<strong>Finance</strong>, <strong>Investing</strong>, <strong>B2B SaaS</strong>, <strong>Insurance / Legal</strong>.';
+    else if (avg<40) s='<strong>Finance</strong>, <strong>Investing</strong>, <strong>B2B SaaS</strong>, <strong>Insurance / Legal</strong>.';
+    else s='<strong>Premium Finance</strong>, <strong>Enterprise SaaS</strong>, <strong>High-Value Insurance</strong>, <strong>Luxury / Wealth Management</strong> — top 1% of creator RPMs.';
     document.getElementById('c_niche_suggestion').innerHTML = `<strong style="color:var(--primary);">Likely Niches at this RPM:</strong> ${s}`;
     generateReport();
   }
@@ -6238,12 +6405,14 @@ input:focus, select:focus, textarea:focus {
     };
   })();
 
-  // Patch updateTab1: track unsaved changes
+  // Patch updateTab1: track unsaved changes + auto-save profile
   (function() {
     const _orig = updateTab1;
     updateTab1 = function() {
       _orig();
       if (typeof markUnsaved === 'function') markUnsaved();
+      // Auto-save the current profile values on every input change
+      if (typeof vpSave === 'function' && !window._svLoading) vpSave();
     };
   })();
 
@@ -6257,10 +6426,12 @@ input:focus, select:focus, textarea:focus {
     const data = {};
     VP_FIELDS.forEach(id => {
       const el = document.getElementById(id);
-      if (el) data[id] = el.value;
+      if (!el) return;
+      if (el.type === 'checkbox') data[id] = el.checked;
+      else data[id] = el.value;
     });
-    // Save traffic source radio
-    const radio = document.querySelector('input[name=\\"trafficSource\\"]:checked');
+    // Save traffic source radio — use attribute selector with single quotes
+    const radio = document.querySelector("input[name='trafficSource']:checked");
     if (radio) data._trafficSource = radio.value;
     // Save date picker state
     ['dt_month','dt_day','dt_year','dt_hour','dt_minute','dt_ampm'].forEach(id => {
@@ -6269,6 +6440,10 @@ input:focus, select:focus, textarea:focus {
     });
     const pub = document.getElementById('videoPublishedAt');
     if (pub) data._videoPublishedAt = pub.value;
+    // Store per-field timestamps so staleness can be detected on load
+    data._fieldTimestamps = Object.assign({}, _fieldTimestamps);
+    // Store when this profile was last manually saved
+    data._profileSavedAt = Date.now();
     return data;
   }
 
@@ -6276,11 +6451,17 @@ input:focus, select:focus, textarea:focus {
     if (!data) return;
     VP_FIELDS.forEach(id => {
       const el = document.getElementById(id);
-      if (el && data[id] !== undefined) el.value = data[id];
+      if (!el || data[id] === undefined) return;
+      if (el.type === 'checkbox') el.checked = !!data[id];
+      else el.value = data[id];
     });
+    // Restore traffic source radio
     if (data._trafficSource) {
       const radio = document.getElementById('src_' + data._trafficSource);
       if (radio) radio.checked = true;
+    } else {
+      const unknownR = document.getElementById('src_unknown');
+      if (unknownR) unknownR.checked = true;
     }
     // Always clear the date picker first to prevent bleed between profiles
     ['dt_month','dt_day','dt_year','dt_hour','dt_minute'].forEach(id => {
@@ -6304,7 +6485,64 @@ input:focus, select:focus, textarea:focus {
       const numId = sliderId + 'Num';
       if (typeof syncNum === 'function') syncNum(numId, sliderId);
     });
+    // Restore per-field timestamps saved with this profile
+    if (data._fieldTimestamps && typeof data._fieldTimestamps === 'object') {
+      Object.assign(_fieldTimestamps, data._fieldTimestamps);
+    } else {
+      // No timestamps stored — if profile has data, treat it as entered now
+      // (so 15-min warning starts from now, not immediately)
+      Object.keys(STALE_FIELD_DEFS).forEach(id => {
+        const el = document.getElementById(id);
+        if (el && parseFloat(el.value) > 0) {
+          _fieldTimestamps[id] = Date.now();
+        }
+      });
+    }
     if (typeof updateTab1 === 'function') updateTab1();
+    // Check staleness of all tracked fields for this profile
+    _vpCheckProfileStaleness(data);
+  }
+
+  function _vpCheckProfileStaleness(data) {
+    // When loading a profile, check if any tracked fields are stale
+    // based on how old the saved timestamps are
+    const now = Date.now();
+    const WARN_MS = 15 * 60 * 1000;  // 15 min = yellow
+    const RED_MS  = 30 * 60 * 1000;  // 30 min = red
+
+    // Clear any existing staleness timers for tracked fields
+    Object.keys(STALE_FIELD_DEFS).forEach(id => {
+      if (_fieldTimers[id]) { clearTimeout(_fieldTimers[id]); delete _fieldTimers[id]; }
+      if (_fieldTimers[id+'_to30']) { clearTimeout(_fieldTimers[id+'_to30']); delete _fieldTimers[id+'_to30']; }
+      clearFieldStale(id);
+    });
+
+    // Now re-evaluate each field
+    Object.keys(STALE_FIELD_DEFS).forEach(id => {
+      const el = document.getElementById(id);
+      if (!el || !parseFloat(el.value)) return;  // skip empty fields
+      const ts = _fieldTimestamps[id];
+      if (!ts) {
+        // No timestamp — start the timer fresh from now
+        _fieldTimestamps[id] = now;
+        _fieldTimers[id] = setTimeout(() => showFieldStale(id), WARN_MS);
+        return;
+      }
+      const age = now - ts;
+      if (age >= RED_MS) {
+        // Already past red threshold — show immediately
+        showFieldStale(id);
+      } else if (age >= WARN_MS) {
+        // In yellow zone — show yellow immediately, schedule red
+        showFieldStale(id);
+      } else {
+        // Not yet stale — schedule warnings at appropriate remaining time
+        const timeToYellow = WARN_MS - age;
+        const timeToRed    = RED_MS  - age;
+        _fieldTimers[id] = setTimeout(() => showFieldStale(id), timeToYellow);
+        _fieldTimers[id+'_to30'] = setTimeout(() => showFieldStale(id), timeToRed);
+      }
+    });
   }
 
   function vpSave() {
@@ -6318,58 +6556,158 @@ input:focus, select:focus, textarea:focus {
     vpSave();            // save current before switching
     currentProfile = name;
     clearStalenessWarnings();
-    _dataLastEdited = null;  // reset staleness clock for new profile
+    // Clear all per-field timestamps and timers — vpWrite will restore from the profile
+    Object.keys(_fieldTimestamps).forEach(k => delete _fieldTimestamps[k]);
+    Object.keys(_fieldTimers).forEach(k => { clearTimeout(_fieldTimers[k]); delete _fieldTimers[k]; });
+    _dataLastEdited = null;
     if (_stalenessTimer) { clearTimeout(_stalenessTimer); _stalenessTimer = null; }
     vpWrite(videoProfiles[name]);
     vpUpdateSelect();
+    vpUpdateCounter();
   }
 
   function vpAdd() {
-    const name = prompt('Name for new video profile:', 'Video ' + (Object.keys(videoProfiles).length + 1));
-    if (!name || name.trim() === '') return;
-    const n = name.trim();
-    if (videoProfiles[n]) { alert('A profile named \\"' + n + '\\" already exists.'); return; }
-    vpSave();                        // save current first
-    videoProfiles[n] = {};           // blank profile
-    currentProfile = n;
-    vpUpdateSelect();
-    // Clear fields for new profile
-    VP_FIELDS.forEach(id => { const el=document.getElementById(id); if(el) el.value='0'; });
-    const r = document.getElementById('src_unknown'); if(r) r.checked=true;
-    updateTab1();
+    vpSave();  // always save current profile first
+    _vpShowNameModal('new', '', function(name) {
+      if (!name) return;
+      if (videoProfiles[name]) { _vpShowError('A profile named "' + name + '" already exists.'); return; }
+      videoProfiles[name] = {};
+      currentProfile = name;
+      vpUpdateSelect();
+      // Clear all tracked fields to blank/zero for the new profile
+      VP_FIELDS.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        if (el.type === 'checkbox') el.checked = false;
+        else el.value = '';
+      });
+      // Reset date picker
+      ['dt_month','dt_day','dt_year','dt_hour','dt_minute'].forEach(id => {
+        const el = document.getElementById(id); if (el) el.value = '';
+      });
+      const amEl = document.getElementById('dt_ampm'); if (amEl) amEl.value = 'AM';
+      const pubH = document.getElementById('videoPublishedAt'); if (pubH) pubH.value = '';
+      if (typeof dtUpdate === 'function') dtUpdate();
+      if (typeof dtSetAgeLabel === 'function') dtSetAgeLabel('');
+      // Reset traffic source to unknown
+      const r = document.getElementById('src_unknown'); if (r) r.checked = true;
+      // Clear staleness state for fresh profile
+      clearStalenessWarnings();
+      Object.keys(_fieldTimestamps).forEach(k => delete _fieldTimestamps[k]);
+      Object.keys(_fieldTimers).forEach(k => { clearTimeout(_fieldTimers[k]); delete _fieldTimers[k]; });
+      _dataLastEdited = null;
+      updateTab1();
+      vpSave();  // save the blank slate immediately so it persists
+      vpUpdateCounter();
+      showToast('✅ New profile "' + name + '" created', 'var(--primary)');
+    });
   }
 
   function vpRename() {
-    const newName = prompt('Rename \\"' + currentProfile + '\\" to:', currentProfile);
-    if (!newName || newName.trim() === '' || newName.trim() === currentProfile) return;
-    const n = newName.trim();
-    if (videoProfiles[n]) { alert('A profile named \\"' + n + '\\" already exists.'); return; }
-    videoProfiles[n] = videoProfiles[currentProfile];
-    delete videoProfiles[currentProfile];
-    currentProfile = n;
-    vpUpdateSelect();
+    _vpShowNameModal('rename', currentProfile, function(newName) {
+      if (!newName || newName === currentProfile) return;
+      if (videoProfiles[newName]) { _vpShowError('A profile named "' + newName + '" already exists.'); return; }
+      vpSave();  // save current data first
+      videoProfiles[newName] = videoProfiles[currentProfile];
+      delete videoProfiles[currentProfile];
+      currentProfile = newName;
+      vpUpdateSelect();
+      vpUpdateCounter();
+      showToast('✏️ Renamed to "' + newName + '"', 'var(--secondary)');
+    });
+  }
+
+  // ── Custom inline modal for naming profiles (avoids broken prompt() escaping) ──
+  function _vpShowNameModal(mode, defaultVal, callback) {
+    // Remove any existing modal
+    const existing = document.getElementById('vp_name_modal');
+    if (existing) existing.remove();
+
+    const isRename = mode === 'rename';
+    const title = isRename ? '✏️ Rename Profile' : '+ New Video Profile';
+    const btnLabel = isRename ? 'Rename' : 'Create';
+
+    const overlay = document.createElement('div');
+    overlay.id = 'vp_name_modal';
+    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:99999;display:flex;align-items:center;justify-content:center;';
+
+    const box = document.createElement('div');
+    box.style.cssText = 'background:var(--card);border:1px solid var(--border-hi);border-radius:14px;padding:24px 28px;width:380px;max-width:90vw;box-shadow:0 0 40px rgba(0,0,0,0.5);';
+    box.innerHTML = `
+      <div style="font-size:15px;font-weight:800;color:var(--text-bright);margin-bottom:14px;">${title}</div>
+      <input id="vp_name_input" type="text" value="${defaultVal.replace(/"/g,'&quot;')}"
+        placeholder="e.g. My Latest Video"
+        style="width:100%;padding:10px 12px;background:var(--bg2);border:1px solid var(--border-hi);
+               border-radius:var(--radius);font-size:1rem;color:var(--text-bright);margin-bottom:14px;">
+      <div id="vp_name_error" style="color:var(--danger);font-size:12px;min-height:16px;margin-bottom:8px;"></div>
+      <div style="display:flex;gap:10px;">
+        <button id="vp_name_confirm" style="flex:1;padding:9px;background:var(--primary);color:#fff;border:none;
+          border-radius:var(--radius);font-size:13px;font-weight:700;cursor:pointer;">${btnLabel}</button>
+        <button id="vp_name_cancel" style="padding:9px 16px;background:transparent;color:var(--text-dim);
+          border:1px solid var(--border-hi);border-radius:var(--radius);font-size:13px;cursor:pointer;">Cancel</button>
+      </div>`;
+    overlay.appendChild(box);
+    document.body.appendChild(overlay);
+
+    const input = document.getElementById('vp_name_input');
+    const errEl = document.getElementById('vp_name_error');
+    if (input) { input.focus(); input.select(); }
+
+    function confirm() {
+      const val = (input ? input.value.trim() : '');
+      if (!val) { if (errEl) errEl.textContent = 'Name cannot be empty.'; return; }
+      overlay.remove();
+      callback(val);
+    }
+    function cancel() { overlay.remove(); }
+
+    document.getElementById('vp_name_confirm').addEventListener('click', confirm);
+    document.getElementById('vp_name_cancel').addEventListener('click', cancel);
+    overlay.addEventListener('click', function(e) { if (e.target === overlay) cancel(); });
+    input.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') confirm();
+      if (e.key === 'Escape') cancel();
+    });
+  }
+
+  function _vpShowError(msg) {
+    showToast('⚠️ ' + msg, 'var(--danger)');
+  }
+
+  function vpUpdateCounter() {
+    const el = document.getElementById('vp_counter');
+    if (!el) return;
+    const keys = Object.keys(videoProfiles);
+    const idx  = keys.indexOf(currentProfile) + 1;
+    el.textContent = 'Profile ' + idx + ' of ' + keys.length;
   }
 
   function vpDelete() {
-    if (Object.keys(videoProfiles).length <= 1) { alert('Cannot delete the only profile.'); return; }
-    if (!confirm('Delete profile \\"' + currentProfile + '\\"?')) return;
+    if (Object.keys(videoProfiles).length <= 1) { showToast('⚠️ Cannot delete the only profile.', 'var(--warning)'); return; }
+    if (!confirm('Delete profile "' + currentProfile + '" and all its data?')) return;
     delete videoProfiles[currentProfile];
     currentProfile = Object.keys(videoProfiles)[0];
+    clearStalenessWarnings();
+    _dataLastEdited = null;
     vpWrite(videoProfiles[currentProfile]);
     vpUpdateSelect();
+    vpUpdateCounter();
+    showToast('🗑 Profile deleted', 'var(--danger)');
   }
 
   function vpUpdateSelect() {
     const sel = document.getElementById('vp_select');
     if (!sel) return;
     sel.innerHTML = Object.keys(videoProfiles)
-      .map(n => `<option value=\\"${n}\\"${n===currentProfile?' selected':''}>${n}</option>`)
+      .map(n => '<option value="' + n + '"' + (n === currentProfile ? ' selected' : '') + '>' + n + '</option>')
       .join('');
+    vpUpdateCounter();
   }
 
   function vpInit() {
     // Called from initAll
     vpUpdateSelect();
+    vpUpdateCounter();
   }
 
   function vpToSave() {
@@ -7468,7 +7806,16 @@ input:focus, select:focus, textarea:focus {
 
   function markFieldEdited(fieldId){if(typeof STALE_FIELD_DEFS_DAILY!=='undefined'&&STALE_FIELD_DEFS_DAILY[fieldId]){const pub=document.getElementById('videoPublishedAt');if(!pub||!pub.value)return;if((Date.now()-new Date(pub.value).getTime())/3600000<24)return;}_fieldTimestamps[fieldId]=Date.now();clearFieldStale(fieldId);if(_fieldTimers[fieldId])clearTimeout(_fieldTimers[fieldId]);_fieldTimers[fieldId]=setTimeout(()=>showFieldStale(fieldId),15*60*1000);}
 
-  function showFieldStale(fieldId){const el=document.getElementById(fieldId);if(!el||!el.value||parseFloat(el.value)<=0)return;if(fieldId==='retNum'){const cbx=document.getElementById('newVideoToggle');if(cbx&&cbx.checked)return;}const ageMs=Date.now()-(_fieldTimestamps[fieldId]||Date.now());const ageMins=Math.round(ageMs/60000);const isRed=ageMins>=30;const col=isRed?'#f87171':'#fbbf24';let badge=document.getElementById('stale_'+fieldId);if(!badge){badge=document.createElement('div');badge.id='stale_'+fieldId;badge.style.cssText='display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;margin-top:3px;line-height:1.4;';const box=el.closest('.input-box')||el.parentElement;if(box)box.appendChild(badge);}badge.style.background='rgba('+(isRed?'239,68,68':'251,191,36')+',0.12)';badge.style.border='1px solid '+col;badge.style.color=col;badge.innerHTML=(isRed?'🔴':'🟡')+' '+ageMins+' min ago — '+(isRed?'update from Studio':'consider refreshing');el.style.setProperty('border-color',col,'important');el.style.setProperty('box-shadow','0 0 0 2px rgba('+(isRed?'239,68,68':'251,191,36')+',0.25)','important');_checkCollectiveStale();}
+  function showFieldStale(fieldId){const el=document.getElementById(fieldId);if(!el||!el.value||parseFloat(el.value)<=0)return;if(fieldId==='retNum'){const cbx=document.getElementById('newVideoToggle');if(cbx&&cbx.checked)return;}const ageMs=Date.now()-(_fieldTimestamps[fieldId]||Date.now());const ageMins=Math.round(ageMs/60000);const isRed=ageMins>=30;const col=isRed?'#f87171':'#fbbf24';let badge=document.getElementById('stale_'+fieldId);if(!badge){badge=document.createElement('div');badge.id='stale_'+fieldId;badge.style.cssText='display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;margin-top:3px;line-height:1.4;cursor:pointer;';const box=el.closest('.input-box')||el.parentElement;if(box)box.appendChild(badge);}badge.style.background='rgba('+(isRed?'239,68,68':'251,191,36')+',0.12)';badge.style.border='1px solid '+col;badge.style.color=col;const fieldLabel=STALE_FIELD_DEFS[fieldId]||fieldId;badge.innerHTML=(isRed?'🔴':'🟡')+' '+ageMins+'min — '+(isRed?'<strong>Out of date</strong>':'consider refreshing')+' <span style="text-decoration:underline;cursor:pointer;" onclick="confirmStaleField(\''+fieldId+'\')">[✓ Still current]</span>';el.style.setProperty('border-color',col,'important');el.style.setProperty('box-shadow','0 0 0 2px rgba('+(isRed?'239,68,68':'251,191,36')+',0.25)','important');// Show confirm popup for 30+ min fields
+  if(isRed) _showConfirmStalePopup(fieldId, fieldLabel, ageMins);
+  // Schedule re-check at 30 min if currently at 15 min
+  if(!isRed&&_fieldTimers[fieldId+'_to30']===undefined){_fieldTimers[fieldId+'_to30']=setTimeout(()=>{delete _fieldTimers[fieldId+'_to30'];showFieldStale(fieldId);},15*60*1000);}
+  _checkCollectiveStale();}
+
+  function _showConfirmStalePopup(fieldId, fieldLabel, ageMins){const popId='stale_confirm_'+fieldId;if(document.getElementById(popId))return;const p=document.createElement('div');p.id=popId;p.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:99998;background:var(--card);border:2px solid #f87171;border-radius:14px;padding:22px 26px;max-width:400px;width:90%;box-shadow:0 0 40px rgba(239,68,68,0.35);text-align:center;';p.innerHTML='<div style="font-size:28px;margin-bottom:8px;">🔴</div><div style="font-size:14px;font-weight:800;color:#f87171;margin-bottom:6px;">'+fieldLabel+' may be out of date</div><div style="font-size:12px;color:var(--text);margin-bottom:4px;">This data was entered <strong>'+ageMins+' minutes ago</strong>.</div><div style="font-size:11px;color:var(--text-dim);margin-bottom:16px;">Is this still your latest reading from YouTube Studio?</div><div style="display:flex;gap:10px;justify-content:center;"><button onclick="confirmStaleField(\''+fieldId+'\');document.getElementById(\''+popId+'\').remove();" style="background:var(--success);color:#fff;border:none;border-radius:8px;padding:8px 20px;font-size:12px;font-weight:700;cursor:pointer;">✅ Yes, still current</button><button onclick="document.getElementById(\''+popId+'\').remove();" style="background:var(--danger-dim);color:#f87171;border:1px solid #f87171;border-radius:8px;padding:8px 20px;font-size:12px;font-weight:700;cursor:pointer;">🔄 I\'ll update now</button></div>';document.body.appendChild(p);}
+
+  function confirmStaleField(fieldId){// User confirmed data is still current — reset the staleness clock
+  _fieldTimestamps[fieldId]=Date.now();clearFieldStale(fieldId);if(_fieldTimers[fieldId])clearTimeout(_fieldTimers[fieldId]);_fieldTimers[fieldId]=setTimeout(()=>showFieldStale(fieldId),15*60*1000);showToast('✅ '+(STALE_FIELD_DEFS[fieldId]||fieldId)+' confirmed current','var(--success)');}
 
   function _checkCollectiveStale(){if(document.getElementById('stale_popup_shown'))return;if(typeof STALE_FIELD_DEFS_FREQUENT==='undefined')return;const now=Date.now(),dayMs=86400000,keys=Object.keys(STALE_FIELD_DEFS_FREQUENT);const withData=keys.filter(id=>{const el=document.getElementById(id);return el&&parseFloat(el.value)>0&&_fieldTimestamps[id];});const stale=withData.filter(id=>(now-_fieldTimestamps[id])>=dayMs);if(withData.length>=4&&stale.length===withData.length)_showCollectiveStalePopup();}
 
@@ -7622,6 +7969,111 @@ input:focus, select:focus, textarea:focus {
   // Populate dropdowns on first load
   dtPopulateDropdowns();
 
+  // ── VIRALITY SCORE INDICATORS ──
+  // Annotate all fields that feed into the Virality Score with a visual badge
+  (function addViralityIndicators() {
+    const VIRALITY_FIELDS = {
+      'ctrVal':          { label: '⚡ Score', tip: 'CTR directly feeds Packaging score (up to 35 pts)' },
+      'twDisplay':       { label: '⚡ Score', tip: 'AVD feeds Satisfaction score (up to 40 pts)' },
+      'retVal':          { label: '⚡ Score', tip: 'Hook Retention feeds Hook score (up to 25 pts)' },
+      'engVal':          { label: '⚡ Score', tip: 'Likes + Comments feed Engagement score (up to 20 pts)' },
+    };
+    // Fields in input-box labels to annotate
+    const FIELD_ANNOTATIONS = [
+      { id: 'viewVelocity',    tip: 'View Velocity is used in scenario projections & signal strength' },
+      { id: 'impressionsInput',tip: 'Impressions-to-views ratio feeds Bonus Signal score' },
+      { id: 'nonSubViewPct',   tip: 'Non-sub reach is the strongest distribution signal — feeds Bonus Score (+4 pts)' },
+      { id: 'rewatchRate',     tip: 'Rewatch rate feeds Bonus Signal score (+2 pts)' },
+      { id: 'subsGained',      tip: 'Sub conversion rate feeds Bonus Signal score (+1.5 pts)' },
+      { id: 'cardCtr',         tip: 'Card/end screen CTR feeds Bonus Signal score (+1.5 pts)' },
+      { id: 'midRetention',    tip: 'Mid-video retention feeds Bonus Signal score (+1.5 pts)' },
+      { id: 'endRetention',    tip: 'End retention feeds Bonus Signal score (+1.5 pts)' },
+    ];
+    const BADGE_HTML = (tip) =>
+      `<span title="${tip}" style="background:rgba(99,102,241,0.18);color:#a78bfa;border:1px solid rgba(99,102,241,0.4);font-size:9px;font-weight:800;padding:1px 5px;border-radius:6px;margin-left:5px;vertical-align:middle;white-space:nowrap;cursor:help;">⚡ SCORE</span>`;
+
+    function addBadgeNearId(fieldId, tip) {
+      const el = document.getElementById(fieldId);
+      if (!el) return;
+      const box = el.closest('.input-box');
+      if (!box) return;
+      const lbl = box.querySelector('label');
+      if (!lbl || lbl.querySelector('.vs-badge')) return;
+      const span = document.createElement('span');
+      span.className = 'vs-badge';
+      span.title = tip;
+      span.style.cssText = 'background:rgba(99,102,241,0.18);color:#a78bfa;border:1px solid rgba(99,102,241,0.4);font-size:9px;font-weight:800;padding:1px 5px;border-radius:6px;margin-left:5px;vertical-align:middle;white-space:nowrap;cursor:help;';
+      span.textContent = '⚡ SCORE';
+      lbl.appendChild(span);
+    }
+
+    function injectAll() {
+      FIELD_ANNOTATIONS.forEach(f => addBadgeNearId(f.id, f.tip));
+      // Also annotate the main section headers
+      const ctrSec = document.querySelector('#sv_t1_ctr .control-card');
+      if (ctrSec && !ctrSec.querySelector('.vs-badge-hdr')) {
+        const b = document.createElement('span');
+        b.className = 'vs-badge-hdr';
+        b.style.cssText = 'background:rgba(99,102,241,0.18);color:#a78bfa;border:1px solid rgba(99,102,241,0.4);font-size:9px;font-weight:800;padding:2px 7px;border-radius:6px;margin-left:8px;vertical-align:middle;';
+        b.textContent = '⚡ VIRALITY SCORE';
+        const lf = ctrSec.querySelector('.label-flex');
+        if (lf) lf.appendChild(b);
+      }
+      const avdSec = document.querySelector('#sv_t1_avd .control-card');
+      if (avdSec && !avdSec.querySelector('.vs-badge-hdr')) {
+        const b2 = document.createElement('span');
+        b2.className = 'vs-badge-hdr';
+        b2.style.cssText = 'background:rgba(99,102,241,0.18);color:#a78bfa;border:1px solid rgba(99,102,241,0.4);font-size:9px;font-weight:800;padding:2px 7px;border-radius:6px;margin-left:8px;vertical-align:middle;';
+        b2.textContent = '⚡ VIRALITY SCORE';
+        const lfAvd = avdSec.querySelector('.label-flex');
+        if (lfAvd) lfAvd.appendChild(b2);
+      }
+      const hookSec = document.getElementById('retGroup');
+      if (hookSec && !hookSec.querySelector('.vs-badge-hdr')) {
+        const b3 = document.createElement('span');
+        b3.className = 'vs-badge-hdr';
+        b3.style.cssText = 'background:rgba(99,102,241,0.18);color:#a78bfa;border:1px solid rgba(99,102,241,0.4);font-size:9px;font-weight:800;padding:2px 7px;border-radius:6px;margin-left:8px;vertical-align:middle;';
+        b3.textContent = '⚡ VIRALITY SCORE';
+        const lfHook = hookSec.querySelector('.label-flex');
+        if (lfHook) lfHook.appendChild(b3);
+      }
+      const engSec = document.querySelector('#sv_t1_engagement .control-card');
+      if (engSec && !engSec.querySelector('.vs-badge-hdr')) {
+        const b4 = document.createElement('span');
+        b4.className = 'vs-badge-hdr';
+        b4.style.cssText = 'background:rgba(99,102,241,0.18);color:#a78bfa;border:1px solid rgba(99,102,241,0.4);font-size:9px;font-weight:800;padding:2px 7px;border-radius:6px;margin-left:8px;vertical-align:middle;';
+        b4.textContent = '⚡ VIRALITY SCORE';
+        const lfEng = engSec.querySelector('.label-flex');
+        if (lfEng) lfEng.appendChild(b4);
+      }
+    }
+
+    // Inject on load
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', injectAll);
+    } else {
+      injectAll();
+    }
+  })();
+  // Attach to all tracked fields so 15/30 min warnings fire automatically
+  (function() {
+    const trackedFields = Object.keys(STALE_FIELD_DEFS);
+    trackedFields.forEach(function(fieldId) {
+      // Try immediately (if DOM exists), and also after window.onload
+      function attachListener() {
+        const el = document.getElementById(fieldId);
+        if (!el) return;
+        el.addEventListener('input', function() {
+          if (typeof markFieldEdited === 'function') markFieldEdited(fieldId);
+        });
+      }
+      attachListener();
+      // Also attach after onload in case DOM isn't ready
+      const _orig = window.onload;
+      window.onload = function() { if (_orig) _orig(); attachListener(); };
+    });
+  })();
+
   /* ═══════════════════════════════════════════════
      FIX: sync engInput from likes + comments
      Called from updateTab1 and oninput of those fields
@@ -7631,6 +8083,16 @@ input:focus, select:focus, textarea:focus {
     var comments = parseFloat(document.getElementById('commentsInput')?.value) || 0;
     var hidden   = document.getElementById('engInput');
     if (hidden) hidden.value = likes + comments;
+  }
+
+  function syncStreamQuick() {
+    // Sync quick-entry stream fields to the detailed inputs
+    var qHrs = document.getElementById('m_streamHrsQuick');
+    var qView = document.getElementById('m_streamViewersQuick');
+    var dHrs  = document.getElementById('m_streamHrs');
+    var dView = document.getElementById('m_streamViewers');
+    if (qHrs && dHrs) { dHrs.value = qHrs.value; }
+    if (qView && dView) { dView.value = qView.value; }
   }
 
   /* ═══════════════════════════════════════════════
