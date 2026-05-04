@@ -654,69 +654,35 @@ input[type=checkbox] { width: 16px; height: 16px; accent-color: var(--primary); 
    SLIDER SYSTEM — clean, reliable, cross-browser
 ═══════════════════════════════════════════════ */
 
-/* ─── Sliders ─── */
+/* ═══════════════════════════════════════════════
+   IMPROVED SLIDERS
+═══════════════════════════════════════════════ */
 input[type=range] {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 100%;
-  height: 6px;
-  border-radius: 6px;
-  outline: none;
-  cursor: pointer;
-  background: var(--border-hi);
+  -webkit-appearance: none; appearance: none; width: 100%;
+  height: 6px; border-radius: 6px; outline: none; cursor: pointer;
+  background: linear-gradient(to right,
+    var(--primary) 0%,
+    var(--primary) var(--val, 0%),
+    var(--border-hi) var(--val, 0%),
+    var(--border-hi) 100%);
+  transition: background 0.1s;
 }
 input[type=range]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 22px; height: 22px;
-  border-radius: 50%;
-  background: var(--primary);
-  border: 3px solid var(--bg);
-  box-shadow: 0 0 0 3px var(--primary-dim), 0 2px 8px rgba(0,0,0,0.45);
-  cursor: pointer;
-  transition: transform 0.12s, box-shadow 0.12s;
+  -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%;
+  background: var(--primary); cursor: pointer; border: 3px solid var(--bg);
+  box-shadow: 0 0 0 3px var(--primary-dim), 0 2px 8px rgba(0,0,0,0.4);
+  transition: transform 0.15s, box-shadow 0.15s;
 }
 input[type=range]::-webkit-slider-thumb:hover {
-  transform: scale(1.22);
-  box-shadow: 0 0 0 6px var(--primary-dim), 0 3px 12px rgba(0,0,0,0.55);
-}
-input[type=range]:focus::-webkit-slider-thumb {
-  box-shadow: 0 0 0 6px var(--primary-dim);
-}
-input[type=range]::-moz-range-track {
-  height: 6px; border-radius: 6px; background: var(--border-hi);
+  transform: scale(1.25);
+  box-shadow: 0 0 0 5px var(--primary-dim), 0 4px 14px rgba(0,0,0,0.5);
 }
 input[type=range]::-moz-range-thumb {
-  width: 22px; height: 22px;
-  border-radius: 50%;
-  background: var(--primary);
-  border: 3px solid var(--bg);
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--primary); cursor: pointer; border: 3px solid var(--bg);
   box-shadow: 0 0 0 3px var(--primary-dim);
-  cursor: pointer;
 }
-.slider-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 8px 0 4px;
-}
-.slider-row input[type=range] { flex: 1; min-width: 0; }
-.slider-num {
-  width: 68px;
-  flex-shrink: 0;
-  padding: 7px 8px;
-  background: var(--bg2);
-  border: 1px solid var(--border-hi);
-  border-radius: var(--radius);
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--text-bright);
-  text-align: center;
-}
-.slider-num:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 2px var(--primary-dim);
-}
+input[type=range]:focus::-webkit-slider-thumb { box-shadow: 0 0 0 6px var(--primary-dim); }
 
 /* Value badge that updates next to label */
 .slider-val {
@@ -1597,15 +1563,15 @@ input:focus, select:focus, textarea:focus {
     </div></div>
 
     <div id="sv_t1_ctr" class="sv-wrap"><div class="control-card">
-      <div class="label-flex"><span style="cursor:help;position:relative;" class="tip-wrap">🖱️ Click-Through Rate (CTR %)<span class="tip-popup"><strong>CTR — Enter your CURRENT / LATEST value</strong><br><br>This is the <em>most recent</em> CTR from Studio, not a lifetime average. YouTube's algorithm evaluates CTR in real time as it decides whether to expand distribution — an old average will give you an inaccurate score.<br><br>CTR naturally declines over time: early CTR (first few hours) is driven by your most engaged subscribers clicking fast, then normalises as the algorithm serves cold audiences. A CTR dropping from 8% to 4% over 48h is normal and healthy.<span class="tip-path">YouTube Studio → Analytics → your video → Reach tab → "Click-through rate (CTR)" — set the date range to the last 1–2 days for the most current reading</span></span></span><span class="val-badge" id="ctrVal">0.0%</span></div>
-      <div class="slider-row">
-        <input type="range" id="ctr" min="0" max="25" step="0.1" value="0" oninput="syncSlider('ctr','ctrNum');updateTab1()">
-        <input type="text" inputmode="decimal" id="ctrNum" value="0" class="slider-num" oninput="syncNum('ctrNum','ctr');updateTab1()" placeholder="0.0">
+      <div class="label-flex"><span style="cursor:help;position:relative;" class="tip-wrap">🖱️ Click-Through Rate (CTR %)<span class="tip-popup"><strong>CTR — Enter your CURRENT / LATEST value</strong> — the most recent CTR from Studio, not a lifetime average. YouTube evaluates CTR in real time.<span class="tip-path">YouTube Studio → Analytics → your video → Reach tab → "Click-through rate (CTR)"</span></span></span><span class="val-badge" id="ctrVal">0.0%</span></div>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <input type="range" id="ctr" min="0" max="25" step="0.1" value="0" oninput="syncSlider('ctr','ctrNum');updateTab1()" style="flex:1;">
+        <input type="text" inputmode="decimal" id="ctrNum" value="0" style="width:70px;padding:6px 8px;" oninput="syncNum('ctrNum','ctr');updateTab1()">
       </div>
       <div id="ctrBenchmark" style="margin-top:8px;font-size:11px;color:var(--text-dim);"></div>
     </div></div>
 
-    <div id="sv_t1_hook" class="sv-wrap"><div id="retGroup" class="control-card">
+    <div id="sv_t1_hook" class="sv-wrap"><div id="retGroup" data-sv- class="control-card">
       <div class="label-flex" style="align-items:flex-start;">
         <div>
           <span style="cursor:help;position:relative;" class="tip-wrap">🎣 30-Second Hook Retention (%)<span class="tip-popup"><strong>30s Hook Retention</strong> — what % of viewers are still watching 30 seconds in. YouTube uses this as an early-drop signal — a sharp drop here is penalised even if overall AVD looks ok.<span class="tip-path">YouTube Studio → Analytics → your video → Engagement tab → "Audience retention" graph → read the % at the 30-second mark</span></span></span>
@@ -1618,9 +1584,9 @@ input:focus, select:focus, textarea:focus {
         </div>
         <span class="val-badge" id="retVal">0%</span>
       </div>
-      <div class="slider-row">
-        <input type="range" id="ret" min="0" max="100" step="1" value="0" oninput="syncSlider('ret','retNum');updateTab1()">
-        <input type="text" inputmode="decimal" id="retNum" value="0" class="slider-num" oninput="syncNum('retNum','ret');updateTab1()" placeholder="0">
+      <div style="display:flex;gap:10px;align-items:center;">
+        <input type="range" id="ret" min="0" max="100" step="1" value="0" oninput="syncSlider('ret','retNum');updateTab1()" style="flex:1;">
+        <input type="text" inputmode="decimal" id="retNum" value="0" style="width:70px;padding:6px 8px;" oninput="syncNum('retNum','ret');updateTab1()">
       </div>
     </div></div>
 
@@ -2318,17 +2284,8 @@ input:focus, select:focus, textarea:focus {
           <span class="val-badge" id="c_rpm_val" style="color:var(--secondary);border-color:var(--secondary);background:var(--secondary-dim);">$2.00 – $5.00</span>
         </div>
         <div style="display:flex;gap:20px;margin-top:10px;">
-          <div style="flex:1;"><label style="font-size:11px;color:var(--text-dim);font-weight:700;font-family:var(--font-mono);display:block;margin-bottom:6px;">Min RPM ($) <span style="color:var(--text-muted);font-weight:400;">slider: $0.50–$50</span></label>
-          <div class="slider-row">
-            <input type="range" id="c_rpm_min" min="0.5" max="50" step="0.1" value="2.0" oninput="syncSlider('c_rpm_min','c_rpm_minNum');updateRpmSliders('min')">
-            <input type="text" inputmode="decimal" id="c_rpm_minNum" value="2.0" class="slider-num" style="width:70px;" oninput="syncNum('c_rpm_minNum','c_rpm_min');updateRpmSliders('min')">
-          </div></div>
-          <div style="flex:1;"><label style="font-size:11px;color:var(--text-dim);font-weight:700;font-family:var(--font-mono);display:block;margin-bottom:6px;">Max RPM ($) <span style="color:var(--text-muted);font-weight:400;">type any value up to $50+</span></label>
-          <div class="slider-row">
-            <input type="range" id="c_rpm_max" min="0.5" max="50" step="0.1" value="5.0" oninput="syncSlider('c_rpm_max','c_rpm_maxNum');updateRpmSliders('max')">
-            <input type="text" inputmode="decimal" id="c_rpm_maxNum" value="5.0" class="slider-num" style="width:70px;" oninput="syncNum('c_rpm_maxNum','c_rpm_max');updateRpmSliders('max')">
-          </div></div>
-        </div>
+          <div style="flex:1;"><label style="font-size:11px;color:var(--text-dim);font-weight:700;font-family:var(--font-mono);display:block;margin-bottom:6px;">Min RPM ($) <span style="color:var(--text-muted);font-weight:400;">slider: $0.50–$50</span></label><input type="range" id="c_rpm_min" min="0.5" max="50" step="0.1" value="2.0" oninput="syncSlider('c_rpm_min','c_rpm_minNum');updateRpmSliders('min')"><input type="text" inputmode="decimal" id="c_rpm_minNum" value="2.0" style="width:70px;margin-top:4px;padding:4px 6px;background:var(--bg2);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:11px;color:var(--text-bright);" oninput="syncNum('c_rpm_minNum','c_rpm_min');updateRpmSliders('min');updateRpmSliders('min')"></div>
+          <div style="flex:1;"><label style="font-size:11px;color:var(--text-dim);font-weight:700;font-family:var(--font-mono);display:block;margin-bottom:6px;">Max RPM ($) <span style="color:var(--text-muted);font-weight:400;">type any value up to $50+</span></label><input type="range" id="c_rpm_max" min="0.5" max="50" step="0.1" value="5.0" oninput="syncSlider('c_rpm_max','c_rpm_maxNum');updateRpmSliders('max')"><input type="text" inputmode="decimal" id="c_rpm_maxNum" value="5.0" style="width:70px;margin-top:4px;padding:4px 6px;background:var(--bg2);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:11px;color:var(--text-bright);" oninput="syncNum('c_rpm_maxNum','c_rpm_max');updateRpmSliders('max');updateRpmSliders('max')"></div></div>
         <div class="insight-box">
           <span class="icon">🎯</span>
           <div id="c_niche_suggestion">Set your RPM to see niche suggestions.</div>
@@ -2551,7 +2508,7 @@ input:focus, select:focus, textarea:focus {
             <div class="slider-row">
             <div class="slider-row">
               <input type="range" id="ig_avd" min="0" max="150" step="1" value="0" oninput="syncSlider('ig_avd','ig_avdNum');updateIG()" style="flex:1;">
-              <input type="text" inputmode="decimal" id="ig_avdNum" value="0" class="slider-num" style="width:64px;" oninput="syncNum('ig_avdNum','ig_avd');updateIG()">
+              <input type="text" inputmode="decimal" id="ig_avdNum" value="0" style="width:60px;padding:5px 7px;background:var(--bg2);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:12px;color:var(--text-bright);" oninput="syncNum('ig_avdNum','ig_avd');updateIG()">
             </div>
             <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">Instagram Insights → Reel → Avg watch time ÷ reel length. Over 100% = looping.</div>
           </div>
@@ -8873,17 +8830,7 @@ input:focus, select:focus, textarea:focus {
 
   function updateShortsRpm(){const n=document.getElementById('cs_niche')?.value;const rpmMap={gaming:0.025,lifestyle:0.04,tech:0.05,finance:0.08,beauty:0.04,fitness:0.045,food:0.035,news:0.05};const rpmEl=document.getElementById('cs_rpm'),noteEl=document.getElementById('cs_niche_note');if(!rpmEl)return;if(n&&n!=='custom'&&rpmMap[n]){rpmEl.value=rpmMap[n].toFixed(3);if(noteEl)noteEl.innerHTML='📌 '+n+' Shorts RPM';}else if(noteEl)noteEl.innerHTML='';}
 
-  function updateSliderFill(el) {
-    if (!el) return;
-    const min = parseFloat(el.min) || 0;
-    const max = parseFloat(el.max) || 100;
-    const val = parseFloat(el.value) || 0;
-    const p   = Math.min(Math.max((val - min) / (max - min), 0), 1) * 100;
-    el.style.background =
-      `linear-gradient(to right, var(--primary) ${p}%, var(--border-hi) ${p}%)`;
-    el.style.backgroundSize  = '';
-    el.style.backgroundPosition = '';
-  }
+  function updateSliderFill(el){if(!el)return;const min=parseFloat(el.min)||0,max=parseFloat(el.max)||100,val=parseFloat(el.value)||0;el.style.setProperty('--val',((val-min)/(max-min)*100)+'%');}
 
   function refreshAllSliders() {
     document.querySelectorAll('input[type=range]').forEach(updateSliderFill);
