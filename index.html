@@ -1441,9 +1441,9 @@ input:focus, select:focus, textarea:focus {
         <button onclick="vpNext()" title="Next video" style="padding:4px 9px;background:var(--card);color:var(--text-dim);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:13px;cursor:pointer;line-height:1;">&#9654;</button>
         <div style="display:flex;gap:6px;margin-left:auto;flex-wrap:wrap;">
           <button onclick="vpAdd()" title="Add new video profile" style="padding:5px 12px;background:var(--primary-dim);color:var(--primary);border:1px solid var(--primary);border-radius:var(--radius);font-size:11px;font-weight:700;cursor:pointer;">+ New</button>
-          <button onclick="vpDuplicate()" title="Duplicate current profile" style="padding:5px 12px;background:var(--card);color:var(--text-dim);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:11px;cursor:pointer;">&#10697; Copy</button>
-          <button onclick="vpRename()" title="Rename profile" style="padding:5px 12px;background:var(--card);color:var(--text-dim);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:11px;cursor:pointer;">&#9998; Rename</button>
-          <button onclick="vpDelete()" title="Delete profile" style="padding:5px 10px;background:var(--danger-dim);color:var(--danger);border:1px solid var(--danger);border-radius:var(--radius);font-size:11px;cursor:pointer;">&#10005;</button>
+          <button onclick="vpDuplicate()" title="Duplicate current profile" style="padding:5px 12px;background:var(--secondary-dim,rgba(34,211,238,0.12));color:var(--secondary);border:1px solid var(--secondary);border-radius:var(--radius);font-size:11px;font-weight:700;cursor:pointer;">⧉ Copy</button>
+          <button onclick="vpRename()" title="Rename profile" style="padding:5px 12px;background:var(--accent-dim,rgba(139,92,246,0.12));color:var(--accent);border:1px solid var(--accent);border-radius:var(--radius);font-size:11px;font-weight:700;cursor:pointer;">✏ Rename</button>
+          <button onclick="vpDelete()" title="Delete profile" style="padding:5px 10px;background:var(--danger-dim);color:var(--danger);border:1px solid var(--danger);border-radius:var(--radius);font-size:11px;font-weight:700;cursor:pointer;">✕</button>
         </div>
       </div>
       <div id="vp_counter" style="font-size:10px;color:var(--text-muted);margin-top:6px;">Profile 1 of 1 — data auto-saves per profile</div>
@@ -1518,11 +1518,43 @@ input:focus, select:focus, textarea:focus {
       </div>
       <div id="trendForecastBox" style="margin-top:14px;display:none;"></div>
       <div id="scenarioBox" style="margin-top:10px;display:none;"></div>
+      <!-- Additional Scenario Context -->
+      <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border);">
+        <div style="font-size:10px;font-weight:800;color:var(--secondary);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px;">📐 Scenario Accuracy — enter below for more refined projections</div>
+        <div class="input-grid">
+          <div class="input-box">
+            <label data-tip="1">Avg Views/Hr on Your Channel <span style="color:var(--text-muted);font-size:9px;">(baseline)</span><span class="tip-popup"><strong>Channel Velocity Baseline</strong> — the typical views/hr your recent videos get in their first 48h. Used to calibrate best/worst scenario multipliers to your channel specifically rather than generic defaults.<span class="tip-path">Studio → Analytics → a few recent videos → Overview → check hourly view graphs in first 48h</span></span></label>
+            <input type="number" id="channelAvgVelocity" value="" min="0" placeholder="e.g. 40 (your typical v/hr)" oninput="updateTab1()">
+          </div>
+          <div class="input-box">
+            <label data-tip="1">Previous 48h Views (this video)<span class="tip-popup"><strong>Actual 48h Views</strong> — if you already have 48h+ of data, enter the total views at the 48h mark. This anchors the projection model to real observed data rather than purely extrapolating from current velocity.<span class="tip-path">YouTube Studio → Analytics → your video → Overview → hover the graph at the 48h point</span></span></label>
+            <input type="number" id="actual48hViews" value="" min="0" placeholder="Optional — improves accuracy" oninput="updateTab1()">
+          </div>
+          <div class="input-box">
+            <label data-tip="1">Previous 7-Day Views (this video)<span class="tip-popup"><strong>Actual 7-Day Views</strong> — if the video is over 7 days old, enter total views at the 7-day mark. Gives the projection model a second anchor point, dramatically improving 14d/28d accuracy.<span class="tip-path">YouTube Studio → Analytics → your video → Overview → set date range to first 7 days</span></span></label>
+            <input type="number" id="actual7dViews" value="" min="0" placeholder="Optional — anchors long-range" oninput="updateTab1()">
+          </div>
+        </div>
+      </div>
     </div></div>
 
     <!-- Video age context banner -->
     <div id="videoAgeContext" style="display:none;margin-bottom:14px;"></div>
 
+    <div id="sv_t1_engagement" class="sv-wrap"><div class="control-card success">
+      <div class="label-flex"><span style="cursor:help;position:relative;" class="tip-wrap">💬 Engagement<span class="tip-popup"><strong>Engagement</strong> — likes, comments, and shares as a % of views. YouTube weighs engagement as a signal of content quality and audience satisfaction. Enter each separately for more accurate analysis.<span class="tip-path">YouTube Studio → Analytics → your video → Engagement tab</span></span></span><span class="val-badge" id="engVal" style="color:var(--secondary);border-color:var(--secondary);background:var(--secondary-dim);">0.0%</span></div>
+      <div class="input-grid">
+        <div class="input-box"><label data-tip="1">Total Views<span class="tip-popup"><strong>Total Views</strong> — cumulative view count for this video so far.<span class="tip-path">YouTube Studio → Content → view count shown in the list, or Analytics → Overview → Views</span></span></label><input type="number" id="viewsInput" value="0" min="0" oninput="syncEngInput();updateTab1()"></div>
+        <div class="input-box"><label data-tip="1">Likes<span class="tip-popup"><strong>Likes</strong> — total likes on the video. Used to compute like rate and detect controversy patterns.<span class="tip-path">YouTube Studio → Analytics → your video → Engagement tab → "Likes"</span></span></label><input type="number" id="likesInput" value="0" min="0" oninput="syncEngInput();updateTab1()"></div>
+        <div class="input-box"><label data-tip="1">Comments<span class="tip-popup"><strong>Comments</strong> — total comment count. A high comment-to-like ratio can indicate controversy, which YouTube limits in distribution.<span class="tip-path">YouTube Studio → Analytics → your video → Engagement tab → "Comments"</span></span></label><input type="number" id="commentsInput" value="0" min="0" oninput="syncEngInput();updateTab1()"></div>
+        
+      </div>
+      <div id="engDetail" style="margin-top:8px;font-size:11px;color:var(--text-dim);line-height:1.7;"></div>
+      <!-- hidden compat field — total likes+comments for old code paths -->
+      <input type="hidden" id="engInput" value="0">
+    </div></div>
+
+    <!-- Channel Context -->
     <div id="sv_t1_avd" class="sv-wrap"><div class="control-card highlight">
       <div class="label-flex"><span style="cursor:help;position:relative;" class="tip-wrap">⏱️ Video Length &amp; Retention<span class="tip-popup"><strong>Average View Duration</strong> — how long people watch your video on average. YouTube compares this to your video's length to compute AVD%.<span class="tip-path">YouTube Studio → Analytics → your video → Engagement tab → "Average view duration"</span></span></span><span class="val-badge" id="twDisplay">---</span></div>
       <div class="input-grid">
@@ -1565,20 +1597,6 @@ input:focus, select:focus, textarea:focus {
       </div>
     </div></div>
 
-    <div id="sv_t1_engagement" class="sv-wrap"><div class="control-card success">
-      <div class="label-flex"><span style="cursor:help;position:relative;" class="tip-wrap">💬 Engagement<span class="tip-popup"><strong>Engagement</strong> — likes, comments, and shares as a % of views. YouTube weighs engagement as a signal of content quality and audience satisfaction. Enter each separately for more accurate analysis.<span class="tip-path">YouTube Studio → Analytics → your video → Engagement tab</span></span></span><span class="val-badge" id="engVal" style="color:var(--secondary);border-color:var(--secondary);background:var(--secondary-dim);">0.0%</span></div>
-      <div class="input-grid">
-        <div class="input-box"><label data-tip="1">Total Views<span class="tip-popup"><strong>Total Views</strong> — cumulative view count for this video so far.<span class="tip-path">YouTube Studio → Content → view count shown in the list, or Analytics → Overview → Views</span></span></label><input type="number" id="viewsInput" value="0" min="0" oninput="syncEngInput();updateTab1()"></div>
-        <div class="input-box"><label data-tip="1">Likes<span class="tip-popup"><strong>Likes</strong> — total likes on the video. Used to compute like rate and detect controversy patterns.<span class="tip-path">YouTube Studio → Analytics → your video → Engagement tab → "Likes"</span></span></label><input type="number" id="likesInput" value="0" min="0" oninput="syncEngInput();updateTab1()"></div>
-        <div class="input-box"><label data-tip="1">Comments<span class="tip-popup"><strong>Comments</strong> — total comment count. A high comment-to-like ratio can indicate controversy, which YouTube limits in distribution.<span class="tip-path">YouTube Studio → Analytics → your video → Engagement tab → "Comments"</span></span></label><input type="number" id="commentsInput" value="0" min="0" oninput="syncEngInput();updateTab1()"></div>
-        
-      </div>
-      <div id="engDetail" style="margin-top:8px;font-size:11px;color:var(--text-dim);line-height:1.7;"></div>
-      <!-- hidden compat field — total likes+comments for old code paths -->
-      <input type="hidden" id="engInput" value="0">
-    </div></div>
-
-    <!-- Channel Context -->
     <div id="sv_t1_channel" class="sv-wrap"><div class="control-card" style="border-left:4px solid var(--primary);">
       <div style="font-weight:700;font-size:13px;color:var(--primary);margin-bottom:10px;">📡 Channel Context — how is this video performing vs your baseline?</div>
       <div class="input-grid">
@@ -1617,25 +1635,27 @@ input:focus, select:focus, textarea:focus {
     <!-- Stall detector -->
     <div id="sv_t1_stall" class="sv-wrap"><div class="control-card" style="border-left:4px solid var(--warning);">
       <div style="font-weight:700;font-size:13px;color:var(--warning);margin-bottom:10px;">📉 Stall Detector — Is your video actually underperforming?</div>
-      <p style="font-size:12px;color:var(--text-dim);margin-bottom:12px;">High scores on old data can be misleading. Enter your view count at 24h and 48h to check if growth has stalled — YouTube considers stall rate alongside raw metrics.</p>
-      <p style="font-size:12px;color:var(--text-dim);margin-bottom:12px;">
-        Enter <strong>3 total view counts</strong> taken at any points in time — the tool detects whether the video's push has plateaued or stalled. You can use any intervals (e.g. 2h/8h/now, or day 1/day 3/day 7).
-      </p>
+      <p style="font-size:12px;color:var(--text-dim);margin-bottom:12px;">High scores on old data can be misleading. Enter up to 4 view count snapshots at different points in time — the tool detects whether growth has stalled by measuring velocity across 3 windows.</p>
       <div class="input-grid">
         <div class="input-box">
-          <label data-tip="1">Snapshot 1 — earliest views<span class="tip-popup"><strong>Earliest View Snapshot</strong> — the total view count at your first checkpoint (e.g. 2h after upload). Used with the time field below it to compute velocity.<span class="tip-path">YouTube Studio → Analytics → your video → Overview → hover the views graph to read the count at a specific time</span></span></label>
+          <label data-tip="1">Snapshot 1 — earliest views<span class="tip-popup"><strong>Earliest View Snapshot</strong> — total view count at your first checkpoint (e.g. 2h after upload).<span class="tip-path">YouTube Studio → Analytics → your video → Overview → hover the views graph</span></span></label>
           <input type="number" id="views24h" value="" min="0" placeholder="e.g. views at 2h" oninput="updateTab1()">
           <input type="number" id="snap1_hours" value="" min="0" placeholder="Hours since upload" oninput="updateTab1()" style="margin-top:4px;">
         </div>
         <div class="input-box">
-          <label data-tip="1">Snapshot 2 — middle views<span class="tip-popup"><strong>Middle View Snapshot</strong> — the total view count at a second point in time (e.g. 24h). The velocity between snap 1 and 2 is compared to snap 2 and 3 to detect decay.<span class="tip-path">Same as above — hover the views chart at a different point in time</span></span></label>
-          <input type="number" id="views48h" value="" min="0" placeholder="e.g. views at 24h" oninput="updateTab1()">
+          <label data-tip="1">Snapshot 2 — early views<span class="tip-popup"><strong>Second Snapshot</strong> — view count at a second checkpoint (e.g. 8–12h). Detects the early decay window.<span class="tip-path">Same — hover the views chart at a different point</span></span></label>
+          <input type="number" id="views48h" value="" min="0" placeholder="e.g. views at 12h" oninput="updateTab1()">
           <input type="number" id="snap2_hours" value="" min="0" placeholder="Hours since upload" oninput="updateTab1()" style="margin-top:4px;">
         </div>
         <div class="input-box">
-          <label data-tip="1">Snapshot 3 — current views<span class="tip-popup"><strong>Latest View Snapshot</strong> — your most recent total view count. Combined with the hours field to compute the most recent velocity window.<span class="tip-path">YouTube Studio → Content → current view count, or Analytics → your video → Overview</span></span></label>
-          <input type="number" id="viewsCurrent" value="" min="0" placeholder="Current total views" oninput="updateTab1()">
+          <label data-tip="1">Snapshot 3 — mid views<span class="tip-popup"><strong>Third Snapshot</strong> — view count at a third checkpoint (e.g. 24–48h). The middle of the decay curve.<span class="tip-path">YouTube Studio → Content → current view count, or Analytics → Overview</span></span></label>
+          <input type="number" id="viewsCurrent" value="" min="0" placeholder="e.g. views at 24h" oninput="updateTab1()">
           <input type="number" id="snap3_hours" value="" min="0" placeholder="Hours since upload" oninput="updateTab1()" style="margin-top:4px;">
+        </div>
+        <div class="input-box">
+          <label data-tip="1">Snapshot 4 — latest views<span class="tip-popup"><strong>Latest Snapshot</strong> — your most recent total view count. Creates a 3rd velocity window giving a complete picture of decay over time.<span class="tip-path">YouTube Studio → Content → current view count</span></span></label>
+          <input type="number" id="viewsSnap4" value="" min="0" placeholder="Current total views" oninput="updateTab1()">
+          <input type="number" id="snap4_hours" value="" min="0" placeholder="Hours since upload" oninput="updateTab1()" style="margin-top:4px;">
         </div>
       </div>
       <div id="stallAnalysis" style="margin-top:12px;display:none;"></div>
@@ -1653,6 +1673,37 @@ input:focus, select:focus, textarea:focus {
     <div id="sv_t1_breakdown" class="sv-wrap"><div class="breakdown">
       <h4>Metric Contribution Breakdown</h4>
       <div id="breakdown-content"></div>
+    </div></div>
+
+    <!-- Score Tier Reference Panel -->
+    <div id="sv_t1_tiers" class="sv-wrap"><div class="control-card" style="border-left:4px solid var(--primary);">
+      <div style="font-size:12px;font-weight:800;color:var(--primary);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;">📘 Score Tier Reference</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="background:rgba(248,113,113,0.08);border:1px solid rgba(248,113,113,0.3);border-left:3px solid #f87171;border-radius:var(--radius);padding:10px 14px;">
+          <div style="font-size:12px;font-weight:800;color:#f87171;margin-bottom:4px;">⛔ Struggling (0–24)</div>
+          <div style="font-size:11px;color:var(--text);line-height:1.7;">Below the seed-pool quality bar. YouTube served the video to a small test group but CTR and/or AVD weren't strong enough to justify wider distribution. Organic growth stalls here without external promotion. <strong style="color:#f87171;">Fix thumbnail + title first, then hook.</strong></div>
+        </div>
+        <div style="background:rgba(251,146,60,0.08);border:1px solid rgba(251,146,60,0.3);border-left:3px solid #fb923c;border-radius:var(--radius);padding:10px 14px;">
+          <div style="font-size:12px;font-weight:800;color:#fb923c;margin-bottom:4px;">🔧 Needs Work (25–44)</div>
+          <div style="font-size:11px;color:var(--text);line-height:1.7;">Some signals pass, others drag. YouTube distributes cautiously — mostly to your subscribers and narrow Suggested feeds. The algorithm is watching but hasn't committed. <strong style="color:#fb923c;">One metric improvement (CTR or AVD) here shifts the score dramatically.</strong></div>
+        </div>
+        <div style="background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.3);border-left:3px solid #fbbf24;border-radius:var(--radius);padding:10px 14px;">
+          <div style="font-size:12px;font-weight:800;color:#fbbf24;margin-bottom:4px;">📈 Growing (45–59)</div>
+          <div style="font-size:11px;color:var(--text);line-height:1.7;">Solid baseline. Browse and Suggested are contributing within your niche. You're seeing consistent daily views but haven't broken into cold audiences. <strong style="color:#fbbf24;">Improve non-subscriber reach and engagement rate to cross into Strong Growth.</strong></div>
+        </div>
+        <div style="background:rgba(74,222,128,0.08);border:1px solid rgba(74,222,128,0.3);border-left:3px solid #4ade80;border-radius:var(--radius);padding:10px 14px;">
+          <div style="font-size:12px;font-weight:800;color:#4ade80;margin-bottom:4px;">💪 Strong Growth (60–74)</div>
+          <div style="font-size:11px;color:var(--text);line-height:1.7;">All primary signals are strong. Browse Features is likely your top traffic source; Suggested Videos is carrying cross-session. This is where most breakout videos plateau. <strong style="color:#4ade80;">To break further: CTR above 6% AND AVD above your video-length target simultaneously.</strong></div>
+        </div>
+        <div style="background:rgba(34,211,238,0.08);border:1px solid rgba(34,211,238,0.3);border-left:3px solid #22d3ee;border-radius:var(--radius);padding:10px 14px;">
+          <div style="font-size:12px;font-weight:800;color:#22d3ee;margin-bottom:4px;">🚀 Viral Potential (75–89)</div>
+          <div style="font-size:11px;color:var(--text);line-height:1.7;">YouTube is confidently pushing to people who've never seen your channel. Browse and Suggested are at max confidence. The algorithm resurfaces this video repeatedly over days and weeks. <strong style="color:#22d3ee;">Watch non-subscriber view %: if it climbs toward 70%+, you're in active viral spread.</strong></div>
+        </div>
+        <div style="background:rgba(191,95,255,0.08);border:1px solid rgba(191,95,255,0.3);border-left:3px solid #bf5fff;border-radius:var(--radius);padding:10px 14px;">
+          <div style="font-size:12px;font-weight:800;color:#bf5fff;margin-bottom:4px;">🔥 Viral Breakout (90–100)</div>
+          <div style="font-size:11px;color:var(--text);line-height:1.7;">Every distribution lever firing simultaneously: Browse, Suggested, Search trending, and potentially YouTube notifications. Compound growth — each new view generates more impressions. <strong style="color:#bf5fff;">Protect your AVD above all else: a retention drop is the fastest way to break the momentum.</strong></div>
+        </div>
+      </div>
     </div></div>
 
     <div id="sv_t1_scenarios" class="sv-wrap"><div class="control-card" style="border-top:3px solid var(--secondary);margin-top:4px;">
@@ -3356,7 +3407,7 @@ input:focus, select:focus, textarea:focus {
   <!-- ══════════════════════════════════════════ -->
   <div id="TabLive" class="tabcontent">
     <h2>🔴 Live Sub Tracker</h2>
-    <p class="tab-subtitle">Monitor up to 5 channels in real-time. Counts auto-refresh every 10 seconds. YouTube requires your Data API v3 key. Twitch requires a Client ID.</p>
+    <p class="tab-subtitle">Monitor up to 5 channels in real-time. YouTube requires your Data API v3 key. Twitch requires a Client ID + token.</p>
 
     <div id="sv_live_add" class="sv-wrap"><div class="control-card">
       <h3 style="margin-top:0;">➕ Add Channel</h3>
@@ -3394,7 +3445,19 @@ input:focus, select:focus, textarea:focus {
       <div style="display:flex;gap:10px;margin-top:14px;align-items:center;flex-wrap:wrap;">
         <button class="btn-primary" onclick="addLiveTracker()">🔴 Start Tracking</button>
         <button class="btn-secondary" onclick="lstRefreshNow()">🔄 Refresh Now</button>
+        <button class="btn-secondary" onclick="livePopoutAll()">⧉ Pop Out All</button>
         <button class="btn-secondary" onclick="clearAllTrackers()">🗑 Clear All</button>
+      </div>
+      <!-- Refresh interval control -->
+      <div style="display:flex;align-items:center;gap:10px;margin-top:12px;flex-wrap:wrap;">
+        <label style="font-size:11px;color:var(--text-dim);font-weight:700;white-space:nowrap;">🔁 Refresh every:</label>
+        <input type="range" id="lst_interval_slider" min="15" max="60" step="5" value="30"
+          oninput="syncSlider('lst_interval_slider','lst_interval_num');updateLiveInterval()"
+          style="flex:1;max-width:160px;">
+        <input type="text" inputmode="numeric" id="lst_interval_num" value="30"
+          style="width:50px;padding:4px 6px;background:var(--bg2);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:12px;color:var(--text-bright);text-align:center;"
+          oninput="syncNum('lst_interval_num','lst_interval_slider');updateLiveInterval()">
+        <span style="font-size:11px;color:var(--text-muted);">sec (15–60)</span>
       </div>
       <div id="lst_add_status" style="font-size:12px;color:var(--text-dim);margin-top:10px;min-height:16px;font-family:var(--font-mono);"></div>
     </div></div>
@@ -3419,8 +3482,9 @@ input:focus, select:focus, textarea:focus {
     <div class="insight-box " style="background:var(--card2);border-color:var(--border-hi);" data-sv->
       <span class="icon">💡</span>
       <div style="font-size:12px;line-height:1.7;">
-        <strong style="color:var(--primary);">YouTube:</strong> Requires a free YouTube Data API v3 key. Get one at <strong>console.cloud.google.com</strong> → Enable "YouTube Data API v3" → Create Credentials. Free tier: 10,000 units/day (each channel fetch = 1 unit).<br>
-        <strong style="color:var(--accent);">Twitch:</strong> Requires a free Twitch Client ID + App Access Token. Register at <strong>dev.twitch.tv/console</strong> → New App → get Client ID. Then call <code>https://id.twitch.tv/oauth2/token</code> to get a bearer token.
+        <strong style="color:var(--primary);">YouTube:</strong> Requires a free YouTube Data API v3 key. Get one at <strong>console.cloud.google.com</strong> → Enable "YouTube Data API v3" → Create Credentials. Free tier: 10,000 units/day.<br>
+        <strong style="color:var(--accent);">Twitch:</strong> Requires a free Twitch Client ID + App Access Token. Register at <strong>dev.twitch.tv/console</strong>.<br>
+        <strong style="color:var(--secondary);">Popout:</strong> Use <strong>⊞ Pop Out</strong> on each card to open it in its own window. Use <strong>⧉ Pop Out All</strong> to open all channels at once.
       </div>
     </div>
     <div class="faq-link-bar " data-sv->❓ <a onclick="goFAQ()">How to set up API keys? See the FAQ →</a></div>
@@ -3844,12 +3908,14 @@ input:focus, select:focus, textarea:focus {
 
   const VP_FIELDS = [
     'viewsInput','likesInput','commentsInput','ctrNum','ctr','ret','retNum',
-    'viewVelocity','impressionsInput','viewsCurrent','snap3_hours',
+    'viewVelocity','impressionsInput',
+    'channelAvgVelocity','actual48hViews','actual7dViews',
     'vlMins','vlSecs','twMins','twSecs','engInput',
     'dt_month','dt_day','dt_year','dt_hour','dt_minute','dt_ampm',
     'nonSubViewPct','rewatchRate','midRetention','endRetention','cardCtr',
     'channelSubs','avgViewsPerUpload','subsGained',
     'views24h','snap1_hours','views48h','snap2_hours',
+    'viewsCurrent','snap3_hours','viewsSnap4','snap4_hours',
   ];
 
 
@@ -3865,14 +3931,17 @@ input:focus, select:focus, textarea:focus {
   // ── STALENESS SYSTEM ──
   // Fields that should be flagged when data is potentially outdated
   const STALE_FIELD_DEFS = {
-    'viewVelocity': 'View Velocity',
-    'impressionsInput': 'Impressions',
-    'twMins': 'AVD Minutes',
-    'twSecs': 'AVD Seconds',
-    'ctr': 'CTR',
-    'viewsInput': 'Total Views',
-    'likesInput': 'Likes',
-    'commentsInput': 'Comments',
+    'viewVelocity':    'View Velocity',
+    'impressionsInput':'Impressions',
+    'twMins':          'AVD Minutes',
+    'twSecs':          'AVD Seconds',
+    'ctr':             'CTR',
+    'viewsInput':      'Total Views',
+    'likesInput':      'Likes',
+    'commentsInput':   'Comments',
+    'viewsCurrent':    'Snapshot 3 Views',
+    'actual48hViews':  '48h View Anchor',
+    'actual7dViews':   '7-Day View Anchor',
   };
   // Subset that applies even before 24h
   const STALE_FIELD_DEFS_FREQUENT = {
@@ -4008,7 +4077,7 @@ input:focus, select:focus, textarea:focus {
 
   /* ─── Full Save / Load (file-based) ─── */
 
-    const ALL_SAVE_FIELDS = ['viewVelocity', 'impressionsInput', 'vlMins', 'vlSecs', 'twMins', 'twSecs', 'newVideoToggle', 'viewsInput', 'likesInput', 'commentsInput', 'channelSubs', 'avgViewsPerUpload', 'subsGained', 'nonSubViewPct', 'midRetention', 'endRetention', 'cardCtr', 'rewatchRate', 'views24h', 'snap1_hours', 'views48h', 'snap2_hours', 'viewsCurrent', 'snap3_hours', 'ctrNum', 'retNum', 't2_vlMins', 't2_vlSecs', 't2_ctr', 't2_avd', 't2_views', 't2_subs', 'gp_avd', 'gp_earned', 'gp_stream_hrs', 'gp_stream_viewers', 'gp_months', 'c_views_min', 'c_views_max', 'c_rpm_minNum', 'c_rpm_maxNum', 'c_view_type', 'cs_views_min', 'cs_views_max', 'cs_rpm', 'cs_niche', 'roi_shorts_views', 'roi_shorts_time', 'roi_shorts_follow', 'roi_lf_views', 'roi_lf_time', 'roi_lf_follow', 'roi_lf_avd', 'roi_rpm', 'tt_views', 'tt_likes', 'tt_comments', 'tt_shares', 'tt_length', 'tt_velocity', 'tt_avdNum', 'tt_hookNum', 'tt_curr_subs', 'tt_monthly_views', 'tt_follow_rate', 'ig_views', 'ig_likes', 'ig_comments', 'ig_saves', 'ig_sends', 'ig_reach', 'ig_nonfollower', 'ig_velocity', 'ig_avdNum', 'ig_curr_subs', 'ig_monthly_views', 'ig_follow_rate', 'sch_tz', 'sch_niche', 'sch_freq', 'sch_format', 'cp_subs', 'cp_views', 'cp_avd', 'cp_sub_rate', 'cp_uploads', 'cp_ctr', 'cp_rpm', 'cp_opt_rate', 'cp_opt_views', 'cp_agg_uploads', 'cp_target_ctr', 'yt_curr_subs', 'yt_monthly_views', 'yt_sub_rate', 'yt_subs_7d', 'yt_subs_28d', 'yt_custom_month', 'yt_custom_day', 'yt_custom_year', 'ab_test_name', 'ab_total_impressions', 'ab_niche', 'cmp_id1', 'cmp_subs1', 'cmp_totalviews1', 'cmp_videocount1', 'cmp_views1', 'cmp_ctr1', 'cmp_avd1', 'cmp_rpm1', 'cmp_id2', 'cmp_subs2', 'cmp_totalviews2', 'cmp_videocount2', 'cmp_views2', 'cmp_ctr2', 'cmp_avd2', 'cmp_rpm2', 'cmp_id3', 'cmp_subs3', 'cmp_totalviews3', 'cmp_videocount3', 'cmp_views3', 'cmp_ctr3', 'cmp_avd3', 'cmp_rpm3', 'hook_topic', 'hook_niche', 'hook_platform', 'seo_title', 'seo_keyword', 'seo_type', 'sat_topic', 'sat_angle', 'sat_category', 'sat_volume', 'rc_length', 'rc_30s', 'rc_1min', 'rc_25pct', 'rc_50pct', 'rc_75pct', 'rc_90pct', 'rc_avd', 'es_length', 'es_avd', 'es_mid', 'es_70', 'es_80', 'es_90', 'es_dropoff', 'es_current_ctr', 'es_rewatch', 'es_high_start', 'es_high_end', 'es_card_goal',
+    const ALL_SAVE_FIELDS = ['viewVelocity', 'impressionsInput', 'vlMins', 'vlSecs', 'twMins', 'twSecs', 'newVideoToggle', 'viewsInput', 'likesInput', 'commentsInput', 'channelSubs', 'avgViewsPerUpload', 'subsGained', 'nonSubViewPct', 'midRetention', 'endRetention', 'cardCtr', 'rewatchRate', 'views24h', 'snap1_hours', 'views48h', 'snap2_hours', 'viewsCurrent', 'snap3_hours', 'viewsSnap4', 'snap4_hours', 'ctrNum', 'retNum', 't2_vlMins', 't2_vlSecs', 't2_ctr', 't2_avd', 't2_views', 't2_subs', 'gp_avd', 'gp_earned', 'gp_stream_hrs', 'gp_stream_viewers', 'gp_months', 'c_views_min', 'c_views_max', 'c_rpm_minNum', 'c_rpm_maxNum', 'c_view_type', 'cs_views_min', 'cs_views_max', 'cs_rpm', 'cs_niche', 'roi_shorts_views', 'roi_shorts_time', 'roi_shorts_follow', 'roi_lf_views', 'roi_lf_time', 'roi_lf_follow', 'roi_lf_avd', 'roi_rpm', 'tt_views', 'tt_likes', 'tt_comments', 'tt_shares', 'tt_length', 'tt_velocity', 'tt_avdNum', 'tt_hookNum', 'tt_curr_subs', 'tt_monthly_views', 'tt_follow_rate', 'ig_views', 'ig_likes', 'ig_comments', 'ig_saves', 'ig_sends', 'ig_reach', 'ig_nonfollower', 'ig_velocity', 'ig_avdNum', 'ig_curr_subs', 'ig_monthly_views', 'ig_follow_rate', 'sch_tz', 'sch_niche', 'sch_freq', 'sch_format', 'cp_subs', 'cp_views', 'cp_avd', 'cp_sub_rate', 'cp_uploads', 'cp_ctr', 'cp_rpm', 'cp_opt_rate', 'cp_opt_views', 'cp_agg_uploads', 'cp_target_ctr', 'yt_curr_subs', 'yt_monthly_views', 'yt_sub_rate', 'yt_subs_7d', 'yt_subs_28d', 'yt_custom_month', 'yt_custom_day', 'yt_custom_year', 'ab_test_name', 'ab_total_impressions', 'ab_niche', 'cmp_id1', 'cmp_subs1', 'cmp_totalviews1', 'cmp_videocount1', 'cmp_views1', 'cmp_ctr1', 'cmp_avd1', 'cmp_rpm1', 'cmp_id2', 'cmp_subs2', 'cmp_totalviews2', 'cmp_videocount2', 'cmp_views2', 'cmp_ctr2', 'cmp_avd2', 'cmp_rpm2', 'cmp_id3', 'cmp_subs3', 'cmp_totalviews3', 'cmp_videocount3', 'cmp_views3', 'cmp_ctr3', 'cmp_avd3', 'cmp_rpm3', 'hook_topic', 'hook_niche', 'hook_platform', 'seo_title', 'seo_keyword', 'seo_type', 'sat_topic', 'sat_angle', 'sat_category', 'sat_volume', 'rc_length', 'rc_30s', 'rc_1min', 'rc_25pct', 'rc_50pct', 'rc_75pct', 'rc_90pct', 'rc_avd', 'es_length', 'es_avd', 'es_mid', 'es_70', 'es_80', 'es_90', 'es_dropoff', 'es_current_ctr', 'es_rewatch', 'es_high_start', 'es_high_end', 'es_card_goal',
     // API keys and auth fields
     'lst_twitch_clientid','lst_twitch_token','cmp_api_key',
     // Date picker dropdowns
@@ -4106,8 +4175,10 @@ input:focus, select:focus, textarea:focus {
       accountInfo: accountData,
       // A/B tests
       abSavedTests: abSavedTests,
-      // Live trackers (channel list only, not live counts)
-      liveTrackers: liveTrackers.map(t => ({ ...t, count: t.count, prevCount: t.prevCount })),
+      // Live tracker interval
+      liveRefreshInterval: liveRefreshInterval,
+      // Live trackers (full data including API keys so they can be restored)
+      liveTrackers: liveTrackers.map(t => ({ ...t })),
       // API keys
       apiKeys: {
         ytApiKey: document.getElementById('yt_api_key') ? document.getElementById('yt_api_key').value : '',
@@ -4193,6 +4264,14 @@ input:focus, select:focus, textarea:focus {
         // Restore live tracked channels
         if (Array.isArray(parsed.liveTrackers) && parsed.liveTrackers.length) {
           liveTrackers = parsed.liveTrackers;
+          if (parsed.liveRefreshInterval) {
+            liveRefreshInterval = parsed.liveRefreshInterval;
+            const slEl = document.getElementById('lst_interval_slider');
+            const numEl = document.getElementById('lst_interval_num');
+            if (slEl) slEl.value = liveRefreshInterval;
+            if (numEl) numEl.value = liveRefreshInterval;
+            if (typeof updateSliderFill === 'function') updateSliderFill(slEl);
+          }
           if (liveTimerInterval) { clearInterval(liveTimerInterval); liveTimerInterval = null; }
         }
         // Restore saved A/B tests
@@ -4437,15 +4516,16 @@ input:focus, select:focus, textarea:focus {
                       : n >= 1000    ? (n/1000).toFixed(1)+'K'
                       : n.toLocaleString();
     const cards = visWin.map(w => {
-      const isPast = (hoursOld || 0) >= w.hrs;
+      const isPast = projData[Object.keys(projData)[0]][w.id].past === true;
       const bestV  = projData['best'][w.id].views;
+      const hrsLeft = Math.max(0, w.hrs - (hoursOld || 0));
       const rows = visSc.map(sc => {
         const d = projData[sc.id][w.id];
         const barPct = bestV > baseViews
           ? Math.min(((d.views - baseViews) / (bestV - baseViews)) * 100, 100)
           : 0;
-        const viewsLabel = isPast ? 'past' : fmtNum(d.views);
-        const viewsColor = isPast ? 'var(--text-muted)' : sc.color;
+        const viewsLabel = fmtNum(d.views);
+        const viewsColor = isPast ? 'var(--text-dim)' : sc.color;
         const whLabel = (!isPast && showWH && d.wh != null)
           ? `<div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border);">
               <div style="font-size:15px;font-weight:900;color:${viewsColor};line-height:1;font-variant-numeric:tabular-nums;">${d.wh.toFixed(1)}</div>
@@ -4454,8 +4534,8 @@ input:focus, select:focus, textarea:focus {
           : '';
         return `<div style="display:flex;align-items:center;justify-content:space-between;
           padding:9px 12px;border-bottom:1px solid var(--border);
-          ${isPast ? 'opacity:0.45;' : ''}transition:background 0.12s;"
-          onmouseenter="this.style.background='${sc.color}10'"
+          ${isPast ? 'opacity:0.55;' : ''}transition:background 0.12s;"
+          onmouseenter="this.style.background='${isPast ? '' : sc.color+'10'}'"
           onmouseleave="this.style.background=''">
           <div style="display:flex;align-items:center;gap:9px;flex:1;min-width:0;">
             <div style="width:3px;min-height:36px;border-radius:2px;background:${sc.color};flex-shrink:0;align-self:stretch;"></div>
@@ -4471,19 +4551,20 @@ input:focus, select:focus, textarea:focus {
           <div style="text-align:right;flex-shrink:0;padding-left:12px;">
             <div style="font-size:17px;font-weight:900;color:${viewsColor};line-height:1;
               font-variant-numeric:tabular-nums;">${viewsLabel}</div>
-            ${!isPast ? `<div style="font-size:11px;font-weight:600;color:var(--text-dim);margin-top:3px;letter-spacing:0.2px;">views</div>` : ''}
+            <div style="font-size:11px;font-weight:600;color:var(--text-dim);margin-top:3px;letter-spacing:0.2px;">${isPast ? 'at this point' : 'views'}</div>
             ${whLabel}
           </div>
         </div>`;
       }).join('');
       return `<div style="background:var(--card);border:1px solid var(--border-hi);border-radius:10px;
-        overflow:hidden;flex:1;min-width:200px;${isPast ? 'opacity:0.55;' : ''}">
-        <div style="background:var(--card2);padding:9px 12px;border-bottom:2px solid var(--border-hi);
+        overflow:hidden;flex:1;min-width:200px;${isPast ? 'opacity:0.7;' : ''}">
+        <div style="background:var(--card2);padding:9px 12px;border-bottom:2px solid ${isPast ? 'var(--border)' : 'var(--border-hi)'};
           display:flex;align-items:center;justify-content:space-between;">
-          <div style="font-size:14px;font-weight:900;color:var(--primary);">${w.label}</div>
-          <div style="font-size:9px;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:0.6px;">
-            ${isPast ? 'passed' : (w.hrs/24 >= 1 ? (w.hrs/24)+'d' : w.hrs+'h') + ' from now'}
+          <div>
+            <div style="font-size:14px;font-weight:900;color:${isPast ? 'var(--text-dim)' : 'var(--primary)'};">${w.label} after upload</div>
+            <div style="font-size:9px;color:var(--text-muted);margin-top:1px;">${isPast ? 'already passed' : hrsLeft.toFixed(0)+'h from now'}</div>
           </div>
+          ${isPast ? `<div style="font-size:9px;color:var(--text-muted);padding:2px 7px;border:1px solid var(--border);border-radius:8px;align-self:center;">✓ Past</div>` : ''}
         </div>
         ${rows}
       </div>`;
@@ -4584,6 +4665,7 @@ input:focus, select:focus, textarea:focus {
     const cardCtrV    = parseFloat(document.getElementById('cardCtr')?.value) || 0;
     const impressionsV = parseFloat(document.getElementById('impressionsInput')?.value) || 0;
     const subsGainedV = parseFloat(document.getElementById('subsGained')?.value) || 0;
+    const velocityV   = parseFloat(document.getElementById('viewVelocity')?.value) || 0;
 
     // Non-sub reach: strongest distribution indicator
     if (nonSubPct > 0) bonusPts += Math.min((nonSubPct/100)*4, 4);
@@ -4601,25 +4683,59 @@ input:focus, select:focus, textarea:focus {
     // Card/end screen CTR: signals strong session extension
     if (cardCtrV > 0) bonusPts += Math.min((cardCtrV/10)*1.5, 1.5);
 
-    bonusPts = Math.min(bonusPts, 10);
+    // 7. Impressions-to-views ratio bonus/penalty (true CTR from impressions)
+    // This is separate from the Studio-reported CTR which uses a subset of impressions
+    let impRatioPts = 0;
+    if (impressionsV > 0 && views > 0) {
+      const trueImpCtr = (views / impressionsV) * 100;
+      impRatioPts = trueImpCtr >= 10 ? 5
+                  : trueImpCtr >= 7  ? 4
+                  : trueImpCtr >= 5  ? 3
+                  : trueImpCtr >= 3  ? 1.5
+                  : trueImpCtr >= 1.5 ? 0
+                  : -2; // below 1.5% = penalty, thumbnail not working
+    }
 
-    const total = (ctrPts + avdPts + retPts + rawPts + engPtsFinal + bonusPts).toFixed(1);
+    // 8. Velocity context — high velocity relative to channel average is a strong signal
+    let velPts = 0;
+    if (velocityV > 0) {
+      velPts = velocityV >= 1000 ? 5
+             : velocityV >= 300  ? 4
+             : velocityV >= 100  ? 3
+             : velocityV >= 30   ? 1.5
+             : 0;
+    }
+
+    bonusPts = Math.min(bonusPts, 10);
+    const totalRaw = ctrPts + avdPts + retPts + rawPts + engPtsFinal + bonusPts + impRatioPts + velPts;
+    // Normalize to 0–100 scale (max theoretical is ~120, normalize to 100)
+    const total = Math.min(totalRaw, 100).toFixed(1);
     // 6-band rating using SCORE_PHASES
     const totalNum = parseFloat(total);
     // Clip display at 100 but store actual for breakdown
     document.getElementById('totalScore').innerText = Math.min(Math.round(totalNum), 100);
     let r, c, d;
-    if      (totalNum < 25) { r='⛔ Struggling';      c='#f87171'; d='Below seed-pool thresholds. Review thumbnail, title, and hook.'; }
-    else if (totalNum < 45) { r='🔧 Needs Work';      c='#fb923c'; d='Some signals are weak. Focus on AVD and CTR improvements.'; }
-    else if (totalNum < 60) { r='📈 Growing';         c='#fbbf24'; d='Decent performance. Consistent audience reach in your niche.'; }
-    else if (totalNum < 75) { r='💪 Strong Growth';   c='#4ade80'; d='Strong metrics. Algorithm is rewarding your content well.'; }
-    else if (totalNum < 90) { r='🚀 Viral Potential'; c='#22d3ee'; d='Exceptional signals. Algorithm likely pushing to non-subscribers.'; }
-    else                    { r='🔥 Viral Breakout';  c='#bf5fff'; d='Top-tier metrics. Maximum algorithm amplification.'; }
+    if      (totalNum < 25) { r='⛔ Struggling';      c='#f87171';
+      d='Your video is below YouTube\'s seed-pool quality thresholds. The algorithm tried showing it to a small test audience but CTR, AVD, or both weren\'t strong enough to justify wider distribution. Without a significant external push (sharing, community post, etc.) organic growth will be minimal. Priority fix: thumbnail and title first (CTR), then hook (first 30s retention).'; }
+    else if (totalNum < 45) { r='🔧 Needs Work';      c='#fb923c';
+      d='Some signals are passing but others are dragging the score down. YouTube is distributing this video, but only to a cautious audience — mostly subscribers and narrow suggested feeds. The algorithm is watching but hasn\'t committed to a wider push. Identify the weakest metric in the breakdown and address it. A CTR bump or AVD improvement here can shift the score significantly.'; }
+    else if (totalNum < 60) { r='📈 Growing';         c='#fbbf24';
+      d='Solid baseline performance. YouTube is actively distributing this content within your niche — Browse Features and Suggested are contributing. You\'re likely seeing consistent daily views, but the algorithm hasn\'t broken it out to cold audiences yet. Engagement and non-subscriber reach are the levers to pull here to move into the next tier.'; }
+    else if (totalNum < 75) { r='💪 Strong Growth';   c='#4ade80';
+      d='Strong across all primary signals. The algorithm is confidently pushing this video — Browse Features is likely your top traffic source at this stage, and Suggested Videos is carrying it between sessions. Non-subscriber views are likely rising. This tier is where most breakout videos plateau; to break further you need CTR above 6% AND AVD above your length target simultaneously.'; }
+    else if (totalNum < 90) { r='🚀 Viral Potential'; c='#22d3ee';
+      d='Exceptional signal quality. YouTube is pushing this to people who have never seen your channel — Browse and Suggested are at maximum confidence. At this level the algorithm treats this video as a "worthy of discovery" asset and resurfaces it repeatedly over days and weeks. Watch your non-subscriber view % carefully: if it\'s climbing toward 70%+, you\'re in active viral spread.'; }
+    else                    { r='🔥 Viral Breakout';  c='#bf5fff';
+      d='Maximum algorithm amplification. Every major distribution lever is firing simultaneously: Browse Features, Suggested Videos, Search trending, and potentially YouTube\'s notification systems. Videos in this range often see compound growth where each new view generates more impressions. Protect your AVD at all costs — a drop here will pull the algorithm\'s confidence down faster than any other signal.'; }
     document.getElementById('ratingText').innerText = r;
     document.getElementById('ratingText').style.background = c + '22';
     document.getElementById('ratingText').style.color = c;
     document.getElementById('ratingText').style.borderColor = c;
-    document.getElementById('ratingDesc').innerText = d;
+    const descEl = document.getElementById('ratingDesc');
+    if (descEl) {
+      descEl.style.cssText = 'font-size:12px;line-height:1.75;color:var(--text);background:' + c + '0d;border:1px solid ' + c + '33;border-radius:var(--radius);padding:12px 14px;margin-top:10px;text-align:left;max-width:520px;margin-left:auto;margin-right:auto;';
+      descEl.textContent = d;
+    }
     if (typeof renderPhaseBands === 'function') renderPhaseBands(totalNum);
     document.getElementById('breakdown-content').innerHTML =
       `<div><span>📊 CTR (Packaging):</span><span>${ctrPts.toFixed(1)} / 35</span></div>
@@ -4627,7 +4743,9 @@ input:focus, select:focus, textarea:focus {
        <div><span>🎣 Hook / Early Retention:</span><span>${retPts.toFixed(1)} / ${isNew ? '0' : '25'}</span></div>
        <div><span>📺 Abs Watch Time:</span><span>${rawPts.toFixed(1)} / 15</span></div>
        <div><span>💬 Engagement Quality:</span><span>${engPtsFinal.toFixed(1)} / 20</span></div>
-       <div><span>✨ Bonus Signals:</span><span>${bonusPts.toFixed(1)} / 10</span></div>`;
+       <div><span>✨ Bonus Signals:</span><span>${bonusPts.toFixed(1)} / 10</span></div>
+       ${impRatioPts !== 0 ? `<div><span>🖼 Impressions-to-Views Ratio:</span><span>${impRatioPts > 0 ? '+' : ''}${impRatioPts.toFixed(1)}</span></div>` : ''}
+       ${velPts > 0 ? `<div><span>⚡ Velocity Context:</span><span>+${velPts.toFixed(1)}</span></div>` : ''}`;
     const velocity    = parseFloat(document.getElementById('viewVelocity')?.value) || 0;
     const impressions = parseFloat(document.getElementById('impressionsInput')?.value) || 0;
     const viewsCurrent = parseFloat(document.getElementById('viewsCurrent')?.value) || 0;
@@ -4659,7 +4777,70 @@ input:focus, select:focus, textarea:focus {
       ? ((views/_impressV)*100 >= 7 ? 1 : (views/_impressV)*100 >= 4 ? 0 : -1) : 0;
     const _sigTotal = _ctrSig + _avdSig + _nsSig + _rwSig + _impSig;
     const signalStrength = _sigTotal >= 7 ? 'strong' : _sigTotal >= 3 ? 'moderate' : 'weak';
-    const scenarioBox   = document.getElementById('scenarioProjBox');
+    // ── "Info Needed" highlights for scoring fields ──
+    // Fields that directly feed the virality score
+    const SCORE_REQUIRED = [
+      { id: 'ctrNum',          label: 'CTR required for score',        sectionId: 'sv_t1_ctr' },
+      { id: 'twMins',          label: 'AVD required for score',        sectionId: 'sv_t1_avd' },
+      { id: 'viewsInput',      label: 'Views helps scoring',           sectionId: 'sv_t1_engagement' },
+      { id: 'likesInput',      label: 'Likes helps scoring',           sectionId: 'sv_t1_engagement' },
+    ];
+    const newVideoChecked = document.getElementById('newVideoToggle')?.checked;
+    if (!newVideoChecked) {
+      SCORE_REQUIRED.push({ id: 'retNum', label: 'Hook Retention required for score', sectionId: 'sv_t1_hook' });
+    }
+
+    SCORE_REQUIRED.forEach(function(f) {
+      const el  = document.getElementById(f.id);
+      const box = el && (el.closest('.input-box') || el.parentElement);
+      if (!el || !box) return;
+      const val = parseFloat(el.value);
+      const isEmpty = !el.value || isNaN(val) || val === 0;
+      const existingNote = box.querySelector('.info-needed-note');
+
+      // Don't show if already has a stale badge
+      const staleBadge = box.querySelector('[id^="stale_"]');
+
+      if (isEmpty && !staleBadge) {
+        el.style.setProperty('border-color', 'rgba(99,102,241,0.6)', 'important');
+        el.style.setProperty('box-shadow', '0 0 0 2px rgba(99,102,241,0.18)', 'important');
+        if (!existingNote) {
+          const note = document.createElement('div');
+          note.className = 'info-needed-note';
+          note.style.cssText = 'font-size:10px;font-weight:700;color:var(--primary);margin-top:3px;display:flex;align-items:center;gap:3px;';
+          note.innerHTML = '⚡ Enter for virality score';
+          box.appendChild(note);
+        }
+      } else {
+        // Clear highlight
+        el.style.removeProperty('border-color');
+        el.style.removeProperty('box-shadow');
+        if (existingNote) existingNote.remove();
+      }
+    });
+
+    // Special: highlight CTR=0 and ret=0 more prominently
+    ['ctrNum','retNum'].forEach(function(numId) {
+      if (numId === 'retNum' && newVideoChecked) return;
+      const el  = document.getElementById(numId);
+      const val = parseFloat(el && el.value);
+      const box = el && (el.closest('.input-box') || el.parentElement);
+      if (!el || !box) return;
+      const isEmpty = !el.value || isNaN(val) || val === 0;
+      const existingNote = box.querySelector('.info-needed-note');
+      const staleBadge   = box.querySelector('[id^="stale_"]');
+      if (isEmpty && !staleBadge) {
+        el.style.setProperty('border-color', '#a78bfa', 'important');
+        el.style.setProperty('box-shadow', '0 0 0 2px rgba(167,139,250,0.25)', 'important');
+        if (!existingNote) {
+          const note = document.createElement('div');
+          note.className = 'info-needed-note';
+          note.style.cssText = 'font-size:10px;font-weight:700;color:#a78bfa;margin-top:3px;';
+          note.innerHTML = '⚡ 0% won\'t score — enter a real value';
+          box.appendChild(note);
+        }
+      }
+    });
     const scenarioEmpty = document.getElementById('scenario_empty');
     // Show scenarios if we have velocity OR enough view data to project from
     if (scenarioBox && (velocity > 0 || baseViews > 0)) {
@@ -4680,17 +4861,61 @@ input:focus, select:focus, textarea:focus {
       }
 
       // ── SCENARIO PARAMETERS ──
-      const velBest          = velocity * (signalStrength === 'strong' ? 1.5  : signalStrength === 'moderate' ? 1.25 : 1.05);
-      const velAboveExpected = velocity * (signalStrength === 'strong' ? 1.2  : signalStrength === 'moderate' ? 1.08 : 0.92);
+      // If the user has provided actual observed view counts at known timestamps,
+      // use those to compute an empirical decay rate that overrides the default alpha.
+      const channelAvgVel = parseFloat(document.getElementById('channelAvgVelocity')?.value) || 0;
+      const actual48h     = parseFloat(document.getElementById('actual48hViews')?.value)    || 0;
+      const actual7d      = parseFloat(document.getElementById('actual7dViews')?.value)     || 0;
+
+      // Empirical alpha calibration from observed data
+      // If we have two anchor points, fit the power-law to match observed growth
+      let empiricalAlpha = null;
+      if (actual48h > baseViews && actual7d > actual48h) {
+        // Fit: solve for alpha in V(7d) = baseViews + vel * integral(0→168-hoursOld)
+        // Approximate: use ratio of per-day velocity between 48h and 7d windows
+        const vel48 = (actual48h - baseViews) / Math.max(1, 48 - (hoursOld || 0));
+        const vel7d  = (actual7d - actual48h) / Math.max(1, 168 - 48);
+        if (vel48 > 0 && vel7d > 0 && vel7d < vel48) {
+          // decay ratio over 5 days → approximate alpha
+          empiricalAlpha = Math.log(vel48 / vel7d) / Math.log(5);
+          empiricalAlpha = Math.max(0.2, Math.min(3.0, empiricalAlpha)); // clamp sanity
+        }
+      } else if (actual48h > baseViews) {
+        // Single anchor: use observed 48h velocity to calibrate alpha for expected scenario
+        const vel48 = (actual48h - baseViews) / Math.max(1, 48 - (hoursOld || 0));
+        if (vel48 > 0 && velocity > 0) {
+          // How much has velocity decayed from current to 48h? Back-calculate alpha.
+          const decayRatio = vel48 / velocity;
+          empiricalAlpha = decayRatio < 1 ? -Math.log(decayRatio) / Math.log(2) : 0.8;
+          empiricalAlpha = Math.max(0.2, Math.min(2.5, empiricalAlpha));
+        }
+      }
+
+      // Channel baseline calibration for scenario multipliers
+      // If user entered their channel's typical velocity, use it to set relative performance
+      let perfMultiplier = 1.0;
+      if (channelAvgVel > 0 && velocity > 0) {
+        const ratio = velocity / channelAvgVel;
+        perfMultiplier = ratio >= 3   ? 1.3   // 3x above average = strong push → boost best case
+                       : ratio >= 1.5 ? 1.15
+                       : ratio >= 0.8 ? 1.0
+                       : ratio >= 0.4 ? 0.85  // below average = more pessimistic scenarios
+                       :                0.7;
+      }
+
+      const alphaBase = empiricalAlpha !== null ? empiricalAlpha : (signalStrength === 'strong' ? 0.90 : signalStrength === 'moderate' ? 1.05 : 1.20);
+
+      const velBest          = velocity * (signalStrength === 'strong' ? 1.5  : signalStrength === 'moderate' ? 1.25 : 1.05) * perfMultiplier;
+      const velAboveExpected = velocity * (signalStrength === 'strong' ? 1.2  : signalStrength === 'moderate' ? 1.08 : 0.92) * Math.sqrt(perfMultiplier);
       const velExpected      = velocity;
       const velBelowExpected = velocity * (signalStrength === 'strong' ? 0.60 : signalStrength === 'moderate' ? 0.50 : 0.40);
       const velWorst         = velocity * 0.15;
 
-      const alphaBest          = signalStrength === 'strong' ? 0.30 : 0.50;
-      const alphaAboveExpected = signalStrength === 'strong' ? 0.60 : signalStrength === 'moderate' ? 0.75 : 0.90;
-      const alphaExpected      = signalStrength === 'strong' ? 0.90 : signalStrength === 'moderate' ? 1.05 : 1.20;
-      const alphaBelowExpected = 1.60;
-      const alphaWorst         = 2.50;
+      const alphaBest          = Math.max(0.25, alphaBase - 0.60);
+      const alphaAboveExpected = Math.max(0.40, alphaBase - 0.30);
+      const alphaExpected      = alphaBase;
+      const alphaBelowExpected = alphaBase + 0.55;
+      const alphaWorst         = alphaBase + 1.30;
 
       const scenarios = [
         { id:'worst',         label:'📉 Worst',          vel:velWorst,         alpha:alphaWorst,         color:'#f87171',
@@ -4718,14 +4943,23 @@ input:focus, select:focus, textarea:focus {
       ];
 
       // Pre-compute all projections
+      // Windows are absolute hours since UPLOAD — projecting from hoursOld to w.hrs
+      // If hoursOld >= w.hrs the window has already passed.
       const projData = {};
       scenarios.forEach(sc => {
         projData[sc.id] = {};
         windows.forEach(w => {
-          const hrsAhead = Math.max(0, w.hrs - (hoursOld || 0));
-          const totalV   = projTotalViews(sc.vel, hrsAhead, sc.alpha);
-          const totalWH  = projTotalWatchHrs(totalV);
-          projData[sc.id][w.id] = { views: totalV, wh: totalWH };
+          if ((hoursOld || 0) >= w.hrs) {
+            // Already past this window — show current base views
+            projData[sc.id][w.id] = { views: baseViews, wh: rawMins > 0 ? baseViews * rawMins / 60 : null, past: true };
+          } else {
+            // Project from hoursOld → w.hrs using power-law decay
+            // The velocity at time hoursOld is `sc.vel`. We integrate from 0 to hrsAhead.
+            const hrsAhead = w.hrs - (hoursOld || 0);
+            const totalV   = projTotalViews(sc.vel, hrsAhead, sc.alpha);
+            const totalWH  = projTotalWatchHrs(totalV);
+            projData[sc.id][w.id] = { views: totalV, wh: totalWH, past: false };
+          }
         });
       });
 
@@ -6035,6 +6269,19 @@ input:focus, select:focus, textarea:focus {
     }
   }
 
+  let liveRefreshInterval = 30; // seconds, adjustable
+
+  function updateLiveInterval() {
+    const el = document.getElementById('lst_interval_slider');
+    if (!el) return;
+    liveRefreshInterval = Math.min(60, Math.max(15, parseInt(el.value) || 30));
+    if (liveTimerInterval) {
+      // Restart with new interval
+      stopLiveTimer();
+      startLiveTimer();
+    }
+  }
+
   function renderLiveCards() {
     const grid = document.getElementById('lst_cards');
     if (!grid) return;
@@ -6048,14 +6295,18 @@ input:focus, select:focus, textarea:focus {
       const dStr = delta !== null ? (delta >= 0 ? `+${delta.toLocaleString()}` : delta.toLocaleString()) : '';
       const dColor = delta > 0 ? 'var(--success)' : delta < 0 ? 'var(--danger)' : 'var(--text-muted)';
       const pc = pColors[t.platform] || 'var(--primary)';
-      return `<div class="live-card" style="border-top:3px solid ${pc};">
+      const platLabel = t.platform === 'youtube' ? '▶ YouTube' : '🎮 Twitch';
+      return `<div class="live-card" style="border-top:3px solid ${pc};position:relative;">
         <div class="live-pulse"></div>
-        <div class="live-platform" style="color:${pc};">${t.platform === 'youtube' ? '▶ YouTube' : '🎮 Twitch'}</div>
+        <div class="live-platform" style="color:${pc};">${platLabel}</div>
         <div class="live-name" title="${t.name}">${t.name}</div>
         <div class="live-count">${t.count !== null ? t.count.toLocaleString() : '…'}</div>
         ${delta !== null && delta !== 0 ? `<div class="live-delta" style="color:${dColor};">${dStr} since last check</div>` : '<div style="height:18px;"></div>'}
-        <div class="live-timer" id="lt_timer_${t.id}">Next refresh in ${liveCountdown}s</div>
-        <button onclick="removeLiveTracker(${t.id})" style="margin-top:10px;background:var(--danger-dim);color:var(--danger);border:1px solid var(--danger);border-radius:6px;padding:3px 10px;cursor:pointer;font-size:11px;">Remove</button>
+        <div class="live-timer" id="lt_timer_${t.id}">Next in ${liveCountdown}s</div>
+        <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;">
+          <button onclick="livePopoutSingle(${t.id})" style="flex:1;background:${pc}22;color:${pc};border:1px solid ${pc};border-radius:6px;padding:4px 8px;cursor:pointer;font-size:11px;font-weight:700;">⊞ Pop Out</button>
+          <button onclick="removeLiveTracker(${t.id})" style="background:var(--danger-dim);color:var(--danger);border:1px solid var(--danger);border-radius:6px;padding:4px 8px;cursor:pointer;font-size:11px;">✕</button>
+        </div>
       </div>`;
     }).join('');
   }
@@ -6073,8 +6324,30 @@ input:focus, select:focus, textarea:focus {
   }
 
   async function lstRefreshNow() {
-    liveCountdown = 10;
+    liveCountdown = liveRefreshInterval;
     await doLiveRefresh();
+  }
+
+  function startLiveTimer() {
+    if (liveTimerInterval) clearInterval(liveTimerInterval);
+    liveCountdown = liveRefreshInterval;
+    const dot = document.getElementById('lst_dot');
+    const txt = document.getElementById('lst_status_text');
+    const nxt = document.getElementById('lst_next_refresh');
+    if (dot) { dot.style.background = 'var(--success)'; dot.style.animation = 'pulse-dot 2s ease-in-out infinite'; }
+    if (txt) txt.textContent = '🔴 Tracking live';
+    liveTimerInterval = setInterval(() => {
+      liveCountdown--;
+      if (nxt) nxt.textContent = `Auto-refresh in ${liveCountdown}s`;
+      liveTrackers.forEach(t => {
+        const el = document.getElementById('lt_timer_' + t.id);
+        if (el) el.textContent = `Next in ${liveCountdown}s`;
+      });
+      if (liveCountdown <= 0) {
+        liveCountdown = liveRefreshInterval;
+        doLiveRefresh();
+      }
+    }, 1000);
   }
 
   async function doLiveRefresh() {
@@ -6102,29 +6375,6 @@ input:focus, select:focus, textarea:focus {
     renderLiveCards();
   }
 
-  function startLiveTimer() {
-    if (liveTimerInterval) return;
-    liveCountdown = 10;
-    const dot = document.getElementById('lst_dot');
-    const txt = document.getElementById('lst_status_text');
-    const nxt = document.getElementById('lst_next_refresh');
-    if (dot) { dot.style.background = 'var(--success)'; dot.style.animation = 'pulse-dot 2s ease-in-out infinite'; }
-    if (txt) txt.textContent = '🔴 Tracking live';
-    liveTimerInterval = setInterval(() => {
-      liveCountdown--;
-      if (nxt) nxt.textContent = `Auto-refresh in ${liveCountdown}s`;
-      // Update timer labels on cards
-      liveTrackers.forEach(t => {
-        const el = document.getElementById('lt_timer_' + t.id);
-        if (el) el.textContent = `Next refresh in ${liveCountdown}s`;
-      });
-      if (liveCountdown <= 0) {
-        liveCountdown = 10;
-        doLiveRefresh();
-      }
-    }, 1000);
-  }
-
   function stopLiveTimer() {
     if (liveTimerInterval) { clearInterval(liveTimerInterval); liveTimerInterval = null; }
     const dot = document.getElementById('lst_dot');
@@ -6137,6 +6387,140 @@ input:focus, select:focus, textarea:focus {
 
   // Also need to expose refreshAllTrackers as alias
   async function refreshAllTrackers() { await lstRefreshNow(); }
+
+  function _buildPopoutHTML(trackers, refreshSec) {
+    const pColors = { youtube:'#ff4444', twitch:'#9146ff' };
+    const cardsHTML = trackers.map(t => {
+      const pc = pColors[t.platform] || '#6366f1';
+      const platLabel = t.platform === 'youtube' ? '▶ YouTube' : '🎮 Twitch';
+      const delta = (t.count !== null && t.prevCount !== null && t.count !== t.prevCount)
+        ? (t.count - t.prevCount > 0 ? '+' : '') + (t.count - t.prevCount).toLocaleString()
+        : '';
+      const deltaColor = t.count > t.prevCount ? '#4ade80' : t.count < t.prevCount ? '#f87171' : '#94a3b8';
+      return `<div class="tracker-card" style="border-top:3px solid ${pc};">
+        <div class="plat" style="color:${pc};">${platLabel}</div>
+        <div class="chan-name">${t.name}</div>
+        <div class="sub-count" id="pop_count_${t.id}">${t.count !== null ? t.count.toLocaleString() : '…'}</div>
+        ${delta ? `<div class="delta" style="color:${deltaColor};" id="pop_delta_${t.id}">${delta} this session</div>` : `<div class="delta" id="pop_delta_${t.id}"></div>`}
+        <div class="timer-bar"><div class="timer-fill" id="pop_fill_${t.id}" style="background:${pc};"></div></div>
+        <div class="timer-txt" id="pop_timer_${t.id}">Refreshing in ${refreshSec}s</div>
+      </div>`;
+    }).join('');
+
+    // Encode tracker data for the popout to use for API calls
+    const trackerJson = JSON.stringify(trackers.map(t => ({
+      id: t.id, platform: t.platform, handle: t.handle, name: t.name,
+      count: t.count, prevCount: t.prevCount,
+      apiKey: t.apiKey || '', clientId: t.clientId || '', token: t.token || '', userId: t.userId || ''
+    })));
+
+    return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<title>${trackers.length === 1 ? trackers[0].name + ' — Live' : 'Live Sub Tracker'}</title>
+<style>
+  :root { --bg:#0a0a0f; --card:#12121a; --border:rgba(255,255,255,0.08); --text:#f1f5f9; --dim:#94a3b8; --muted:#475569; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:'Inter',system-ui,sans-serif; min-height:100vh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; padding:24px; gap:20px; }
+  .header { text-align:center; }
+  .header h1 { font-size:13px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--dim); margin-bottom:4px; }
+  .header .live-badge { display:inline-flex; align-items:center; gap:6px; font-size:11px; color:#4ade80; }
+  .pulse { width:8px; height:8px; border-radius:50%; background:#4ade80; animation:pulse 1.5s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(1.4)} }
+  .cards { display:flex; flex-wrap:wrap; gap:20px; justify-content:center; width:100%; max-width:900px; }
+  .tracker-card { background:var(--card); border:1px solid var(--border); border-radius:16px;
+    padding:24px 28px; min-width:220px; flex:1; max-width:320px; text-align:center;
+    box-shadow:0 0 40px rgba(0,0,0,0.4); }
+  .plat { font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:8px; }
+  .chan-name { font-size:16px; font-weight:700; color:var(--text); margin-bottom:16px;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .sub-count { font-size:52px; font-weight:900; letter-spacing:-2px; line-height:1;
+    font-variant-numeric:tabular-nums; }
+  .delta { font-size:12px; font-weight:700; margin-top:8px; min-height:18px; }
+  .timer-bar { margin-top:16px; height:3px; background:rgba(255,255,255,0.08); border-radius:2px; overflow:hidden; }
+  .timer-fill { height:100%; width:100%; border-radius:2px; transition:width 1s linear; }
+  .timer-txt { font-size:10px; color:var(--muted); margin-top:6px; font-variant-numeric:tabular-nums; }
+  .footer { font-size:10px; color:var(--muted); text-align:center; }
+</style></head><body>
+<div class="header">
+  <h1>📡 Live Sub Tracker</h1>
+  <div class="live-badge"><div class="pulse"></div> Live — refreshes every ${refreshSec}s</div>
+</div>
+<div class="cards">${cardsHTML}</div>
+<div class="footer">Powered by Creator Calculator · Data from YouTube/Twitch API</div>
+'+'<scr'+'ipt>'+'\n  const trackers = ${trackerJson};
+  let countdown = ${refreshSec};
+  const interval = ${refreshSec};
+  let sessionStart = {...Object.fromEntries(trackers.map(t => [t.id, t.count]))};
+
+  function fmt(n) { return n != null ? n.toLocaleString() : '…'; }
+
+  function updateUI() {
+    trackers.forEach(t => {
+      const cEl = document.getElementById('pop_count_' + t.id);
+      const dEl = document.getElementById('pop_delta_' + t.id);
+      const fEl = document.getElementById('pop_fill_' + t.id);
+      const tEl = document.getElementById('pop_timer_' + t.id);
+      if (cEl) cEl.textContent = fmt(t.count);
+      if (dEl) {
+        const d = t.count - (sessionStart[t.id] || t.count);
+        dEl.textContent = d !== 0 ? (d > 0 ? '+' : '') + d.toLocaleString() + ' this session' : '';
+        dEl.style.color = d > 0 ? '#4ade80' : d < 0 ? '#f87171' : '#94a3b8';
+      }
+      if (fEl) fEl.style.width = (countdown / interval * 100) + '%';
+      if (tEl) tEl.textContent = 'Refreshing in ' + countdown + 's';
+    });
+  }
+
+  async function doRefresh() {
+    for (const t of trackers) {
+      try {
+        if (t.platform === 'youtube' && t.apiKey) {
+          const isId = t.handle.startsWith('UC');
+          const p = isId ? 'id=' + encodeURIComponent(t.handle) : 'forHandle=' + encodeURIComponent(t.handle.startsWith('@') ? t.handle : '@' + t.handle);
+          const r = await fetch('https://www.googleapis.com/youtube/v3/channels?part=statistics&' + p + '&key=' + t.apiKey);
+          const j = await r.json();
+          if (!j.error && j.items && j.items.length) {
+            t.prevCount = t.count;
+            t.count = parseInt(j.items[0].statistics.subscriberCount) || t.count;
+          }
+        } else if (t.platform === 'twitch' && t.clientId && t.token && t.userId) {
+          const r = await fetch('https://api.twitch.tv/helix/channels/followers?broadcaster_id=' + t.userId, {
+            headers: { 'Client-ID': t.clientId, 'Authorization': 'Bearer ' + t.token }
+          });
+          if (r.ok) { const j = await r.json(); t.prevCount = t.count; t.count = j.total ?? t.count; }
+        }
+      } catch(e) { console.warn('refresh error', e); }
+    }
+    updateUI();
+  }
+
+  updateUI();
+  setInterval(() => {
+    countdown--;
+    if (countdown <= 0) { countdown = interval; doRefresh(); }
+    else updateUI();
+  }, 1000);
+  document.title = trackers.length === 1 ? trackers[0].name + ' — Live' : 'Live Sub Tracker (' + trackers.length + ')';
+</scr'+'ipt></body></html>`;
+  }
+
+  function livePopoutSingle(id) {
+    const t = liveTrackers.find(x => x.id === id);
+    if (!t) return;
+    const html = _buildPopoutHTML([t], liveRefreshInterval);
+    const w = window.open('', '_blank', 'width=340,height=400,resizable=yes,scrollbars=no');
+    if (w) { w.document.write(html); w.document.close(); }
+  }
+
+  function livePopoutAll() {
+    if (!liveTrackers.length) { showToast('No channels tracked yet', 'var(--text-muted)'); return; }
+    const html = _buildPopoutHTML(liveTrackers, liveRefreshInterval);
+    const cols = Math.min(liveTrackers.length, 3);
+    const w = window.open('', '_blank', `width=${cols*320+60},height=500,resizable=yes,scrollbars=no`);
+    if (w) { w.document.write(html); w.document.close(); }
+  }
+
+  function popoutTracker(id) { livePopoutSingle(id); } // legacy alias
 
   /* ═══════════════════════════════════════════════
      A/B TITLE / THUMBNAIL CHECKER
@@ -6528,7 +6912,19 @@ input:focus, select:focus, textarea:focus {
     }
     ['ctr','ret'].forEach(sliderId => {
       const numId = sliderId + 'Num';
-      if (typeof syncNum === 'function') syncNum(numId, sliderId);
+      const numEl = document.getElementById(numId);
+      const slEl  = document.getElementById(sliderId);
+      if (!numEl || !slEl) return;
+      // Ensure both are in sync — use stored value if available, else default to 0
+      const storedNum = data[numId] !== undefined ? String(data[numId]) : '0';
+      const storedSl  = data[sliderId] !== undefined ? String(data[sliderId]) : '0';
+      numEl.value = storedNum || '0';
+      // Set slider to the numeric value, clamped to its range
+      const slMin = parseFloat(slEl.min) || 0;
+      const slMax = parseFloat(slEl.max) || 100;
+      const slVal = Math.min(Math.max(parseFloat(storedSl) || parseFloat(storedNum) || 0, slMin), slMax);
+      slEl.value = slVal;
+      if (typeof updateSliderFill === 'function') updateSliderFill(slEl);
     });
     // Restore per-field timestamps saved with this profile
     if (data._fieldTimestamps && typeof data._fieldTimestamps === 'object') {
@@ -6636,6 +7032,13 @@ input:focus, select:focus, textarea:focus {
       if (typeof dtSetAgeLabel === 'function') dtSetAgeLabel('');
       // Reset traffic source to unknown
       const r = document.getElementById('src_unknown'); if (r) r.checked = true;
+      // Explicitly zero sliders and their fills
+      ['ctr','ret'].forEach(sliderId => {
+        const slEl  = document.getElementById(sliderId);
+        const numEl = document.getElementById(sliderId + 'Num');
+        if (slEl)  { slEl.value = 0;  if (typeof updateSliderFill === 'function') updateSliderFill(slEl); }
+        if (numEl) numEl.value = '0';
+      });
       // Clear staleness state for fresh profile
       clearStalenessWarnings();
       Object.keys(_fieldTimestamps).forEach(k => delete _fieldTimestamps[k]);
@@ -8257,29 +8660,61 @@ input:focus, select:focus, textarea:focus {
     var h2 = parseFloat(document.getElementById('snap2_hours')?.value);
     var v3 = parseFloat(document.getElementById('viewsCurrent')?.value);
     var h3 = parseFloat(document.getElementById('snap3_hours')?.value);
-    if (isNaN(v1) || isNaN(v2) || isNaN(v3) || isNaN(h1) || isNaN(h2) || isNaN(h3)) {
-      el.style.display = 'none'; return;
+    var v4 = parseFloat(document.getElementById('viewsSnap4')?.value);
+    var h4 = parseFloat(document.getElementById('snap4_hours')?.value);
+
+    // Need at least 3 valid snapshots
+    var snaps = [[v1,h1],[v2,h2],[v3,h3],[v4,h4]].filter(function(s){ return !isNaN(s[0])&&!isNaN(s[1])&&s[0]>0&&s[1]>0; });
+    if (snaps.length < 3) { el.style.display = 'none'; return; }
+
+    // Sort by time just in case user entered out of order
+    snaps.sort(function(a,b){ return a[1]-b[1]; });
+
+    // Compute velocity for each window between consecutive snapshots
+    var windows = [];
+    for (var i = 1; i < snaps.length; i++) {
+      var dH = snaps[i][1] - snaps[i-1][1];
+      if (dH <= 0) continue;
+      windows.push({
+        vel: (snaps[i][0] - snaps[i-1][0]) / dH,
+        h0:  snaps[i-1][1],
+        h1:  snaps[i][1],
+      });
     }
-    if (v1 <= 0 || v2 <= 0 || v3 <= 0 || h1 <= 0 || h2 <= 0 || h3 <= 0) {
-      el.style.display = 'none'; return;
-    }
-    var win1 = h2 - h1; var win2 = h3 - h2;
-    if (win1 <= 0 || win2 <= 0) { el.style.display = 'none'; return; }
-    var vel1 = (v2 - v1) / win1;
-    var vel2 = (v3 - v2) / win2;
-    var decay = vel1 > 0 ? ((vel1 - vel2) / vel1) * 100 : 0;
+    if (windows.length < 2) { el.style.display = 'none'; return; }
+
+    // Overall decay: first window vs last window
+    var firstVel = windows[0].vel;
+    var lastVel  = windows[windows.length-1].vel;
+    var decay    = firstVel > 0 ? ((firstVel - lastVel) / firstVel) * 100 : 0;
+
+    // Momentum trend: check if most recent window is still declining or levelling
+    var latestDecay = windows.length >= 2
+      ? (windows[windows.length-2].vel > 0 ? ((windows[windows.length-2].vel - lastVel) / windows[windows.length-2].vel) * 100 : 0)
+      : decay;
+
     var status, color;
-    if (vel2 <= 0)       { status = '⛔ Growth has completely stalled. The algorithm has stopped pushing this video.'; color = 'var(--danger)'; }
-    else if (decay > 75) { status = '📉 Severe stall — velocity dropped ' + decay.toFixed(0) + '%. Push is essentially over.'; color = 'var(--danger)'; }
-    else if (decay > 40) { status = '⚠️ Significant slowdown — velocity down ' + decay.toFixed(0) + '%. Normal tapering, but watch for further decline.'; color = 'var(--warning)'; }
-    else if (decay > 10) { status = '📊 Gradual decay — velocity down ' + decay.toFixed(0) + '%. Healthy natural slow-down.'; color = 'var(--secondary)'; }
-    else if (decay <= 0) { status = '🚀 Velocity is ACCELERATING — the algorithm is building the push. Watch closely.'; color = 'var(--success)'; }
-    else                 { status = '✅ Velocity holding steady — consistent push in progress.'; color = 'var(--success)'; }
+    if (lastVel <= 0)         { status = '⛔ Growth completely stalled — algorithm has stopped pushing.'; color = 'var(--danger)'; }
+    else if (decay > 80)      { status = '📉 Severe stall — velocity dropped ' + decay.toFixed(0) + '% overall. Push is essentially over.'; color = 'var(--danger)'; }
+    else if (decay > 45)      { status = '⚠️ Significant slowdown — ' + decay.toFixed(0) + '% overall decay. Monitor closely.'; color = 'var(--warning)'; }
+    else if (decay > 15)      { status = '📊 Gradual natural decay — ' + decay.toFixed(0) + '% drop. Healthy slow-down.'; color = 'var(--secondary)'; }
+    else if (decay <= 0)      { status = '🚀 Velocity ACCELERATING — algorithm building the push. Watch closely.'; color = 'var(--success)'; }
+    else                      { status = '✅ Velocity holding steady — consistent push in progress.'; color = 'var(--success)'; }
+
+    var trendNote = latestDecay > 50 ? ' &nbsp;·&nbsp; <span style="color:var(--danger);">Latest window decelerating rapidly</span>'
+                  : latestDecay > 20 ? ' &nbsp;·&nbsp; <span style="color:var(--warning);">Latest window slowing</span>'
+                  : latestDecay <= 0 ? ' &nbsp;·&nbsp; <span style="color:var(--success);">Latest window holding</span>'
+                  : '';
+
+    var windowRows = windows.map(function(w){
+      return '<span style="margin-right:12px;">hrs ' + w.h0 + '–' + w.h1 + ': <strong>' + Math.max(0,w.vel).toFixed(1) + ' v/hr</strong></span>';
+    }).join('→ ');
+
     el.style.display = 'block';
     el.innerHTML = '<div style="background:var(--card2);border-left:3px solid ' + color + ';border-radius:var(--radius);padding:10px 14px;font-size:12px;line-height:1.8;">' +
-      '<div style="font-weight:700;color:' + color + ';margin-bottom:4px;">' + status + '</div>' +
-      '<div style="color:var(--text-dim);">Window 1: <strong>' + vel1.toFixed(1) + ' views/hr</strong> (hrs ' + h1 + '–' + h2 + ')' +
-      ' &nbsp;→&nbsp; Window 2: <strong>' + vel2.toFixed(1) + ' views/hr</strong> (hrs ' + h2 + '–' + h3 + ')</div>' +
+      '<div style="font-weight:700;color:' + color + ';margin-bottom:6px;">' + status + '</div>' +
+      '<div style="color:var(--text-dim);">' + windowRows + trendNote + '</div>' +
+      '<div style="color:var(--text-muted);font-size:10px;margin-top:4px;">Overall decay first→last window: ' + Math.abs(decay).toFixed(0) + '%' + (decay <= 0 ? ' (growth)' : ' drop') + '</div>' +
       '</div>';
   }
 
@@ -8360,14 +8795,14 @@ input:focus, select:focus, textarea:focus {
   // Field groups per tab/section — used by both page-reset and section-reset
   const RESET_GROUPS = {
     // ── Tab1: Virality Checker ──
-    tab1_pubhub:     ['viewVelocity','impressionsInput','dt_month','dt_day','dt_year','dt_hour','dt_minute','dt_ampm','videoPublishedAt'],
+    tab1_pubhub:     ['viewVelocity','impressionsInput','channelAvgVelocity','actual48hViews','actual7dViews','dt_month','dt_day','dt_year','dt_hour','dt_minute','dt_ampm','videoPublishedAt'],
     tab1_avd:        ['vlMins','vlSecs','twMins','twSecs'],
     tab1_ctr:        ['ctrNum','ctr'],
     tab1_hook:       ['retNum','ret','newVideoToggle'],
     tab1_engagement: ['viewsInput','likesInput','commentsInput','engInput'],
     tab1_channel:    ['channelSubs','avgViewsPerUpload','subsGained','nonSubViewPct'],
     tab1_retention:  ['midRetention','endRetention','cardCtr','rewatchRate'],
-    tab1_stall:      ['views24h','snap1_hours','views48h','snap2_hours','viewsCurrent','snap3_hours'],
+    tab1_stall:      ['views24h','snap1_hours','views48h','snap2_hours','viewsCurrent','snap3_hours','viewsSnap4','snap4_hours'],
     // ── Tab2: Algorithm Tracker ──
     tab2_inputs:     ['t2_vlMins','t2_vlSecs','t2_ctr','t2_avd','t2_views','t2_subs'],
     // ── Tab3: Monetization Tracker ──
@@ -8414,6 +8849,32 @@ input:focus, select:focus, textarea:focus {
     TabHook:    ['hook_inputs'],
     TabAB:      ['ab_inputs'],
   };
+
+  function clearOutdatedFields(ids) {
+    // Clear only fields that currently have a red stale badge (30+ min old)
+    let cleared = 0;
+    const targetIds = ids || Object.keys(STALE_FIELD_DEFS);
+    targetIds.forEach(id => {
+      const badge = document.getElementById('stale_' + id);
+      if (!badge) return;
+      // Red badge = "Out of date" text present
+      if (!badge.innerHTML.includes('Out of date')) return;
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.value = '';
+      clearFieldStale(id);
+      if (_fieldTimers[id])       { clearTimeout(_fieldTimers[id]);       delete _fieldTimers[id]; }
+      if (_fieldTimers[id+'_to30']){ clearTimeout(_fieldTimers[id+'_to30']); delete _fieldTimers[id+'_to30']; }
+      delete _fieldTimestamps[id];
+      cleared++;
+    });
+    if (cleared === 0) {
+      showToast('No outdated fields in this section', 'var(--text-muted)');
+    } else {
+      showToast('🗑 Cleared ' + cleared + ' outdated field' + (cleared > 1 ? 's' : ''), 'var(--warning)');
+      try { updateTab1(); } catch(e) {}
+    }
+  }
 
   function resetFields(ids) {
     ids.forEach(id => {
@@ -8463,6 +8924,22 @@ input:focus, select:focus, textarea:focus {
   // Inject reset buttons into the DOM after load
   (function injectResetButtons() {
     const BTN_STYLE = 'display:inline-flex;align-items:center;gap:4px;padding:4px 10px;font-size:10px;font-weight:700;cursor:pointer;border-radius:6px;background:transparent;color:var(--text-muted);border:1px solid var(--border);transition:0.15s;white-space:nowrap;';
+    const STALE_BTN_STYLE = 'display:inline-flex;align-items:center;gap:4px;padding:4px 10px;font-size:10px;font-weight:700;cursor:pointer;border-radius:6px;background:transparent;color:var(--warning);border:1px solid var(--warning);opacity:0.7;transition:0.15s;white-space:nowrap;';
+
+    function makeClearStaleBtn(groupKey) {
+      const btn = document.createElement('button');
+      btn.title = 'Clear all out-of-date fields in this section';
+      btn.style.cssText = STALE_BTN_STYLE;
+      btn.innerHTML = '🔴 Clear Outdated';
+      btn.setAttribute('onmouseenter', "this.style.opacity='1'");
+      btn.setAttribute('onmouseleave', "this.style.opacity='0.7'");
+      btn.onclick = function(e) {
+        e.stopPropagation();
+        const ids = RESET_GROUPS[groupKey] ? RESET_GROUPS[groupKey].filter(id => id in (STALE_FIELD_DEFS||{})) : null;
+        clearOutdatedFields(ids && ids.length ? ids : null);
+      };
+      return btn;
+    }
     const BTN_HOVER = 'onmouseenter="this.style.color=\'var(--text-dim)\';this.style.borderColor=\'var(--border-hi)\'" onmouseleave="this.style.color=\'var(--text-muted)\';this.style.borderColor=\'var(--border)\'"';
 
     // Section-level reset: attach to each sv-wrap that maps to a RESET_GROUP
@@ -8508,35 +8985,41 @@ input:focus, select:focus, textarea:focus {
       btn.setAttribute('onmouseleave', "this.style.color='var(--text-muted)';this.style.borderColor='var(--border)'");
       btn.onclick = function(e) { e.stopPropagation(); resetFields(RESET_GROUPS[groupKey] || []); };
 
+      // Create clear-outdated button (only for stale-tracked sections)
+      const staleIds = (RESET_GROUPS[groupKey]||[]).filter(id => typeof STALE_FIELD_DEFS !== 'undefined' && id in STALE_FIELD_DEFS);
+      const staleBtn = staleIds.length ? makeClearStaleBtn(groupKey) : null;
+
+      // Button wrapper
+      const btnWrap = document.createElement('div');
+      btnWrap.style.cssText = 'display:flex;gap:5px;align-items:center;flex-shrink:0;';
+      if (staleBtn) btnWrap.appendChild(staleBtn);
+      btnWrap.appendChild(btn);
+
       // Try to find an existing header element (h3, or a bold label div) to sit alongside
       const h3 = card.querySelector(':scope > h3');
       const labelDiv = card.querySelector(':scope > div[style*="font-weight:700"], :scope > div[style*="font-weight: 700"]');
       const labelFlex = card.querySelector(':scope > .label-flex');
 
       if (h3) {
-        // Wrap h3 in a flex row with the button
         const row = document.createElement('div');
         row.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:' + (h3.style.marginBottom || '0') + ';';
         h3.style.marginBottom = '0';
         h3.parentNode.insertBefore(row, h3);
         row.appendChild(h3);
-        row.appendChild(btn);
+        row.appendChild(btnWrap);
       } else if (labelFlex) {
-        // Already a flex row — just append
-        labelFlex.appendChild(btn);
+        labelFlex.appendChild(btnWrap);
       } else if (labelDiv) {
-        // Wrap the label div in a flex row
         const row = document.createElement('div');
         row.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:' + (labelDiv.style.marginBottom || '0') + ';';
         labelDiv.style.marginBottom = '0';
         labelDiv.parentNode.insertBefore(row, labelDiv);
         row.appendChild(labelDiv);
-        row.appendChild(btn);
+        row.appendChild(btnWrap);
       } else {
-        // No header found — prepend a slim reset bar at the very top
         const bar = document.createElement('div');
         bar.style.cssText = 'display:flex;justify-content:flex-end;margin-bottom:8px;';
-        bar.appendChild(btn);
+        bar.appendChild(btnWrap);
         card.insertBefore(bar, card.firstChild);
       }
     });
@@ -8552,17 +9035,33 @@ input:focus, select:focus, textarea:focus {
       h2.style.justifyContent = 'space-between';
       h2.style.flexWrap = 'wrap';
       h2.style.gap = '8px';
-      const btn = document.createElement('button');
-      btn.title = 'Reset all data on this page';
-      btn.style.cssText = 'display:inline-flex;align-items:center;gap:5px;padding:6px 14px;font-size:11px;font-weight:700;cursor:pointer;border-radius:8px;background:var(--card2);color:var(--text-dim);border:1px solid var(--border-hi);transition:0.15s;flex-shrink:0;';
-      btn.innerHTML = '↺ Reset Page';
-      btn.setAttribute('onmouseenter', "this.style.background='var(--danger-dim)';this.style.color='var(--danger)';this.style.borderColor='var(--danger)'");
-      btn.setAttribute('onmouseleave', "this.style.background='var(--card2)';this.style.color='var(--text-dim)';this.style.borderColor='var(--border-hi)'");
-      btn.onclick = function(e) {
+      const btnWrapH2 = document.createElement('div');
+      btnWrapH2.style.cssText = 'display:flex;gap:6px;align-items:center;flex-shrink:0;';
+
+      // Clear Outdated — only on Tab1 which has stale fields
+      if (tabId === 'Tab1') {
+        const stalePageBtn = document.createElement('button');
+        stalePageBtn.title = 'Clear all out-of-date fields on this page';
+        stalePageBtn.style.cssText = 'display:inline-flex;align-items:center;gap:5px;padding:6px 14px;font-size:11px;font-weight:700;cursor:pointer;border-radius:8px;background:var(--card2);color:var(--warning);border:1px solid var(--warning);transition:0.15s;flex-shrink:0;opacity:0.8;';
+        stalePageBtn.innerHTML = '🔴 Clear Outdated';
+        stalePageBtn.setAttribute('onmouseenter', "this.style.opacity='1'");
+        stalePageBtn.setAttribute('onmouseleave', "this.style.opacity='0.8'");
+        stalePageBtn.onclick = function(e) { e.stopPropagation(); clearOutdatedFields(); };
+        btnWrapH2.appendChild(stalePageBtn);
+      }
+
+      const pageResetBtn = document.createElement('button');
+      pageResetBtn.title = 'Reset all data on this page';
+      pageResetBtn.style.cssText = 'display:inline-flex;align-items:center;gap:5px;padding:6px 14px;font-size:11px;font-weight:700;cursor:pointer;border-radius:8px;background:var(--card2);color:var(--text-dim);border:1px solid var(--border-hi);transition:0.15s;flex-shrink:0;';
+      pageResetBtn.innerHTML = '↺ Reset Page';
+      pageResetBtn.setAttribute('onmouseenter', "this.style.background='var(--danger-dim)';this.style.color='var(--danger)';this.style.borderColor='var(--danger)'");
+      pageResetBtn.setAttribute('onmouseleave', "this.style.background='var(--card2)';this.style.color='var(--text-dim)';this.style.borderColor='var(--border-hi)'");
+      pageResetBtn.onclick = function(e) {
         e.stopPropagation();
         if (confirm('Reset all data entered on this page?')) resetPage(tabId);
       };
-      h2.appendChild(btn);
+      btnWrapH2.appendChild(pageResetBtn);
+      h2.appendChild(btnWrapH2);
     });
   })();
 
