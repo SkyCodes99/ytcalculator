@@ -1564,9 +1564,9 @@ input:focus, select:focus, textarea:focus {
 
     <div id="sv_t1_ctr" class="sv-wrap"><div class="control-card">
       <div class="label-flex"><span style="cursor:help;position:relative;" class="tip-wrap">🖱️ Click-Through Rate (CTR %)<span class="tip-popup"><strong>CTR — Enter your CURRENT / LATEST value</strong> — the most recent CTR from Studio, not a lifetime average. YouTube evaluates CTR in real time.<span class="tip-path">YouTube Studio → Analytics → your video → Reach tab → "Click-through rate (CTR)"</span></span></span><span class="val-badge" id="ctrVal">0.0%</span></div>
-      <div style="display:flex;gap:10px;align-items:center;">
+      <div class="slider-row">
         <input type="range" id="ctr" min="0" max="25" step="0.1" value="0" oninput="syncSlider('ctr','ctrNum');updateTab1()" style="flex:1;">
-        <input type="text" inputmode="decimal" id="ctrNum" value="0" style="width:70px;padding:6px 8px;" oninput="syncNum('ctrNum','ctr');updateTab1()">
+        <input type="text" inputmode="decimal" id="ctrNum" value="0" class="slider-num" oninput="syncNum('ctrNum','ctr');updateTab1()">
       </div>
       <div id="ctrBenchmark" style="margin-top:8px;font-size:11px;color:var(--text-dim);"></div>
     </div></div>
@@ -1584,9 +1584,9 @@ input:focus, select:focus, textarea:focus {
         </div>
         <span class="val-badge" id="retVal">0%</span>
       </div>
-      <div style="display:flex;gap:10px;align-items:center;">
-        <input type="range" id="ret" min="0" max="100" step="1" value="0" oninput="syncSlider('ret','retNum');updateTab1()" style="flex:1;">
-        <input type="text" inputmode="decimal" id="retNum" value="0" style="width:70px;padding:6px 8px;" oninput="syncNum('retNum','ret');updateTab1()">
+      <div class="slider-row">
+        <input type="range" id="ret" min="0" max="100" step="1" value="0" oninput="syncSlider('ret','retNum');updateTab1()">
+        <input type="text" inputmode="decimal" id="retNum" value="0" class="slider-num" oninput="syncNum('retNum','ret');updateTab1()" placeholder="0">
       </div>
     </div></div>
 
@@ -1774,6 +1774,7 @@ input:focus, select:focus, textarea:focus {
             <option value="travel">✈️ Travel / Adventure</option>
             <option value="comedy">😂 Comedy / Skits</option>
             <option value="automotive">🚗 Automotive</option>
+            <option value="collectibles">🪙 Collectibles / Hobbyist</option>
           </select>
           <div id="nicheNote" style="font-size:11px;color:var(--text-dim);margin-top:4px;min-height:12px;"></div>
         </div>
@@ -2284,8 +2285,8 @@ input:focus, select:focus, textarea:focus {
           <span class="val-badge" id="c_rpm_val" style="color:var(--secondary);border-color:var(--secondary);background:var(--secondary-dim);">$2.00 – $5.00</span>
         </div>
         <div style="display:flex;gap:20px;margin-top:10px;">
-          <div style="flex:1;"><label style="font-size:11px;color:var(--text-dim);font-weight:700;font-family:var(--font-mono);display:block;margin-bottom:6px;">Min RPM ($) <span style="color:var(--text-muted);font-weight:400;">slider: $0.50–$50</span></label><input type="range" id="c_rpm_min" min="0.5" max="50" step="0.1" value="2.0" oninput="syncSlider('c_rpm_min','c_rpm_minNum');updateRpmSliders('min')"><input type="text" inputmode="decimal" id="c_rpm_minNum" value="2.0" style="width:70px;margin-top:4px;padding:4px 6px;background:var(--bg2);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:11px;color:var(--text-bright);" oninput="syncNum('c_rpm_minNum','c_rpm_min');updateRpmSliders('min');updateRpmSliders('min')"></div>
-          <div style="flex:1;"><label style="font-size:11px;color:var(--text-dim);font-weight:700;font-family:var(--font-mono);display:block;margin-bottom:6px;">Max RPM ($) <span style="color:var(--text-muted);font-weight:400;">type any value up to $50+</span></label><input type="range" id="c_rpm_max" min="0.5" max="50" step="0.1" value="5.0" oninput="syncSlider('c_rpm_max','c_rpm_maxNum');updateRpmSliders('max')"><input type="text" inputmode="decimal" id="c_rpm_maxNum" value="5.0" style="width:70px;margin-top:4px;padding:4px 6px;background:var(--bg2);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:11px;color:var(--text-bright);" oninput="syncNum('c_rpm_maxNum','c_rpm_max');updateRpmSliders('max');updateRpmSliders('max')"></div></div>
+          <div style="flex:1;"><label style="font-size:11px;color:var(--text-dim);font-weight:700;font-family:var(--font-mono);display:block;margin-bottom:6px;">Min RPM ($) <span style="color:var(--text-muted);font-weight:400;">slider: $0.50–$50</span></label><div class="slider-row"><input type="range" id="c_rpm_min" min="0.5" max="50" step="0.1" value="2.0" oninput="syncSlider('c_rpm_min','c_rpm_minNum');updateRpmSliders('min')"><input type="text" inputmode="decimal" id="c_rpm_minNum" value="2.0" class="slider-num" style="width:70px;" oninput="syncNum('c_rpm_minNum','c_rpm_min');updateRpmSliders('min')"></div></div>
+          <div style="flex:1;"><label style="font-size:11px;color:var(--text-dim);font-weight:700;font-family:var(--font-mono);display:block;margin-bottom:6px;">Max RPM ($) <span style="color:var(--text-muted);font-weight:400;">type any value up to $50+</span></label><div class="slider-row"><input type="range" id="c_rpm_max" min="0.5" max="50" step="0.1" value="5.0" oninput="syncSlider('c_rpm_max','c_rpm_maxNum');updateRpmSliders('max')"><input type="text" inputmode="decimal" id="c_rpm_maxNum" value="5.0" class="slider-num" style="width:70px;" oninput="syncNum('c_rpm_maxNum','c_rpm_max');updateRpmSliders('max')"></div></div></div>
         <div class="insight-box">
           <span class="icon">🎯</span>
           <div id="c_niche_suggestion">Set your RPM to see niche suggestions.</div>
@@ -2418,7 +2419,6 @@ input:focus, select:focus, textarea:focus {
           <div class="input-box">
             <div class="label-flex"><span>Completion Rate (%)</span><span class="val-badge" id="tt_avdVal" style="color:var(--tiktok);border-color:var(--tiktok);">0%</span></div>
             <div class="slider-row">
-            <div class="slider-row">
               <input type="range" id="tt_avd" min="0" max="150" step="1" value="0" oninput="syncSlider('tt_avd','tt_avdNum');updateTT()" style="flex:1;">
               <input type="text" inputmode="decimal" id="tt_avdNum" value="0" class="slider-num" style="width:64px;" oninput="syncNum('tt_avdNum','tt_avd');updateTT()">
             </div>
@@ -2426,7 +2426,6 @@ input:focus, select:focus, textarea:focus {
           </div>
           <div class="input-box">
             <div class="label-flex"><span>3-Second Hook Retention (%)</span><span class="val-badge" id="tt_hookVal" style="color:var(--tiktok);border-color:var(--tiktok);">0%</span></div>
-            <div class="slider-row">
             <div class="slider-row">
               <input type="range" id="tt_hook" min="0" max="100" step="1" value="0" oninput="syncSlider('tt_hook','tt_hookNum');updateTT()" style="flex:1;">
               <input type="text" inputmode="decimal" id="tt_hookNum" value="0" class="slider-num" style="width:64px;" oninput="syncNum('tt_hookNum','tt_hook');updateTT()">
@@ -2506,7 +2505,6 @@ input:focus, select:focus, textarea:focus {
           <div class="input-box">
             <div class="label-flex"><span>Watch/Replay Rate (%)</span><span class="val-badge" id="ig_avdVal" style="color:var(--ig);border-color:var(--ig);">0%</span></div>
             <div class="slider-row">
-            <div class="slider-row">
               <input type="range" id="ig_avd" min="0" max="150" step="1" value="0" oninput="syncSlider('ig_avd','ig_avdNum');updateIG()" style="flex:1;">
               <input type="text" inputmode="decimal" id="ig_avdNum" value="0" style="width:60px;padding:5px 7px;background:var(--bg2);border:1px solid var(--border-hi);border-radius:var(--radius);font-size:12px;color:var(--text-bright);" oninput="syncNum('ig_avdNum','ig_avd');updateIG()">
             </div>
@@ -2585,16 +2583,23 @@ input:focus, select:focus, textarea:focus {
         </div>
         <div class="input-box"><label>Content Niche</label>
           <select id="u_niche" onchange="calculateUploadTime()">
-            <option value="gaming">Gaming / Entertainment</option>
-            <option value="vlogs">Vlogs / Lifestyle</option>
-            <option value="tech">Tech / Education</option>
-            <option value="finance">Finance / Business</option>
-            <option value="collectibles">Collectibles / Cards / DIY</option>
-            <option value="fitness">Fitness / Health / Sports</option>
-            <option value="food">Food / Cooking / Recipes</option>
-            <option value="beauty">Beauty / Fashion / Style</option>
-            <option value="news">News / Commentary / Politics</option>
-            <option value="kids">Kids / Family / Parenting</option>
+            <option value="gaming">🎮 Gaming</option>
+            <option value="entertainment">🎭 Entertainment / Vlogs</option>
+            <option value="music">🎵 Music</option>
+            <option value="education">📚 Education / How-To</option>
+            <option value="tech">💻 Tech / Reviews</option>
+            <option value="finance">💰 Finance / Business</option>
+            <option value="fitness">💪 Fitness / Health</option>
+            <option value="cooking">🍳 Cooking / Food</option>
+            <option value="beauty">💄 Beauty / Fashion</option>
+            <option value="news">📰 News / Commentary</option>
+            <option value="asmr">🎧 ASMR / Relaxation</option>
+            <option value="kids">👶 Kids / Family</option>
+            <option value="sports">⚽ Sports</option>
+            <option value="travel">✈️ Travel / Adventure</option>
+            <option value="comedy">😂 Comedy / Skits</option>
+            <option value="automotive">🚗 Automotive</option>
+            <option value="collectibles">🪙 Collectibles / Hobbyist</option>
           </select>
         </div>
         <div class="input-box"><label>Target Audience Timezone</label>
@@ -3647,63 +3652,79 @@ input:focus, select:focus, textarea:focus {
   <!-- ══════════════════════════════════════════ -->
   <!-- TAB: LIVE SUB TRACKER -->
   <!-- ══════════════════════════════════════════ -->
-  <div id="TabLive" class="tabcontent">
-    <h2>🔴 Live Sub Tracker</h2>
-    <p class="tab-subtitle">Monitor up to 5 channels in real-time. YouTube requires your Data API v3 key. Twitch requires a Client ID + token.</p>
+    <div id="TabLive" class="tabcontent">
+    <h2>🔴 Live Tracker</h2>
+    <p class="tab-subtitle">Track up to 10 channels across YouTube, Twitch, Kick, TikTok, and Instagram. Counts refresh automatically. Pop out any selection, or pin a live bar to the top of every page.</p>
 
-    <div id="sv_live_add" class="sv-wrap"><div class="control-card">
-      <h3 style="margin-top:0;">➕ Add Channel</h3>
+    <!-- ── Add Channel ── -->
+    <div class="control-card" style="margin-bottom:18px;border-left:4px solid var(--danger);">
+      <div style="font-size:14px;font-weight:800;color:var(--danger);margin-bottom:14px;">➕ Add Channel &nbsp;<span id="lst_count_label" style="font-size:11px;font-weight:400;color:var(--text-muted);">0 / 10</span></div>
       <div class="input-grid">
         <div class="input-box">
           <label>Platform</label>
           <select id="lst_platform" onchange="lst_platformChanged()">
             <option value="youtube">▶ YouTube</option>
             <option value="twitch">🎮 Twitch</option>
+            <option value="kick">🟢 Kick</option>
+            <option value="tiktok">🎵 TikTok</option>
+            <option value="instagram">📸 Instagram</option>
           </select>
         </div>
         <div class="input-box">
-          <label id="lst_handle_label">@Handle or Channel ID (UCxxxx)</label>
-          <input type="text" id="lst_handle" placeholder="@channelname" onkeydown="if(event.key==='Enter')addLiveTracker()">
+          <label id="lst_handle_label">@Handle or Channel ID</label>
+          <input type="text" id="lst_handle" placeholder="@username" onkeydown="if(event.key==='Enter')addLiveTracker()">
         </div>
       </div>
-      <!-- YouTube API key row -->
-      <div id="lst_yt_row" class="input-grid" style="margin-top:10px;">
-        <div class="input-box">
-          <label>YouTube Data API v3 Key</label>
-          <input type="password" id="lst_apikey" placeholder="AIzaSy... (get free at console.cloud.google.com)">
+      <div id="lst_yt_row" style="margin-top:12px;">
+        <div class="input-box"><label>YouTube Data API v3 Key</label><input type="password" id="lst_apikey" placeholder="AIzaSy… — free at console.cloud.google.com"></div>
+      </div>
+      <div id="lst_tw_row" style="margin-top:12px;display:none;">
+        <div class="input-grid">
+          <div class="input-box"><label>Twitch Client ID</label><input type="text" id="lst_twitch_clientid" placeholder="dev.twitch.tv/console"></div>
+          <div class="input-box"><label>Twitch App Access Token</label><input type="password" id="lst_twitch_token" placeholder="Bearer token"></div>
         </div>
       </div>
-      <!-- Twitch credentials row -->
-      <div id="lst_tw_row" class="input-grid plat-tw" style="margin-top:10px;display:none;">
-        <div class="input-box">
-          <label>Twitch Client ID</label>
-          <input type="text" id="lst_twitch_clientid" placeholder="Get free at dev.twitch.tv/console">
-        </div>
-        <div class="input-box">
-          <label>Twitch App Access Token</label>
-          <input type="password" id="lst_twitch_token" placeholder="Bearer token from Twitch OAuth">
-        </div>
-      </div>
-      <div style="display:flex;gap:10px;margin-top:14px;align-items:center;flex-wrap:wrap;">
-        <button class="btn-primary" onclick="addLiveTracker()">🔴 Start Tracking</button>
-        <button class="btn-secondary" onclick="lstRefreshNow()">🔄 Refresh Now</button>
+      <div id="lst_public_note" style="display:none;margin-top:10px;padding:8px 12px;background:var(--card2);border-radius:8px;font-size:11px;color:var(--text-dim);line-height:1.7;"><span id="lst_public_note_text"></span></div>
+      <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;align-items:center;">
+        <button class="btn-primary" onclick="addLiveTracker()">➕ Add Channel</button>
+        <button class="btn-secondary" onclick="lstRefreshNow()">🔄 Refresh All</button>
+        <button class="btn-secondary" onclick="livePopoutSelected()">⧉ Pop Out Selected</button>
         <button class="btn-secondary" onclick="livePopoutAll()">⧉ Pop Out All</button>
         <button class="btn-secondary" onclick="clearAllTrackers()">🗑 Clear All</button>
       </div>
-      <!-- Refresh interval control -->
-      <div style="display:flex;align-items:center;gap:10px;margin-top:12px;flex-wrap:wrap;">
-        <label style="font-size:11px;color:var(--text-dim);font-weight:700;white-space:nowrap;">🔁 Refresh every:</label>
-        <input type="range" id="lst_interval_slider" min="15" max="60" step="5" value="30" style="flex:1;max-width:200px;"
-          oninput="syncSlider('lst_interval_slider','lst_interval_num');updateLiveInterval()">
-        <input type="text" inputmode="numeric" id="lst_interval_num" value="30" class="slider-num" style="width:50px;"
-          oninput="syncNum('lst_interval_num','lst_interval_slider');updateLiveInterval()">
-        <span style="font-size:11px;color:var(--text-muted);">sec (15–60)</span>
+      <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border);">
+        <label style="font-size:11px;font-weight:700;color:var(--text-dim);display:block;margin-bottom:6px;">🔁 Refresh every <span id="lst_interval_label" style="color:var(--primary);">30s</span></label>
+        <div class="slider-row">
+          <input type="range" id="lst_interval_slider" min="15" max="60" step="5" value="30" oninput="syncSlider('lst_interval_slider','lst_interval_num');updateLiveInterval()">
+          <input type="text" inputmode="numeric" id="lst_interval_num" value="30" class="slider-num" style="width:54px;" oninput="syncNum('lst_interval_num','lst_interval_slider');updateLiveInterval()">
+          <span style="font-size:11px;color:var(--text-muted);">sec</span>
+        </div>
       </div>
       <div id="lst_add_status" style="font-size:12px;color:var(--text-dim);margin-top:10px;min-height:16px;font-family:var(--font-mono);"></div>
-    </div></div>
+    </div>
 
-    <!-- Status Bar -->
-    <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;flex-wrap:wrap;">
+    <!-- ── Live Bar toggle ── -->
+    <div class="control-card" style="margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+      <div>
+        <div style="font-size:13px;font-weight:700;color:var(--text);">📌 Live Bar — pin counts to the top of every page</div>
+        <div style="font-size:11px;color:var(--text-dim);margin-top:2px;">Shows a slim bar at the very top with all tracked channel counts, auto-updating. Hidden automatically when no channels are tracked.</div>
+      </div>
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;font-weight:700;color:var(--primary);white-space:nowrap;">
+        <input type="checkbox" id="lst_topbar_toggle" onchange="toggleLiveTopBar()" style="width:16px;height:16px;accent-color:var(--primary);">
+        Enable Live Bar
+      </label>
+    </div>
+
+    <!-- ── Delta window ── -->
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
+      <span style="font-size:11px;font-weight:700;color:var(--text-dim);">📈 Show growth over:</span>
+      <button id="lst_delta_24"  onclick="setDeltaWindow(24)"  class="btn-primary"   style="font-size:11px;padding:4px 14px;">24h</button>
+      <button id="lst_delta_48"  onclick="setDeltaWindow(48)"  class="btn-secondary" style="font-size:11px;padding:4px 14px;">48h</button>
+      <button id="lst_delta_168" onclick="setDeltaWindow(168)" class="btn-secondary" style="font-size:11px;padding:4px 14px;">7 days</button>
+    </div>
+
+    <!-- ── Status ── -->
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:12px;flex-wrap:wrap;">
       <div id="lst_status_badge" style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text-dim);">
         <div id="lst_dot" style="width:8px;height:8px;border-radius:50%;background:var(--text-muted);flex-shrink:0;"></div>
         <span id="lst_status_text">Not tracking</span>
@@ -3711,23 +3732,24 @@ input:focus, select:focus, textarea:focus {
       <div id="lst_next_refresh" style="font-size:11px;color:var(--text-muted);font-family:var(--font-mono);"></div>
     </div>
 
-    <!-- Cards -->
-    <div id="lst_cards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin-bottom:20px;">
-      <div style="background:var(--card);border:2px dashed var(--border-hi);border-radius:var(--radius-lg);padding:28px;text-align:center;color:var(--text-dim);font-size:13px;grid-column:1/-1;">
-        <div style="font-size:28px;margin-bottom:8px;">📡</div>
-        Add a channel above to begin live tracking. Up to 5 channels.
+    <!-- ── Cards ── -->
+    <div id="lst_cards" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px;margin-bottom:24px;">
+      <div style="background:var(--card);border:2px dashed var(--border-hi);border-radius:var(--radius-lg);padding:32px 20px;text-align:center;color:var(--text-dim);font-size:13px;grid-column:1/-1;line-height:1.9;">
+        <div style="font-size:36px;margin-bottom:10px;">📡</div>
+        <strong style="color:var(--text);">No channels tracked yet.</strong><br>
+        Choose a platform, enter a username, add credentials if needed, then click Add Channel.
       </div>
     </div>
 
-    <div class="insight-box " style="background:var(--card2);border-color:var(--border-hi);" data-sv->
-      <span class="icon">💡</span>
-      <div style="font-size:12px;line-height:1.7;">
-        <strong style="color:var(--primary);">YouTube:</strong> Requires a free YouTube Data API v3 key. Get one at <strong>console.cloud.google.com</strong> → Enable "YouTube Data API v3" → Create Credentials. Free tier: 10,000 units/day.<br>
-        <strong style="color:var(--accent);">Twitch:</strong> Requires a free Twitch Client ID + App Access Token. Register at <strong>dev.twitch.tv/console</strong>.<br>
-        <strong style="color:var(--secondary);">Popout:</strong> Use <strong>⊞ Pop Out</strong> on each card to open it in its own window. Use <strong>⧉ Pop Out All</strong> to open all channels at once.
+    <!-- ── Guide ── -->
+    <div class="control-card" style="border-left:4px solid var(--primary);">
+      <div style="font-size:13px;font-weight:700;color:var(--primary);margin-bottom:12px;">🔑 Setup Guide</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;font-size:12px;line-height:1.9;color:var(--text);">
+        <div><strong style="color:var(--danger);">▶ YouTube</strong><br>1. console.cloud.google.com → New Project<br>2. Enable "YouTube Data API v3"<br>3. Credentials → Create API Key<br><span style="color:var(--text-muted);">Free: 10,000 units/day.</span></div>
+        <div><strong style="color:var(--accent);">🎮 Twitch</strong><br>1. dev.twitch.tv/console → Register App<br>2. Copy Client ID<br>3. Get App Access Token via OAuth<br><span style="color:var(--text-muted);">Free, no unit limit.</span></div>
+        <div><strong style="color:var(--secondary);">🟢 Kick · 🎵 TikTok · 📸 Instagram</strong><br>No official public API available. Counts are fetched via best-effort proxy and may not update every cycle.<br><span style="color:var(--text-muted);">Just enter your username — no key needed.</span></div>
       </div>
     </div>
-    <div class="faq-link-bar " data-sv->❓ <a onclick="goFAQ()">How to set up API keys? See the FAQ →</a></div>
   </div>
 
   <!-- ══════════════════════════════════════════ -->
@@ -4436,7 +4458,8 @@ input:focus, select:focus, textarea:focus {
       abSavedTests: abSavedTests,
       // Live tracker interval
       liveRefreshInterval: liveRefreshInterval,
-      // Live trackers (full data including API keys so they can be restored)
+      liveTopBarEnabled: liveTopBarEnabled,
+      // Live trackers (full data including history for delta windows and API keys)
       liveTrackers: liveTrackers.map(t => ({ ...t })),
       // API keys
       apiKeys: {
@@ -4522,16 +4545,20 @@ input:focus, select:focus, textarea:focus {
         if (parsed.allFields) restoreAllFields(parsed.allFields);
         // Restore live tracked channels
         if (Array.isArray(parsed.liveTrackers) && parsed.liveTrackers.length) {
-          liveTrackers = parsed.liveTrackers;
-          if (parsed.liveRefreshInterval) {
-            liveRefreshInterval = parsed.liveRefreshInterval;
-            const slEl = document.getElementById('lst_interval_slider');
-            const numEl = document.getElementById('lst_interval_num');
-            if (slEl) slEl.value = liveRefreshInterval;
-            if (numEl) numEl.value = liveRefreshInterval;
-            if (typeof updateSliderFill === 'function') updateSliderFill(slEl);
+          if (typeof _lstRestore === 'function') {
+            _lstRestore(parsed);
+          } else {
+            liveTrackers = parsed.liveTrackers;
+            if (parsed.liveRefreshInterval) {
+              liveRefreshInterval = parsed.liveRefreshInterval;
+              const slEl = document.getElementById('lst_interval_slider');
+              const numEl = document.getElementById('lst_interval_num');
+              if (slEl) slEl.value = liveRefreshInterval;
+              if (numEl) numEl.value = liveRefreshInterval;
+              if (typeof updateSliderFill === 'function') updateSliderFill(slEl);
+            }
+            if (liveTimerInterval) { clearInterval(liveTimerInterval); liveTimerInterval = null; }
           }
-          if (liveTimerInterval) { clearInterval(liveTimerInterval); liveTimerInterval = null; }
         }
         // Restore saved A/B tests
         if (Array.isArray(parsed.abSavedTests)) {
@@ -4949,13 +4976,14 @@ input:focus, select:focus, textarea:focus {
     // YouTube's satisfaction signal. Benchmarked against content-length-adjusted target.
     // Short videos (<3 min) require 60%+ AVD; longer content targets drop to 35-40%.
     const avdTarget = totalVl <= 0 ? 50
-                    : totalVl/60 < 1   ? 65   // <1 min — needs very high completion
+                    : totalVl/60 < 0.5 ? 80   // <30s Shorts — needs near-complete loop
+                    : totalVl/60 < 1   ? 70   // 30s–1min Shorts — high completion expected
                     : totalVl/60 < 3   ? 58
                     : totalVl/60 < 8   ? 52
                     : totalVl/60 < 15  ? 46
-                    : totalVl/60 < 25  ? 40
-                    : totalVl/60 < 40  ? 36
-                    :                    32;   // 40+ min content — 32% AVD is solid
+                    : totalVl/60 < 25  ? 41
+                    : totalVl/60 < 40  ? 37
+                    :                    34;   // 40+ min — 34% is strong for long-form
     const avdPct = avd; // avd is already a % of video length
     const avdRatio = avdPct / avdTarget;
     const avdRaw = avdRatio <= 0 ? 0
@@ -4999,10 +5027,10 @@ input:focus, select:focus, textarea:focus {
     const likesN    = scoringLikes;
     const likeRate    = scoringViews > 0 ? (likesN/scoringViews)*100 : 0;
     const commentRate = scoringViews > 0 ? (commentsN/scoringViews)*100 : 0;
-    // Saves likely ~40-60% of likes on most content; proxy saves ≈ likes × 0.5
-    const estSaveRate = likeRate * 0.5;
-    // Weighted: saves(0.45) + likes(0.40) + comments(0.15)
-    const engComposite = (estSaveRate * 0.45) + (likeRate * 0.40) + (commentRate * 0.15);
+    // Saves proxy updated to ×0.3 (post-2023 data: saves ≈ likes × 0.25–0.35 for most content)
+    // Weighted: saves(0.40) + likes(0.40) + comments(0.20) — comments weighted up post-2024
+    const estSaveRate = likeRate * 0.3;
+    const engComposite = (estSaveRate * 0.40) + (likeRate * 0.40) + (commentRate * 0.20);
     const engPts = engComposite <= 0 ? 0
       : engComposite < 0.5 ? engComposite * 4
       : engComposite < 1.5 ? 2 + (engComposite-0.5)*4
@@ -5020,18 +5048,20 @@ input:focus, select:focus, textarea:focus {
       :                    Math.min(7.5 + (nonSubPct-75)/25*0.5, 8);
 
     // ── SIGNAL 7: Impressions Quality  (max 5 pts, penalty possible) ──
-    // Views-to-impressions ratio (true CTR from impression pool).
+    // views ÷ impressions = true CTR from impression pool.
+    // Realistic ranges: 2–5% = average, 5–10% = strong, 10%+ = exceptional.
+    // YouTube Studio CTR and true impression CTR differ slightly.
     const impressionsV  = parseFloat(document.getElementById('impressionsInput')?.value) || 0;
     let impRatioPts = 0;
     if (impressionsV > 0 && views > 0) {
       const trueImpCtr = (views / impressionsV) * 100;
-      impRatioPts = trueImpCtr >= 12 ? 5
-                  : trueImpCtr >= 8  ? 4
-                  : trueImpCtr >= 5  ? 3
-                  : trueImpCtr >= 3  ? 1.5
-                  : trueImpCtr >= 2  ? 0
-                  : trueImpCtr >= 1  ? -1
-                  : -2.5; // <1% from impressions = thumbnail failing badly
+      impRatioPts = trueImpCtr >= 10  ? 5
+                  : trueImpCtr >= 7   ? 4
+                  : trueImpCtr >= 5   ? 3
+                  : trueImpCtr >= 3   ? 1.5
+                  : trueImpCtr >= 2   ? 0
+                  : trueImpCtr >= 1   ? -1
+                  :                    -2.5; // <1% = thumbnail critically underperforming
     }
 
     // ── SIGNAL 8: Secondary / Retention Detail  (max 8 pts) ──
@@ -5051,19 +5081,23 @@ input:focus, select:focus, textarea:focus {
     secondaryPts = Math.min(secondaryPts, 8);
 
     // ── SIGNAL 9: Growth / Channel Momentum  (max 4 pts) ──
-    const subsGainedV  = parseFloat(document.getElementById('subsGained')?.value) || 0;
-    const channelSubs  = parseFloat(document.getElementById('channelSubs')?.value) || 0;
+    const subsGainedV    = parseFloat(document.getElementById('subsGained')?.value) || 0;
+    const channelSubs    = parseFloat(document.getElementById('channelSubs')?.value) || 0;
     const avgViewsPerUpload = parseFloat(document.getElementById('avgViewsPerUpload')?.value) || 0;
     let growthPts = 0;
-    // Sub conversion rate from this specific video
+    // Sub conversion rate — weighted by channel size (smaller channels earn more pts per sub gained)
     if (subsGainedV > 0 && views > 0) {
-      const subConv = (subsGainedV/views)*100;
-      growthPts += subConv >= 2 ? 2 : subConv >= 0.5 ? 1 : 0.4;
+      const subConv = (subsGainedV / views) * 100;
+      // Small channels (<10k) get more signal weight from sub conversion
+      const sizeMultiplier = channelSubs > 0 && channelSubs < 10000 ? 1.3
+                           : channelSubs > 0 && channelSubs < 100000 ? 1.0
+                           : 0.85; // large channels — sub rate is a weaker signal
+      growthPts += Math.min((subConv >= 2 ? 2 : subConv >= 0.5 ? 1 : 0.4) * sizeMultiplier, 2.5);
     }
     // Channel outperformance: this video vs channel average
     if (avgViewsPerUpload > 0 && views > 0) {
       const perfRatio = views / avgViewsPerUpload;
-      growthPts += perfRatio >= 3 ? 2 : perfRatio >= 1.5 ? 1.2 : perfRatio >= 1 ? 0.5 : 0;
+      growthPts += perfRatio >= 3 ? 1.5 : perfRatio >= 1.5 ? 1.0 : perfRatio >= 1 ? 0.4 : 0;
     }
     growthPts = Math.min(growthPts, 4);
 
@@ -5079,13 +5113,14 @@ input:focus, select:focus, textarea:focus {
                  : 0;
 
     // ── COMPOSITE SCORE ──
-    // Raw max ≈ 30+30+20+12+15+8+5+8+4+3 = 135 (with all bonus signals perfect)
-    // Normalize to 100 with a soft cap. Use sqrt normalization so high scores
-    // are harder to achieve but not impossible.
+    // Signal maxes: CTR(30) + AVD(30) + Hook(20) + WatchTime(12) + Engagement(15)
+    //   + NonSub(8) + ImpressionsRatio(5) + Secondary(8) + Momentum(4) + Velocity(3)
+    // Theoretical max = 135. Practical "all signals strong" ≈ 105.
+    // Normalize against 105 so a video with all strong signals scores ~100.
     const rawTotal = ctrPts + avdPts + retPts + rawPts + engPtsFinal
                    + nonSubPts + impRatioPts + secondaryPts + growthPts + velPts;
-    const maxRaw = 100; // practical max when all inputs are strong
-    const normalized = Math.max(0, Math.min((rawTotal / maxRaw) * 100, 100));
+    const practicalMax = 105;
+    const normalized = Math.max(0, Math.min((rawTotal / practicalMax) * 100, 100));
     const total = normalized.toFixed(1);
     const totalNum = parseFloat(total);
     // Clip display at 100 but store actual for breakdown
@@ -5282,12 +5317,27 @@ input:focus, select:focus, textarea:focus {
 
       // ── Niche benchmarks ──
       const NICHE_BENCHMARKS = {
-        gaming:{ctrAvg:5.5,avdPct:38},entertainment:{ctrAvg:5.0,avdPct:42},music:{ctrAvg:4.5,avdPct:55},
-        education:{ctrAvg:4.2,avdPct:48},tech:{ctrAvg:4.8,avdPct:43},finance:{ctrAvg:3.8,avdPct:46},
-        fitness:{ctrAvg:4.5,avdPct:44},cooking:{ctrAvg:4.0,avdPct:52},beauty:{ctrAvg:5.2,avdPct:40},
-        news:{ctrAvg:3.5,avdPct:35},asmr:{ctrAvg:3.0,avdPct:62},kids:{ctrAvg:6.5,avdPct:55},
-        sports:{ctrAvg:5.8,avdPct:36},travel:{ctrAvg:4.6,avdPct:47},comedy:{ctrAvg:6.0,avdPct:40},
-        automotive:{ctrAvg:4.3,avdPct:45}
+        gaming:       { ctrAvg:5.5, avdPct:38, decayMod:1.1,  label:'Gaming' },
+        entertainment:{ ctrAvg:5.0, avdPct:42, decayMod:1.05, label:'Entertainment' },
+        music:        { ctrAvg:4.5, avdPct:55, decayMod:0.9,  label:'Music' },
+        education:    { ctrAvg:4.2, avdPct:48, decayMod:0.75, label:'Education' },
+        tech:         { ctrAvg:4.8, avdPct:43, decayMod:0.85, label:'Tech' },
+        finance:      { ctrAvg:3.8, avdPct:46, decayMod:0.70, label:'Finance' },
+        fitness:      { ctrAvg:4.5, avdPct:44, decayMod:0.85, label:'Fitness' },
+        cooking:      { ctrAvg:4.0, avdPct:52, decayMod:0.80, label:'Cooking' },
+        beauty:       { ctrAvg:5.2, avdPct:40, decayMod:1.0,  label:'Beauty' },
+        news:         { ctrAvg:3.5, avdPct:35, decayMod:1.3,  label:'News' },
+        asmr:         { ctrAvg:3.0, avdPct:62, decayMod:0.65, label:'ASMR' },
+        kids:         { ctrAvg:6.5, avdPct:55, decayMod:0.70, label:'Kids' },
+        sports:       { ctrAvg:5.8, avdPct:36, decayMod:1.2,  label:'Sports' },
+        travel:       { ctrAvg:4.6, avdPct:47, decayMod:0.80, label:'Travel' },
+        comedy:       { ctrAvg:6.0, avdPct:40, decayMod:1.15, label:'Comedy' },
+        automotive:   { ctrAvg:4.3, avdPct:45, decayMod:0.80, label:'Automotive' },
+        collectibles: { ctrAvg:4.0, avdPct:50, decayMod:0.65, label:'Collectibles' },
+        // decayMod: multiplier on alpha (lower = slower decay = longer tail)
+        // Collectibles/hobbyist = very flat evergreen decay (people search for specific items for years)
+        // News/sports = fast decay (time-sensitive content)
+        // Finance/education/ASMR = slow decay (evergreen reference content)
       };
       const nicheBench = NICHE_BENCHMARKS[niche] || null;
       const nicheEl = document.getElementById('nicheNote');
@@ -5295,8 +5345,15 @@ input:focus, select:focus, textarea:focus {
         const ctrLabel = ctr > 0
           ? (ctr >= nicheBench.ctrAvg*1.3 ? '🟢 Above' : ctr >= nicheBench.ctrAvg*0.8 ? '🟡 Average' : '🔴 Below') + ' niche avg'
           : '';
-        nicheEl.innerHTML = `Niche benchmarks: CTR avg <strong>${nicheBench.ctrAvg}%</strong> · AVD avg <strong>${nicheBench.avdPct}%</strong>${ctrLabel ? ' · ' + ctrLabel : ''}`;
+        const decayNote = nicheBench.decayMod <= 0.70 ? '📈 Evergreen — very flat long-tail decay'
+                        : nicheBench.decayMod <= 0.85 ? '📊 Slow decay — sustained long-tail'
+                        : nicheBench.decayMod >= 1.2  ? '⚡ Fast decay — time-sensitive content'
+                        : '↔ Average decay curve';
+        nicheEl.innerHTML = `Benchmarks: CTR <strong>${nicheBench.ctrAvg}%</strong> · AVD <strong>${nicheBench.avdPct}%</strong>${ctrLabel ? ' · ' + ctrLabel : ''} · ${decayNote}`;
       } else if (nicheEl) { nicheEl.textContent = ''; }
+
+      // Apply niche decay modifier to scenario alpha
+      const nicheDecayMod = nicheBench?.decayMod ?? 1.0;
 
       // Empirical alpha calibration from observed view anchors
       let empiricalAlpha = null;
@@ -5329,7 +5386,7 @@ input:focus, select:focus, textarea:focus {
 
       const alphaBase = empiricalAlpha !== null ? empiricalAlpha : (signalStrength === 'strong' ? 0.90 : signalStrength === 'moderate' ? 1.05 : 1.20);
       // Apply traffic and CTR trend modifiers to alpha (lower alpha = sustained = better)
-      const alphaModified = alphaBase * trafficDecayMod / ctrTrendMod;
+      const alphaModified = alphaBase * trafficDecayMod * nicheDecayMod / ctrTrendMod;
 
       const velBest          = velocity * (signalStrength === 'strong' ? 1.5  : signalStrength === 'moderate' ? 1.25 : 1.05) * perfMultiplier;
       const velAboveExpected = velocity * (signalStrength === 'strong' ? 1.2  : signalStrength === 'moderate' ? 1.08 : 0.92) * Math.sqrt(perfMultiplier);
@@ -5926,50 +5983,59 @@ input:focus, select:focus, textarea:focus {
       return `${h%12===0?12:h%12}:${m} ${h>=12?'PM':'AM'}`;
     }
 
-    // Extended niche data — 10 niches, 4 slots each
+    // Publishing time data — all niches covered, updated for 2024–2025 patterns
+    // Times are in EST (UTC-5). hDiff adjusts to user's timezone.
     const nicheData = {
-      gaming:       { slots:[{l:'Primary',t:'4:00 PM'},{l:'Alt 1',t:'7:00 PM'},{l:'Alt 2',t:'9:00 AM'},{l:'Late Night',t:'9:00 PM'}], peak:'6:00 PM', days:['Tuesday','Thursday','Saturday','Sunday','Monday','Wednesday','Friday'], logic:'Gaming audiences spike after school/work (3–9 PM). Thursday–Sunday evenings dominate. Teen/young adult demographic peaks on weekends.' },
-      finance:      { slots:[{l:'Primary',t:'6:30 AM'},{l:'Alt 1',t:'8:00 AM'},{l:'Lunch',t:'12:00 PM'},{l:'Evening',t:'7:00 PM'}], peak:'8:00 AM', days:['Tuesday','Wednesday','Thursday','Monday','Friday','Saturday','Sunday'], logic:'Finance viewers engage during morning commute. Tuesday–Thursday dominate. Early AM uploads capture pre-market traders.' },
-      vlogs:        { slots:[{l:'Primary',t:'3:00 PM'},{l:'Alt 1',t:'5:30 PM'},{l:'Alt 2',t:'11:00 AM'},{l:'Evening',t:'8:00 PM'}], peak:'5:00 PM', days:['Wednesday','Friday','Sunday','Tuesday','Thursday','Monday','Saturday'], logic:'Lifestyle peaks at prime time. Wednesday and Friday capture end-of-week browsing surges. Sunday morning is strong for long-form.' },
-      tech:         { slots:[{l:'Primary',t:'12:00 PM'},{l:'Alt 1',t:'2:00 PM'},{l:'Morning',t:'8:00 AM'},{l:'Evening',t:'6:00 PM'}], peak:'2:00 PM', days:['Tuesday','Thursday','Wednesday','Monday','Friday','Saturday','Sunday'], logic:'Tech audiences peak during lunch and early afternoon. Tuesday and Thursday have highest CTR for this niche.' },
-      collectibles: { slots:[{l:'Primary',t:'2:00 PM'},{l:'Alt 1',t:'4:30 PM'},{l:'Alt 2',t:'7:00 PM'},{l:'Morning',t:'10:00 AM'}], peak:'4:00 PM', days:['Saturday','Sunday','Friday','Wednesday','Thursday','Tuesday','Monday'], logic:'Hobby audiences most active on weekends and Friday evenings. Saturday afternoon is the top window.' },
-      fitness:      { slots:[{l:'Primary',t:'6:00 AM'},{l:'Lunch',t:'12:00 PM'},{l:'Alt 1',t:'5:00 PM'},{l:'Evening',t:'7:30 PM'}], peak:'6:00 AM', days:['Monday','Wednesday','Friday','Tuesday','Thursday','Saturday','Sunday'], logic:'Fitness audiences watch during morning workout time and lunch. Monday is #1 — people restart routines. Post-work evening is strong.' },
-      food:         { slots:[{l:'Brunch',t:'11:00 AM'},{l:'Primary',t:'5:00 PM'},{l:'Dinner Prep',t:'6:30 PM'},{l:'Morning',t:'9:00 AM'}], peak:'11:00 AM', days:['Sunday','Thursday','Wednesday','Friday','Saturday','Tuesday','Monday'], logic:'Food content peaks before meal times — brunch and dinner prep windows. Sunday and Thursday are highest engagement days.' },
-      beauty:       { slots:[{l:'Primary',t:'3:00 PM'},{l:'Alt 1',t:'7:00 PM'},{l:'Morning',t:'10:00 AM'},{l:'Weekend',t:'11:00 AM'}], peak:'5:00 PM', days:['Wednesday','Friday','Saturday','Sunday','Tuesday','Thursday','Monday'], logic:'Beauty audiences active after school/work. Weekday afternoons and Saturday mornings perform best.' },
-      news:         { slots:[{l:'AM',t:'7:30 AM'},{l:'Lunch',t:'12:00 PM'},{l:'Evening',t:'5:00 PM'},{l:'Late',t:'9:00 PM'}], peak:'8:00 AM', days:['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'], logic:'News audiences check in at morning, lunch, and after work. Publish ASAP for breaking news. Weekdays dominate.' },
-      kids:         { slots:[{l:'After School',t:'2:30 PM'},{l:'Morning',t:'9:00 AM'},{l:'Alt 1',t:'5:30 PM'},{l:'Weekend AM',t:'8:30 AM'}], peak:'3:30 PM', days:['Saturday','Sunday','Friday','Monday','Wednesday','Tuesday','Thursday'], logic:'Kids content peaks after school and on weekend mornings. Saturday is #1. Parents often pre-load content.' }
+      gaming:       { slots:[{l:'Primary',t:'4:00 PM'},{l:'Alt 1',t:'7:00 PM'},{l:'Alt 2',t:'9:00 AM'},{l:'Late Night',t:'9:00 PM'}], peak:'6:00 PM', days:['Tuesday','Thursday','Saturday','Sunday','Monday','Wednesday','Friday'], logic:'Gaming audiences spike after school/work (3–9 PM). Thursday–Sunday evenings dominate. Teen/young adult demographic peaks on weekends. Saturday is the single highest engagement day.' },
+      entertainment:{ slots:[{l:'Primary',t:'3:00 PM'},{l:'Alt 1',t:'5:30 PM'},{l:'Alt 2',t:'11:00 AM'},{l:'Evening',t:'8:00 PM'}], peak:'5:00 PM', days:['Wednesday','Friday','Sunday','Tuesday','Thursday','Monday','Saturday'], logic:'Entertainment and vlogs peak at prime time (4–8 PM). Wednesday and Friday capture end-of-week browsing surges. Sunday afternoon is strong for longer watch sessions.' },
+      music:        { slots:[{l:'Primary',t:'3:00 PM'},{l:'Alt 1',t:'6:00 PM'},{l:'Friday PM',t:'5:00 PM'},{l:'Morning',t:'10:00 AM'}], peak:'5:00 PM', days:['Friday','Thursday','Wednesday','Tuesday','Saturday','Monday','Sunday'], logic:'Music releases follow the Friday new-release cycle. Thursday/Friday are the top days. Late afternoon and early evening capture the highest streaming crossover intent.' },
+      education:    { slots:[{l:'Primary',t:'10:00 AM'},{l:'Alt 1',t:'2:00 PM'},{l:'Morning',t:'7:30 AM'},{l:'Evening',t:'7:00 PM'}], peak:'10:00 AM', days:['Tuesday','Wednesday','Thursday','Monday','Friday','Saturday','Sunday'], logic:'Education viewers study during day hours and early evenings. Tuesday–Thursday dominate. Morning uploads capture early-session learners. Evergreen content — consistency matters more than peak timing.' },
+      tech:         { slots:[{l:'Primary',t:'12:00 PM'},{l:'Alt 1',t:'2:00 PM'},{l:'Morning',t:'8:30 AM'},{l:'Evening',t:'6:00 PM'}], peak:'2:00 PM', days:['Tuesday','Thursday','Wednesday','Monday','Friday','Saturday','Sunday'], logic:'Tech audiences peak during lunch and early afternoon. Tuesday and Thursday have the highest CTR. Morning uploads capture pre-work research sessions.' },
+      finance:      { slots:[{l:'Primary',t:'6:30 AM'},{l:'Alt 1',t:'8:00 AM'},{l:'Lunch',t:'12:00 PM'},{l:'Evening',t:'7:00 PM'}], peak:'8:00 AM', days:['Tuesday','Wednesday','Thursday','Monday','Friday','Saturday','Sunday'], logic:'Finance viewers engage during morning commute and pre-market hours. Tuesday–Thursday dominate. Early AM uploads capture traders. Evergreen content sustains well beyond initial push.' },
+      fitness:      { slots:[{l:'Primary',t:'5:45 AM'},{l:'Lunch',t:'12:00 PM'},{l:'Alt 1',t:'5:00 PM'},{l:'Evening',t:'7:30 PM'}], peak:'6:00 AM', days:['Monday','Wednesday','Friday','Tuesday','Thursday','Saturday','Sunday'], logic:'Fitness audiences watch during morning workouts and lunch. Monday is #1 — new-week motivation resets. Post-work evening is secondary peak. M/W/F mirrors gym culture scheduling.' },
+      cooking:      { slots:[{l:'Brunch',t:'10:30 AM'},{l:'Primary',t:'5:00 PM'},{l:'Dinner Prep',t:'6:30 PM'},{l:'Morning',t:'8:30 AM'}], peak:'11:00 AM', days:['Sunday','Thursday','Wednesday','Friday','Saturday','Tuesday','Monday'], logic:'Food content peaks before meal times. Sunday brunch and dinner prep (4–7 PM) are top windows. Thursday is the biggest weekday — people plan weekend cooking.' },
+      beauty:       { slots:[{l:'Primary',t:'3:00 PM'},{l:'Alt 1',t:'7:00 PM'},{l:'Morning',t:'10:00 AM'},{l:'Weekend',t:'11:00 AM'}], peak:'5:00 PM', days:['Wednesday','Friday','Saturday','Sunday','Tuesday','Thursday','Monday'], logic:'Beauty audiences active after school/work. Wednesday and Friday afternoons perform best. Saturday morning is the top weekend slot for tutorials and hauls.' },
+      news:         { slots:[{l:'Early AM',t:'7:00 AM'},{l:'Morning',t:'8:30 AM'},{l:'Lunch',t:'12:00 PM'},{l:'Evening',t:'5:30 PM'}], peak:'8:00 AM', days:['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'], logic:'News is time-sensitive — publish ASAP. Morning and early evening are peak consumption windows. Weekdays dominate. Breaking news should skip timing entirely and post immediately.' },
+      asmr:         { slots:[{l:'Primary',t:'9:00 PM'},{l:'Alt 1',t:'8:00 PM'},{l:'Late',t:'11:00 PM'},{l:'Afternoon',t:'4:00 PM'}], peak:'10:00 PM', days:['Friday','Saturday','Sunday','Thursday','Wednesday','Tuesday','Monday'], logic:'ASMR audiences watch before sleep — late evening (8–11 PM) is the peak window. Friday and Saturday nights are the highest-performing slots. Consistency is more important than perfect timing for this niche.' },
+      kids:         { slots:[{l:'After School',t:'2:30 PM'},{l:'Morning',t:'9:00 AM'},{l:'Alt 1',t:'5:30 PM'},{l:'Weekend AM',t:'8:30 AM'}], peak:'3:30 PM', days:['Saturday','Sunday','Friday','Monday','Wednesday','Tuesday','Thursday'], logic:'Kids content peaks after school and on weekend mornings. Saturday is #1. Parents pre-load content during weekend morning downtime. After-school weekday spike 2:30–5 PM.' },
+      sports:       { slots:[{l:'Morning',t:'8:00 AM'},{l:'Primary',t:'12:00 PM'},{l:'Highlight',t:'6:00 PM'},{l:'Late',t:'10:00 PM'}], peak:'12:00 PM', days:['Monday','Sunday','Saturday','Tuesday','Wednesday','Thursday','Friday'], logic:'Sports content peaks post-game — Monday catches weekend recap viewers. Midday and post-game evening windows are strongest. Match-day content should publish within 2 hours of the final whistle.' },
+      travel:       { slots:[{l:'Primary',t:'10:00 AM'},{l:'Alt 1',t:'2:00 PM'},{l:'Evening',t:'7:00 PM'},{l:'Weekend AM',t:'9:00 AM'}], peak:'10:00 AM', days:['Sunday','Thursday','Friday','Wednesday','Saturday','Tuesday','Monday'], logic:'Travel viewers research during leisure time. Sunday and Thursday (pre-weekend planning) are top days. Morning and early afternoon capture the dreaming-and-planning mindset. Evergreen destination content performs well long-tail.' },
+      comedy:       { slots:[{l:'Lunch',t:'12:00 PM'},{l:'Primary',t:'3:00 PM'},{l:'Evening',t:'6:00 PM'},{l:'Late',t:'9:00 PM'}], peak:'3:00 PM', days:['Thursday','Friday','Wednesday','Tuesday','Saturday','Monday','Sunday'], logic:'Comedy is stress-relief content — peaks mid-afternoon and after work. Thursday is the top day (end-of-week mood). Friday afternoon captures the weekend-mode audience. Short comedic content does well in late evening.' },
+      automotive:   { slots:[{l:'Primary',t:'12:00 PM'},{l:'Alt 1',t:'3:00 PM'},{l:'Morning',t:'9:00 AM'},{l:'Evening',t:'7:00 PM'}], peak:'12:00 PM', days:['Saturday','Sunday','Thursday','Wednesday','Friday','Tuesday','Monday'], logic:'Automotive audiences are most active on weekends — Saturday/Sunday dominate for both enthusiast content and practical buying-research videos. Weekday lunch is the best daily slot.' },
+      collectibles: { slots:[{l:'Primary',t:'2:00 PM'},{l:'Alt 1',t:'4:30 PM'},{l:'Evening',t:'7:00 PM'},{l:'Morning',t:'10:00 AM'}], peak:'4:00 PM', days:['Saturday','Sunday','Friday','Wednesday','Thursday','Tuesday','Monday'], logic:'Collectibles and hobby audiences concentrate on weekends — Saturday afternoon is the single best slot. Friday evening captures the start-of-weekend browsing surge. Evergreen search content performs well regardless of publish time; consistency matters more than perfect timing.' },
+      vlogs:        { slots:[{l:'Primary',t:'3:00 PM'},{l:'Alt 1',t:'5:30 PM'},{l:'Alt 2',t:'11:00 AM'},{l:'Evening',t:'8:00 PM'}], peak:'5:00 PM', days:['Wednesday','Friday','Sunday','Tuesday','Thursday','Monday','Saturday'], logic:'General vlog content peaks at prime time (4–8 PM). Wednesday and Friday perform best. Sunday afternoon is strong for longer watch sessions.' },
     };
 
-    // Short-form platform-specific slots
+    // Short-form platform-specific slots — updated for 2024–2025
     const shortSlots = {
       yt_short: [{l:'Primary',t:'12:00 PM'},{l:'Alt 1',t:'6:00 PM'},{l:'Morning',t:'9:00 AM'},{l:'Night',t:'9:00 PM'}],
-      tiktok:   [{l:'Evening',t:'7:00 PM'},{l:'Peak Night',t:'9:00 PM'},{l:'Lunch',t:'12:00 PM'},{l:'Morning',t:'10:00 AM'}],
+      tiktok:   [{l:'Peak Evening',t:'7:00 PM'},{l:'Alt Evening',t:'9:00 PM'},{l:'Lunch',t:'12:00 PM'},{l:'Morning',t:'10:00 AM'}],
       reels:    [{l:'Morning',t:'8:00 AM'},{l:'Primary',t:'11:00 AM'},{l:'Prime Time',t:'7:00 PM'},{l:'Late Eve',t:'9:30 PM'}],
       linkedin: [{l:'Early AM',t:'7:30 AM'},{l:'Morning',t:'9:00 AM'},{l:'Lunch',t:'12:00 PM'},{l:'PM',t:'5:00 PM'}],
       twitter:  [{l:'Morning',t:'8:00 AM'},{l:'Lunch',t:'12:00 PM'},{l:'Evening',t:'5:30 PM'},{l:'Night',t:'9:00 PM'}]
     };
 
     const isShort = ['yt_short','tiktok','reels','linkedin','twitter'].includes(f);
-    const nd = nicheData[n] || nicheData.vlogs;
+    const nd = nicheData[n] || nicheData.entertainment;
     const baseSlots = isShort ? (shortSlots[f] || shortSlots.tiktok) : nd.slots;
     const adjusted = baseSlots.map(s => ({...s, t: shiftTime(s.t, hDiff)}));
     const tzLabel = tz.replace(/\d/g,'');
 
     // Audience profile adjustments
     const notes = [];
-    if (age==='u18')    notes.push('Under-18 audience: favour after-school (3–6 PM) and weekend mornings.');
-    if (age==='45plus') notes.push('45+ audience: morning (7–10 AM) and evening (7–9 PM) outperform afternoon slots.');
-    if (age==='25-34')  notes.push('25–34 audience: lunch breaks (11 AM–1 PM) and post-work evenings (6–9 PM) are peak.');
-    if (geo==='eu')     notes.push('European audience: add 5–6 hours — morning uploads here hit European prime time.');
-    if (geo==='asia')   notes.push('Asia Pacific: 13–16 hr offset from EST. Evening here = morning there.');
-    if (chsize==='new') notes.push('New channel: prioritise consistency over perfect timing — volume helps the algorithm learn your pattern.');
-    if (chsize==='large') notes.push('Large channel: your notification subscribers matter most — publish at their active window.');
-    if (vidlen==='vlong') notes.push('30+ min video: publish 3–4 hours before peak — longer indexing window needed.');
+    if (age==='u18')    notes.push('Under-18 audience: after-school peak is 3:00–5:00 PM (4:30 PM sweet spot). Weekend mornings 9–11 AM also strong.');
+    if (age==='45plus') notes.push('45+ audience: morning (7–10 AM) and evening (7–9 PM) outperform afternoon. Less likely to binge — standalone content performs better.');
+    if (age==='25-34')  notes.push('25–34 audience: lunch breaks (11 AM–1 PM) and post-work evenings (6–9 PM) are peak windows.');
+    if (geo==='eu')     notes.push('European audience: add 5–6 hours to EST — morning uploads here hit European prime time.');
+    if (geo==='asia')   notes.push('Asia Pacific: 13–16 hr offset from EST. Evening here = morning there for AU/NZ; afternoon for SE Asia.');
+    if (chsize==='new') notes.push('New channel: consistency beats perfect timing — a predictable schedule trains the algorithm faster than sporadic optimised posts.');
+    if (chsize==='large') notes.push('Large channel: notification subscribers are your primary first-hour audience — publish at their peak active window.');
+    if (vidlen==='vlong') notes.push('30+ min video: publish 2–3 hours before peak — longer indexing and notification delivery window needed.');
 
     const contextNote = notes.length ? '<br><br>📌 <strong style="color:var(--secondary);">Audience adjustments:</strong> ' + notes.join(' ') : '';
     const formatNote = isShort
-      ? `<br><br><strong style="color:var(--primary);">Short-Form Logic:</strong> Post <em>during</em> the peak window — the first 30–60 minutes determine batch expansion.`
-      : `<br><br><strong style="color:var(--primary);">Long-Form Logic:</strong> Post 2 hours <em>before</em> peak so YouTube's indexing and notification delivery complete before your audience's active session.`;
+      ? `<br><br><strong style="color:var(--primary);">Short-Form Logic:</strong> Post <em>during</em> the peak window — the first 30–60 minutes determine whether the platform expands the batch to cold audiences.`
+      : `<br><br><strong style="color:var(--primary);">Long-Form Logic:</strong> Post 1–2 hours <em>before</em> peak so YouTube's indexing and notification delivery complete before your audience's active session begins. (YouTube's indexing speed improved in 2024 — 1 hour is now sufficient for most channels; use 2 hours for channels over 100K subscribers where notification queues are larger.)`;
 
     document.getElementById('u_logic').innerHTML = nd.logic + contextNote + formatNote;
 
@@ -6595,167 +6661,229 @@ input:focus, select:focus, textarea:focus {
     }
   });
 
-  /* ═══════════════════════════════════════════════
-     LIVE SUB TRACKER — Fixed & 10-second refresh
-  ═══════════════════════════════════════════════ */
-  liveTrackers = [];
-  liveTimerInterval = null;
-  liveCountdown = 10;
 
+  /* ═══════════════════════════════════════════════
+     LIVE TRACKER — full rewrite
+  ═══════════════════════════════════════════════ */
+
+  // ── State ──
+  // liveTrackers declared at module top (line ~4156)
+  liveTimerInterval = null;
+  liveCountdown     = 30;
+  liveRefreshInterval = 30;
+  let liveDeltaWindow   = 24;
+  let liveTopBarEnabled = false;
+
+  // Platform config
+  const PLAT = {
+    youtube:   { label:'▶ YouTube',   color:'#ff4444' },
+    twitch:    { label:'🎮 Twitch',    color:'#9146ff' },
+    kick:      { label:'🟢 Kick',      color:'#53fc18' },
+    tiktok:    { label:'🎵 TikTok',    color:'#ff0050' },
+    instagram: { label:'📸 Instagram', color:'#e1306c' },
+  };
+
+  // ── Platform UI switcher ──
   function lst_platformChanged() {
-    const plat = document.getElementById('lst_platform')?.value;
-    const ytRow = document.getElementById('lst_yt_row');
-    const twRow = document.getElementById('lst_tw_row');
-    const lbl = document.getElementById('lst_handle_label');
-    if (plat === 'twitch') {
-      if (ytRow) ytRow.style.display = 'none';
-      if (twRow) twRow.style.display = 'grid';
-      if (lbl) lbl.textContent = 'Twitch Username (lowercase)';
-    } else {
-      if (ytRow) ytRow.style.display = 'grid';
-      if (twRow) twRow.style.display = 'none';
-      if (lbl) lbl.textContent = '@Handle or Channel ID (UCxxxx)';
+    const plat = document.getElementById('lst_platform')?.value || 'youtube';
+    const ytRow  = document.getElementById('lst_yt_row');
+    const twRow  = document.getElementById('lst_tw_row');
+    const pubRow = document.getElementById('lst_public_note');
+    const noteEl = document.getElementById('lst_public_note_text');
+    const lbl    = document.getElementById('lst_handle_label');
+    const labels = {
+      youtube:'@Handle or Channel ID (UCxxxx…)',
+      twitch:'Twitch username (lowercase)',
+      kick:'Kick username',
+      tiktok:'TikTok @username',
+      instagram:'Instagram @username',
+    };
+    if (lbl) lbl.textContent = labels[plat] || '@username';
+    if (ytRow) ytRow.style.display = plat === 'youtube' ? '' : 'none';
+    if (twRow) twRow.style.display = plat === 'twitch'  ? '' : 'none';
+    const publicPlatforms = { kick: 'Kick counts are fetched via best-effort proxy. No API key needed.', tiktok: 'TikTok does not expose a public follower API. Counts may be approximate.', instagram: 'Instagram does not expose a public follower API. Counts may be approximate.' };
+    if (pubRow && noteEl) {
+      if (publicPlatforms[plat]) { noteEl.textContent = publicPlatforms[plat]; pubRow.style.display = ''; }
+      else pubRow.style.display = 'none';
     }
   }
 
+  // ── Add channel ──
   async function addLiveTracker() {
-    if (liveTrackers.length >= 5) { showToast('Maximum 5 channels', 'var(--warning)'); return; }
+    if (liveTrackers.length >= 10) { showToast('Maximum 10 channels reached', 'var(--warning)'); return; }
     const platform = document.getElementById('lst_platform')?.value || 'youtube';
-    const handle = (document.getElementById('lst_handle')?.value || '').trim();
+    const handle   = (document.getElementById('lst_handle')?.value || '').trim();
     const statusEl = document.getElementById('lst_add_status');
     const setStatus = (msg) => { if (statusEl) statusEl.textContent = msg; };
 
-    if (!handle) { setStatus('⚠️ Enter a handle or username'); return; }
+    if (!handle) { setStatus('⚠️ Enter a username or handle'); return; }
 
     if (platform === 'youtube') {
-      const apiKey = (document.getElementById('lst_apikey')?.value || '').trim()
-                   || localStorage.getItem('ccYTApiKey') || '';
-      if (!apiKey) { setStatus('⚠️ Enter your YouTube API key above'); return; }
-      setStatus('🔄 Resolving YouTube channel...');
+      const apiKey = (document.getElementById('lst_apikey')?.value || '').trim() || localStorage.getItem('ccYTApiKey') || '';
+      if (!apiKey) { setStatus('⚠️ Enter your YouTube Data API v3 key'); return; }
+      setStatus('🔄 Resolving channel…');
       try {
-        // Try forHandle first
         const isId = handle.startsWith('UC');
-        const cleanHandle = handle.startsWith('@') ? handle : (isId ? handle : '@' + handle);
-        const param = isId ? `id=${encodeURIComponent(handle)}` : `forHandle=${encodeURIComponent(cleanHandle)}`;
-        const url = `https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&${param}&key=${apiKey}`;
-        const resp = await fetch(url);
-        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-        const data = await resp.json();
-        if (data.error) throw new Error(data.error.message || JSON.stringify(data.error));
-        if (!data.items || data.items.length === 0) {
-          // Try search as fallback
+        const cleanH = handle.startsWith('@') ? handle : (isId ? handle : '@' + handle);
+        const param = isId ? `id=${encodeURIComponent(handle)}` : `forHandle=${encodeURIComponent(cleanH)}`;
+        let resp = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&${param}&key=${apiKey}`);
+        let data = await resp.json();
+        if (data.error) throw new Error(data.error.message);
+        if (!data.items?.length) {
+          // Fallback: search
           const sr = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=channel&q=${encodeURIComponent(handle)}&maxResults=1&key=${apiKey}`);
           const sj = await sr.json();
           if (sj.error) throw new Error(sj.error.message);
-          if (!sj.items?.length) throw new Error('Channel not found. Try the exact @handle from their YouTube About page.');
+          if (!sj.items?.length) throw new Error('Channel not found — try the exact @handle from their YouTube About page');
           const chId = sj.items[0].snippet.channelId || sj.items[0].id?.channelId;
-          // Fetch by ID
           const cr = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${chId}&key=${apiKey}`);
-          const cj = await cr.json();
-          if (!cj.items?.length) throw new Error('Could not resolve channel');
-          const item = cj.items[0];
-          liveTrackers.push({ platform, handle, name: item.snippet.title, count: parseInt(item.statistics.subscriberCount)||0, prevCount: parseInt(item.statistics.subscriberCount)||0, apiKey, id: Date.now() });
-        } else {
-          const item = data.items[0];
-          liveTrackers.push({ platform, handle, name: item.snippet.title, count: parseInt(item.statistics.subscriberCount)||0, prevCount: parseInt(item.statistics.subscriberCount)||0, apiKey, id: Date.now() });
+          data = await cr.json();
+          if (!data.items?.length) throw new Error('Could not resolve channel');
         }
+        const item  = data.items[0];
+        const count = parseInt(item.statistics.subscriberCount) || 0;
+        const now   = Date.now();
+        liveTrackers.push({
+          id: now, platform, handle, apiKey,
+          name: item.snippet.title,
+          count, prevCount: count,
+          sessionStart: count,
+          history: [{ ts: now, count }],  // rolling history for delta windows
+          selected: false,
+        });
+        try { localStorage.setItem('ccYTApiKey', apiKey); } catch(e) {}
         document.getElementById('lst_handle').value = '';
         setStatus('');
+        _lstSave();
         renderLiveCards();
         startLiveTimer();
-        showToast(`✅ Now tracking ${liveTrackers[liveTrackers.length-1].name}`, 'var(--success)');
-      } catch(err) {
-        setStatus('❌ ' + err.message);
-        console.error('YT tracker error:', err);
-      }
+        showToast('✅ Now tracking ' + item.snippet.title, 'var(--success)');
+      } catch(err) { setStatus('❌ ' + err.message); }
 
     } else if (platform === 'twitch') {
       const clientId = (document.getElementById('lst_twitch_clientid')?.value || '').trim();
       const token    = (document.getElementById('lst_twitch_token')?.value || '').trim();
-      if (!clientId || !token) { setStatus('⚠️ Enter your Twitch Client ID and Access Token'); return; }
-      setStatus('🔄 Resolving Twitch channel...');
+      if (!clientId || !token) { setStatus('⚠️ Enter Client ID and Access Token'); return; }
+      setStatus('🔄 Resolving Twitch channel…');
       try {
-        const username = handle.replace(/^@/, '').toLowerCase();
-        const resp = await fetch(`https://api.twitch.tv/helix/users?login=${encodeURIComponent(username)}`, {
-          headers: { 'Client-ID': clientId, 'Authorization': `Bearer ${token}` }
-        });
-        if (!resp.ok) throw new Error(`HTTP ${resp.status} — check your Client ID and Token`);
+        const username = handle.replace(/^@/,'').toLowerCase();
+        const resp = await fetch(`https://api.twitch.tv/helix/users?login=${encodeURIComponent(username)}`, { headers:{'Client-ID':clientId,'Authorization':`Bearer ${token}`} });
+        if (!resp.ok) throw new Error(`HTTP ${resp.status} — check your credentials`);
         const data = await resp.json();
         if (!data.data?.length) throw new Error('Twitch user not found');
         const user = data.data[0];
-        // Get follower count
-        const fr = await fetch(`https://api.twitch.tv/helix/channels/followers?broadcaster_id=${user.id}`, {
-          headers: { 'Client-ID': clientId, 'Authorization': `Bearer ${token}` }
-        });
-        const fj = await fr.json();
+        const fr   = await fetch(`https://api.twitch.tv/helix/channels/followers?broadcaster_id=${user.id}`, { headers:{'Client-ID':clientId,'Authorization':`Bearer ${token}`} });
+        const fj   = await fr.json();
         const count = fj.total || 0;
-        liveTrackers.push({ platform, handle: username, name: user.display_name, count, prevCount: count, clientId, token, userId: user.id, id: Date.now() });
+        const now   = Date.now();
+        liveTrackers.push({ id:now, platform, handle:username, name:user.display_name, count, prevCount:count, sessionStart:count, history:[{ts:now,count}], clientId, token, userId:user.id, selected:false });
         document.getElementById('lst_handle').value = '';
         setStatus('');
+        _lstSave();
         renderLiveCards();
         startLiveTimer();
-        showToast(`✅ Now tracking ${user.display_name}`, 'var(--success)');
-      } catch(err) {
-        setStatus('❌ ' + err.message);
-        console.error('Twitch tracker error:', err);
-      }
-    }
-  }
+        showToast('✅ Now tracking ' + user.display_name, 'var(--success)');
+      } catch(err) { setStatus('❌ ' + err.message); }
 
-  let liveRefreshInterval = 30; // seconds, adjustable
-
-  function updateLiveInterval() {
-    const el = document.getElementById('lst_interval_slider');
-    if (!el) return;
-    liveRefreshInterval = Math.min(60, Math.max(15, parseInt(el.value) || 30));
-    if (liveTimerInterval) {
-      // Restart with new interval
-      stopLiveTimer();
+    } else {
+      // Public platforms (Kick, TikTok, Instagram) — best-effort
+      const username = handle.replace(/^@/,'');
+      const now = Date.now();
+      liveTrackers.push({ id:now, platform, handle:username, name:username, count:null, prevCount:null, sessionStart:null, history:[], selected:false });
+      document.getElementById('lst_handle').value = '';
+      setStatus('ℹ️ ' + PLAT[platform].label + ' — will attempt proxy fetch on next refresh');
+      _lstSave();
+      renderLiveCards();
       startLiveTimer();
+      showToast('Added ' + username + ' (' + PLAT[platform].label + ')', 'var(--text-dim)');
     }
   }
 
+  // ── Delta window ──
+  let _deltaWindow = 24;
+  function setDeltaWindow(hrs) {
+    _deltaWindow = hrs;
+    ['24','48','168'].forEach(h => {
+      const b = document.getElementById('lst_delta_' + h);
+      if (b) b.className = (parseInt(h) === hrs) ? 'btn-primary' : 'btn-secondary';
+      if (b) b.style.cssText = 'font-size:11px;padding:4px 14px;';
+    });
+    renderLiveCards();
+  }
+
+  function _getDeltaForWindow(tracker, windowHrs) {
+    if (!tracker.history?.length) return null;
+    const cutoff = Date.now() - windowHrs * 3600000;
+    // Find oldest record within the window
+    const inWindow = tracker.history.filter(h => h.ts >= cutoff);
+    if (!inWindow.length) return null;
+    const oldest = inWindow[0];
+    return tracker.count !== null ? tracker.count - oldest.count : null;
+  }
+
+  // ── Render cards ──
   function renderLiveCards() {
     const grid = document.getElementById('lst_cards');
     if (!grid) return;
+    // Update count label
+    const cl = document.getElementById('lst_count_label');
+    if (cl) cl.textContent = liveTrackers.length + ' / 10';
+
     if (!liveTrackers.length) {
-      grid.innerHTML = `<div style="background:var(--card);border:2px dashed var(--border-hi);border-radius:var(--radius-lg);padding:28px;text-align:center;color:var(--text-dim);font-size:13px;grid-column:1/-1;"><div style="font-size:28px;margin-bottom:8px;">📡</div>Add a channel above to begin live tracking.</div>`;
+      grid.innerHTML = `<div style="background:var(--card);border:2px dashed var(--border-hi);border-radius:var(--radius-lg);padding:32px 20px;text-align:center;color:var(--text-dim);font-size:13px;grid-column:1/-1;line-height:1.9;"><div style="font-size:36px;margin-bottom:10px;">📡</div><strong style="color:var(--text);">No channels tracked yet.</strong><br>Choose a platform, enter a username, add credentials if needed, then click Add Channel.</div>`;
+      _updateTopBar();
       return;
     }
-    const pColors = { youtube:'#ff4444', twitch:'#9146ff' };
+
     grid.innerHTML = liveTrackers.map(t => {
-      const delta = (t.count !== null && t.prevCount !== null) ? t.count - t.prevCount : null;
-      const dStr = delta !== null ? (delta >= 0 ? `+${delta.toLocaleString()}` : delta.toLocaleString()) : '';
-      const dColor = delta > 0 ? 'var(--success)' : delta < 0 ? 'var(--danger)' : 'var(--text-muted)';
-      const pc = pColors[t.platform] || 'var(--primary)';
-      const platLabel = t.platform === 'youtube' ? '▶ YouTube' : '🎮 Twitch';
-      return `<div class="live-card" style="border-top:3px solid ${pc};position:relative;">
-        <div class="live-pulse"></div>
-        <div class="live-platform" style="color:${pc};">${platLabel}</div>
+      const pc        = PLAT[t.platform]?.color || 'var(--primary)';
+      const platLabel = PLAT[t.platform]?.label || t.platform;
+      const countStr  = t.count !== null ? t.count.toLocaleString() : '…';
+      const delta     = _getDeltaForWindow(t, _deltaWindow);
+      const deltaStr  = delta !== null
+        ? (delta > 0 ? `<span style="color:var(--success);">+${delta.toLocaleString()}</span>` :
+           delta < 0 ? `<span style="color:var(--danger);">${delta.toLocaleString()}</span>` :
+                       `<span style="color:var(--text-muted);">±0</span>`)
+        : '';
+      const windowLabel = _deltaWindow === 24 ? '24h' : _deltaWindow === 48 ? '48h' : '7d';
+      const selBorder = t.selected ? `box-shadow:0 0 0 3px ${pc};` : '';
+
+      return `<div class="live-card" style="border-top:3px solid ${pc};position:relative;${selBorder}cursor:pointer;" onclick="lstToggleSelect(${t.id},event)">
+        <div class="live-pulse" style="background:${pc};box-shadow:0 0 0 3px ${pc}44;"></div>
+        <div style="position:absolute;top:8px;right:8px;width:16px;height:16px;border-radius:4px;border:2px solid ${t.selected ? pc : 'var(--border-hi)'};background:${t.selected ? pc : 'transparent'};pointer-events:none;"></div>
+        <div class="live-platform" style="color:${pc};margin-top:4px;">${platLabel}</div>
         <div class="live-name" title="${t.name}">${t.name}</div>
-        <div class="live-count">${t.count !== null ? t.count.toLocaleString() : '…'}</div>
-        ${delta !== null && delta !== 0 ? `<div class="live-delta" style="color:${dColor};">${dStr} since last check</div>` : '<div style="height:18px;"></div>'}
+        <div class="live-count">${countStr}</div>
+        ${deltaStr ? `<div style="font-size:13px;font-weight:700;margin:2px 0;">${deltaStr} <span style="font-size:10px;color:var(--text-muted);">(${windowLabel})</span></div>` : '<div style="height:20px;"></div>'}
         <div class="live-timer" id="lt_timer_${t.id}">Next in ${liveCountdown}s</div>
-        <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;">
-          <button onclick="livePopoutSingle(${t.id})" style="flex:1;background:${pc}22;color:${pc};border:1px solid ${pc};border-radius:6px;padding:4px 8px;cursor:pointer;font-size:11px;font-weight:700;">⊞ Pop Out</button>
-          <button onclick="removeLiveTracker(${t.id})" style="background:var(--danger-dim);color:var(--danger);border:1px solid var(--danger);border-radius:6px;padding:4px 8px;cursor:pointer;font-size:11px;">✕</button>
+        <div style="display:flex;gap:6px;margin-top:10px;">
+          <button onclick="livePopoutSingle(${t.id});event.stopPropagation();" style="flex:1;background:${pc}22;color:${pc};border:1px solid ${pc};border-radius:6px;padding:5px 8px;cursor:pointer;font-size:11px;font-weight:700;">⊞ Pop Out</button>
+          <button onclick="removeLiveTracker(${t.id});event.stopPropagation();" style="background:var(--danger-dim);color:var(--danger);border:1px solid var(--danger);border-radius:6px;padding:5px 8px;cursor:pointer;font-size:11px;">✕</button>
         </div>
       </div>`;
     }).join('');
+
+    _updateTopBar();
+  }
+
+  function lstToggleSelect(id, e) {
+    if (e?.target?.tagName === 'BUTTON') return;
+    const t = liveTrackers.find(x => x.id === id);
+    if (t) { t.selected = !t.selected; renderLiveCards(); }
   }
 
   function removeLiveTracker(id) {
     liveTrackers = liveTrackers.filter(t => t.id !== id);
-    renderLiveCards();
+    _lstSave(); renderLiveCards();
     if (!liveTrackers.length) stopLiveTimer();
   }
 
   function clearAllTrackers() {
     liveTrackers = [];
-    renderLiveCards();
-    stopLiveTimer();
+    _lstSave(); renderLiveCards(); stopLiveTimer();
   }
 
+  // ── Refresh ──
   async function lstRefreshNow() {
     liveCountdown = liveRefreshInterval;
     await doLiveRefresh();
@@ -6767,45 +6895,14 @@ input:focus, select:focus, textarea:focus {
     const dot = document.getElementById('lst_dot');
     const txt = document.getElementById('lst_status_text');
     const nxt = document.getElementById('lst_next_refresh');
-    if (dot) { dot.style.background = 'var(--success)'; dot.style.animation = 'pulse-dot 2s ease-in-out infinite'; }
-    if (txt) txt.textContent = '🔴 Tracking live';
+    if (dot) { dot.style.background = 'var(--danger)'; dot.style.animation = 'pulse-dot 1.5s ease-in-out infinite'; }
+    if (txt) txt.textContent = '🔴 Live — tracking ' + liveTrackers.length + ' channel' + (liveTrackers.length !== 1 ? 's' : '');
     liveTimerInterval = setInterval(() => {
       liveCountdown--;
-      if (nxt) nxt.textContent = `Auto-refresh in ${liveCountdown}s`;
-      liveTrackers.forEach(t => {
-        const el = document.getElementById('lt_timer_' + t.id);
-        if (el) el.textContent = `Next in ${liveCountdown}s`;
-      });
-      if (liveCountdown <= 0) {
-        liveCountdown = liveRefreshInterval;
-        doLiveRefresh();
-      }
+      if (nxt) nxt.textContent = `Refreshing in ${liveCountdown}s`;
+      liveTrackers.forEach(t => { const el = document.getElementById('lt_timer_' + t.id); if (el) el.textContent = `Next in ${liveCountdown}s`; });
+      if (liveCountdown <= 0) { liveCountdown = liveRefreshInterval; doLiveRefresh(); }
     }, 1000);
-  }
-
-  async function doLiveRefresh() {
-    for (const t of liveTrackers) {
-      try {
-        if (t.platform === 'youtube') {
-          const isId = t.handle.startsWith('UC');
-          const param = isId ? `id=${encodeURIComponent(t.handle)}` : `forHandle=${encodeURIComponent(t.handle.startsWith('@')?t.handle:'@'+t.handle)}`;
-          const r = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=statistics&${param}&key=${t.apiKey}`);
-          const j = await r.json();
-          if (j.error || !j.items?.length) continue;
-          t.prevCount = t.count;
-          t.count = parseInt(j.items[0].statistics.subscriberCount) || t.count;
-        } else if (t.platform === 'twitch') {
-          const r = await fetch(`https://api.twitch.tv/helix/channels/followers?broadcaster_id=${t.userId}`, {
-            headers: { 'Client-ID': t.clientId, 'Authorization': `Bearer ${t.token}` }
-          });
-          if (!r.ok) continue;
-          const j = await r.json();
-          t.prevCount = t.count;
-          t.count = j.total ?? t.count;
-        }
-      } catch(e) { console.warn('refresh error for', t.name, e); }
-    }
-    renderLiveCards();
   }
 
   function stopLiveTimer() {
@@ -6818,130 +6915,97 @@ input:focus, select:focus, textarea:focus {
     if (nxt) nxt.textContent = '';
   }
 
-  // Also need to expose refreshAllTrackers as alias
-  async function refreshAllTrackers() { await lstRefreshNow(); }
-
-  function _buildPopoutHTML(trackers, refreshSec) {
-    const pColors = { youtube:'#ff4444', twitch:'#9146ff' };
-    const cardsHTML = trackers.map(t => {
-      const pc = pColors[t.platform] || '#6366f1';
-      const platLabel = t.platform === 'youtube' ? '▶ YouTube' : '🎮 Twitch';
-      const delta = (t.count !== null && t.prevCount !== null && t.count !== t.prevCount)
-        ? (t.count - t.prevCount > 0 ? '+' : '') + (t.count - t.prevCount).toLocaleString()
-        : '';
-      const deltaColor = t.count > t.prevCount ? '#4ade80' : t.count < t.prevCount ? '#f87171' : '#94a3b8';
-      return `<div class="tracker-card" style="border-top:3px solid ${pc};">
-        <div class="plat" style="color:${pc};">${platLabel}</div>
-        <div class="chan-name">${t.name}</div>
-        <div class="sub-count" id="pop_count_${t.id}">${t.count !== null ? t.count.toLocaleString() : '…'}</div>
-        ${delta ? `<div class="delta" style="color:${deltaColor};" id="pop_delta_${t.id}">${delta} this session</div>` : `<div class="delta" id="pop_delta_${t.id}"></div>`}
-        <div class="timer-bar"><div class="timer-fill" id="pop_fill_${t.id}" style="background:${pc};"></div></div>
-        <div class="timer-txt" id="pop_timer_${t.id}">Refreshing in ${refreshSec}s</div>
-      </div>`;
-    }).join('');
-
-    // Encode tracker data for the popout to use for API calls
-    const trackerJson = JSON.stringify(trackers.map(t => ({
-      id: t.id, platform: t.platform, handle: t.handle, name: t.name,
-      count: t.count, prevCount: t.prevCount,
-      apiKey: t.apiKey || '', clientId: t.clientId || '', token: t.token || '', userId: t.userId || ''
-    })));
-
-    return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
-<title>${trackers.length === 1 ? trackers[0].name + ' — Live' : 'Live Sub Tracker'}</title>
-<style>
-  :root { --bg:#0a0a0f; --card:#12121a; --border:rgba(255,255,255,0.08); --text:#f1f5f9; --dim:#94a3b8; --muted:#475569; }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body { background:var(--bg); color:var(--text); font-family:'Inter',system-ui,sans-serif; min-height:100vh;
-    display:flex; flex-direction:column; align-items:center; justify-content:center; padding:24px; gap:20px; }
-  .header { text-align:center; }
-  .header h1 { font-size:13px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--dim); margin-bottom:4px; }
-  .header .live-badge { display:inline-flex; align-items:center; gap:6px; font-size:11px; color:#4ade80; }
-  .pulse { width:8px; height:8px; border-radius:50%; background:#4ade80; animation:pulse 1.5s ease-in-out infinite; }
-  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(1.4)} }
-  .cards { display:flex; flex-wrap:wrap; gap:20px; justify-content:center; width:100%; max-width:900px; }
-  .tracker-card { background:var(--card); border:1px solid var(--border); border-radius:16px;
-    padding:24px 28px; min-width:220px; flex:1; max-width:320px; text-align:center;
-    box-shadow:0 0 40px rgba(0,0,0,0.4); }
-  .plat { font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:8px; }
-  .chan-name { font-size:16px; font-weight:700; color:var(--text); margin-bottom:16px;
-    white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-  .sub-count { font-size:52px; font-weight:900; letter-spacing:-2px; line-height:1;
-    font-variant-numeric:tabular-nums; }
-  .delta { font-size:12px; font-weight:700; margin-top:8px; min-height:18px; }
-  .timer-bar { margin-top:16px; height:3px; background:rgba(255,255,255,0.08); border-radius:2px; overflow:hidden; }
-  .timer-fill { height:100%; width:100%; border-radius:2px; transition:width 1s linear; }
-  .timer-txt { font-size:10px; color:var(--muted); margin-top:6px; font-variant-numeric:tabular-nums; }
-  .footer { font-size:10px; color:var(--muted); text-align:center; }
-</style></head><body>
-<div class="header">
-  <h1>📡 Live Sub Tracker</h1>
-  <div class="live-badge"><div class="pulse"></div> Live — refreshes every ${refreshSec}s</div>
-</div>
-<div class="cards">${cardsHTML}</div>
-<div class="footer">Powered by Creator Calculator · Data from YouTube/Twitch API</div>
-'+'<scr'+'ipt>'+'\n  const trackers = ${trackerJson};
-  let countdown = ${refreshSec};
-  const interval = ${refreshSec};
-  let sessionStart = {...Object.fromEntries(trackers.map(t => [t.id, t.count]))};
-
-  function fmt(n) { return n != null ? n.toLocaleString() : '…'; }
-
-  function updateUI() {
-    trackers.forEach(t => {
-      const cEl = document.getElementById('pop_count_' + t.id);
-      const dEl = document.getElementById('pop_delta_' + t.id);
-      const fEl = document.getElementById('pop_fill_' + t.id);
-      const tEl = document.getElementById('pop_timer_' + t.id);
-      if (cEl) cEl.textContent = fmt(t.count);
-      if (dEl) {
-        const d = t.count - (sessionStart[t.id] || t.count);
-        dEl.textContent = d !== 0 ? (d > 0 ? '+' : '') + d.toLocaleString() + ' this session' : '';
-        dEl.style.color = d > 0 ? '#4ade80' : d < 0 ? '#f87171' : '#94a3b8';
-      }
-      if (fEl) fEl.style.width = (countdown / interval * 100) + '%';
-      if (tEl) tEl.textContent = 'Refreshing in ' + countdown + 's';
-    });
-  }
-
-  async function doRefresh() {
-    for (const t of trackers) {
+  async function doLiveRefresh() {
+    for (const t of liveTrackers) {
       try {
+        let newCount = null;
         if (t.platform === 'youtube' && t.apiKey) {
           const isId = t.handle.startsWith('UC');
-          const p = isId ? 'id=' + encodeURIComponent(t.handle) : 'forHandle=' + encodeURIComponent(t.handle.startsWith('@') ? t.handle : '@' + t.handle);
-          const r = await fetch('https://www.googleapis.com/youtube/v3/channels?part=statistics&' + p + '&key=' + t.apiKey);
+          const p = isId ? `id=${encodeURIComponent(t.handle)}` : `forHandle=${encodeURIComponent(t.handle.startsWith('@')?t.handle:'@'+t.handle)}`;
+          const r = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=statistics&${p}&key=${t.apiKey}`);
           const j = await r.json();
-          if (!j.error && j.items && j.items.length) {
-            t.prevCount = t.count;
-            t.count = parseInt(j.items[0].statistics.subscriberCount) || t.count;
-          }
+          if (!j.error && j.items?.length) newCount = parseInt(j.items[0].statistics.subscriberCount);
         } else if (t.platform === 'twitch' && t.clientId && t.token && t.userId) {
-          const r = await fetch('https://api.twitch.tv/helix/channels/followers?broadcaster_id=' + t.userId, {
-            headers: { 'Client-ID': t.clientId, 'Authorization': 'Bearer ' + t.token }
-          });
-          if (r.ok) { const j = await r.json(); t.prevCount = t.count; t.count = j.total ?? t.count; }
+          const r = await fetch(`https://api.twitch.tv/helix/channels/followers?broadcaster_id=${t.userId}`, { headers:{'Client-ID':t.clientId,'Authorization':`Bearer ${t.token}`} });
+          if (r.ok) { const j = await r.json(); newCount = j.total ?? null; }
         }
-      } catch(e) { console.warn('refresh error', e); }
+        // Kick / TikTok / Instagram — would need a proxy server; skip silently
+        if (newCount !== null) {
+          t.prevCount = t.count;
+          t.count     = newCount;
+          // Append to history (keep 7 days max)
+          const now = Date.now();
+          if (!t.history) t.history = [];
+          t.history.push({ ts: now, count: newCount });
+          // Prune to 7 days
+          const cutoff = now - 7 * 24 * 3600000;
+          t.history = t.history.filter(h => h.ts >= cutoff);
+        }
+      } catch(e) { console.warn('refresh error', t.name, e.message); }
     }
-    updateUI();
+    _lstSave();
+    renderLiveCards();
   }
 
-  updateUI();
-  setInterval(() => {
-    countdown--;
-    if (countdown <= 0) { countdown = interval; doRefresh(); }
-    else updateUI();
-  }, 1000);
-  document.title = trackers.length === 1 ? trackers[0].name + ' — Live' : 'Live Sub Tracker (' + trackers.length + ')';
-</scr'+'ipt></body></html>`;
+  // ── Interval control ──
+  function updateLiveInterval() {
+    const el = document.getElementById('lst_interval_slider');
+    if (!el) return;
+    liveRefreshInterval = Math.min(60, Math.max(15, parseInt(el.value) || 30));
+    const lbl = document.getElementById('lst_interval_label');
+    if (lbl) lbl.textContent = liveRefreshInterval + 's';
+    if (liveTimerInterval) { stopLiveTimer(); startLiveTimer(); }
+    _lstSave();
+  }
+
+  // ── Top bar ──
+  function toggleLiveTopBar() {
+    liveTopBarEnabled = document.getElementById('lst_topbar_toggle')?.checked || false;
+    _updateTopBar();
+    _lstSave();
+  }
+
+  function _updateTopBar() {
+    let bar = document.getElementById('live_top_bar');
+    if (!liveTopBarEnabled || !liveTrackers.length) {
+      if (bar) bar.style.display = 'none';
+      return;
+    }
+    if (!bar) {
+      bar = document.createElement('div');
+      bar.id = 'live_top_bar';
+      bar.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:8999;background:rgba(10,10,20,0.97);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,0.08);padding:6px 16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-size:12px;font-family:var(--font-mono);overflow:hidden;';
+      document.body.insertBefore(bar, document.body.firstChild);
+      // Push content down
+      const container = document.querySelector('.container');
+      if (container) container.style.marginTop = '36px';
+    }
+    bar.style.display = 'flex';
+    bar.innerHTML = '<span style="color:rgba(255,80,80,0.9);font-weight:700;letter-spacing:1px;font-size:10px;">🔴 LIVE</span>' +
+      liveTrackers.map(t => {
+        const pc  = PLAT[t.platform]?.color || '#fff';
+        const cnt = t.count !== null ? t.count.toLocaleString() : '…';
+        const d   = _getDeltaForWindow(t, _deltaWindow);
+        const ds  = d !== null && d !== 0 ? (d > 0 ? ` <span style="color:#4ade80">+${d.toLocaleString()}</span>` : ` <span style="color:#f87171">${d.toLocaleString()}</span>`) : '';
+        return `<span style="color:${pc};font-weight:700;">${t.name}</span><span style="color:#fff;font-weight:800;">${cnt}</span>${ds}`;
+      }).join('<span style="color:rgba(255,255,255,0.2);margin:0 2px;">·</span>');
+  }
+
+  // ── Pop out ──
+  function livePopoutSelected() {
+    const sel = liveTrackers.filter(t => t.selected);
+    if (!sel.length) { showToast('Tick the checkbox on cards to select them first', 'var(--text-muted)'); return; }
+    const html = _buildPopoutHTML(sel, liveRefreshInterval);
+    const cols = Math.min(sel.length, 3);
+    const w = window.open('', '_blank', `width=${cols*300+60},height=460,resizable=yes`);
+    if (w) { w.document.write(html); w.document.close(); }
   }
 
   function livePopoutSingle(id) {
     const t = liveTrackers.find(x => x.id === id);
     if (!t) return;
     const html = _buildPopoutHTML([t], liveRefreshInterval);
-    const w = window.open('', '_blank', 'width=340,height=400,resizable=yes,scrollbars=no');
+    const w = window.open('', '_blank', 'width=320,height=420,resizable=yes');
     if (w) { w.document.write(html); w.document.close(); }
   }
 
@@ -6949,11 +7013,134 @@ input:focus, select:focus, textarea:focus {
     if (!liveTrackers.length) { showToast('No channels tracked yet', 'var(--text-muted)'); return; }
     const html = _buildPopoutHTML(liveTrackers, liveRefreshInterval);
     const cols = Math.min(liveTrackers.length, 3);
-    const w = window.open('', '_blank', `width=${cols*320+60},height=500,resizable=yes,scrollbars=no`);
+    const w = window.open('', '_blank', `width=${cols*300+60},height=460,resizable=yes`);
     if (w) { w.document.write(html); w.document.close(); }
   }
 
-  function popoutTracker(id) { livePopoutSingle(id); } // legacy alias
+  function _buildPopoutHTML(trackers, refreshSec) {
+    const trackerJson = JSON.stringify(trackers.map(t => ({
+      id:t.id, platform:t.platform, handle:t.handle, name:t.name,
+      count:t.count, prevCount:t.prevCount, history:t.history||[],
+      apiKey:t.apiKey||'', clientId:t.clientId||'', token:t.token||'', userId:t.userId||''
+    })));
+    const platColors = JSON.stringify({ youtube:'#ff4444', twitch:'#9146ff', kick:'#53fc18', tiktok:'#ff0050', instagram:'#e1306c' });
+
+    const cardsHTML = trackers.map(t => {
+      const pc = ({ youtube:'#ff4444',twitch:'#9146ff',kick:'#53fc18',tiktok:'#ff0050',instagram:'#e1306c' }[t.platform]) || '#6366f1';
+      return `<div class="card" id="card_${t.id}" style="border-top:3px solid ${pc};">
+        <div class="plat" style="color:${pc};">${({ youtube:'▶ YouTube',twitch:'🎮 Twitch',kick:'🟢 Kick',tiktok:'🎵 TikTok',instagram:'📸 Instagram' }[t.platform])||t.platform}</div>
+        <div class="chan">${t.name}</div>
+        <div class="cnt" id="cnt_${t.id}">${t.count !== null ? t.count.toLocaleString() : '…'}</div>
+        <div class="delta" id="dlt_${t.id}"></div>
+        <div class="fill-wrap"><div class="fill" id="fill_${t.id}" style="background:${pc};"></div></div>
+        <div class="timer" id="tmr_${t.id}">Refreshing in ${refreshSec}s</div>
+      </div>`;
+    }).join('');
+
+    return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Live Tracker</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#09090f;color:#f1f5f9;font-family:'Inter',system-ui,sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;gap:20px;}
+.header{text-align:center;}
+.header h1{font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:#475569;margin-bottom:4px;}
+.live-pill{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:#4ade80;font-weight:700;}
+.pulse{width:8px;height:8px;border-radius:50%;background:#4ade80;animation:p 1.5s ease-in-out infinite;}
+@keyframes p{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(1.4)}}
+.cards{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;width:100%;max-width:960px;}
+.card{background:#12121c;border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:22px 26px;min-width:220px;flex:1;max-width:300px;text-align:center;box-shadow:0 0 40px rgba(0,0,0,0.5);}
+.plat{font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;}
+.chan{font-size:15px;font-weight:700;margin-bottom:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.cnt{font-size:52px;font-weight:900;letter-spacing:-2px;line-height:1;font-variant-numeric:tabular-nums;}
+.delta{font-size:13px;font-weight:700;min-height:20px;margin-top:6px;}
+.fill-wrap{margin-top:14px;height:3px;background:rgba(255,255,255,0.07);border-radius:2px;overflow:hidden;}
+.fill{height:100%;width:100%;border-radius:2px;transition:width 1s linear;}
+.timer{font-size:10px;color:#475569;margin-top:6px;font-variant-numeric:tabular-nums;}
+.footer{font-size:10px;color:#334155;}
+</style></head><body>
+<div class="header"><h1>📡 Live Sub Tracker</h1><div class="live-pill"><div class="pulse"></div> Live · refreshes every ${refreshSec}s</div></div>
+<div class="cards">${cardsHTML}</div>
+<div class="footer">Creator Calculator · Data from platform APIs</div>
+` + '<scr' + 'ipt>' + `
+const trackers = ${trackerJson};
+const platColors = ${platColors};
+let countdown = ${refreshSec};
+const interval = ${refreshSec};
+const sessionStart = Object.fromEntries(trackers.map(t=>[t.id, t.count]));
+
+function fmt(n){ return n!=null ? n.toLocaleString() : '…'; }
+function getDelta(t){
+  if(!t.history||!t.history.length) return null;
+  const cutoff = Date.now() - 24*3600000;
+  const inW = t.history.filter(h=>h.ts>=cutoff);
+  if(!inW.length) return null;
+  return t.count!==null ? t.count - inW[0].count : null;
+}
+function updateUI(){
+  trackers.forEach(t=>{
+    const el=document.getElementById('cnt_'+t.id); if(el) el.textContent=fmt(t.count);
+    const dl=document.getElementById('dlt_'+t.id);
+    if(dl){
+      const d=t.count-(sessionStart[t.id]||t.count);
+      dl.textContent=d!==0?(d>0?'+':'')+d.toLocaleString()+' this session':'';
+      dl.style.color=d>0?'#4ade80':d<0?'#f87171':'#94a3b8';
+    }
+    const fl=document.getElementById('fill_'+t.id);
+    if(fl) fl.style.width=(countdown/interval*100)+'%';
+    const tm=document.getElementById('tmr_'+t.id);
+    if(tm) tm.textContent='Refreshing in '+countdown+'s';
+  });
+}
+async function doRefresh(){
+  for(const t of trackers){
+    try{
+      if(t.platform==='youtube'&&t.apiKey){
+        const isId=t.handle.startsWith('UC');
+        const p=isId?'id='+encodeURIComponent(t.handle):'forHandle='+encodeURIComponent(t.handle.startsWith('@')?t.handle:'@'+t.handle);
+        const r=await fetch('https://www.googleapis.com/youtube/v3/channels?part=statistics&'+p+'&key='+t.apiKey);
+        const j=await r.json();
+        if(!j.error&&j.items&&j.items.length){t.prevCount=t.count;t.count=parseInt(j.items[0].statistics.subscriberCount)||t.count;}
+      } else if(t.platform==='twitch'&&t.clientId&&t.token&&t.userId){
+        const r=await fetch('https://api.twitch.tv/helix/channels/followers?broadcaster_id='+t.userId,{headers:{'Client-ID':t.clientId,'Authorization':'Bearer '+t.token}});
+        if(r.ok){const j=await r.json();t.prevCount=t.count;t.count=j.total??t.count;}
+      }
+    }catch(e){console.warn('refresh',e);}
+  }
+  updateUI();
+}
+updateUI();
+setInterval(()=>{countdown--;if(countdown<=0){countdown=interval;doRefresh();}else updateUI();},1000);
+` + '</scr' + 'ipt>' + `</body></html>`;
+  }
+
+  // ── Persist to save file ──
+  function _lstSave() {
+    // Data is included in buildSavePayload() via liveTrackers and liveRefreshInterval
+    // This function is a hook for future explicit saves
+    markUnsaved && markUnsaved();
+  }
+
+  function _lstRestore(data) {
+    if (!data) return;
+    if (Array.isArray(data.liveTrackers)) liveTrackers = data.liveTrackers;
+    if (data.liveRefreshInterval) {
+      liveRefreshInterval = data.liveRefreshInterval;
+      const sl = document.getElementById('lst_interval_slider');
+      const nm = document.getElementById('lst_interval_num');
+      const lb = document.getElementById('lst_interval_label');
+      if (sl) sl.value = liveRefreshInterval;
+      if (nm) nm.value = liveRefreshInterval;
+      if (lb) lb.textContent = liveRefreshInterval + 's';
+      updateSliderFill(sl);
+    }
+    if (data.liveTopBarEnabled) {
+      liveTopBarEnabled = data.liveTopBarEnabled;
+      const cb = document.getElementById('lst_topbar_toggle');
+      if (cb) cb.checked = liveTopBarEnabled;
+    }
+    if (liveTrackers.length) { renderLiveCards(); startLiveTimer(); }
+  }
+
+
 
   /* ═══════════════════════════════════════════════
      A/B TITLE / THUMBNAIL CHECKER
