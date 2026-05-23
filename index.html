@@ -1414,7 +1414,7 @@ input:focus, select:focus, textarea:focus {
       <span id="saveStatusIndicator" style="font-size:11px;color:var(--success);display:none;">✓ Saved</span>
     </div>
     <h1>THE <span>SOCIAL SPOT</span></h1>
-    <div id="build-info" style="font-size:10px;color:var(--text-dim);text-align:center;letter-spacing:0.5px;margin-top:2px;font-family:var(--font-mono);">v8.2.0 · Updated 2026-05-03</div>
+    <div id="build-info" style="font-size:10px;color:var(--text-dim);text-align:center;letter-spacing:0.5px;margin-top:2px;font-family:var(--font-mono);">v9.3.0 · Updated 2026-05-23</div>
     <button id="viewModeToggle" onclick="setViewMode(document.documentElement.getAttribute('data-viewmode')==='mobile'?'desktop':'mobile')">📱/🖥</button>
     <button id="mobMenuBtn" onclick="document.querySelector('.tab-container').classList.toggle('mob-open')">☰ Menu</button>
     <div class="tab-container">
@@ -4884,7 +4884,19 @@ input:focus, select:focus, textarea:focus {
       const pubD = new Date(pubElEarly.value);
       if (!isNaN(pubD.getTime())) hoursOld = (Date.now() - pubD.getTime()) / 3600000;
     }
-    const velocity = parseFloat(document.getElementById('viewVelocity')?.value || '0')||0;
+    const _rawVelocityInput = parseFloat(document.getElementById('viewVelocity')?.value || '0')||0;
+    // Derive velocity from views ÷ hours if not explicitly entered — critical for scenarios
+    const _hoursOldEarly = (() => {
+      const pubEl = document.getElementById('videoPublishedAt');
+      if (!pubEl || !pubEl.value) return null;
+      const d = new Date(pubEl.value);
+      return isNaN(d.getTime()) ? null : (Date.now() - d.getTime()) / 3600000;
+    })();
+    const _derivedViews = parseFloat(document.getElementById('viewsInput')?.value || '0')||0;
+    // Derived velocity: current views / hours old. Use only if reasonable (video ≥ 2h old)
+    const _derivedVelocity = (_derivedViews > 0 && _hoursOldEarly !== null && _hoursOldEarly >= 2)
+      ? _derivedViews / Math.max(1, _hoursOldEarly) : 0;
+    const velocity = _rawVelocityInput > 0 ? _rawVelocityInput : _derivedVelocity;
 
     // ── Age-gating: gray out sections not yet applicable ──
     _applyAgeGates(hoursOld);
@@ -4946,7 +4958,9 @@ input:focus, select:focus, textarea:focus {
     const _impSig  = (_impressV > 0 && views > 0)
       ? ((views/_impressV)*100 >= 7 ? 1 : (views/_impressV)*100 >= 4 ? 0 : -1) : 0;
     const _sigTotal = _ctrSig + _avdSig + _nsSig + _rwSig + _impSig;
-    const signalStrength = _sigTotal >= 7 ? 'strong' : _sigTotal >= 3 ? 'moderate' : 'weak';
+    // signalStrength is recalculated from the actual score after the algorithm runs
+    // This pre-calc version is only used by the scenario section which runs after the score
+    let signalStrength = _sigTotal >= 7 ? 'strong' : _sigTotal >= 3 ? 'moderate' : 'weak';
 
     // ── VIRALITY ALGORITHM v3 ──
     // Weighted composite of YouTube's primary and secondary ranking signals.
@@ -4964,12 +4978,19 @@ input:focus, select:focus, textarea:focus {
                         : trafficSrc === 'search'  ? 0.85  // search CTR is intent-matched, less signal for distribution
                         : trafficSrc === 'external' ? 0.9
                         : 1.0;
+    // Shorts don't surface in CTR the same way — completion rate is the primary signal
+    // For Shorts, CTR is less meaningful for distribution decisions; use a dampened scale
+    const _ctrScaleShort = totalVl > 0 && totalVl < 120;
     const ctrRaw = scoringCtr <= 0 ? 0
-      : scoringCtr < 2   ? (scoringCtr/2)*6
-      : scoringCtr < 4   ? 6 + ((scoringCtr-2)/2)*8
-      : scoringCtr < 6   ? 14 + ((scoringCtr-4)/2)*7
-      : scoringCtr < 9   ? 21 + ((scoringCtr-6)/3)*6
-      :              Math.min(27 + ((scoringCtr-9)/6)*3, 30);
+      : _ctrScaleShort
+        ? (scoringCtr < 3   ? (scoringCtr/3)*10
+           : scoringCtr < 6  ? 10 + ((scoringCtr-3)/3)*10
+           :                   Math.min(20 + ((scoringCtr-6)/4)*10, 30))
+        : (scoringCtr < 2   ? (scoringCtr/2)*6
+           : scoringCtr < 4  ? 6 + ((scoringCtr-2)/2)*8
+           : scoringCtr < 6  ? 14 + ((scoringCtr-4)/2)*7
+           : scoringCtr < 9  ? 21 + ((scoringCtr-6)/3)*6
+           :                   Math.min(27 + ((scoringCtr-9)/6)*3, 30));
     const ctrPts = Math.min(ctrRaw * ctrMultiplier, 30);
 
     // ── SIGNAL 2: AVD  (max 30 pts) ──
@@ -5104,25 +5125,50 @@ input:focus, select:focus, textarea:focus {
     // ── SIGNAL 10: Velocity Context  (max 3 pts) ──
     // Absolute views/hr as a momentum signal. Not a primary metric but YouTube's
     // trending and recommendation systems factor in real-time velocity.
-    const velocityV = parseFloat(document.getElementById('viewVelocity')?.value) || 0;
-    const velPts = velocityV >= 2000 ? 3
-                 : velocityV >= 500  ? 2.5
-                 : velocityV >= 150  ? 2
-                 : velocityV >= 50   ? 1
-                 : velocityV >= 10   ? 0.5
-                 : 0;
+    // ── SIGNAL 10: Velocity Context (max 3 pts) + 2025 update ──
+    // Use the derived velocity if raw input is 0 (same as scenario section)
+    const velocityV = parseFloat(document.getElementById('viewVelocity')?.value) || velocity;
+    // Velocity thresholds calibrated to video length — Shorts spike differently than long-form
+    const _isShortContent = totalVl > 0 && totalVl < 120; // under 2 min
+    const velPts = _isShortContent
+      ? (velocityV >= 5000 ? 3 : velocityV >= 1000 ? 2.5 : velocityV >= 300 ? 2
+         : velocityV >= 80 ? 1 : velocityV >= 15 ? 0.5 : 0)
+      : (velocityV >= 2000 ? 3 : velocityV >= 500  ? 2.5 : velocityV >= 150  ? 2
+         : velocityV >= 50  ? 1 : velocityV >= 10   ? 0.5 : 0);
 
     // ── COMPOSITE SCORE ──
     // Signal maxes: CTR(30) + AVD(30) + Hook(20) + WatchTime(12) + Engagement(15)
     //   + NonSub(8) + ImpressionsRatio(5) + Secondary(8) + Momentum(4) + Velocity(3)
     // Theoretical max = 135. Practical "all signals strong" ≈ 105.
     // Normalize against 105 so a video with all strong signals scores ~100.
+    // ── SIGNAL 11: Session Continuation (max 4 pts) — 2024/2025 update ──
+    // YouTube 2024 algorithm increasingly weights whether videos EXTEND sessions
+    // (viewer continues watching YouTube after) vs end them (viewer leaves).
+    // Signals: high end-retention (viewer stays to end), card CTR (viewer clicks to next video)
+    // Source: YouTube Creator Insider / TeamYouTube 2024 updates on "session watch time"
+    let sessionPts = 0;
+    if (endRet > 0) {
+      sessionPts += endRet >= 45 ? 2   // Very high end-retention = likely session extender
+                  : endRet >= 30 ? 1.2
+                  : endRet >= 18 ? 0.5
+                  : 0;
+    }
+    if (cardCtrV > 0) {
+      sessionPts += cardCtrV >= 8 ? 2   // High card CTR = actively sending viewers to next content
+                  : cardCtrV >= 4 ? 1.2
+                  : cardCtrV >= 2 ? 0.5
+                  : 0;
+    }
+    sessionPts = Math.min(sessionPts, 4);
+
     const rawTotal = ctrPts + avdPts + retPts + rawPts + engPtsFinal
-                   + nonSubPts + impRatioPts + secondaryPts + growthPts + velPts;
-    const practicalMax = 105;
+                   + nonSubPts + impRatioPts + secondaryPts + growthPts + velPts + sessionPts;
+    const practicalMax = 109; // updated max: 105 + 4 session pts
     const normalized = Math.max(0, Math.min((rawTotal / practicalMax) * 100, 100));
     const total = normalized.toFixed(1);
     const totalNum = parseFloat(total);
+    // Override signalStrength with actual score — much more accurate than the pre-check
+    signalStrength = totalNum >= 72 ? 'strong' : totalNum >= 45 ? 'moderate' : 'weak';
     // Clip display at 100 but store actual for breakdown
     document.getElementById('totalScore').innerText = Math.min(Math.round(totalNum), 100);
     let r, c, d;
@@ -5251,7 +5297,8 @@ input:focus, select:focus, textarea:focus {
         return Math.max(0, vel * 24 * (Math.pow(T + 1, 1 - alpha) - 1) / (1 - alpha));
       }
       function projTotalViews(vel, hrsAhead, alpha) {
-        return Math.round(baseViews + projNewViews(vel, hrsAhead, alpha));
+        // Never project below baseViews — the video already has those views
+        return Math.max(baseViews, Math.round(baseViews + projNewViews(vel, hrsAhead, alpha)));
       }
       function projTotalWatchHrs(totalV) {
         if (rawMins <= 0) return null;
@@ -5388,11 +5435,17 @@ input:focus, select:focus, textarea:focus {
       // Apply traffic and CTR trend modifiers to alpha (lower alpha = sustained = better)
       const alphaModified = alphaBase * trafficDecayMod * nicheDecayMod / ctrTrendMod;
 
-      const velBest          = velocity * (signalStrength === 'strong' ? 1.5  : signalStrength === 'moderate' ? 1.25 : 1.05) * perfMultiplier;
-      const velAboveExpected = velocity * (signalStrength === 'strong' ? 1.2  : signalStrength === 'moderate' ? 1.08 : 0.92) * Math.sqrt(perfMultiplier);
-      const velExpected      = velocity;
-      const velBelowExpected = velocity * (signalStrength === 'strong' ? 0.60 : signalStrength === 'moderate' ? 0.50 : 0.40);
-      const velWorst         = velocity * 0.15;
+      // If velocity is still 0 after fallback, derive from channel daily average or views
+      const _scenBaseVel = velocity > 0 ? velocity
+        : channelAvgDaily > 0 ? (channelAvgDaily / 28 / 24)  // channel daily avg → hourly
+        : baseViews > 0 && (hoursOld || 0) > 0 ? baseViews / Math.max(1, hoursOld || 1)
+        : 0;
+
+      const velBest          = _scenBaseVel * (signalStrength === 'strong' ? 1.5  : signalStrength === 'moderate' ? 1.25 : 1.05) * perfMultiplier;
+      const velAboveExpected = _scenBaseVel * (signalStrength === 'strong' ? 1.2  : signalStrength === 'moderate' ? 1.08 : 0.92) * Math.sqrt(perfMultiplier);
+      const velExpected      = _scenBaseVel;
+      const velBelowExpected = _scenBaseVel * (signalStrength === 'strong' ? 0.60 : signalStrength === 'moderate' ? 0.50 : 0.40);
+      const velWorst         = _scenBaseVel * 0.15;
 
       const alphaBest          = Math.max(0.20, alphaModified - 0.65);
       const alphaAboveExpected = Math.max(0.35, alphaModified - 0.32);
@@ -5432,15 +5485,20 @@ input:focus, select:focus, textarea:focus {
         projData[sc.id] = {};
         windows.forEach(w => {
           if ((hoursOld || 0) >= w.hrs) {
-            // Already past — check if we have historical data that confirms actual views
+            // Already past this window — use actual historical data if available
+            // Fall back to projecting backward from baseViews rather than just showing baseViews
             let confirmedViews = baseViews;
+            if (w.hrs <= 48   && actual48h  > 0) confirmedViews = actual48h;
             if (w.hrs <= 168  && hist7dViews  > 0) confirmedViews = hist7dViews;
+            else if (w.hrs <= 168 && actual7d > 0) confirmedViews = actual7d;
             if (w.hrs <= 672  && hist28dViews > 0) confirmedViews = hist28dViews;
+            // Ensure past windows always show AT LEAST baseViews
+            confirmedViews = Math.max(confirmedViews, baseViews);
             projData[sc.id][w.id] = {
               views:     confirmedViews,
               wh:        rawMins > 0 ? confirmedViews * rawMins / 60 : null,
               past:      true,
-              confirmed: (w.hrs <= 168 && hist7dViews > 0) || (w.hrs <= 672 && hist28dViews > 0),
+              confirmed: (w.hrs <= 48 && actual48h > 0) || (w.hrs <= 168 && (hist7dViews > 0 || actual7d > 0)) || (w.hrs <= 672 && hist28dViews > 0),
             };
           } else {
             // Project from hoursOld → w.hrs using power-law decay
