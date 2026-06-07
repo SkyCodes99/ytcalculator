@@ -1414,7 +1414,7 @@ input:focus, select:focus, textarea:focus {
       <span id="saveStatusIndicator" style="font-size:11px;color:var(--success);display:none;">✓ Saved</span>
     </div>
     <h1>THE <span>SOCIAL SPOT</span></h1>
-    <div id="build-info" style="font-size:10px;color:var(--text-dim);text-align:center;letter-spacing:0.5px;margin-top:2px;font-family:var(--font-mono);">v9.3.0 · Updated 2026-05-23</div>
+    <div id="build-info" style="font-size:10px;color:var(--text-dim);text-align:center;letter-spacing:0.5px;margin-top:2px;font-family:var(--font-mono);">v9.5.0 · Updated 2026-06-05</div>
     <button id="viewModeToggle" onclick="setViewMode(document.documentElement.getAttribute('data-viewmode')==='mobile'?'desktop':'mobile')">📱/🖥</button>
     <button id="mobMenuBtn" onclick="document.querySelector('.tab-container').classList.toggle('mob-open')">☰ Menu</button>
     <div class="tab-container">
@@ -1455,7 +1455,39 @@ input:focus, select:focus, textarea:focus {
     <h2>⚡ VIRALITY CHECKER</h2>
     <p class="tab-subtitle">Input your current video stats to calculate algorithmic performance. The checker factors in video age to forecast likely 48-hour trajectory and distinguish early momentum from genuine sustained growth.</p>
 
-    <!-- Video Profiles -->
+    <!-- Quick action toolbar -->
+    <div id="sv_t1_toolbar" class="sv-wrap"><div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:4px 0 10px;">
+      <button onclick="t1_toggleGuidedMode()" id="t1_guided_btn" style="font-size:11px;padding:5px 12px;background:var(--primary-dim);color:var(--primary);border:1px solid var(--primary);border-radius:6px;cursor:pointer;font-weight:700;">🧭 Guided Mode</button>
+      <button onclick="t1_showPasteImport()" style="font-size:11px;padding:5px 12px;background:var(--card2);border:1px solid var(--border-hi);color:var(--text-dim);border-radius:6px;cursor:pointer;font-weight:700;">📋 Paste Import</button>
+      <button onclick="t1_saveScoreSnapshot()" style="font-size:11px;padding:5px 12px;background:var(--card2);border:1px solid var(--border-hi);color:var(--text-dim);border-radius:6px;cursor:pointer;font-weight:700;">📌 Save Snapshot</button>
+    </div></div>
+
+    <!-- Guided mode overlay -->
+    <div id="t1_guided_overlay" style="display:none;background:rgba(99,102,241,0.06);border:1px solid rgba(99,102,241,0.3);border-radius:10px;padding:16px;margin-bottom:14px;">
+      <div style="font-size:11px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px;" id="t1_guided_title">Step 1 of 6</div>
+      <div style="font-size:14px;font-weight:700;color:var(--text-bright);margin-bottom:4px;" id="t1_guided_heading"></div>
+      <div style="font-size:12px;color:var(--text);line-height:1.7;margin-bottom:12px;" id="t1_guided_body"></div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <button onclick="t1_guidedPrev()" id="t1_guided_prev" style="font-size:11px;padding:5px 12px;background:transparent;border:1px solid var(--border-hi);color:var(--text-dim);border-radius:6px;cursor:pointer;">← Back</button>
+        <button onclick="t1_guidedNext()" id="t1_guided_next" style="font-size:11px;padding:5px 14px;background:var(--primary);color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:700;">Next →</button>
+        <div id="t1_guided_dots" style="display:flex;gap:4px;margin-left:8px;"></div>
+        <button onclick="t1_toggleGuidedMode()" style="font-size:11px;padding:5px 10px;background:transparent;border:1px solid var(--border-hi);color:var(--text-dim);border-radius:6px;cursor:pointer;margin-left:auto;">✕ Exit</button>
+      </div>
+    </div>
+
+    <!-- Paste import bar -->
+    <div id="t1_paste_modal" style="display:none;background:var(--card);border:1px solid var(--border-hi);border-radius:10px;padding:14px;margin-bottom:14px;">
+      <div style="font-size:12px;font-weight:800;color:var(--text);margin-bottom:6px;">📋 Bulk Paste Import</div>
+      <p style="font-size:12px;color:var(--text-dim);margin:0 0 8px;">Paste comma-separated values in order: <code style="background:var(--bg2);padding:1px 6px;border-radius:4px;font-size:10px;font-family:var(--font-mono);">CTR%, AVD%, Views, Likes, Comments, NonSub%, Impressions</code></p>
+      <div style="display:flex;gap:8px;align-items:flex-start;flex-wrap:wrap;">
+        <input id="t1_paste_input" type="text" placeholder="e.g. 4.2, 47, 8500, 320, 45, 38, 200000" style="flex:1;min-width:220px;padding:8px 10px;background:var(--bg2);border:1px solid var(--border-hi);border-radius:6px;font-size:12px;color:var(--text-bright);font-family:var(--font-mono);">
+        <button onclick="t1_applyPaste()" style="font-size:12px;padding:7px 14px;background:var(--primary);color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:700;flex-shrink:0;">Apply</button>
+        <button onclick="document.getElementById('t1_paste_modal').style.display='none'" style="font-size:12px;padding:7px 10px;background:transparent;border:1px solid var(--border-hi);color:var(--text-dim);border-radius:6px;cursor:pointer;flex-shrink:0;">Cancel</button>
+      </div>
+      <div id="t1_paste_status" style="font-size:11px;color:var(--success);margin-top:6px;min-height:14px;"></div>
+    </div>
+
+
     <div id="sv_t1_vp_bar" class="sv-wrap">
     <div style="background:var(--card2);border:1px solid var(--border-hi);border-radius:var(--radius);padding:12px 16px;margin-bottom:14px;">
       <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
@@ -1575,12 +1607,7 @@ input:focus, select:focus, textarea:focus {
       <div class="label-flex" style="align-items:flex-start;">
         <div>
           <span style="cursor:help;position:relative;" class="tip-wrap">🎣 30-Second Hook Retention (%)<span class="tip-popup"><strong>30s Hook Retention</strong> — what % of viewers are still watching 30 seconds in. YouTube uses this as an early-drop signal — a sharp drop here is penalised even if overall AVD looks ok.<span class="tip-path">YouTube Studio → Analytics → your video → Engagement tab → "Audience retention" graph → read the % at the 30-second mark</span></span></span>
-          <div style="margin-top:5px;">
-            <label style="display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--text-dim);cursor:pointer;font-weight:600;">
-              <input type="checkbox" id="newVideoToggle" onchange="updateTab1()" style="width:14px;height:14px;accent-color:var(--primary);">
-              Video is too new for reliable hook data (&lt;12h)
-            </label>
-          </div>
+          <div id="hookAgeStatus" style="margin-top:5px;font-size:11px;color:var(--text-muted);font-weight:600;min-height:16px;"></div>
         </div>
         <span class="val-badge" id="retVal">0%</span>
       </div>
@@ -1742,6 +1769,7 @@ input:focus, select:focus, textarea:focus {
       </div>
 
       <div class="rating-desc" id="ratingDesc"></div>
+      <div id="score_trajectory" style="display:none;margin-top:14px;background:var(--card2);border:1px solid var(--border-hi);border-radius:10px;padding:12px 14px;text-align:left;max-width:520px;margin-left:auto;margin-right:auto;"></div>
       <!-- Score Phase Bands -->
       <div id="scorePhaseBands" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:18px;padding-top:18px;border-top:1px solid var(--border);"></div>
     </div></div>
@@ -1917,6 +1945,77 @@ input:focus, select:focus, textarea:focus {
         <div id="sv_t1_breakdown" class="sv-wrap"><div class="breakdown">
       <h4>Metric Contribution Breakdown</h4>
       <div id="breakdown-content"></div>
+    <!-- ══ Signal Sensitivity Analysis ══ -->
+    <div id="sv_t1_sensitivity" class="sv-wrap" style="display:none;"><div class="control-card" style="border-left:4px solid var(--primary);">
+      <div style="font-size:13px;font-weight:800;color:var(--primary);margin-bottom:4px;">🎛 Signal Sensitivity — What moves your score the most?</div>
+      <p style="font-size:12px;color:var(--text-dim);margin:0 0 12px;">Shows how much each signal could improve your score and whether it crosses a key threshold.</p>
+      <div id="t1_sensitivity_bars" style="display:flex;flex-direction:column;gap:8px;"></div>
+    </div></div>
+
+    <!-- ══ Algorithm Intelligence Panel ══ -->
+    <div id="sv_t1_algo_intel" class="sv-wrap" style="display:none;"><div class="control-card" style="border-left:4px solid var(--accent);">
+      <div style="font-size:13px;font-weight:800;color:var(--accent);margin-bottom:12px;">🧠 Algorithm Intelligence</div>
+      <div id="t1_push_probability" style="margin-bottom:12px;"></div>
+      <div id="t1_signal_conflicts" style="margin-bottom:12px;"></div>
+      <div id="t1_second_wave" style="margin-bottom:0;"></div>
+    </div></div>
+
+    <!-- ══ Scenario Chart ══ -->
+    <div id="sv_t1_scen_chart" class="sv-wrap" style="display:none;"><div class="control-card" style="border-left:4px solid var(--secondary);">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px;">
+        <div style="font-size:13px;font-weight:800;color:var(--secondary);">📈 Scenario Projection Chart</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+          <select id="t1_chart_view" onchange="renderScenarioChart()" style="font-size:11px;padding:4px 8px;background:var(--bg2);border:1px solid var(--border-hi);border-radius:6px;color:var(--text);">
+            <option value="views">Views</option>
+            <option value="watchhrs">Watch Hours</option>
+            <option value="revenue">Est. Revenue</option>
+          </select>
+          <select id="t1_chart_window" onchange="renderScenarioChart()" style="font-size:11px;padding:4px 8px;background:var(--bg2);border:1px solid var(--border-hi);border-radius:6px;color:var(--text);">
+            <option value="168">7 days</option>
+            <option value="336">14 days</option>
+            <option value="672">28 days</option>
+          </select>
+        </div>
+      </div>
+      <div id="t1_scen_chart_svg" style="width:100%;overflow:hidden;border-radius:8px;"></div>
+      <div id="t1_scen_chart_legend" style="display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;"></div>
+    </div></div>
+
+    <!-- ══ Score History ══ -->
+    <div id="sv_t1_score_history" class="sv-wrap" style="display:none;"><div class="control-card" style="border-left:4px solid var(--warning);">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px;">
+        <div style="font-size:13px;font-weight:800;color:var(--warning);">📜 Score History</div>
+        <div style="display:flex;gap:6px;">
+          <button onclick="t1_saveScoreSnapshot()" style="font-size:11px;padding:4px 12px;background:var(--warning);color:#000;border:none;border-radius:6px;cursor:pointer;font-weight:700;">📌 Save Snapshot</button>
+          <button onclick="t1_clearScoreHistory()" style="font-size:11px;padding:4px 10px;background:transparent;border:1px solid var(--border-hi);color:var(--text-dim);border-radius:6px;cursor:pointer;">Clear</button>
+        </div>
+      </div>
+      <div id="t1_score_history_chart" style="width:100%;overflow:hidden;border-radius:8px;margin-bottom:8px;"></div>
+      <div id="t1_score_history_list" style="font-size:11px;color:var(--text-dim);"></div>
+    </div></div>
+
+    <!-- ══ Peer Comparison ══ -->
+    <div id="sv_t1_peer" class="sv-wrap" style="display:none;"><div class="control-card" style="border-left:4px solid var(--success);">
+      <div style="font-size:13px;font-weight:800;color:var(--success);margin-bottom:4px;">🏆 How Does This Compare?</div>
+      <p style="font-size:12px;color:var(--text-dim);margin:0 0 10px;">Benchmarks your current score against typical YouTube performance ranges.</p>
+      <div id="t1_peer_comparison" style="display:flex;flex-direction:column;gap:8px;"></div>
+    </div></div>
+
+    <!-- ══ Action Intelligence ══ -->
+    <div id="sv_t1_action_intel" class="sv-wrap" style="display:none;"><div class="control-card" style="border-left:4px solid var(--danger);">
+      <div style="font-size:13px;font-weight:800;color:var(--danger);margin-bottom:12px;">⚡ Time-Sensitive Actions</div>
+      <div id="t1_timing_actions" style="display:flex;flex-direction:column;gap:10px;"></div>
+    </div></div>
+
+    <!-- ══ Share Card ══ -->
+    <div id="sv_t1_share" class="sv-wrap" style="display:none;"><div class="control-card" style="border-left:4px solid var(--text-dim);">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px;">
+        <div style="font-size:13px;font-weight:800;color:var(--text);">🖼 Share Card</div>
+        <button onclick="t1_downloadShareCard()" style="font-size:11px;padding:5px 14px;background:var(--primary);color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:700;">⬇ Download PNG</button>
+      </div>
+      <div id="t1_share_card_preview" style="border-radius:10px;overflow:hidden;"></div>
+    </div></div>
+
     </div></div>
 
     <!-- Score Tier Reference Panel -->
@@ -3692,6 +3791,17 @@ input:focus, select:focus, textarea:focus {
         <button class="btn-secondary" onclick="livePopoutAll()">⧉ Pop Out All</button>
         <button class="btn-secondary" onclick="clearAllTrackers()">🗑 Clear All</button>
       </div>
+      <div style="margin-top:10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+        <span style="font-size:11px;font-weight:700;color:var(--text-dim);">Popout theme:</span>
+        <select id="lst_popout_theme" style="font-size:12px;padding:6px 10px;background:var(--bg2);border:1px solid var(--border-hi);border-radius:var(--radius);color:var(--text);cursor:pointer;">
+          <option value="dark">🌑 Dark</option>
+          <option value="glass">🪟 Glass</option>
+          <option value="minimal">⬜ Minimal</option>
+          <option value="glow">✨ Glow</option>
+          <option value="broadcast">📺 Broadcast</option>
+        </select>
+        <span style="font-size:10px;color:var(--text-muted);">Applied when popping out. Switch themes live inside the popout window.</span>
+      </div>
       <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border);">
         <label style="font-size:11px;font-weight:700;color:var(--text-dim);display:block;margin-bottom:6px;">🔁 Refresh every <span id="lst_interval_label" style="color:var(--primary);">30s</span></label>
         <div class="slider-row">
@@ -4358,7 +4468,7 @@ input:focus, select:focus, textarea:focus {
 
   /* ─── Full Save / Load (file-based) ─── */
 
-    const ALL_SAVE_FIELDS = ['viewVelocity', 'impressionsInput', 'vlMins', 'vlSecs', 'twMins', 'twSecs', 'newVideoToggle', 'viewsInput', 'likesInput', 'commentsInput', 'channelSubs', 'avgViewsPerUpload', 'subsGained', 'nonSubViewPct', 'midRetention', 'endRetention', 'cardCtr', 'rewatchRate', 'views24h', 'snap1_hours', 'views48h', 'snap2_hours', 'viewsCurrent', 'snap3_hours', 'viewsSnap4', 'snap4_hours', 'ctrNum', 'retNum', 't2_vlMins', 't2_vlSecs', 't2_ctr', 't2_avd', 't2_views', 't2_subs', 'gp_avd', 'gp_earned', 'gp_stream_hrs', 'gp_stream_viewers', 'gp_months', 'c_views_min', 'c_views_max', 'c_rpm_minNum', 'c_rpm_maxNum', 'c_view_type', 'cs_views_min', 'cs_views_max', 'cs_rpm', 'cs_niche', 'roi_shorts_views', 'roi_shorts_time', 'roi_shorts_follow', 'roi_lf_views', 'roi_lf_time', 'roi_lf_follow', 'roi_lf_avd', 'roi_rpm', 'tt_views', 'tt_likes', 'tt_comments', 'tt_shares', 'tt_length', 'tt_velocity', 'tt_avdNum', 'tt_hookNum', 'tt_curr_subs', 'tt_monthly_views', 'tt_follow_rate', 'ig_views', 'ig_likes', 'ig_comments', 'ig_saves', 'ig_sends', 'ig_reach', 'ig_nonfollower', 'ig_velocity', 'ig_avdNum', 'ig_curr_subs', 'ig_monthly_views', 'ig_follow_rate', 'sch_tz', 'sch_niche', 'sch_freq', 'sch_format', 'cp_subs', 'cp_views', 'cp_avd', 'cp_sub_rate', 'cp_uploads', 'cp_ctr', 'cp_rpm', 'cp_opt_rate', 'cp_opt_views', 'cp_agg_uploads', 'cp_target_ctr', 'yt_curr_subs', 'yt_monthly_views', 'yt_sub_rate', 'yt_subs_7d', 'yt_subs_28d', 'yt_custom_month', 'yt_custom_day', 'yt_custom_year', 'ab_test_name', 'ab_total_impressions', 'ab_niche', 'cmp_id1', 'cmp_subs1', 'cmp_totalviews1', 'cmp_videocount1', 'cmp_views1', 'cmp_ctr1', 'cmp_avd1', 'cmp_rpm1', 'cmp_id2', 'cmp_subs2', 'cmp_totalviews2', 'cmp_videocount2', 'cmp_views2', 'cmp_ctr2', 'cmp_avd2', 'cmp_rpm2', 'cmp_id3', 'cmp_subs3', 'cmp_totalviews3', 'cmp_videocount3', 'cmp_views3', 'cmp_ctr3', 'cmp_avd3', 'cmp_rpm3', 'hook_topic', 'hook_niche', 'hook_platform', 'seo_title', 'seo_keyword', 'seo_type', 'sat_topic', 'sat_angle', 'sat_category', 'sat_volume', 'rc_length', 'rc_30s', 'rc_1min', 'rc_25pct', 'rc_50pct', 'rc_75pct', 'rc_90pct', 'rc_avd', 'es_length', 'es_avd', 'es_mid', 'es_70', 'es_80', 'es_90', 'es_dropoff', 'es_current_ctr', 'es_rewatch', 'es_high_start', 'es_high_end', 'es_card_goal',
+    const ALL_SAVE_FIELDS = ['viewVelocity', 'impressionsInput', 'vlMins', 'vlSecs', 'twMins', 'twSecs', 'viewsInput', 'likesInput', 'commentsInput', 'channelSubs', 'avgViewsPerUpload', 'subsGained', 'nonSubViewPct', 'midRetention', 'endRetention', 'cardCtr', 'rewatchRate', 'views24h', 'snap1_hours', 'views48h', 'snap2_hours', 'viewsCurrent', 'snap3_hours', 'viewsSnap4', 'snap4_hours', 'ctrNum', 'retNum', 't2_vlMins', 't2_vlSecs', 't2_ctr', 't2_avd', 't2_views', 't2_subs', 'gp_avd', 'gp_earned', 'gp_stream_hrs', 'gp_stream_viewers', 'gp_months', 'c_views_min', 'c_views_max', 'c_rpm_minNum', 'c_rpm_maxNum', 'c_view_type', 'cs_views_min', 'cs_views_max', 'cs_rpm', 'cs_niche', 'roi_shorts_views', 'roi_shorts_time', 'roi_shorts_follow', 'roi_lf_views', 'roi_lf_time', 'roi_lf_follow', 'roi_lf_avd', 'roi_rpm', 'tt_views', 'tt_likes', 'tt_comments', 'tt_shares', 'tt_length', 'tt_velocity', 'tt_avdNum', 'tt_hookNum', 'tt_curr_subs', 'tt_monthly_views', 'tt_follow_rate', 'ig_views', 'ig_likes', 'ig_comments', 'ig_saves', 'ig_sends', 'ig_reach', 'ig_nonfollower', 'ig_velocity', 'ig_avdNum', 'ig_curr_subs', 'ig_monthly_views', 'ig_follow_rate', 'sch_tz', 'sch_niche', 'sch_freq', 'sch_format', 'cp_subs', 'cp_views', 'cp_avd', 'cp_sub_rate', 'cp_uploads', 'cp_ctr', 'cp_rpm', 'cp_opt_rate', 'cp_opt_views', 'cp_agg_uploads', 'cp_target_ctr', 'yt_curr_subs', 'yt_monthly_views', 'yt_sub_rate', 'yt_subs_7d', 'yt_subs_28d', 'yt_custom_month', 'yt_custom_day', 'yt_custom_year', 'ab_test_name', 'ab_total_impressions', 'ab_niche', 'cmp_id1', 'cmp_subs1', 'cmp_totalviews1', 'cmp_videocount1', 'cmp_views1', 'cmp_ctr1', 'cmp_avd1', 'cmp_rpm1', 'cmp_id2', 'cmp_subs2', 'cmp_totalviews2', 'cmp_videocount2', 'cmp_views2', 'cmp_ctr2', 'cmp_avd2', 'cmp_rpm2', 'cmp_id3', 'cmp_subs3', 'cmp_totalviews3', 'cmp_videocount3', 'cmp_views3', 'cmp_ctr3', 'cmp_avd3', 'cmp_rpm3', 'hook_topic', 'hook_niche', 'hook_platform', 'seo_title', 'seo_keyword', 'seo_type', 'sat_topic', 'sat_angle', 'sat_category', 'sat_volume', 'rc_length', 'rc_30s', 'rc_1min', 'rc_25pct', 'rc_50pct', 'rc_75pct', 'rc_90pct', 'rc_avd', 'es_length', 'es_avd', 'es_mid', 'es_70', 'es_80', 'es_90', 'es_dropoff', 'es_current_ctr', 'es_rewatch', 'es_high_start', 'es_high_end', 'es_card_goal',
     // API keys and auth fields
     'lst_twitch_clientid','lst_twitch_token','cmp_api_key',
     // Date picker dropdowns
@@ -4790,7 +4900,7 @@ input:focus, select:focus, textarea:focus {
   let _scenData = {
     projData: null, scenarios: null, windows: null,
     hoursOld: null, baseViews: 0, showWH: false, rawMins: 0,
-    toggleState: { sc: ['worst','below_expected','expected','above_expected','best'], win: ['w48h','w7d','w14d','w28d'] }
+    toggleState: { sc: ['worst','below_expected','expected','above_expected','best'], win: ['w24h','w48h','w7d','w14d','w28d'] }
   };
 
   function _buildScenarioCards(visSc, visWin) {
@@ -4812,6 +4922,9 @@ input:focus, select:focus, textarea:focus {
           : 0;
         const viewsLabel = d.confirmed ? `${fmtNum(d.views)} ✅` : fmtNum(d.views);
         const viewsColor = isPast ? 'var(--text-dim)' : sc.color;
+        const mechLine = (!isPast && sc.mechanism)
+          ? `<div style="font-size:9px;color:var(--text-muted);margin-top:2px;font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">▸ ${sc.mechanism}</div>`
+          : '';
         const whLabel = (!isPast && showWH && d.wh != null)
           ? `<div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border);">
               <div style="font-size:15px;font-weight:900;color:${viewsColor};line-height:1;font-variant-numeric:tabular-nums;">${d.wh.toFixed(1)}</div>
@@ -4828,7 +4941,8 @@ input:focus, select:focus, textarea:focus {
             <div style="min-width:0;flex:1;">
               <div style="font-size:11px;font-weight:700;color:${sc.color};white-space:nowrap;">${sc.label}</div>
               <div style="font-size:9px;color:var(--text-muted);margin-top:1px;line-height:1.3;
-                white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${sc.desc}</div>
+                white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${sc.desc.length > 70 ? sc.desc.slice(0,70)+'…' : sc.desc}</div>
+              ${mechLine}
               ${!isPast ? `<div style="margin-top:5px;height:3px;background:var(--border);border-radius:2px;">
                 <div style="height:100%;width:${Math.max(0,barPct).toFixed(1)}%;background:${sc.color};border-radius:2px;transition:width 0.3s;"></div>
               </div>` : ''}
@@ -4863,7 +4977,31 @@ input:focus, select:focus, textarea:focus {
   }
 
   function updateTab1() {
-    const isNew = (document.getElementById('newVideoToggle')?.checked ?? false);
+    // Hook retention auto-gates on video age — grayed when < 24h old
+    // hoursOld derived from publish date (same logic used in _updateAlgoPhase)
+    const _hookHoursOld = (() => {
+      const pubEl = document.getElementById('videoPublishedAt');
+      if (!pubEl || !pubEl.value) return null;
+      const d = new Date(pubEl.value);
+      return isNaN(d.getTime()) ? null : (Date.now() - d.getTime()) / 3600000;
+    })();
+    // isNew = true when publish date entered AND video < 24h old
+    // If no publish date entered, fall back to old checkbox behaviour
+    const _legacyCheckbox = document.getElementById('newVideoToggle')?.checked ?? false;
+    const isNew = _hookHoursOld !== null ? _hookHoursOld < 24 : _legacyCheckbox;
+
+    // Update the age status label under the hook retention heading
+    const _hookStatusEl = document.getElementById('hookAgeStatus');
+    if (_hookStatusEl) {
+      if (_hookHoursOld === null) {
+        _hookStatusEl.innerHTML = '<span style="color:var(--text-muted);">Enter publish date above to auto-detect availability</span>';
+      } else if (isNew) {
+        const _hrsLeft = Math.ceil(24 - _hookHoursOld);
+        _hookStatusEl.innerHTML = `<span style="color:#fb923c;">⏳ Grayed — hook data unreliable under 24h old. Unlocks in ~${_hrsLeft}h.</span>`;
+      } else {
+        _hookStatusEl.innerHTML = '<span style="color:var(--success);">✅ Unlocked — video is 24h+ old, hook retention data is reliable</span>';
+      }
+    }
     const vlMins = parseInt(document.getElementById('vlMins')?.value || '0')||0;
     const vlSecs = parseInt(document.getElementById('vlSecs')?.value || '0')||0;
     const twMins = parseInt(document.getElementById('twMins')?.value || '0')||0;
@@ -4901,12 +5039,14 @@ input:focus, select:focus, textarea:focus {
     // ── Age-gating: gray out sections not yet applicable ──
     _applyAgeGates(hoursOld);
 
-    document.getElementById('twDisplay').innerText = avd.toFixed(1)+'% AVD | '+raw.toFixed(1)+' min raw';
-    document.getElementById('ctrVal').innerText = ctr.toFixed(1)+'%';
-    document.getElementById('retVal').innerText = ret.toFixed(0)+'%';
+    const _twDisp=document.getElementById('twDisplay'); if(_twDisp) _twDisp.innerText=avd.toFixed(1)+'% AVD | '+raw.toFixed(1)+' min raw';
+    const _ctrVal=document.getElementById('ctrVal'); if(_ctrVal) _ctrVal.innerText=ctr.toFixed(1)+'%';
+    const _retVal=document.getElementById('retVal'); if(_retVal) _retVal.innerText=ret.toFixed(0)+'%';
     const engBadge = document.getElementById('engVal');
     if (engBadge) {
-      if (views > 0 && (likesRaw > 0 || commentsN > 0)) {
+      const _likesEarly    = parseFloat(document.getElementById('likesInput')?.value)    || 0;
+      const _commentsEarly = parseFloat(document.getElementById('commentsInput')?.value) || 0;
+      if (views > 0 && (_likesEarly > 0 || _commentsEarly > 0)) {
         engBadge.textContent = eng.toFixed(1) + '% Rate';
         engBadge.style.display = '';
       } else {
@@ -4981,16 +5121,20 @@ input:focus, select:focus, textarea:focus {
     // Shorts don't surface in CTR the same way — completion rate is the primary signal
     // For Shorts, CTR is less meaningful for distribution decisions; use a dampened scale
     const _ctrScaleShort = totalVl > 0 && totalVl < 120;
+    // CTR scoring — smooth logarithmic curve, Shorts-aware
+    // Long-form: sweet spot 4-8%, anything above 8% is exceptional
+    // Shorts: completion matters more; CTR scale is compressed
     const ctrRaw = scoringCtr <= 0 ? 0
       : _ctrScaleShort
-        ? (scoringCtr < 3   ? (scoringCtr/3)*10
-           : scoringCtr < 6  ? 10 + ((scoringCtr-3)/3)*10
-           :                   Math.min(20 + ((scoringCtr-6)/4)*10, 30))
-        : (scoringCtr < 2   ? (scoringCtr/2)*6
-           : scoringCtr < 4  ? 6 + ((scoringCtr-2)/2)*8
-           : scoringCtr < 6  ? 14 + ((scoringCtr-4)/2)*7
-           : scoringCtr < 9  ? 21 + ((scoringCtr-6)/3)*6
-           :                   Math.min(27 + ((scoringCtr-9)/6)*3, 30));
+        ? (scoringCtr < 3   ? (scoringCtr/3)*8
+           : scoringCtr < 6  ? 8 + ((scoringCtr-3)/3)*9
+           :                   Math.min(17 + ((scoringCtr-6)/4)*8, 25))
+        : (scoringCtr < 1   ? scoringCtr*3
+           : scoringCtr < 3  ? 3 + ((scoringCtr-1)/2)*7     // 3-10: low but passing
+           : scoringCtr < 5  ? 10 + ((scoringCtr-3)/2)*8    // 10-18: average-good
+           : scoringCtr < 7  ? 18 + ((scoringCtr-5)/2)*6    // 18-24: strong
+           : scoringCtr < 10 ? 24 + ((scoringCtr-7)/3)*4    // 24-28: excellent
+           :                   Math.min(28 + (scoringCtr-10)*0.5, 30)); // 28-30: exceptional
     const ctrPts = Math.min(ctrRaw * ctrMultiplier, 30);
 
     // ── SIGNAL 2: AVD  (max 30 pts) ──
@@ -5007,12 +5151,15 @@ input:focus, select:focus, textarea:focus {
                     :                    34;   // 40+ min — 34% is strong for long-form
     const avdPct = avd; // avd is already a % of video length
     const avdRatio = avdPct / avdTarget;
+    // AVD scoring — steeper penalty below target, smooth reward above
+    // avdRatio = your AVD% / the expected AVD% for this video length
     const avdRaw = avdRatio <= 0 ? 0
-      : avdRatio < 0.5 ? avdRatio * 8
-      : avdRatio < 0.8 ? 4 + (avdRatio-0.5)*26.7
-      : avdRatio < 1.0 ? 12 + (avdRatio-0.8)*55
-      : avdRatio < 1.3 ? 23 + (avdRatio-1.0)*20
-      :                   Math.min(29 + (avdRatio-1.3)*5, 30);
+      : avdRatio < 0.35 ? avdRatio * 6           // <35% of target: 0–2.1 (very poor)
+      : avdRatio < 0.60 ? 2 + (avdRatio-0.35)*20  // 35-60%: 2-7 (below par)
+      : avdRatio < 0.80 ? 7 + (avdRatio-0.60)*35  // 60-80%: 7-14 (approaching target)
+      : avdRatio < 1.00 ? 14 + (avdRatio-0.80)*60 // 80-100%: 14-26 (on/near target)
+      : avdRatio < 1.20 ? 26 + (avdRatio-1.00)*15 // 100-120%: 26-29 (above target)
+      :                   Math.min(29 + (avdRatio-1.20)*5, 30); // 120%+: 29-30
     const avdMax = isNew ? 30 : 28;
     const avdPts = Math.min(avdRaw, avdMax);
 
@@ -5022,13 +5169,15 @@ input:focus, select:focus, textarea:focus {
     let retPts = 0;
     if (isNew) {
       document.getElementById('retGroup').style.opacity = '0.4';
+      document.getElementById('retGroup').style.pointerEvents = 'none';
     } else {
       document.getElementById('retGroup').style.opacity = '1';
+      document.getElementById('retGroup').style.pointerEvents = '';
       retPts = ret <= 0 ? 0
-        : ret < 30 ? (ret/30)*5            // 0–5 (low hook)
-        : ret < 50 ? 5 + ((ret-30)/20)*7   // 5–12
-        : ret < 70 ? 12 + ((ret-50)/20)*6  // 12–18
-        :             Math.min(18 + ((ret-70)/30)*2, 20); // 18–20
+        : ret < 30 ? (ret/30)*5
+        : ret < 50 ? 5 + ((ret-30)/20)*7
+        : ret < 70 ? 12 + ((ret-50)/20)*6
+        :             Math.min(18 + ((ret-70)/30)*2, 20);
       retPts = Math.min(retPts, 20);
     }
 
@@ -5052,21 +5201,28 @@ input:focus, select:focus, textarea:focus {
     // Weighted: saves(0.40) + likes(0.40) + comments(0.20) — comments weighted up post-2024
     const estSaveRate = likeRate * 0.3;
     const engComposite = (estSaveRate * 0.40) + (likeRate * 0.40) + (commentRate * 0.20);
+    // Engagement scoring — saves proxy + likes + comments, weighted by YouTube's actual
+    // signal hierarchy. Engagement rate relative to views is what matters — not absolute numbers.
     const engPts = engComposite <= 0 ? 0
-      : engComposite < 0.5 ? engComposite * 4
-      : engComposite < 1.5 ? 2 + (engComposite-0.5)*4
-      : engComposite < 3.0 ? 6 + (engComposite-1.5)*3.3
-      :                       Math.min(11 + (engComposite-3)*1.3, 15);
+      : engComposite < 0.3 ? engComposite * 5           // 0-1.5: minimal engagement
+      : engComposite < 0.8 ? 1.5 + (engComposite-0.3)*7 // 1.5-5: building engagement
+      : engComposite < 1.8 ? 5 + (engComposite-0.8)*5   // 5-10: solid engagement
+      : engComposite < 3.5 ? 10 + (engComposite-1.8)*2  // 10-13.4: strong
+      :                      Math.min(13.4 + (engComposite-3.5)*0.8, 15); // 13.4-15: exceptional
     const engPtsFinal = Math.min(engPts, 15);
 
     // ── SIGNAL 6: Non-Subscriber Reach  (max 8 pts) ──
     // The single strongest indicator that the algorithm is expanding beyond your base.
     const nonSubPct    = parseFloat(document.getElementById('nonSubViewPct')?.value) || 0;
+    // Non-sub reach — raised to 12pts (was 8). This is one of YouTube's clearest
+    // signals that the algorithm is expanding beyond the creator's existing audience.
+    // 30%+ = algorithm testing niche audiences. 60%+ = Browse/Suggested active. 80%+ = viral.
     const nonSubPts    = nonSubPct <= 0 ? 0
-      : nonSubPct < 30  ? (nonSubPct/30)*3
-      : nonSubPct < 55  ? 3 + ((nonSubPct-30)/25)*3
-      : nonSubPct < 75  ? 6 + ((nonSubPct-55)/20)*1.5
-      :                    Math.min(7.5 + (nonSubPct-75)/25*0.5, 8);
+      : nonSubPct < 20  ? (nonSubPct/20)*2          // 0-20%: 0-2 (subscriber-only)
+      : nonSubPct < 40  ? 2 + ((nonSubPct-20)/20)*3  // 20-40%: 2-5 (niche expansion)
+      : nonSubPct < 60  ? 5 + ((nonSubPct-40)/20)*3  // 40-60%: 5-8 (browse starting)
+      : nonSubPct < 80  ? 8 + ((nonSubPct-60)/20)*2  // 60-80%: 8-10 (strong distribution)
+      :                   Math.min(10 + (nonSubPct-80)/20*2, 12); // 80-100%: 10-12 (viral)
 
     // ── SIGNAL 7: Impressions Quality  (max 5 pts, penalty possible) ──
     // views ÷ impressions = true CTR from impression pool.
@@ -5163,14 +5319,14 @@ input:focus, select:focus, textarea:focus {
 
     const rawTotal = ctrPts + avdPts + retPts + rawPts + engPtsFinal
                    + nonSubPts + impRatioPts + secondaryPts + growthPts + velPts + sessionPts;
-    const practicalMax = 109; // updated max: 105 + 4 session pts
+    const practicalMax = 116; // max: 30 CTR + 30 AVD + 20 hook + 12 watch + 15 eng + 12 nonSub + 5 impr + 8 sec + 4 growth + 3 vel + 4 session (some signals overlap so practical ceiling ~116)
     const normalized = Math.max(0, Math.min((rawTotal / practicalMax) * 100, 100));
     const total = normalized.toFixed(1);
     const totalNum = parseFloat(total);
     // Override signalStrength with actual score — much more accurate than the pre-check
     signalStrength = totalNum >= 72 ? 'strong' : totalNum >= 45 ? 'moderate' : 'weak';
     // Clip display at 100 but store actual for breakdown
-    document.getElementById('totalScore').innerText = Math.min(Math.round(totalNum), 100);
+    const _tsEl=document.getElementById('totalScore'); if(_tsEl) _tsEl.innerText=Math.min(Math.round(totalNum),100);
     let r, c, d;
     if      (totalNum < 25) { r='⛔ Struggling';      c='#f87171';
       d='Your video is below YouTube\'s seed-pool quality thresholds. The algorithm tried showing it to a small test audience but CTR, AVD, or both weren\'t strong enough to justify wider distribution. Without a significant external push (sharing, community post, etc.) organic growth will be minimal. Priority fix: thumbnail and title first (CTR), then hook (first 30s retention).'; }
@@ -5184,42 +5340,218 @@ input:focus, select:focus, textarea:focus {
       d='Exceptional signal quality. YouTube is pushing this to people who have never seen your channel — Browse and Suggested are at maximum confidence. At this level the algorithm treats this video as a "worthy of discovery" asset and resurfaces it repeatedly over days and weeks. Watch your non-subscriber view % carefully: if it\'s climbing toward 70%+, you\'re in active viral spread.'; }
     else                    { r='🔥 Viral Breakout';  c='#bf5fff';
       d='Maximum algorithm amplification. Every major distribution lever is firing simultaneously: Browse Features, Suggested Videos, Search trending, and potentially YouTube\'s notification systems. Videos in this range often see compound growth where each new view generates more impressions. Protect your AVD at all costs — a drop here will pull the algorithm\'s confidence down faster than any other signal.'; }
-    document.getElementById('ratingText').innerText = r;
-    document.getElementById('ratingText').style.background = c + '22';
-    document.getElementById('ratingText').style.color = c;
-    document.getElementById('ratingText').style.borderColor = c;
+    const _rtEl=document.getElementById('ratingText'); if(_rtEl) _rtEl.innerText=r;
+    const _ratingEl = document.getElementById('ratingText');
+    if (_ratingEl) {
+      _ratingEl.style.background = c + '22';
+      _ratingEl.style.color = c;
+      _ratingEl.style.borderColor = c;
+    }
     const descEl = document.getElementById('ratingDesc');
     if (descEl) {
       descEl.style.cssText = 'font-size:12px;line-height:1.75;color:var(--text);background:' + c + '0d;border:1px solid ' + c + '33;border-radius:var(--radius);padding:12px 14px;margin-top:10px;text-align:left;max-width:520px;margin-left:auto;margin-right:auto;';
       descEl.textContent = d;
     }
 
+    // ── Trajectory panel — what is this video on pace to achieve? ──
+    // Trajectory vars — declared here, overridden by scenario section below
+    let _velTrend            = 'unknown';
+    let _delayedPushPossible = false;
+    let _startPattern        = 'Enter publish date & velocity for pattern detection';
+    let _pushWindow          = 'Push window unknown';
+    let _ho                  = hoursOld || 0;
+    let _browseConfirmed     = false;
+    let browsePct            = 0;
+    let suggestedPct         = 0;
+    let searchPct            = 0;
+    let actual48h            = 0;
+    let actual7d             = 0;
+    // projNewViews is defined inside the scenario block; provide outer fallback for chart init
+    let projNewViews = function(vel, hrsAhead, alpha) {
+      if (hrsAhead <= 0 || vel <= 0) return 0;
+      const T = hrsAhead / 24;
+      if (alpha <= 0) return vel * hrsAhead;
+      if (Math.abs(alpha - 1) < 0.01) return vel * 24 * Math.log(T + 1);
+      return vel * 24 * ((Math.pow(T + 1, 1 - alpha) - 1) / (1 - alpha));
+    };
+    // These are computed further down — declare early so wiring code above can reference them
+    let baseViews = 0;
+    let showWH    = false;
+    let rawMins   = 0;
+
+    const _trajEl = document.getElementById('score_trajectory');
+    if (_trajEl) {
+      // Only show when at least CTR or AVD has been entered — no phantom scores on empty state
+      const _hasMinData = (ctr > 0 || avd > 0) && totalNum > 0;
+      if (!_hasMinData) {
+        _trajEl.style.display = 'none';
+      } else {
+      // Project score range: where could this land if signals improve vs stall?
+      // Best-case: all unfilled inputs at strong values
+      const _ctrMissing = ctrPts < 20 && ctr > 0;
+      const _avdMissing = avdPts < 20 && avd > 0;
+      const _retMissing = isNew || ret <= 0;
+      const _engMissing = engPtsFinal < 8;
+      const _nsMissing  = nonSubPts < 6;
+      // Ceiling score: what the video could reach if signals improve to strong
+      const _potentialGain = (_ctrMissing ? 10 : 0) + (_avdMissing ? 8 : 0) + (_retMissing ? 12 : 0) + (_engMissing ? 6 : 0) + (_nsMissing ? 6 : 0);
+      const _ceilingScore  = Math.min(100, totalNum + (_potentialGain * 0.6));
+      const _floorScore    = Math.max(0, totalNum * (_velTrend === 'stalled' ? 0.55 : _velTrend === 'decelerating' ? 0.75 : 0.90));
+
+      const _velTrendColor = _velTrend === 'accelerating' ? '#4ade80' : _velTrend === 'holding' ? '#22d3ee' : _velTrend === 'decelerating' ? '#fb923c' : '#f87171';
+      const _delayNote = _delayedPushPossible && _velTrend !== 'accelerating'
+        ? '<div style="font-size:10px;color:#6366f1;margin-top:4px;">⏱ Browse push still possible — window open</div>' : '';
+
+      // Color each number by the score tier it falls in — same scale as the main score
+      const _scoreColor = (s) => s >= 85 ? '#4ade80' : s >= 70 ? '#22d3ee' : s >= 55 ? '#fbbf24' : s >= 40 ? '#fb923c' : '#f87171';
+      const _floorColor   = _scoreColor(Math.round(_floorScore));
+      const _ceilingColor = _scoreColor(Math.round(_ceilingScore));
+
+      _trajEl.style.display = 'block';
+      _trajEl.innerHTML = '<div style="font-size:11px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.7px;margin-bottom:8px;">📊 Trajectory Assessment</div>'
+        + '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px;">'
+        + '<div style="text-align:center;padding:8px;background:var(--bg);border-radius:8px;border:1px solid var(--border);">'
+        +   '<div style="font-size:9px;color:var(--text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px;">Floor</div>'
+        +   '<div style="font-size:18px;font-weight:900;color:' + _floorColor + ';">' + Math.round(_floorScore) + '</div>'
+        +   '<div style="font-size:9px;color:var(--text-muted);">if stalling</div>'
+        + '</div>'
+        + '<div style="text-align:center;padding:8px;background:var(--bg);border-radius:8px;border:1px solid ' + c + '44;">'
+        +   '<div style="font-size:9px;color:var(--text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px;">Current</div>'
+        +   '<div style="font-size:18px;font-weight:900;color:' + c + ';">' + Math.round(totalNum) + '</div>'
+        +   '<div style="font-size:9px;color:' + _velTrendColor + ';">' + (_velTrend === 'unknown' ? '—' : _velTrend) + '</div>'
+        + '</div>'
+        + '<div style="text-align:center;padding:8px;background:var(--bg);border-radius:8px;border:1px solid var(--border);">'
+        +   '<div style="font-size:9px;color:var(--text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px;">Ceiling</div>'
+        +   '<div style="font-size:18px;font-weight:900;color:' + _ceilingColor + ';">' + Math.round(_ceilingScore) + '</div>'
+        +   '<div style="font-size:9px;color:var(--text-muted);">if signals improve</div>'
+        + '</div>'
+        + '</div>'
+        + '<div style="font-size:11px;color:var(--text);line-height:1.6;">'
+        + (_ho > 0 ? '<strong>' + _ho.toFixed(1) + 'h old</strong> · ' : '')
+        + 'Start: <strong style="color:' + _velTrendColor + ';">' + _startPattern + '</strong> · ' + _pushWindow
+        + _delayNote
+        + '</div>';
+      } // end else (_hasMinData)
+    }
+
     // Update tier progress bar
     _updateTierBar(totalNum);
     if (typeof renderPhaseBands === 'function') renderPhaseBands(totalNum);
-    document.getElementById('breakdown-content').innerHTML =
+    const _bdEl=document.getElementById('breakdown-content'); if(_bdEl) _bdEl.innerHTML =
       `<div><span>📊 CTR × Source (${trafficSrc}):</span><span>${ctrPts.toFixed(1)} / 30</span></div>
        <div><span>⏱ AVD Satisfaction:</span><span>${avdPts.toFixed(1)} / ${avdMax}</span></div>
        <div><span>🎣 Hook / 30s Retention:</span><span>${retPts.toFixed(1)} / 20</span></div>
        <div><span>📺 Absolute Watch Time:</span><span>${rawPts.toFixed(1)} / 12</span></div>
        <div><span>💬 Engagement (likes/comments):</span><span>${engPtsFinal.toFixed(1)} / 15</span></div>
-       <div><span>👥 Non-Subscriber Reach:</span><span>${nonSubPts.toFixed(1)} / 8</span></div>
+       <div><span>👥 Non-Subscriber Reach:</span><span>${nonSubPts.toFixed(1)} / 12</span></div>
        ${impRatioPts !== 0 ? `<div><span>🖼 Impressions-to-Views:</span><span>${impRatioPts > 0 ? '+' : ''}${impRatioPts.toFixed(1)} / 5</span></div>` : ''}
        <div><span>🔁 Retention Detail (mid/end/card):</span><span>${secondaryPts.toFixed(1)} / 8</span></div>
        <div><span>📈 Growth / Channel Momentum:</span><span>${growthPts.toFixed(1)} / 4</span></div>
-       ${velPts > 0 ? `<div><span>⚡ Velocity Context:</span><span>+${velPts.toFixed(1)} / 3</span></div>` : ''}`;
+       ${velPts > 0 ? `<div><span>⚡ Velocity Context:</span><span>+${velPts.toFixed(1)} / 3</span></div>` : ''}
+       ${sessionPts > 0 ? `<div><span>🔗 Session Continuation:</span><span>+${sessionPts.toFixed(1)} / 4</span></div>` : ''}
+       <div style="border-top:1px solid var(--border);margin-top:4px;padding-top:4px;font-weight:700;"><span>Total (normalised):</span><span>${Math.min(Math.round(totalNum),100)} / 100</span></div>`;
+
+    // ── Wire new intelligence panels ──
+    const _rateLabel = totalNum>=85?'Exceptional':totalNum>=70?'Strong':totalNum>=55?'Average':totalNum>=40?'Below Average':'Weak';
+
+    // 1. Sensitivity analysis — how much can each signal move the score?
+    const _sensitivitySignals = [];
+    if (ctr > 0) {
+      const _ctrGain = Math.min(30 - ctrPts, (Math.min(ctr*1.5,10) - ctr) * 2.5);
+      if (_ctrGain > 0.5) _sensitivitySignals.push({ label:'📊 Raise CTR from '+ctr.toFixed(1)+'% → '+Math.min(ctr*1.5,10).toFixed(1)+'%', gain:_ctrGain, tip:'A/B test thumbnail — a 1% CTR lift here crosses key thresholds' });
+    }
+    if (avd > 0) {
+      const _avdGain = Math.min(30 - avdPts, (Math.min((avd/avdTarget)*1.15, 1.2) - avd/avdTarget) * 25);
+      if (_avdGain > 0.5) _sensitivitySignals.push({ label:'⏱ Raise AVD from '+avd.toFixed(0)+'% → '+(avd*1.15).toFixed(0)+'%', gain:_avdGain, tip:'Cut first 30 seconds of intro/preamble — most impactful single edit' });
+    }
+    if (isNew || ret <= 0) _sensitivitySignals.push({ label:'🎣 Add 30s Hook Retention (when available)', gain:14, tip:'Enters scoring after 24h — enter your hook retention to unlock 20pts of signal' });
+    else if (ret > 0 && retPts < 18) {
+      const _retGain = Math.min(20 - retPts, (Math.min(ret*1.2,90) - ret) / 10 * 4);
+      if (_retGain > 0.5) _sensitivitySignals.push({ label:'🎣 Improve Hook from '+ret.toFixed(0)+'% → '+(Math.min(ret*1.2,90)).toFixed(0)+'%', gain:_retGain, tip:'Rewrite the opening line — hook retention under 60% is the top repair priority' });
+    }
+    if (nonSubPct <= 0) _sensitivitySignals.push({ label:'👥 Add Non-Subscriber Reach %', gain:8, tip:'Find in Studio → Audience tab. At 60%+ it confirms Browse distribution is active' });
+    else if (nonSubPct < 60 && nonSubPts < 10) {
+      const _nsGain = Math.min(12 - nonSubPts, (Math.min(nonSubPct+25,80) - nonSubPct) / 20 * 3);
+      _sensitivitySignals.push({ label:'👥 Grow Non-Sub Reach from '+nonSubPct+'% → '+(Math.min(nonSubPct+25,80))+'%', gain:_nsGain, tip:'Requires algorithmic push — improve CTR and AVD to trigger Browse expansion' });
+    }
+    if (engPtsFinal < 10 && views > 0) {
+      const _engGain = Math.min(15 - engPtsFinal, 6);
+      if (_engGain > 0.5) _sensitivitySignals.push({ label:'💬 Improve Engagement Rate', gain:_engGain, tip:'Mid-video CTA (not end-of-video) — add at 40-60% of runtime for 2-3× like rate improvement' });
+    }
+    _sensitivitySignals.sort((a,b)=>b.gain-a.gain);
+    renderSensitivity(_sensitivitySignals, totalNum, practicalMax);
+
+    // 2. Algorithm intelligence: push probability, signal conflicts, second wave
+    const _p_dead     = Math.max(2,  Math.round((1 - Math.min(totalNum/60,1)) * 30 * (_velTrend==='stalled'?2:1)));
+    const _p_partial  = Math.max(5,  Math.round(30 * (1 - totalNum/80)));
+    const _p_standard = Math.max(10, Math.round(40 * (totalNum/70)));
+    const _p_browse   = Math.max(2,  Math.round(Math.max(0,(totalNum-50)/50) * 55 * (_browseConfirmed?1.4:1)));
+    const _p_compound = Math.max(1,  Math.round(Math.max(0,(totalNum-72)/28) * 30));
+    const _sumP = _p_dead+_p_partial+_p_standard+_p_browse+_p_compound;
+    const _norm = (v) => Math.max(1, Math.round(v/_sumP*100));
+
+    const pushProbs = [
+      { label:'Dead on Arrival',       pct:_norm(_p_dead),     basis:'CTR collapse risk' },
+      { label:'Partial Push',          pct:_norm(_p_partial),  basis:'One gate failing' },
+      { label:'Standard Lifecycle',    pct:_norm(_p_standard), basis:'Niche distribution' },
+      { label:'Browse Activated',      pct:_norm(_p_browse),   basis:'Browse/Suggested' },
+      { label:'Algorithm Compounding', pct:_norm(_p_compound), basis:'Multi-wave push' },
+    ];
+
+    const conflicts = [];
+    if (ctr >= 7 && avd < 40) conflicts.push({ title:'Click-and-Leave Pattern', body:'Very high CTR ('+ctr+'%) but below-average AVD ('+avd.toFixed(0)+'%). This is the classic thumbnail overclaim — the title/thumbnail is attracting clicks the content can\'t sustain. YouTube will test Browse but pull back within 4-8h when retention signals come in.' });
+    if (ctr < 3 && avd > 55) conflicts.push({ title:'Great Content, Weak Packaging', body:'Low CTR ('+ctr+'%) but strong AVD ('+avd.toFixed(0)+'%) means the content is excellent but the thumbnail/title isn\'t communicating that. This is actually encouraging — a thumbnail refresh could unlock a significant distribution surge from an otherwise healthy video.' });
+    if (nonSubPct >= 70 && velocity < 50 && velocity > 0) conflicts.push({ title:'Distribution Without Velocity', body:'High non-sub reach ('+nonSubPct+'%) but low velocity ('+velocity+' v/hr) suggests Browse is serving impressions that aren\'t converting to clicks. The thumbnail is likely winning on subscriber feeds but losing on cold audiences. Check CTR by traffic source.' });
+
+    const secondWave = (avd >= 48 && searchPct > 15 && hoursOld && hoursOld > 72)
+      ? 'Strong candidate. Your AVD ('+avd.toFixed(0)+'%) and search traffic ('+searchPct+'%) profile suggests long-form evergreen potential. YouTube resurfacing typically occurs 7-14d post-upload — watch for a velocity spike around day 7.'
+      : (avd >= 52 && !_browseConfirmed && _delayedPushPossible)
+      ? 'Possible. Strong AVD without Browse confirmation yet — YouTube may be accumulating engagement data before committing to a Browse push. If velocity holds for 48h, a delayed push is realistic.'
+      : null;
+
+    renderAlgoIntel({ pushProbs, conflicts, secondWave });
+
+    // 3. Peer comparison
+    renderPeerComparison(totalNum);
+
+    // 4. Time-sensitive actions
+    const _tsActions = [];
+    if (hoursOld !== null) {
+      if (hoursOld < 6 && ctr > 0 && ctr < 3) _tsActions.push({ icon:'🖼️', priority:'URGENT', title:'Thumbnail failing in seed pool', body:'CTR is below 3% in the first 6 hours — this is the critical window. Replace the thumbnail now, before the Browse test at 12-48h. After 48h the damage is largely done.', window:'Act within '+Math.round(Math.max(0,12-hoursOld))+'h' });
+      if (hoursOld >= 6 && hoursOld < 48 && _browseConfirmed) _tsActions.push({ icon:'📌', priority:'HIGH', title:'Browse push active — capitalise now', body:'Non-sub reach is confirming Browse distribution. Pin a comment for new viewers, publish a Community Post linking to this video, and ensure your end screen links to a strong related video.', window:'Active now' });
+      if (hoursOld >= 40 && hoursOld <= 60) _tsActions.push({ icon:'🔄', priority:'MEDIUM', title:'48h window closing', body:'The primary Browse distribution test window is about to close. If you\'re going to change the thumbnail, this is the last effective moment — after 72h a new thumbnail primarily affects search traffic, not Browse.', window:'~'+(Math.round(48-hoursOld))+'h remaining' });
+      if (hoursOld >= 72 && totalNum < 40 && _velTrend === 'stalled') _tsActions.push({ icon:'🔍', priority:'MEDIUM', title:'Consider search-optimised pivot', body:'Video has stalled after 72h with a weak score. Rewriting the title to target long-tail search terms can restart distribution through YouTube Search — a smaller but more consistent traffic source.', window:'Any time' });
+    }
+    if (_tsActions.length) renderActionIntel(_tsActions);
+    else { const e=document.getElementById('sv_t1_action_intel'); if(e) e.style.display='none'; }
+
+    // 5. Share card
+    renderShareCard({
+      score: Math.round(totalNum), rating: document.getElementById('ratingText')?.innerText || '',
+      label: _rateLabel, ctr, avd: avd > 0 ? avd.toFixed(0) : 0, views, nonSub: nonSubPct,
+      signalStr: signalStrength, velTrend: _velTrend === 'unknown' ? '—' : _velTrend,
+      velTrendColor: _velTrend==='accelerating'?'#4ade80':_velTrend==='holding'?'#22d3ee':_velTrend==='decelerating'?'#fb923c':'#f87171',
+    });
+
+    // 6. Store scenario data for chart (populated after scenario section runs)
+    _lastScenData = _lastScenData || {};
+    _lastScenData.baseViews = baseViews;
+    _lastScenData.hoursOld  = hoursOld || 0;
+    _lastScenData.projNewViews = projNewViews; // will be set when scenario section runs
     // velocity and hoursOld already declared at top of function
     const impressions   = parseFloat(document.getElementById('impressionsInput')?.value) || 0;
     const viewsCurrent  = parseFloat(document.getElementById('viewsCurrent')?.value) || 0;
     const snap3hrs      = parseFloat(document.getElementById('snap3_hours')?.value) || 0;
     const likesInput    = parseFloat(document.getElementById('likesInput')?.value) || 0;
     const commentsInput = parseFloat(document.getElementById('commentsInput')?.value) || 0;
-    const rawMins       = (totalVl > 0) ? (totalTw / 60) : 0;
+    rawMins       = (totalVl > 0) ? (totalTw / 60) : 0;
 
     // hoursOld already computed at top of function
-    const showWH    = rawMins > 0;
-    const baseViews = views > 0 ? views
+    showWH    = rawMins > 0;
+    baseViews = views > 0 ? views
                     : (velocity > 0 && hoursOld > 0 ? Math.round(velocity * hoursOld) : 0);
+
+
 
     // ── "Info Needed" highlights for scoring fields ──
     // Fields that directly feed the virality score
@@ -5229,7 +5561,7 @@ input:focus, select:focus, textarea:focus {
       { id: 'viewsInput',      label: 'Views helps scoring',           sectionId: 'sv_t1_engagement' },
       { id: 'likesInput',      label: 'Likes helps scoring',           sectionId: 'sv_t1_engagement' },
     ];
-    const newVideoChecked = document.getElementById('newVideoToggle')?.checked;
+    const newVideoChecked = isNew; // auto-derived from publish date (< 24h)
     if (!newVideoChecked) {
       SCORE_REQUIRED.push({ id: 'retNum', label: 'Hook Retention required for score', sectionId: 'sv_t1_hook' });
     }
@@ -5309,13 +5641,13 @@ input:focus, select:focus, textarea:focus {
       // Read all scenario-calibration inputs
       const channelAvgVel   = 0; // field removed
       const channelAvgDaily = parseFloat(document.getElementById('channelAvgDaily')?.value)       || 0;
-      const actual48h       = parseFloat(document.getElementById('actual48hViews')?.value)        || 0;
-      const actual7d        = parseFloat(document.getElementById('actual7dViews')?.value)         || 0;
+      actual48h       = parseFloat(document.getElementById('actual48hViews')?.value)        || 0;
+      actual7d        = parseFloat(document.getElementById('actual7dViews')?.value)         || 0;
       const ctrEarlyV       = parseFloat(document.getElementById('ctrEarly')?.value)              || 0;
       const ctrLateV        = parseFloat(document.getElementById('ctrLate')?.value)               || 0;
-      const browsePct       = parseFloat(document.getElementById('trafficBrowsePct')?.value)      || 0;
-      const suggestedPct    = parseFloat(document.getElementById('trafficSuggestedPct')?.value)   || 0;
-      const searchPct       = parseFloat(document.getElementById('trafficSearchPct')?.value)      || 0;
+      browsePct       = parseFloat(document.getElementById('trafficBrowsePct')?.value)      || 0;
+      suggestedPct    = parseFloat(document.getElementById('trafficSuggestedPct')?.value)   || 0;
+      searchPct       = parseFloat(document.getElementById('trafficSearchPct')?.value)      || 0;
       const subsFeedPct     = parseFloat(document.getElementById('trafficSubsFeedPct')?.value)    || 0;
       const niche           = document.getElementById('contentNiche')?.value || '';
 
@@ -5435,38 +5767,198 @@ input:focus, select:focus, textarea:focus {
       // Apply traffic and CTR trend modifiers to alpha (lower alpha = sustained = better)
       const alphaModified = alphaBase * trafficDecayMod * nicheDecayMod / ctrTrendMod;
 
-      // If velocity is still 0 after fallback, derive from channel daily average or views
+      // ── Base velocity: full fallback chain ──
       const _scenBaseVel = velocity > 0 ? velocity
-        : channelAvgDaily > 0 ? (channelAvgDaily / 28 / 24)  // channel daily avg → hourly
+        : channelAvgDaily > 0 ? (channelAvgDaily / 28 / 24)
         : baseViews > 0 && (hoursOld || 0) > 0 ? baseViews / Math.max(1, hoursOld || 1)
         : 0;
 
-      const velBest          = _scenBaseVel * (signalStrength === 'strong' ? 1.5  : signalStrength === 'moderate' ? 1.25 : 1.05) * perfMultiplier;
-      const velAboveExpected = _scenBaseVel * (signalStrength === 'strong' ? 1.2  : signalStrength === 'moderate' ? 1.08 : 0.92) * Math.sqrt(perfMultiplier);
-      const velExpected      = _scenBaseVel;
-      const velBelowExpected = _scenBaseVel * (signalStrength === 'strong' ? 0.60 : signalStrength === 'moderate' ? 0.50 : 0.40);
-      const velWorst         = _scenBaseVel * 0.15;
+      // ── START PATTERN DETECTION ──
+      // Detect whether this video has a slow or fast start, and whether
+      // a delayed push is likely or the window has already closed.
+      // This drives fundamentally different scenario shapes.
+      //
+      // Evidence signals ranked by reliability:
+      //   1. empiricalAlpha from actual48h/actual7d anchors (most reliable)
+      //   2. nonSubPct — if high early, Browse is already active
+      //   3. trafficSrc — Browse/Suggested confirms expansion phase
+      //   4. ctrTrendMod — CTR hold rate tells us thumbnail fatigue speed
+      //   5. velocity vs hoursOld — is the video accelerating or decelerating?
+      //   6. signalStrength (from actual score)
 
-      const alphaBest          = Math.max(0.20, alphaModified - 0.65);
-      const alphaAboveExpected = Math.max(0.35, alphaModified - 0.32);
-      const alphaExpected      = alphaModified;
-      const alphaBelowExpected = alphaModified + 0.55;
-      const alphaWorst         = alphaModified + 1.30;
+      _ho = hoursOld || 0;
+      const _isEarlyVideo  = _ho < 12;   // still in seed pool window
+      const _isMidVideo    = _ho >= 12 && _ho < 48;  // niche expansion window
+      const _isLateVideo   = _ho >= 48;  // browse/decay territory
 
+      // Velocity trend — is momentum building or dying?
+      // If we have empirical data, use it; otherwise infer from current velocity vs derived
+      _velTrend = 'unknown'; // reset each run — outer let declared above score section
+      if (empiricalAlpha !== null) {
+        _velTrend = empiricalAlpha < 0.60 ? 'accelerating'
+                  : empiricalAlpha < 0.90 ? 'holding'
+                  : empiricalAlpha < 1.40 ? 'decelerating'
+                  : 'stalled';
+      } else if (_scenBaseVel > 0) {
+        // Compare current velocity to what it "should" be given views/age
+        const _expectedVelForAge = _ho > 0 ? baseViews / Math.max(_ho, 1) : _scenBaseVel;
+        const _velRatio = _scenBaseVel / Math.max(_expectedVelForAge, 0.1);
+        _velTrend = _velRatio > 1.8 ? 'accelerating'
+                  : _velRatio > 0.7 ? 'holding'
+                  : _velRatio > 0.2 ? 'decelerating'
+                  : 'stalled';
+      }
+
+      // Delayed push potential — can a Browse push still come even if metrics look weak now?
+      // Real YouTube: a video can receive a Browse push 2-7 days after upload if engagement
+      // accumulates slowly (long-form educational, tutorial content especially).
+      _delayedPushPossible =
+        _isEarlyVideo                              // too early to have peaked yet
+        || (_isMidVideo && _velTrend !== 'stalled')  // mid-window, still moving
+        || (_isLateVideo && nonSubPct >= 40 && _velTrend === 'holding')  // late but Browse active
+        || (searchPct > 30 && _velTrend !== 'stalled');  // search-driven = late-bloomer pattern
+
+      // Non-sub % as live Browse confirmation
+      _browseConfirmed = nonSubPct >= 50 || trafficSrc === 'browse' || trafficSrc === 'suggested' || browsePct > 20 || suggestedPct > 20;
+
+      // CTR health factor: how well the thumbnail holds on cold audiences
+      // High early CTR + high hold rate = sustainable Browse push
+      // High early CTR + heavy drop = subscriber bait, won't scale
+      const _ctrHealthScore = ctrTrendMod >= 1.1 ? 'excellent'
+                            : ctrTrendMod >= 0.95 ? 'good'
+                            : ctrTrendMod >= 0.80 ? 'moderate'
+                            : 'poor';
+
+      // Engagement depth — saves proxy + like rate + comment rate
+      // Used to assess whether Browse push will sustain or collapse
+      const _engDepth = engComposite >= 3.5 ? 'deep'
+                      : engComposite >= 1.5 ? 'medium'
+                      : engComposite >= 0.5 ? 'shallow'
+                      : 'minimal';
+
+      // ── Composite scenario modifier ──
+      // Combines all available signals into a single multiplier per tier
+      // that goes beyond signalStrength alone.
+
+      // Peak velocity multipliers now driven by ALL signals, not just signalStrength
+      // Strong signal + Browse confirmed + deep engagement = maximum push model
+      // Weak signal + stalled + poor CTR health = minimum push model
+
+      const _scoreFactor    = totalNum / 100;  // 0.0-1.0 from actual score
+      const _browseFactor   = _browseConfirmed ? 1.25 : 1.0;
+      const _engFactor      = _engDepth === 'deep' ? 1.15 : _engDepth === 'medium' ? 1.0 : _engDepth === 'shallow' ? 0.90 : 0.80;
+      const _ctrFactor      = _ctrHealthScore === 'excellent' ? 1.15 : _ctrHealthScore === 'good' ? 1.05 : _ctrHealthScore === 'moderate' ? 0.92 : 0.80;
+      const _delayFactor    = _delayedPushPossible ? 1.0 : 0.85;  // reduce ceilings if push window closed
+      const _stalledPenalty = _velTrend === 'stalled' ? 0.30 : _velTrend === 'decelerating' ? 0.65 : 1.0;
+
+      // Best-case: everything fires — Browse + engagement + CTR all sustaining
+      const _peakMultBest  = Math.min(
+        (_scoreFactor * 5.0 + 0.5) * _browseFactor * _engFactor * _ctrFactor * _delayFactor * perfMultiplier,
+        8.0  // absolute ceiling: even viral videos don't sustain 8× indefinitely
+      );
+      // Browse activated: CTR passing cold audiences, engagement holding
+      const _peakMultAbove = Math.min(
+        (_scoreFactor * 3.0 + 0.5) * _browseFactor * _ctrFactor * _delayFactor * perfMultiplier,
+        4.5
+      );
+      // Expected: niche push, subscriber seed + some Suggested
+      const _peakMultExp = Math.max(0.40,
+        (_scoreFactor * 1.6 + 0.15) * _ctrFactor * perfMultiplier
+      );
+      // Partial: one signal failing, push starts then stalls
+      const _peakMultBelow = Math.max(0.18,
+        (_scoreFactor * 0.8) * _stalledPenalty * perfMultiplier
+      );
+      // Worst: CTR collapse on cold audiences, velocity declines immediately
+      const _peakMultWorst = Math.max(0.08, 0.15 * _stalledPenalty);
+
+      // Phase-aware velocity application:
+      // Early video (<12h): velocity hasn't peaked yet — apply full multiplier
+      // Mid video (12-48h): at or near peak — apply partial ramp
+      // Late video (48h+):  past peak — velocity is declining from its peak
+      const _rampFactor = _isEarlyVideo ? 1.0 : _isMidVideo ? 0.80 : Math.max(0.35, 1.0 - (_ho - 48) / 200);
+
+      const velBest          = _scenBaseVel * _peakMultBest  * _rampFactor;
+      const velAboveExpected = _scenBaseVel * _peakMultAbove * _rampFactor;
+      const velExpected      = _scenBaseVel * _peakMultExp   * _rampFactor;
+      const velBelowExpected = _scenBaseVel * _peakMultBelow;
+      const velWorst         = _scenBaseVel * _peakMultWorst;
+
+      // ── Alpha (decay rate) — driven by empirical data + all signals ──
+      // alphaModified already incorporates: trafficDecayMod * nicheDecayMod / ctrTrendMod
+      // We further adjust per tier based on Browse confirmation and engagement depth
+
+      // Best: Browse sustained + engagement feeding second waves → very slow decay
+      const alphaBest = Math.max(0.25, Math.min(
+        alphaModified * (_browseConfirmed ? 0.50 : 0.60) * (_engDepth === 'deep' ? 0.90 : 1.0),
+        0.70
+      ));
+      // Browse activated: CTR holding on cold audiences → slow decay
+      const alphaAboveExpected = Math.max(0.45, Math.min(
+        alphaModified * 0.72 * (_ctrHealthScore !== 'poor' ? 0.95 : 1.05),
+        0.90
+      ));
+      // Standard lifecycle: niche push then normal decay
+      const alphaExpected = Math.max(0.70, Math.min(alphaModified * 1.0, 1.20));
+      // Partial stall: one gate failing, faster decay
+      const alphaBelowExpected = Math.min(alphaModified * 1.35 * (_velTrend === 'decelerating' ? 1.15 : 1.0), 1.70);
+      // Worst: immediate collapse
+      const alphaWorst = Math.min(alphaModified * 1.85 * (_velTrend === 'stalled' ? 1.20 : 1.0), 2.50);
+
+      // ── Store start pattern for display in scenario cards ──
+      _startPattern = _velTrend === 'accelerating' ? 'Fast start — velocity building'
+                          : _velTrend === 'holding'       ? 'Steady start — holding velocity'
+                          : _velTrend === 'decelerating'  ? 'Slowing start — velocity declining'
+                          : _velTrend === 'stalled'       ? 'Stalled — velocity at near-zero'
+                          : 'Velocity unknown — enter publish date for pattern detection';
+      _pushWindow   = _delayedPushPossible ? 'Push window open' : 'Push window likely closed';
+
+      // ── Tier descriptions: what YouTube signal state causes each outcome ──
       const scenarios = [
-        { id:'worst',         label:'📉 Worst',          vel:velWorst,         alpha:alphaWorst,         color:'#f87171',
-          desc:'Algorithm stalls fast. ~85% velocity loss within hours.' },
-        { id:'below_expected',label:'⚠️ Below Expected', vel:velBelowExpected, alpha:alphaBelowExpected, color:'#fb923c',
-          desc:'Weaker push than normal. Decay faster than typical.' },
-        { id:'expected',      label:'📊 Expected',        vel:velExpected,      alpha:alphaExpected,      color:'#fbbf24',
-          desc:'Standard lifecycle. Most videos follow this curve.' },
-        { id:'above_expected',label:'📈 Above Expected',  vel:velAboveExpected, alpha:alphaAboveExpected, color:'#86efac',
-          desc:'Algorithm holds the push longer than usual.' },
-        { id:'best',          label:'🚀 Best',             vel:velBest,          alpha:alphaBest,          color:'#4ade80',
-          desc:'Sustained push. Browse + Suggested stay active.' },
+        { id:'worst',
+          label:'📉 Dead on Arrival',
+          vel:velWorst,
+          alpha:alphaWorst,
+          color:'#f87171',
+          desc:'CTR collapsed below niche floor after subscriber seed — cold audiences aren\'t clicking. YouTube read this as audience mismatch and cut impressions within the first 2-4h. Only residual sub-feed and search traffic remains.',
+          mechanism:'thumbnail/title failing cold audiences',
+          fix:'Reupload with new thumbnail within 48h, or pivot to search-optimised title' },
+        { id:'below_expected',
+          label:'⚠️ Partial Push',
+          vel:velBelowExpected,
+          alpha:alphaBelowExpected,
+          color:'#fb923c',
+          desc:'Algorithm gave an initial niche push (2-12h) but one signal failed the gate — typically CTR holding but AVD dropping, or AVD strong but CTR collapsing on cold audiences. Browse/Suggested tested but pulled back.',
+          mechanism:'one signal passing, one failing the phase gate',
+          fix:'Check which dropped first (CTR or retention) — fix the weaker signal' },
+        { id:'expected',
+          label:'📊 Standard Lifecycle',
+          vel:velExpected,
+          alpha:alphaExpected,
+          color:'#fbbf24',
+          desc:'Both CTR and AVD cleared the initial phase gates. YouTube served a niche expansion wave (12-48h) then settled into normal decay. Subscriber feed + Suggested feed are the main ongoing sources. No Browse push occurred.',
+          mechanism:'normal niche distribution with expected decay',
+          fix:'Thumbnail A/B test to push CTR above phase gate for Browse activation' },
+        { id:'above_expected',
+          label:'📈 Browse Activated',
+          vel:velAboveExpected,
+          alpha:alphaAboveExpected,
+          color:'#86efac',
+          desc:'CTR and AVD both cleared the Browse & Suggested gate (~48h mark). YouTube is actively serving this on Home feeds to non-subscribers. The push sustains longer because cold-audience engagement is matching warm-audience performance.',
+          mechanism:'Browse/Suggested feeds active beyond 48h',
+          fix:'Capitalise now — Community post, end-screen CTA, pin a comment for new viewers' },
+        { id:'best',
+          label:'🚀 Algorithm Compounding',
+          vel:velBest,
+          alpha:alphaBest,
+          color:'#4ade80',
+          desc:'Browse + Suggested firing simultaneously with a strong engagement signal (saves, shares, comments). Each new audience wave has CTR and AVD that match the original, so YouTube keeps resurfacing the video — second and third waves occur 7-14d after upload.',
+          mechanism:'multi-wave resurfacing — YouTube algorithmically re-serves to new audiences each week',
+          fix:'Protect AVD above everything — one retention drop ends compounding immediately' },
       ];
 
       const windows = [
+        { id:'w24h', label:'24h',  hrs: 24  },
         { id:'w48h', label:'48h',  hrs: 48  },
         { id:'w3d',  label:'3d',   hrs: 72  },
         { id:'w4d',  label:'4d',   hrs: 96  },
@@ -5520,6 +6012,18 @@ input:focus, select:focus, textarea:focus {
       _scenData.showWH    = showWH;
       _scenData.rawMins   = rawMins;
 
+      // Store for scenario chart
+      _lastScenData = {
+        baseViews, hoursOld: hoursOld || 0,
+        scenarios: scenarios.map(sc => ({ id:sc.id, label:sc.label, color:sc.color, vel:sc.vel, alpha:sc.alpha })),
+        projNewViews,
+        viewHistory: [],
+      };
+      if (actual48h > 0) _lastScenData.viewHistory.push({ hrs:48, views:actual48h });
+      if (actual7d > 0)  _lastScenData.viewHistory.push({ hrs:168, views:actual7d });
+      if (baseViews > 0 && (hoursOld||0) > 0) _lastScenData.viewHistory.unshift({ hrs:hoursOld||0, views:baseViews });
+      renderScenarioChart();
+
       // Read toggle state (preserved across renders)
       const ts       = _scenData.toggleState;
       const activeSc = ts.sc;
@@ -5527,15 +6031,24 @@ input:focus, select:focus, textarea:focus {
       const visScen  = scenarios.filter(s => activeSc.includes(s.id));
       const visWin   = windows.filter(w => activeWin.includes(w.id));
 
-      // Signal badge + age info
+      // Signal badge + age info + start pattern
       const signalBadge = signalStrength === 'strong'
         ? '<span style="background:#4ade8022;color:#4ade80;border:1px solid #4ade80;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700;">Strong Signals</span>'
         : signalStrength === 'moderate'
         ? '<span style="background:#fbbf2422;color:#fbbf24;border:1px solid #fbbf24;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700;">Moderate Signals</span>'
         : '<span style="background:#f8717122;color:#f87171;border:1px solid #f87171;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700;">Weak Signals</span>';
+      const _patternColor = _velTrend === 'accelerating' ? '#4ade80'
+                          : _velTrend === 'holding'       ? '#22d3ee'
+                          : _velTrend === 'decelerating'  ? '#fb923c'
+                          : _velTrend === 'stalled'       ? '#f87171'
+                          : 'var(--text-muted)';
+      const patternBadge = `<span style="background:${_patternColor}22;color:${_patternColor};border:1px solid ${_patternColor};font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700;">${_startPattern}</span>`;
+      const pushBadge    = _delayedPushPossible
+        ? '<span style="background:#6366f122;color:#6366f1;border:1px solid #6366f1;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700;">Push window open</span>'
+        : '<span style="background:#94a3b822;color:#94a3b8;border:1px solid #94a3b8;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700;">Push window closing</span>';
       const ageNote = hoursOld !== null
-        ? `<span style="font-size:10px;color:var(--text-dim);">${hoursOld.toFixed(1)}h old &middot; ${velocity.toFixed(1)} views/hr &middot; base ${baseViews.toLocaleString()} views</span>`
-        : `<span style="font-size:10px;color:var(--text-dim);">${velocity.toFixed(1)} views/hr &middot; ${baseViews.toLocaleString()} base views</span>`;
+        ? `<span style="font-size:10px;color:var(--text-dim);">${hoursOld.toFixed(1)}h old &middot; ${velocity.toFixed(1)} v/hr &middot; ${baseViews.toLocaleString()} views</span>`
+        : `<span style="font-size:10px;color:var(--text-dim);">${velocity.toFixed(1)} v/hr &middot; ${baseViews.toLocaleString()} base views</span>`;
 
       // Shared button style
       const btnBase = 'padding:5px 13px;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;transition:0.15s;';
@@ -5563,6 +6076,7 @@ input:focus, select:focus, textarea:focus {
       scenarioProjBox.style.display = 'block';
       if (scenarioEmpty) scenarioEmpty.style.display = 'none';
       scenarioProjBox.innerHTML = `<div style="background:var(--card);border:1px solid var(--border-hi);border-radius:var(--radius);padding:14px;">
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;">${patternBadge}${pushBadge}${signalBadge}${ageNote}</div>
         <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
           ${signalBadge} ${ageNote}
         </div>
@@ -5790,7 +6304,7 @@ input:focus, select:focus, textarea:focus {
     const curr = parseInt(document.getElementById('yt_curr_subs')?.value || '0')||0;
     const monthly = parseInt(document.getElementById('yt_monthly_views')?.value || '0')||0;
     const rate = parseFloat(document.getElementById('yt_sub_rate')?.value || '0')||1;
-    document.getElementById('yt_sub_projection').innerHTML = buildSubProjectionHTML(curr,monthly,rate,'subscribers');
+    const _ysEl=document.getElementById('yt_sub_projection'); if(_ysEl) _ysEl.innerHTML=buildSubProjectionHTML(curr,monthly,rate,'subscribers');
   }
   function updateTTSubProjection() {
     const curr = parseInt(document.getElementById('tt_curr_subs')?.value || '0')||0;
@@ -7053,7 +7567,7 @@ input:focus, select:focus, textarea:focus {
   function livePopoutSelected() {
     const sel = liveTrackers.filter(t => t.selected);
     if (!sel.length) { showToast('Tick the checkbox on cards to select them first', 'var(--text-muted)'); return; }
-    const html = _buildPopoutHTML(sel, liveRefreshInterval);
+    const html = _buildPopoutHTML(sel, liveRefreshInterval, document.getElementById('lst_popout_theme')?.value || 'dark');
     const cols = Math.min(sel.length, 3);
     const w = window.open('', '_blank', `width=${cols*300+60},height=460,resizable=yes`);
     if (w) { w.document.write(html); w.document.close(); }
@@ -7062,62 +7576,155 @@ input:focus, select:focus, textarea:focus {
   function livePopoutSingle(id) {
     const t = liveTrackers.find(x => x.id === id);
     if (!t) return;
-    const html = _buildPopoutHTML([t], liveRefreshInterval);
+    const html = _buildPopoutHTML([t], liveRefreshInterval, document.getElementById('lst_popout_theme')?.value || 'dark');
     const w = window.open('', '_blank', 'width=320,height=420,resizable=yes');
     if (w) { w.document.write(html); w.document.close(); }
   }
 
   function livePopoutAll() {
     if (!liveTrackers.length) { showToast('No channels tracked yet', 'var(--text-muted)'); return; }
-    const html = _buildPopoutHTML(liveTrackers, liveRefreshInterval);
+    const html = _buildPopoutHTML(liveTrackers, liveRefreshInterval, document.getElementById('lst_popout_theme')?.value || 'dark');
     const cols = Math.min(liveTrackers.length, 3);
     const w = window.open('', '_blank', `width=${cols*300+60},height=460,resizable=yes`);
     if (w) { w.document.write(html); w.document.close(); }
   }
 
-  function _buildPopoutHTML(trackers, refreshSec) {
+  function _buildPopoutHTML(trackers, refreshSec, theme) {
     const trackerJson = JSON.stringify(trackers.map(t => ({
       id:t.id, platform:t.platform, handle:t.handle, name:t.name,
       count:t.count, prevCount:t.prevCount, history:t.history||[],
       apiKey:t.apiKey||'', clientId:t.clientId||'', token:t.token||'', userId:t.userId||''
     })));
     const platColors = JSON.stringify({ youtube:'#ff4444', twitch:'#9146ff', kick:'#53fc18', tiktok:'#ff0050', instagram:'#e1306c' });
+    const platIcons  = { youtube:'▶', twitch:'🎮', kick:'🟢', tiktok:'🎵', instagram:'📸' };
+    const platLabels = { youtube:'YouTube', twitch:'Twitch', kick:'Kick', tiktok:'TikTok', instagram:'Instagram' };
+    const t = theme || 'dark'; // 'dark' | 'glass' | 'minimal' | 'glow' | 'broadcast'
 
-    const cardsHTML = trackers.map(t => {
-      const pc = ({ youtube:'#ff4444',twitch:'#9146ff',kick:'#53fc18',tiktok:'#ff0050',instagram:'#e1306c' }[t.platform]) || '#6366f1';
-      return `<div class="card" id="card_${t.id}" style="border-top:3px solid ${pc};">
-        <div class="plat" style="color:${pc};">${({ youtube:'▶ YouTube',twitch:'🎮 Twitch',kick:'🟢 Kick',tiktok:'🎵 TikTok',instagram:'📸 Instagram' }[t.platform])||t.platform}</div>
-        <div class="chan">${t.name}</div>
-        <div class="cnt" id="cnt_${t.id}">${t.count !== null ? t.count.toLocaleString() : '…'}</div>
-        <div class="delta" id="dlt_${t.id}"></div>
-        <div class="fill-wrap"><div class="fill" id="fill_${t.id}" style="background:${pc};"></div></div>
-        <div class="timer" id="tmr_${t.id}">Refreshing in ${refreshSec}s</div>
+    const cardsHTML = trackers.map(tr => {
+      const pc = ({ youtube:'#ff4444',twitch:'#9146ff',kick:'#53fc18',tiktok:'#ff0050',instagram:'#e1306c' }[tr.platform]) || '#6366f1';
+      const icon = platIcons[tr.platform] || '●';
+      const platLbl = platLabels[tr.platform] || tr.platform;
+      return `<div class="card" id="card_${tr.id}" data-platform="${tr.platform}">
+        <div class="plat-badge" style="--pc:${pc}">${icon} ${platLbl}</div>
+        <div class="chan">${tr.name || tr.handle}</div>
+        <div class="cnt" id="cnt_${tr.id}">${tr.count !== null ? tr.count.toLocaleString() : '…'}</div>
+        <div class="delta-wrap">
+          <div class="delta" id="dlt_${tr.id}"></div>
+          <div class="delta-24h" id="d24_${tr.id}"></div>
+        </div>
+        <div class="bar-wrap"><div class="bar" id="bar_${tr.id}" style="--pc:${pc}"></div></div>
+        <div class="timer" id="tmr_${tr.id}">Refreshing in ${refreshSec}s</div>
       </div>`;
     }).join('');
 
-    return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Live Tracker</title>
+    // Per-theme CSS
+    const themeCSS = {
+      dark: `
+        body{background:#09090f;color:#f1f5f9;}
+        .card{background:#12121c;border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:22px 26px;box-shadow:0 4px 32px rgba(0,0,0,0.5);}
+        .cnt{color:#f1f5f9;}
+        .header h1{color:#475569;}
+        .live-pill{color:#4ade80;}
+        .footer{color:#334155;}
+        .timer{color:#475569;}
+        .bar-wrap{background:rgba(255,255,255,0.07);}
+      `,
+      glass: `
+        body{background:linear-gradient(135deg,#0f0f1a 0%,#1a1035 50%,#0f1a1a 100%);color:#e2e8f0;min-height:100vh;}
+        body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 20% 20%,rgba(99,102,241,0.15),transparent 60%),radial-gradient(ellipse at 80% 80%,rgba(34,211,238,0.10),transparent 60%);pointer-events:none;}
+        .card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:24px 28px;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);box-shadow:0 8px 40px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.1);}
+        .cnt{background:linear-gradient(135deg,#fff,#a5f3fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+        .header h1{color:rgba(226,232,240,0.5);}
+        .live-pill{color:#6ee7b7;}
+        .footer{color:rgba(148,163,184,0.4);}
+        .timer{color:rgba(148,163,184,0.5);}
+        .bar-wrap{background:rgba(255,255,255,0.06);}
+      `,
+      minimal: `
+        body{background:#ffffff;color:#111827;}
+        .card{background:#f9fafb;border:1px solid #e5e7eb;border-radius:12px;padding:20px 24px;box-shadow:0 1px 4px rgba(0,0,0,0.06);}
+        .plat-badge{color:#6b7280 !important;border-color:#e5e7eb !important;background:transparent !important;}
+        .cnt{color:#111827;}
+        .header h1{color:#9ca3af;}
+        .live-pill{color:#059669;}
+        .pulse{background:#059669;}
+        .footer{color:#d1d5db;}
+        .timer{color:#9ca3af;}
+        .bar-wrap{background:#f3f4f6;}
+        .delta{color:#374151 !important;}
+      `,
+      glow: `
+        body{background:#030307;color:#f1f5f9;}
+        body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(99,102,241,0.2),transparent 70%);pointer-events:none;}
+        .card{background:#0d0d1a;border:1px solid rgba(99,102,241,0.2);border-radius:16px;padding:24px 28px;position:relative;overflow:hidden;}
+        .card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,var(--pc-glow,rgba(99,102,241,0.08)),transparent 70%);pointer-events:none;}
+        .cnt{font-size:58px;text-shadow:0 0 40px currentColor;}
+        .header h1{color:#3f3f6a;}
+        .live-pill{color:#818cf8;}
+        .pulse{background:#818cf8;box-shadow:0 0 12px #818cf8;}
+        .footer{color:#1e1e4a;}
+        .timer{color:#3f3f6a;}
+        .bar-wrap{background:rgba(99,102,241,0.1);}
+      `,
+      broadcast: `
+        body{background:#0a0a0a;color:#ffffff;font-family:'Courier New',monospace;}
+        body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,0.03) 0px,rgba(0,0,0,0.03) 1px,transparent 1px,transparent 4px);pointer-events:none;}
+        .card{background:#111;border:1px solid #333;border-radius:0;padding:20px 24px;border-top:3px solid var(--pc,#4ade80);}
+        .plat-badge{font-family:'Courier New',monospace;font-size:9px;letter-spacing:3px;}
+        .chan{font-family:'Courier New',monospace;font-size:13px;letter-spacing:1px;}
+        .cnt{font-family:'Courier New',monospace;letter-spacing:-1px;color:#4ade80;text-shadow:0 0 20px rgba(74,222,128,0.5);}
+        .header h1{font-family:'Courier New',monospace;letter-spacing:4px;color:#333;}
+        .live-pill{color:#4ade80;font-family:'Courier New',monospace;font-size:10px;letter-spacing:2px;}
+        .pulse{background:#4ade80;}
+        .footer{color:#333;font-family:'Courier New',monospace;letter-spacing:2px;}
+        .timer{color:#333;font-family:'Courier New',monospace;}
+        .bar-wrap{background:#222;}
+        .cards{gap:12px;}
+      `
+    };
+
+    const css = themeCSS[t] || themeCSS.dark;
+
+    return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Live Sub Tracker · Social Spot</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#09090f;color:#f1f5f9;font-family:'Inter',system-ui,sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;gap:20px;}
-.header{text-align:center;}
-.header h1{font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:#475569;margin-bottom:4px;}
-.live-pill{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:#4ade80;font-weight:700;}
-.pulse{width:8px;height:8px;border-radius:50%;background:#4ade80;animation:p 1.5s ease-in-out infinite;}
+html,body{height:100%;overflow:hidden;}
+body{font-family:'Inter',system-ui,sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;gap:20px;transition:background 0.3s;}
+.header{text-align:center;flex-shrink:0;}
+.header h1{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:6px;}
+.live-pill{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;}
+.pulse{width:8px;height:8px;border-radius:50%;background:#4ade80;animation:p 1.5s ease-in-out infinite;flex-shrink:0;}
 @keyframes p{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(1.4)}}
-.cards{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;width:100%;max-width:960px;}
-.card{background:#12121c;border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:22px 26px;min-width:220px;flex:1;max-width:300px;text-align:center;box-shadow:0 0 40px rgba(0,0,0,0.5);}
-.plat{font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;}
-.chan{font-size:15px;font-weight:700;margin-bottom:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.cnt{font-size:52px;font-weight:900;letter-spacing:-2px;line-height:1;font-variant-numeric:tabular-nums;}
-.delta{font-size:13px;font-weight:700;min-height:20px;margin-top:6px;}
-.fill-wrap{margin-top:14px;height:3px;background:rgba(255,255,255,0.07);border-radius:2px;overflow:hidden;}
-.fill{height:100%;width:100%;border-radius:2px;transition:width 1s linear;}
-.timer{font-size:10px;color:#475569;margin-top:6px;font-variant-numeric:tabular-nums;}
-.footer{font-size:10px;color:#334155;}
+.cards{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;width:100%;max-width:1100px;overflow-y:auto;flex:1;align-items:center;}
+.card{min-width:210px;flex:1;max-width:280px;text-align:center;transition:transform 0.2s,box-shadow 0.2s;cursor:default;position:relative;}
+.card:hover{transform:translateY(-2px);}
+.plat-badge{font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;display:inline-block;padding:2px 8px;border-radius:20px;border:1px solid;color:var(--pc);border-color:var(--pc);background:color-mix(in srgb,var(--pc) 10%,transparent);}
+.chan{font-size:14px;font-weight:700;margin-bottom:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.cnt{font-size:52px;font-weight:900;letter-spacing:-2px;line-height:1;font-variant-numeric:tabular-nums;transition:transform 0.15s;}
+.cnt.bump{transform:scale(1.04);}
+.delta-wrap{min-height:34px;margin-top:6px;}
+.delta{font-size:13px;font-weight:700;}
+.delta-24h{font-size:10px;color:#64748b;margin-top:2px;}
+.bar-wrap{margin-top:12px;height:3px;border-radius:2px;overflow:hidden;}
+.bar{height:100%;width:100%;background:var(--pc,#6366f1);border-radius:2px;transition:width 1s linear;}
+.timer{font-size:9px;margin-top:6px;font-variant-numeric:tabular-nums;letter-spacing:0.5px;}
+.footer{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;flex-shrink:0;}
+.theme-switcher{position:fixed;top:12px;right:12px;display:flex;gap:6px;z-index:99;}
+.theme-btn{width:20px;height:20px;border-radius:50%;border:2px solid rgba(255,255,255,0.2);cursor:pointer;transition:transform 0.2s,border-color 0.2s;}
+.theme-btn:hover{transform:scale(1.2);border-color:rgba(255,255,255,0.6);}
+.theme-btn.active{border-color:#fff;transform:scale(1.15);}
+${css}
 </style></head><body>
-<div class="header"><h1>📡 Live Sub Tracker</h1><div class="live-pill"><div class="pulse"></div> Live · refreshes every ${refreshSec}s</div></div>
+<div class="theme-switcher">
+  <div class="theme-btn active" id="tb_dark"    title="Dark"      style="background:#09090f;" onclick="setTheme('dark')"></div>
+  <div class="theme-btn"        id="tb_glass"   title="Glass"     style="background:linear-gradient(135deg,#1a1035,#0f1a1a);" onclick="setTheme('glass')"></div>
+  <div class="theme-btn"        id="tb_minimal" title="Minimal"   style="background:#f9fafb;border-color:#ccc;" onclick="setTheme('minimal')"></div>
+  <div class="theme-btn"        id="tb_glow"    title="Glow"      style="background:#030307;" onclick="setTheme('glow')"></div>
+  <div class="theme-btn"        id="tb_broadcast" title="Broadcast" style="background:#0a0a0a;" onclick="setTheme('broadcast')"></div>
+</div>
+<div class="header"><h1>📡 Live Sub Tracker</h1><div class="live-pill"><div class="pulse"></div> LIVE · every ${refreshSec}s</div></div>
 <div class="cards">${cardsHTML}</div>
-<div class="footer">Creator Calculator · Data from platform APIs</div>
+<div class="footer">The Social Spot</div>
 ` + '<scr' + 'ipt>' + `
 const trackers = ${trackerJson};
 const platColors = ${platColors};
@@ -7126,49 +7733,96 @@ const interval = ${refreshSec};
 const sessionStart = Object.fromEntries(trackers.map(t=>[t.id, t.count]));
 
 function fmt(n){ return n!=null ? n.toLocaleString() : '…'; }
-function getDelta(t){
-  if(!t.history||!t.history.length) return null;
+
+function get24hDelta(t){
+  if(!t.history||!t.history.length||t.count==null) return null;
   const cutoff = Date.now() - 24*3600000;
   const inW = t.history.filter(h=>h.ts>=cutoff);
-  if(!inW.length) return null;
-  return t.count!==null ? t.count - inW[0].count : null;
+  return inW.length ? t.count - inW[0].count : null;
 }
+
 function updateUI(){
   trackers.forEach(t=>{
-    const el=document.getElementById('cnt_'+t.id); if(el) el.textContent=fmt(t.count);
+    const el=document.getElementById('cnt_'+t.id);
+    if(el) el.textContent=fmt(t.count);
+
     const dl=document.getElementById('dlt_'+t.id);
     if(dl){
-      const d=t.count-(sessionStart[t.id]||t.count);
+      const d=(t.count||0)-(sessionStart[t.id]||t.count||0);
       dl.textContent=d!==0?(d>0?'+':'')+d.toLocaleString()+' this session':'';
       dl.style.color=d>0?'#4ade80':d<0?'#f87171':'#94a3b8';
     }
-    const fl=document.getElementById('fill_'+t.id);
-    if(fl) fl.style.width=(countdown/interval*100)+'%';
+
+    const d24=document.getElementById('d24_'+t.id);
+    if(d24){
+      const delta24=get24hDelta(t);
+      d24.textContent=delta24!=null?((delta24>0?'+':'')+delta24.toLocaleString()+' in 24h'):'';
+    }
+
+    const bar=document.getElementById('bar_'+t.id);
+    if(bar) bar.style.width=(countdown/interval*100)+'%';
+
     const tm=document.getElementById('tmr_'+t.id);
-    if(tm) tm.textContent='Refreshing in '+countdown+'s';
+    if(tm) tm.textContent='↻ '+countdown+'s';
   });
 }
+
 async function doRefresh(){
   for(const t of trackers){
     try{
+      let newCount=null;
       if(t.platform==='youtube'&&t.apiKey){
         const isId=t.handle.startsWith('UC');
         const p=isId?'id='+encodeURIComponent(t.handle):'forHandle='+encodeURIComponent(t.handle.startsWith('@')?t.handle:'@'+t.handle);
         const r=await fetch('https://www.googleapis.com/youtube/v3/channels?part=statistics&'+p+'&key='+t.apiKey);
         const j=await r.json();
-        if(!j.error&&j.items&&j.items.length){t.prevCount=t.count;t.count=parseInt(j.items[0].statistics.subscriberCount)||t.count;}
+        if(!j.error&&j.items&&j.items.length) newCount=parseInt(j.items[0].statistics.subscriberCount);
       } else if(t.platform==='twitch'&&t.clientId&&t.token&&t.userId){
         const r=await fetch('https://api.twitch.tv/helix/channels/followers?broadcaster_id='+t.userId,{headers:{'Client-ID':t.clientId,'Authorization':'Bearer '+t.token}});
-        if(r.ok){const j=await r.json();t.prevCount=t.count;t.count=j.total??t.count;}
+        if(r.ok){const j=await r.json();newCount=j.total;}
       }
-    }catch(e){console.warn('refresh',e);}
+      if(newCount!==null&&newCount!==t.count){
+        t.prevCount=t.count;
+        t.count=newCount;
+        // Bump animation
+        const cel=document.getElementById('cnt_'+t.id);
+        if(cel){cel.classList.add('bump');setTimeout(()=>cel.classList.remove('bump'),300);}
+        if(!t.history) t.history=[];
+        t.history.push({ts:Date.now(),count:newCount});
+        if(t.history.length>500) t.history.shift();
+      }
+    }catch(e){console.warn('refresh',t.id,e);}
   }
   updateUI();
 }
+
+// Theme switcher
+const themeDefs={
+  dark:'body{background:#09090f;color:#f1f5f9;}.card{background:#12121c;border:1px solid rgba(255,255,255,0.07);border-radius:14px;box-shadow:0 4px 32px rgba(0,0,0,0.5);}.cnt{color:#f1f5f9;}.header h1{color:#475569;}.live-pill{color:#4ade80;}.footer{color:#334155;}.timer{color:#475569;}.bar-wrap{background:rgba(255,255,255,0.07);}',
+  glass:'body{background:linear-gradient(135deg,#0f0f1a 0%,#1a1035 50%,#0f1a1a 100%);color:#e2e8f0;}.card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:20px;backdrop-filter:blur(24px);box-shadow:0 8px 40px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.1);}.cnt{background:linear-gradient(135deg,#fff,#a5f3fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}.header h1{color:rgba(226,232,240,0.5);}.live-pill{color:#6ee7b7;}.footer{color:rgba(148,163,184,0.4);}.timer{color:rgba(148,163,184,0.5);}.bar-wrap{background:rgba(255,255,255,0.06);}',
+  minimal:'body{background:#ffffff;color:#111827;}.card{background:#f9fafb;border:1px solid #e5e7eb;border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,0.06);}.plat-badge{color:#6b7280!important;border-color:#e5e7eb!important;background:transparent!important;}.cnt{color:#111827;}.header h1{color:#9ca3af;}.live-pill{color:#059669;}.pulse{background:#059669;}.footer{color:#d1d5db;}.timer{color:#9ca3af;}.bar-wrap{background:#f3f4f6;}.delta{color:#374151!important;}',
+  glow:'body{background:#030307;color:#f1f5f9;}.card{background:#0d0d1a;border:1px solid rgba(99,102,241,0.2);border-radius:16px;position:relative;overflow:hidden;}.cnt{text-shadow:0 0 40px currentColor;font-size:58px;}.header h1{color:#3f3f6a;}.live-pill{color:#818cf8;}.pulse{background:#818cf8;box-shadow:0 0 12px #818cf8;}.footer{color:#1e1e4a;}.timer{color:#3f3f6a;}.bar-wrap{background:rgba(99,102,241,0.1);}',
+  broadcast:'body{background:#0a0a0a;color:#fff;font-family:Courier New,monospace;}.card{background:#111;border:1px solid #333;border-radius:0;border-top:3px solid var(--pc,#4ade80);}.plat-badge{font-family:Courier New,monospace;font-size:9px;letter-spacing:3px;}.chan{font-family:Courier New,monospace;letter-spacing:1px;}.cnt{font-family:Courier New,monospace;color:#4ade80;text-shadow:0 0 20px rgba(74,222,128,0.5);letter-spacing:-1px;}.header h1{font-family:Courier New,monospace;letter-spacing:4px;color:#333;}.live-pill{color:#4ade80;font-family:Courier New,monospace;font-size:10px;letter-spacing:2px;}.pulse{background:#4ade80;}.footer{color:#333;font-family:Courier New,monospace;letter-spacing:2px;}.timer{color:#333;font-family:Courier New,monospace;}.bar-wrap{background:#222;}'
+};
+let _styleEl=null;
+let _curTheme='dark';
+function setTheme(name){
+  if(!_styleEl){_styleEl=document.createElement('style');document.head.appendChild(_styleEl);}
+  _styleEl.textContent=themeDefs[name]||'';
+  document.querySelectorAll('.theme-btn').forEach(b=>b.classList.remove('active'));
+  const tb=document.getElementById('tb_'+name);
+  if(tb) tb.classList.add('active');
+  _curTheme=name;
+  localStorage.setItem('lst_popout_theme',name);
+}
+const _savedTheme=localStorage.getItem('lst_popout_theme')||'${t}';
+if(_savedTheme!=='dark') setTheme(_savedTheme);
+
 updateUI();
 setInterval(()=>{countdown--;if(countdown<=0){countdown=interval;doRefresh();}else updateUI();},1000);
 ` + '</scr' + 'ipt>' + `</body></html>`;
   }
+
 
   // ── Persist to save file ──
   function _lstSave() {
@@ -7526,7 +8180,7 @@ setInterval(()=>{countdown--;if(countdown<=0){countdown=interval;doRefresh();}el
 
 
 
-  const SV_ALL_IDS = ['sv_fluff','sv_t1_pubhub','sv_t1_avd','sv_t1_ctr','sv_t1_hook','sv_t1_engagement','sv_t1_channel','sv_t1_ret_detail','sv_t1_stall','sv_t1_score','sv_t1_breakdown','sv_t1_tiers','sv_t1_scenarios','sv_t1_scen_ref','sv_t1_insight','sv_t1_algo','sv_t2_inputs','sv_t2_tier','sv_t2_benchmarks','sv_t3_quickentry','sv_t3_eta','sv_t3_detailed','sv_t3_summary','sv_t3_planner','sv_t4_lf','sv_t4_shorts','sv_t4_bench','sv_t4_roi','sv_soc_switcher','sv_soc_tt_panel','sv_soc_ig_panel','sv_t7_inputs','sv_t7_schedule_type','sv_t7_schedule_result','sv_t7_windows','sv_t7_checklist','sv_t7_optimizer','sv_cp_t1','sv_cp_t2','sv_cp_t3','sv_cp_income','sv_vid_tracker','sv_tab_ab_setup','sv_tab_ab_results','sv_tab_ab_history','sv_tab_ab_tip','sv_cmp_lookup','sv_cmp_manual','sv_cmp_results','sv_live_add','sv_hook_inputs','sv_hook_results','sv_hook_tip','sv_seo_t1','sv_seo_t2','sv_rc_inputs','sv_rc_guide','sv_es_inputs','sv_es_cards','sv_es_rules','sv_seo_t1_res','sv_seo_t2_res','sv_soc_tt_bands','sv_soc_ig_bands','sv_soc_tt_score','sv_soc_tt_tiers','sv_soc_tt_proj','sv_soc_ig_score','sv_soc_ig_tiers','sv_soc_ig_proj','sv_t1_vp_bar','sv_t3_progress'];
+  const SV_ALL_IDS = ['sv_fluff','sv_t1_toolbar','sv_t1_pubhub','sv_t1_avd','sv_t1_ctr','sv_t1_hook','sv_t1_engagement','sv_t1_channel','sv_t1_ret_detail','sv_t1_stall','sv_t1_score','sv_t1_sensitivity','sv_t1_algo_intel','sv_t1_scen_chart','sv_t1_score_history','sv_t1_peer','sv_t1_action_intel','sv_t1_share','sv_t1_breakdown','sv_t1_tiers','sv_t1_scenarios','sv_t1_scen_ref','sv_t1_insight','sv_t1_algo','sv_t2_inputs','sv_t2_tier','sv_t2_benchmarks','sv_t3_quickentry','sv_t3_eta','sv_t3_detailed','sv_t3_summary','sv_t3_planner','sv_t4_lf','sv_t4_shorts','sv_t4_bench','sv_t4_roi','sv_soc_switcher','sv_soc_tt_panel','sv_soc_ig_panel','sv_t7_inputs','sv_t7_schedule_type','sv_t7_schedule_result','sv_t7_windows','sv_t7_checklist','sv_t7_optimizer','sv_cp_t1','sv_cp_t2','sv_cp_t3','sv_cp_income','sv_vid_tracker','sv_tab_ab_setup','sv_tab_ab_results','sv_tab_ab_history','sv_tab_ab_tip','sv_cmp_lookup','sv_cmp_manual','sv_cmp_results','sv_live_add','sv_hook_inputs','sv_hook_results','sv_hook_tip','sv_seo_t1','sv_seo_t2','sv_rc_inputs','sv_rc_guide','sv_es_inputs','sv_es_cards','sv_es_rules','sv_seo_t1_res','sv_seo_t2_res','sv_soc_tt_bands','sv_soc_ig_bands','sv_soc_tt_score','sv_soc_tt_tiers','sv_soc_tt_proj','sv_soc_ig_score','sv_soc_ig_tiers','sv_soc_ig_proj','sv_t1_vp_bar','sv_t3_progress'];
 
   function vpRead() {
     // Read current Tab1 inputs into an object
@@ -9019,7 +9673,7 @@ setInterval(()=>{countdown--;if(countdown<=0){countdown=interval;doRefresh();}el
 
   function markFieldEdited(fieldId){if(typeof STALE_FIELD_DEFS_DAILY!=='undefined'&&STALE_FIELD_DEFS_DAILY[fieldId]){const pub=document.getElementById('videoPublishedAt');if(!pub||!pub.value)return;if((Date.now()-new Date(pub.value).getTime())/3600000<24)return;}_fieldTimestamps[fieldId]=Date.now();clearFieldStale(fieldId);if(_fieldTimers[fieldId])clearTimeout(_fieldTimers[fieldId]);_fieldTimers[fieldId]=setTimeout(()=>showFieldStale(fieldId),15*60*1000);}
 
-  function showFieldStale(fieldId){const el=document.getElementById(fieldId);if(!el||!el.value||parseFloat(el.value)<=0)return;if(fieldId==='retNum'){const cbx=document.getElementById('newVideoToggle');if(cbx&&cbx.checked)return;}const ageMs=Date.now()-(_fieldTimestamps[fieldId]||Date.now());const ageMins=Math.round(ageMs/60000);const isRed=ageMins>=30;const col=isRed?'#f87171':'#fbbf24';let badge=document.getElementById('stale_'+fieldId);if(!badge){badge=document.createElement('div');badge.id='stale_'+fieldId;badge.style.cssText='display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;margin-top:3px;line-height:1.4;cursor:pointer;';const box=el.closest('.input-box')||el.parentElement;if(box)box.appendChild(badge);}badge.style.background='rgba('+(isRed?'239,68,68':'251,191,36')+',0.12)';badge.style.border='1px solid '+col;badge.style.color=col;const fieldLabel=STALE_FIELD_DEFS[fieldId]||fieldId;badge.innerHTML=(isRed?'🔴':'🟡')+' '+ageMins+'min — '+(isRed?'<strong>Out of date</strong>':'consider refreshing')+' <span style="text-decoration:underline;cursor:pointer;" onclick="confirmStaleField(\''+fieldId+'\')">[✓ Still current]</span>';el.style.setProperty('border-color',col,'important');el.style.setProperty('box-shadow','0 0 0 2px rgba('+(isRed?'239,68,68':'251,191,36')+',0.25)','important');if(!isRed&&_fieldTimers[fieldId+'_to30']===undefined){_fieldTimers[fieldId+'_to30']=setTimeout(()=>{delete _fieldTimers[fieldId+'_to30'];showFieldStale(fieldId);},15*60*1000);}}
+  function showFieldStale(fieldId){const el=document.getElementById(fieldId);if(!el||!el.value||parseFloat(el.value)<=0)return;if(fieldId==='retNum'){const pubEl=document.getElementById('videoPublishedAt');if(pubEl&&pubEl.value){const d=new Date(pubEl.value);if(!isNaN(d.getTime())&&(Date.now()-d.getTime())/3600000<24)return;}}const ageMs=Date.now()-(_fieldTimestamps[fieldId]||Date.now());const ageMins=Math.round(ageMs/60000);const isRed=ageMins>=30;const col=isRed?'#f87171':'#fbbf24';let badge=document.getElementById('stale_'+fieldId);if(!badge){badge=document.createElement('div');badge.id='stale_'+fieldId;badge.style.cssText='display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;margin-top:3px;line-height:1.4;cursor:pointer;';const box=el.closest('.input-box')||el.parentElement;if(box)box.appendChild(badge);}badge.style.background='rgba('+(isRed?'239,68,68':'251,191,36')+',0.12)';badge.style.border='1px solid '+col;badge.style.color=col;const fieldLabel=STALE_FIELD_DEFS[fieldId]||fieldId;badge.innerHTML=(isRed?'🔴':'🟡')+' '+ageMins+'min — '+(isRed?'<strong>Out of date</strong>':'consider refreshing')+' <span style="text-decoration:underline;cursor:pointer;" onclick="confirmStaleField(\''+fieldId+'\')">[✓ Still current]</span>';el.style.setProperty('border-color',col,'important');el.style.setProperty('box-shadow','0 0 0 2px rgba('+(isRed?'239,68,68':'251,191,36')+',0.25)','important');if(!isRed&&_fieldTimers[fieldId+'_to30']===undefined){_fieldTimers[fieldId+'_to30']=setTimeout(()=>{delete _fieldTimers[fieldId+'_to30'];showFieldStale(fieldId);},15*60*1000);}}
 
   function confirmStaleField(fieldId){_fieldTimestamps[fieldId]=Date.now();clearFieldStale(fieldId);if(_fieldTimers[fieldId])clearTimeout(_fieldTimers[fieldId]);_fieldTimers[fieldId]=setTimeout(()=>showFieldStale(fieldId),15*60*1000);showToast('✅ '+(STALE_FIELD_DEFS[fieldId]||fieldId)+' confirmed current','var(--success)');}
 
@@ -9466,6 +10120,511 @@ setInterval(()=>{countdown--;if(countdown<=0){countdown=interval;doRefresh();}el
   }
 
   /* ── Stall Detector ── */
+
+  // ═══════════════════════════════════════════════
+  // SCORE HISTORY
+  // ═══════════════════════════════════════════════
+  let t1_scoreHistory = [];
+  function t1_saveScoreSnapshot() {
+    const score = parseFloat(document.getElementById('totalScore')?.innerText) || 0;
+    if (score <= 0) { showToast('Enter video data first', 'var(--warning)'); return; }
+    const snap = {
+      ts:    Date.now(),
+      score: score,
+      ctr:   parseFloat(document.getElementById('ctrNum')?.value) || 0,
+      avd:   parseFloat(document.getElementById('avdNum')?.value) || 0,
+      views: parseFloat(document.getElementById('viewsInput')?.value) || 0,
+      label: new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}),
+    };
+    t1_scoreHistory.push(snap);
+    if (t1_scoreHistory.length > 48) t1_scoreHistory.shift();
+    try { localStorage.setItem('t1_scoreHistory_' + (currentProfile||''), JSON.stringify(t1_scoreHistory)); } catch(e) {}
+    renderScoreHistory();
+    showToast('📌 Score snapshot saved', 'var(--warning)');
+    markUnsaved && markUnsaved();
+  }
+  function t1_clearScoreHistory() {
+    t1_scoreHistory = [];
+    try { localStorage.removeItem('t1_scoreHistory_' + (currentProfile||'')); } catch(e) {}
+    renderScoreHistory();
+  }
+  function t1_loadScoreHistory() {
+    try {
+      const saved = localStorage.getItem('t1_scoreHistory_' + (currentProfile||''));
+      if (saved) t1_scoreHistory = JSON.parse(saved);
+    } catch(e) {}
+  }
+  function renderScoreHistory() {
+    const histEl   = document.getElementById('sv_t1_score_history');
+    const chartEl  = document.getElementById('t1_score_history_chart');
+    const listEl   = document.getElementById('t1_score_history_list');
+    if (!histEl) return;
+    if (!t1_scoreHistory.length) { histEl.style.display = 'none'; return; }
+    histEl.style.display = '';
+
+    const W = 520, H = 140, PL = 36, PR = 12, PT = 12, PB = 28;
+    const cW = W-PL-PR, cH = H-PT-PB;
+    const scores = t1_scoreHistory.map(s => s.score);
+    const minS = Math.max(0, Math.min(...scores) - 5);
+    const maxS = Math.min(100, Math.max(...scores) + 5);
+    const toX = (i) => PL + (i / Math.max(scores.length-1, 1)) * cW;
+    const toY = (s) => PT + ((maxS-s) / (maxS-minS)) * cH;
+    const scoreColor = (s) => s>=85?'#4ade80':s>=70?'#22d3ee':s>=55?'#fbbf24':s>=40?'#fb923c':'#f87171';
+
+    // Grid
+    let grid = '';
+    [0,25,50,75,100].filter(y=>y>=minS&&y<=maxS).forEach(y=>{
+      grid += `<line x1="${PL}" y1="${toY(y).toFixed(1)}" x2="${PL+cW}" y2="${toY(y).toFixed(1)}" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>`;
+      grid += `<text x="${PL-4}" y="${(toY(y)+4).toFixed(1)}" text-anchor="end" fill="rgba(255,255,255,0.3)" font-size="8">${y}</text>`;
+    });
+    // Score band fills
+    const bands = [{min:85,max:100,col:'rgba(74,222,128,0.06)'},{min:70,max:85,col:'rgba(34,211,238,0.06)'},{min:55,max:70,col:'rgba(251,191,36,0.06)'},{min:40,max:55,col:'rgba(251,146,60,0.06)'},{min:0,max:40,col:'rgba(248,113,113,0.06)'}];
+    let fills = '';
+    bands.forEach(b=>{
+      const y1=toY(Math.min(b.max,maxS)), y2=toY(Math.max(b.min,minS));
+      if(y2>y1) fills+=`<rect x="${PL}" y="${y1.toFixed(1)}" width="${cW}" height="${(y2-y1).toFixed(1)}" fill="${b.col}"/>`;
+    });
+    // Line path + dots
+    const pts = scores.map((s,i) => `${toX(i).toFixed(1)},${toY(s).toFixed(1)}`).join(' ');
+    const dots = scores.map((s,i) => {
+      const col = scoreColor(s);
+      return `<circle cx="${toX(i).toFixed(1)}" cy="${toY(s).toFixed(1)}" r="4" fill="${col}" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>`;
+    }).join('');
+    // X labels (every nth)
+    const labelStep = Math.max(1, Math.ceil(scores.length/8));
+    const xLabels = t1_scoreHistory.filter((_,i)=>i%labelStep===0||i===t1_scoreHistory.length-1).map((_,idx)=>{
+      const realIdx = idx*labelStep; if(realIdx>=t1_scoreHistory.length) return '';
+      const snap = t1_scoreHistory[realIdx];
+      return `<text x="${toX(realIdx).toFixed(1)}" y="${(H-4).toFixed(1)}" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="8">${snap.label}</text>`;
+    }).join('');
+
+    const svg = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;background:#0d1117;border-radius:8px;">
+      <rect width="${W}" height="${H}" fill="#0d1117"/>
+      ${fills}${grid}
+      <polyline points="${pts}" fill="none" stroke="rgba(148,163,184,0.4)" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+      ${dots}${xLabels}
+    </svg>`;
+
+    if (chartEl) chartEl.innerHTML = svg;
+    if (listEl) {
+      listEl.innerHTML = t1_scoreHistory.slice(-5).reverse().map(s=>{
+        const c = scoreColor(s.score);
+        return `<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--border);">
+          <span style="color:var(--text-dim);">${s.label} · ${s.views>0?s.views.toLocaleString()+' views · ':'' }CTR ${s.ctr}% · AVD ${s.avd}%</span>
+          <span style="font-weight:700;color:${c};">${s.score}</span>
+        </div>`;
+      }).join('');
+    }
+  }
+
+  // ═══════════════════════════════════════════════
+  // SIGNAL SENSITIVITY
+  // ═══════════════════════════════════════════════
+  function renderSensitivity(signals, totalNum, practicalMax) {
+    const el = document.getElementById('sv_t1_sensitivity');
+    const barsEl = document.getElementById('t1_sensitivity_bars');
+    if (!el || !barsEl || !signals || !signals.length) { if(el) el.style.display='none'; return; }
+
+    const scoreColor = (s) => s>=85?'#4ade80':s>=70?'#22d3ee':s>=55?'#fbbf24':s>=40?'#fb923c':'#f87171';
+    const THRESHOLDS = [40, 55, 70, 85]; // tier crossover scores
+    const THRESHOLD_LABELS = ['Above Weak','Above Average','Strong','Excellent'];
+
+    // Sort signals by potential gain desc
+    const sorted = [...signals].filter(s=>s.gain>0).sort((a,b)=>b.gain-a.gain);
+    if (!sorted.length) { el.style.display='none'; return; }
+    el.style.display='';
+
+    barsEl.innerHTML = sorted.map(sig => {
+      const newScore = Math.min(100, totalNum + sig.gain);
+      const crossedThresholds = THRESHOLDS.filter((t,i) => totalNum < t && newScore >= t);
+      const crossBadge = crossedThresholds.length
+        ? `<span style="font-size:9px;font-weight:700;color:#6366f1;background:rgba(99,102,241,0.15);border:1px solid rgba(99,102,241,0.4);padding:1px 6px;border-radius:8px;flex-shrink:0;">🎯 Crosses ${THRESHOLD_LABELS[THRESHOLDS.indexOf(crossedThresholds[0])]}</span>`
+        : '';
+      const barPct = Math.min((sig.gain / 30) * 100, 100);
+      const col = scoreColor(newScore);
+      return `<div style="margin-bottom:6px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:3px;flex-wrap:wrap;">
+          <div style="display:flex;align-items:center;gap:6px;flex:1;min-width:0;">
+            <span style="font-size:11px;font-weight:700;color:var(--text);white-space:nowrap;">${sig.label}</span>
+            ${crossBadge}
+          </div>
+          <span style="font-size:11px;font-weight:800;color:${col};flex-shrink:0;">+${sig.gain.toFixed(1)} pts → ${Math.round(newScore)}</span>
+        </div>
+        <div style="background:var(--border);border-radius:3px;height:5px;overflow:hidden;">
+          <div style="height:100%;width:${barPct.toFixed(1)}%;background:${col};border-radius:3px;transition:width 0.4s;"></div>
+        </div>
+        <div style="font-size:10px;color:var(--text-muted);margin-top:2px;">${sig.tip}</div>
+      </div>`;
+    }).join('');
+  }
+
+  // ═══════════════════════════════════════════════
+  // ALGORITHM INTELLIGENCE
+  // ═══════════════════════════════════════════════
+  function renderAlgoIntel(data) {
+    const el = document.getElementById('sv_t1_algo_intel');
+    if (!el || !data) { if(el) el.style.display='none'; return; }
+    el.style.display='';
+
+    // Push probability
+    const ppEl = document.getElementById('t1_push_probability');
+    if (ppEl && data.pushProbs) {
+      ppEl.innerHTML = '<div style="font-size:11px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.7px;margin-bottom:8px;">📊 Push Probability by Tier</div>'
+        + '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;">'
+        + data.pushProbs.map(p => {
+          const col = p.pct >= 50 ? '#4ade80' : p.pct >= 25 ? '#fbbf24' : '#f87171';
+          return `<div style="text-align:center;padding:8px;background:var(--bg);border-radius:8px;border:1px solid ${col}33;">
+            <div style="font-size:9px;color:var(--text-muted);margin-bottom:4px;">${p.label}</div>
+            <div style="font-size:20px;font-weight:900;color:${col};">${p.pct}%</div>
+            <div style="font-size:9px;color:var(--text-muted);margin-top:2px;">${p.basis}</div>
+          </div>`;
+        }).join('') + '</div>';
+    }
+
+    // Signal conflicts
+    const scEl = document.getElementById('t1_signal_conflicts');
+    if (scEl && data.conflicts && data.conflicts.length) {
+      scEl.innerHTML = '<div style="font-size:11px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.7px;margin-bottom:6px;">⚠️ Signal Conflicts Detected</div>'
+        + data.conflicts.map(c =>
+          `<div style="padding:8px 12px;background:rgba(251,146,60,0.08);border-radius:8px;border-left:3px solid #fb923c;margin-bottom:6px;font-size:12px;color:var(--text);line-height:1.6;">
+            <strong style="color:#fb923c;">${c.title}:</strong> ${c.body}
+          </div>`
+        ).join('');
+    } else if (scEl) {
+      scEl.innerHTML = '';
+    }
+
+    // Second wave
+    const swEl = document.getElementById('t1_second_wave');
+    if (swEl && data.secondWave) {
+      swEl.innerHTML = `<div style="padding:10px 12px;background:rgba(99,102,241,0.08);border-radius:8px;border-left:3px solid #6366f1;font-size:12px;color:var(--text);line-height:1.6;">
+        <strong style="color:#6366f1;">♻️ Second-Wave Potential:</strong> ${data.secondWave}
+      </div>`;
+    } else if (swEl) {
+      swEl.innerHTML = '';
+    }
+  }
+
+  // ═══════════════════════════════════════════════
+  // SCENARIO CHART (SVG)
+  // ═══════════════════════════════════════════════
+  let _lastScenData = null;
+  function renderScenarioChart() {
+    const el = document.getElementById('sv_t1_scen_chart');
+    const svgEl = document.getElementById('t1_scen_chart_svg');
+    const legEl = document.getElementById('t1_scen_chart_legend');
+    if (!el || !svgEl || !_lastScenData) { if(el) el.style.display='none'; return; }
+
+    const viewMode = document.getElementById('t1_chart_view')?.value || 'views';
+    const maxHrs   = parseInt(document.getElementById('t1_chart_window')?.value || '168');
+    const rpm      = parseFloat(document.getElementById('cp_rpm')?.value) || 3;
+    const avdMins  = parseFloat(document.getElementById('avdNum')?.value) || 5;
+    const baseViews = _lastScenData.baseViews || 0;
+    const scenarios = _lastScenData.scenarios || [];
+    const hoursOld  = _lastScenData.hoursOld || 0;
+    const history   = _lastScenData.viewHistory || [];
+
+    if (!scenarios.length) { el.style.display='none'; return; }
+    el.style.display='';
+
+    const steps = 40;
+    const hStep = maxHrs / steps;
+    const W=560, H=200, PL=50, PR=14, PT=14, PB=30;
+    const cW=W-PL-PR, cH=H-PT-PB;
+
+    // Build data series per scenario
+    const series = scenarios.map(sc => {
+      const pts = [];
+      for (let i=0; i<=steps; i++) {
+        const hrs = i * hStep;
+        const hrsAhead = Math.max(0, hrs - hoursOld);
+        const views = Math.max(baseViews, Math.round(baseViews + _lastScenData.projNewViews(sc.vel, hrsAhead, sc.alpha)));
+        let val = viewMode === 'watchhrs' ? (views * avdMins / 60)
+                : viewMode === 'revenue'  ? (views / 1000 * rpm)
+                : views;
+        pts.push({ x:hrs, y:val });
+      }
+      return { ...sc, pts };
+    });
+
+    // Y scale
+    const allY = series.flatMap(s => s.pts.map(p => p.y));
+    const yMax = Math.max(...allY) * 1.05;
+    const yMin = 0;
+
+    const toX = (hrs) => PL + (hrs / maxHrs) * cW;
+    const toY = (val) => PT + ((yMax-val)/(yMax-yMin)) * cH;
+    const fmtY = (v) => viewMode==='revenue' ? '$'+Math.round(v).toLocaleString() : viewMode==='watchhrs' ? Math.round(v)+'h' : v>=1000000?(v/1000000).toFixed(1)+'M':v>=1000?(v/1000).toFixed(0)+'K':Math.round(v).toString();
+
+    // Grid
+    let grid = '';
+    const yTicks = 4;
+    for (let i=0; i<=yTicks; i++) {
+      const val = yMin + (yMax-yMin)*i/yTicks;
+      const y = toY(val);
+      grid += `<line x1="${PL}" y1="${y.toFixed(1)}" x2="${PL+cW}" y2="${y.toFixed(1)}" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>`;
+      grid += `<text x="${PL-4}" y="${(y+3.5).toFixed(1)}" text-anchor="end" fill="rgba(255,255,255,0.3)" font-size="8">${fmtY(val)}</text>`;
+    }
+    const xTicks = [0, maxHrs/4, maxHrs/2, maxHrs*3/4, maxHrs];
+    xTicks.forEach(h => {
+      const x = toX(h);
+      grid += `<line x1="${x.toFixed(1)}" y1="${PT}" x2="${x.toFixed(1)}" y2="${PT+cH}" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>`;
+      const lbl = h<24?h+'h':h<168?(h/24).toFixed(0)+'d':(h/24).toFixed(0)+'d';
+      grid += `<text x="${x.toFixed(1)}" y="${(H-4).toFixed(1)}" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="8">${lbl}</text>`;
+    });
+
+    // "Now" line
+    const nowX = toX(Math.min(hoursOld, maxHrs));
+    const nowLine = hoursOld > 0 ? `<line x1="${nowX.toFixed(1)}" y1="${PT}" x2="${nowX.toFixed(1)}" y2="${PT+cH}" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-dasharray="3 3"/>
+      <text x="${(nowX+3).toFixed(1)}" y="${(PT+9).toFixed(1)}" fill="rgba(255,255,255,0.4)" font-size="8">now</text>` : '';
+
+    // Scenario lines
+    const lines = series.map(sc => {
+      const pts = sc.pts.map(p=>`${toX(p.x).toFixed(1)},${toY(p.y).toFixed(1)}`).join(' ');
+      const endPt = sc.pts[sc.pts.length-1];
+      return `<polyline points="${pts}" fill="none" stroke="${sc.color}" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" opacity="0.85"/>
+        <circle cx="${toX(endPt.x).toFixed(1)}" cy="${toY(endPt.y).toFixed(1)}" r="3" fill="${sc.color}"/>`;
+    }).join('');
+
+    // Actual views dotted line (from history)
+    let actualLine = '';
+    if (history.length >= 2) {
+      const hPts = history.filter(h=>h.hrs<=maxHrs).map(h=>`${toX(h.hrs).toFixed(1)},${toY(h.views).toFixed(1)}`).join(' ');
+      if (hPts) actualLine = `<polyline points="${hPts}" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2" stroke-dasharray="5 3" stroke-linecap="round"/>`;
+    }
+
+    svgEl.innerHTML = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;background:#0d1117;border-radius:8px;">
+      <rect width="${W}" height="${H}" fill="#0d1117"/>${grid}${lines}${actualLine}${nowLine}
+    </svg>`;
+
+    // Legend
+    if (legEl) {
+      legEl.innerHTML = series.map(sc =>
+        `<div style="display:flex;align-items:center;gap:5px;font-size:10px;font-weight:700;color:${sc.color};">
+          <div style="width:16px;height:3px;background:${sc.color};border-radius:2px;flex-shrink:0;"></div>
+          ${sc.label}
+        </div>`
+      ).join('') + (history.length>=2
+        ? `<div style="display:flex;align-items:center;gap:5px;font-size:10px;font-weight:700;color:rgba(255,255,255,0.6);">
+            <div style="width:16px;height:2px;background:rgba(255,255,255,0.5);border-radius:2px;flex-shrink:0;border-top:2px dashed rgba(255,255,255,0.5);"></div>
+            Actual
+          </div>` : '');
+    }
+  }
+
+  // ═══════════════════════════════════════════════
+  // PEER COMPARISON
+  // ═══════════════════════════════════════════════
+  function renderPeerComparison(totalNum) {
+    const el = document.getElementById('sv_t1_peer');
+    const pEl = document.getElementById('t1_peer_comparison');
+    if (!el || !pEl || totalNum <= 0) { if(el) el.style.display='none'; return; }
+    el.style.display='';
+
+    const peers = [
+      { label:'Bottom 25% of YouTube',   range:[0,30],  note:'Algorithm likely not distributing beyond subscriber feed' },
+      { label:'Average YouTube video',    range:[30,55], note:'Niche expansion occurring, some Suggested traffic' },
+      { label:'Top 25% of YouTube',       range:[55,70], note:'Browse & Suggested active, steady growth' },
+      { label:'Top 10% of YouTube',       range:[70,82], note:'Strong multi-channel distribution' },
+      { label:'Top 5% of YouTube',        range:[82,90], note:'Browse-dominant, compounding momentum' },
+      { label:'Top 1% of YouTube',        range:[90,100],note:'Viral breakout — all distribution levers firing' },
+    ];
+    const yourTier = peers.find(p => totalNum >= p.range[0] && totalNum < p.range[1]) || peers[peers.length-1];
+    pEl.innerHTML = peers.map(p => {
+      const isYou = p === yourTier;
+      const barPct = Math.max(0, Math.min(100, (totalNum - p.range[0]) / (p.range[1]-p.range[0]) * 100));
+      const col = p.range[0]>=90?'#4ade80':p.range[0]>=82?'#22d3ee':p.range[0]>=70?'#4ade80':p.range[0]>=55?'#fbbf24':p.range[0]>=30?'#fb923c':'#f87171';
+      return `<div style="padding:8px 10px;border-radius:8px;border:1px solid ${isYou?col+'55':'var(--border)'};background:${isYou?col+'0a':'transparent'};transition:all 0.2s;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+          <span style="font-size:12px;font-weight:${isYou?'800':'600'};color:${isYou?col:'var(--text)'};">${isYou?'▶ ':''} ${p.label}</span>
+          <span style="font-size:11px;color:var(--text-dim);">${p.range[0]}–${p.range[1]}</span>
+        </div>
+        ${isYou ? `<div style="background:var(--border);border-radius:3px;height:4px;overflow:hidden;margin-bottom:4px;">
+          <div style="height:100%;width:${barPct.toFixed(0)}%;background:${col};border-radius:3px;transition:width 0.5s;"></div>
+        </div>
+        <div style="font-size:10px;color:${col};">${p.note}</div>` : ''}
+      </div>`;
+    }).join('');
+  }
+
+  // ═══════════════════════════════════════════════
+  // TIME-SENSITIVE ACTIONS
+  // ═══════════════════════════════════════════════
+  function renderActionIntel(data) {
+    const el = document.getElementById('sv_t1_action_intel');
+    const listEl = document.getElementById('t1_timing_actions');
+    if (!el || !listEl || !data || !data.length) { if(el) el.style.display='none'; return; }
+    el.style.display='';
+    const priorityCol = { URGENT:'#f87171', HIGH:'#fb923c', MEDIUM:'#fbbf24', INFO:'#4ade80' };
+    listEl.innerHTML = data.map(a =>
+      `<div style="padding:10px 12px;border-radius:8px;border:1px solid ${priorityCol[a.priority]||'var(--border)'}22;background:${priorityCol[a.priority]||'transparent'}08;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+          <span style="font-size:12px;">${a.icon}</span>
+          <span style="font-size:12px;font-weight:700;color:var(--text-bright);">${a.title}</span>
+          <span style="font-size:9px;font-weight:800;padding:1px 6px;border-radius:6px;background:${priorityCol[a.priority]||'var(--border)'}20;color:${priorityCol[a.priority]||'var(--text-dim)'};">${a.priority}</span>
+          ${a.window ? `<span style="font-size:10px;color:var(--text-muted);margin-left:auto;">${a.window}</span>` : ''}
+        </div>
+        <div style="font-size:12px;color:var(--text);line-height:1.7;padding-left:20px;">${a.body}</div>
+      </div>`
+    ).join('');
+  }
+
+  // ═══════════════════════════════════════════════
+  // SHARE CARD
+  // ═══════════════════════════════════════════════
+  function renderShareCard(data) {
+    const el    = document.getElementById('sv_t1_share');
+    const prevEl = document.getElementById('t1_share_card_preview');
+    if (!el || !prevEl || !data || data.score <= 0) { if(el) el.style.display='none'; return; }
+    el.style.display='';
+
+    const scoreColor = (s) => s>=85?'#4ade80':s>=70?'#22d3ee':s>=55?'#fbbf24':s>=40?'#fb923c':'#f87171';
+    const c = scoreColor(data.score);
+    const card = `<svg id="share_card_svg" viewBox="0 0 600 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:600px;display:block;border-radius:12px;">
+      <defs>
+        <linearGradient id="bg_grad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#0f0f1a"/>
+          <stop offset="100%" style="stop-color:#1a1025"/>
+        </linearGradient>
+      </defs>
+      <rect width="600" height="280" fill="url(#bg_grad)" rx="12"/>
+      <rect width="600" height="280" fill="${c}" opacity="0.04" rx="12"/>
+      <!-- Left accent -->
+      <rect x="0" y="0" width="4" height="280" fill="${c}" rx="2"/>
+      <!-- Score big -->
+      <text x="80" y="145" text-anchor="middle" fill="${c}" font-size="96" font-weight="900" font-family="system-ui,sans-serif" opacity="0.9">${data.score}</text>
+      <text x="80" y="175" text-anchor="middle" fill="${c}" font-size="13" font-weight="700" font-family="system-ui,sans-serif" opacity="0.6">/ 100</text>
+      <!-- Divider -->
+      <line x1="160" y1="30" x2="160" y2="250" stroke="${c}" stroke-width="1" opacity="0.2"/>
+      <!-- Rating -->
+      <text x="185" y="65" fill="${c}" font-size="22" font-weight="900" font-family="system-ui,sans-serif">${data.rating}</text>
+      <text x="185" y="88" fill="rgba(255,255,255,0.45)" font-size="12" font-family="system-ui,sans-serif">${data.label}</text>
+      <!-- Stats grid -->
+      <text x="185" y="130" fill="rgba(255,255,255,0.5)" font-size="10" font-family="system-ui,sans-serif">CTR</text>
+      <text x="185" y="146" fill="rgba(255,255,255,0.9)" font-size="16" font-weight="700" font-family="system-ui,sans-serif">${data.ctr > 0 ? data.ctr+'%' : '—'}</text>
+      <text x="300" y="130" fill="rgba(255,255,255,0.5)" font-size="10" font-family="system-ui,sans-serif">AVD</text>
+      <text x="300" y="146" fill="rgba(255,255,255,0.9)" font-size="16" font-weight="700" font-family="system-ui,sans-serif">${data.avd > 0 ? data.avd+'%' : '—'}</text>
+      <text x="415" y="130" fill="rgba(255,255,255,0.5)" font-size="10" font-family="system-ui,sans-serif">VIEWS</text>
+      <text x="415" y="146" fill="rgba(255,255,255,0.9)" font-size="16" font-weight="700" font-family="system-ui,sans-serif">${data.views > 0 ? (data.views>=1000?(data.views/1000).toFixed(0)+'K':data.views.toString()) : '—'}</text>
+      <text x="185" y="185" fill="rgba(255,255,255,0.5)" font-size="10" font-family="system-ui,sans-serif">NON-SUB REACH</text>
+      <text x="185" y="201" fill="rgba(255,255,255,0.9)" font-size="16" font-weight="700" font-family="system-ui,sans-serif">${data.nonSub > 0 ? data.nonSub+'%' : '—'}</text>
+      <text x="300" y="185" fill="rgba(255,255,255,0.5)" font-size="10" font-family="system-ui,sans-serif">SIGNAL</text>
+      <text x="300" y="201" fill="${c}" font-size="16" font-weight="700" font-family="system-ui,sans-serif">${data.signalStr}</text>
+      <text x="415" y="185" fill="rgba(255,255,255,0.5)" font-size="10" font-family="system-ui,sans-serif">TRAJECTORY</text>
+      <text x="415" y="201" fill="${data.velTrendColor||'rgba(255,255,255,0.9)'}" font-size="13" font-weight="700" font-family="system-ui,sans-serif">${data.velTrend||'—'}</text>
+      <!-- Footer -->
+      <text x="300" y="258" text-anchor="middle" fill="rgba(255,255,255,0.2)" font-size="10" font-family="system-ui,sans-serif">The Social Spot · Virality Checker</text>
+    </svg>`;
+
+    prevEl.innerHTML = card;
+  }
+  function t1_downloadShareCard() {
+    const svg = document.getElementById('share_card_svg');
+    if (!svg) return;
+    const blob = new Blob([svg.outerHTML], {type:'image/svg+xml'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'virality_score_card.svg';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(a.href);
+    showToast('🖼 Share card downloaded as SVG', 'var(--success)');
+  }
+
+  // ═══════════════════════════════════════════════
+  // GUIDED MODE
+  // ═══════════════════════════════════════════════
+  let _guidedMode = false;
+  let _guidedStep = 0;
+  const GUIDED_STEPS = [
+    { heading:'When did you upload?', body:'Enter the <strong>publish date and time</strong> of your video. This is the most important input — video age determines which distribution phase you\'re in and calibrates all projections.', focus:'dtTrigger', section:'sv_t1_pubhub' },
+    { heading:'What is your CTR?', body:'Enter your <strong>Click-Through Rate</strong> — find this in YouTube Studio → Analytics → your video → Reach tab. Use the most recent 1–2 day CTR, not the lifetime average.', focus:'ctrNum', section:'sv_t1_ctr' },
+    { heading:'How long are people watching?', body:'Enter your <strong>Average View Duration</strong> as a percentage, and your video length in minutes:seconds. AVD is the second-most-weighted signal in the algorithm.', focus:'avdNum', section:'sv_t1_avd' },
+    { heading:'How many views?', body:'Enter the current total view count. Also enter <strong>View Velocity</strong> (views per hour) if you know it — this is critical for scenario accuracy. Leave velocity at 0 if unknown; the tool will derive it from views ÷ age.', focus:'viewsInput', section:'sv_t1_pubhub' },
+    { heading:'Engagement signals', body:'Enter likes and comments. Also add your <strong>non-subscriber view %</strong> if available — this directly confirms whether Browse & Suggested are active. Find it in Studio → Audience tab.', focus:'likesInput', section:'sv_t1_engagement' },
+    { heading:'That\'s enough to start', body:'Your virality score and scenario projections are now live above. Add more data (impressions, hook retention, channel stats, historical anchors) for higher accuracy. Use the <strong>Scenario Projection Inputs</strong> section to refine the curves further.', focus:null, section:'sv_t1_score' },
+  ];
+  function t1_toggleGuidedMode() {
+    _guidedMode = !_guidedMode;
+    _guidedStep = 0;
+    const overlay = document.getElementById('t1_guided_overlay');
+    const btn     = document.getElementById('t1_guided_btn');
+    if (overlay) overlay.style.display = _guidedMode ? '' : 'none';
+    if (btn) { btn.style.background = _guidedMode ? 'var(--primary)' : 'var(--primary-dim)'; btn.style.color = _guidedMode ? '#fff' : 'var(--primary)'; }
+    if (_guidedMode) t1_renderGuidedStep();
+  }
+  function t1_renderGuidedStep() {
+    const step = GUIDED_STEPS[_guidedStep];
+    if (!step) { t1_toggleGuidedMode(); return; }
+    const titleEl   = document.getElementById('t1_guided_title');
+    const headingEl = document.getElementById('t1_guided_heading');
+    const bodyEl    = document.getElementById('t1_guided_body');
+    const prevBtn   = document.getElementById('t1_guided_prev');
+    const nextBtn   = document.getElementById('t1_guided_next');
+    const dotsEl    = document.getElementById('t1_guided_dots');
+    if (titleEl)   titleEl.textContent   = 'Step ' + (_guidedStep+1) + ' of ' + GUIDED_STEPS.length;
+    if (headingEl) headingEl.innerHTML   = step.heading;
+    if (bodyEl)    bodyEl.innerHTML      = step.body;
+    if (prevBtn)   prevBtn.style.display = _guidedStep === 0 ? 'none' : '';
+    if (nextBtn)   nextBtn.textContent   = _guidedStep === GUIDED_STEPS.length-1 ? 'Finish ✓' : 'Next →';
+    if (dotsEl)    dotsEl.innerHTML      = GUIDED_STEPS.map((_,i) =>
+      `<div style="width:6px;height:6px;border-radius:50%;background:${i===_guidedStep?'var(--primary)':'var(--border-hi)'};transition:background 0.2s;"></div>`
+    ).join('');
+    // Scroll to the relevant section
+    if (step.section) {
+      const sEl = document.getElementById(step.section);
+      if (sEl) setTimeout(()=>sEl.scrollIntoView({behavior:'smooth',block:'center'}), 100);
+    }
+    if (step.focus) setTimeout(()=>document.getElementById(step.focus)?.focus(), 300);
+  }
+  function t1_guidedNext() {
+    if (_guidedStep >= GUIDED_STEPS.length-1) { t1_toggleGuidedMode(); return; }
+    _guidedStep++;
+    t1_renderGuidedStep();
+  }
+  function t1_guidedPrev() {
+    if (_guidedStep <= 0) return;
+    _guidedStep--;
+    t1_renderGuidedStep();
+  }
+
+  // ═══════════════════════════════════════════════
+  // PASTE IMPORT
+  // ═══════════════════════════════════════════════
+  function t1_showPasteImport() {
+    const el = document.getElementById('t1_paste_modal');
+    if (el) { el.style.display = el.style.display === 'none' ? '' : 'none'; }
+  }
+  function t1_applyPaste() {
+    const raw    = document.getElementById('t1_paste_input')?.value || '';
+    const parts  = raw.split(/[,\t\s]+/).map(s => s.trim()).filter(Boolean);
+    const statusEl = document.getElementById('t1_paste_status');
+    if (parts.length < 2) {
+      if (statusEl) statusEl.textContent = '⚠ Paste at least CTR and AVD';
+      return;
+    }
+    const setVal = (id, val) => {
+      const el = document.getElementById(id);
+      if (el && val !== undefined && val !== null && !isNaN(parseFloat(val))) {
+        el.value = parseFloat(val);
+        el.dispatchEvent(new Event('input'));
+      }
+    };
+    const [ctr, avd, views, likes, comments, nonSub, impressions] = parts.map(Number);
+    setVal('ctrNum', ctr);
+    setVal('avdNum', avd);
+    if (views)       setVal('viewsInput', views);
+    if (likes)       setVal('likesInput', likes);
+    if (comments)    setVal('commentsInput', comments);
+    if (nonSub)      setVal('nonSubViewPct', nonSub);
+    if (impressions) setVal('impressionsInput', impressions);
+    // Sync sliders
+    if (typeof syncNum === 'function') { syncNum('ctrNum','ctr'); syncNum('avdNum','avd'); }
+    updateTab1();
+    if (statusEl) { statusEl.textContent = '✅ Applied ' + parts.length + ' values'; }
+    setTimeout(()=>{ if(statusEl) statusEl.textContent=''; const m=document.getElementById('t1_paste_modal'); if(m) m.style.display='none'; }, 1800);
+  }
+
+
   function _runStallDetector() {
     var el = document.getElementById('stallAnalysis');
     if (!el) return;
@@ -9478,9 +10637,16 @@ setInterval(()=>{countdown--;if(countdown<=0){countdown=interval;doRefresh();}el
     var v4 = parseFloat(document.getElementById('viewsSnap4')?.value);
     var h4 = parseFloat(document.getElementById('snap4_hours')?.value);
 
-    // Need at least 3 valid snapshots
+    // Need at least 3 valid snapshots (2 if video < 24h old — less data available)
+    var _pubElStall = document.getElementById('videoPublishedAt');
+    var _videoAgeHrs = null;
+    if (_pubElStall && _pubElStall.value) {
+      var _pubDStall = new Date(_pubElStall.value);
+      if (!isNaN(_pubDStall.getTime())) _videoAgeHrs = (Date.now() - _pubDStall.getTime()) / 3600000;
+    }
+    var _minSnaps = (_videoAgeHrs !== null && _videoAgeHrs < 24) ? 2 : 3;
     var snaps = [[v1,h1],[v2,h2],[v3,h3],[v4,h4]].filter(function(s){ return !isNaN(s[0])&&!isNaN(s[1])&&s[0]>0&&s[1]>0; });
-    if (snaps.length < 3) { el.style.display = 'none'; return; }
+    if (snaps.length < _minSnaps) { el.style.display = 'none'; return; }
 
     // Sort by time just in case user entered out of order
     snaps.sort(function(a,b){ return a[1]-b[1]; });
@@ -9613,7 +10779,7 @@ setInterval(()=>{countdown--;if(countdown<=0){countdown=interval;doRefresh();}el
     tab1_pubhub:     ['viewVelocity','impressionsInput','channelAvgDaily','actual48hViews','actual7dViews','ctrEarly','ctrLate','trafficBrowsePct','trafficSuggestedPct','trafficSearchPct','trafficSubsFeedPct','contentNiche','dt_month','dt_day','dt_year','dt_hour','dt_minute','dt_ampm','videoPublishedAt'],
     tab1_avd:        ['vlMins','vlSecs','twMins','twSecs'],
     tab1_ctr:        ['ctrNum','ctr'],
-    tab1_hook:       ['retNum','ret','newVideoToggle'],
+    tab1_hook:       ['retNum','ret'],
     tab1_engagement: ['viewsInput','likesInput','commentsInput','engInput'],
     tab1_channel:    ['channelSubs','avgViewsPerUpload','subsGained','nonSubViewPct'],
     tab1_retention:  ['midRetention','endRetention','cardCtr','rewatchRate'],    tab1_stall:      ['views24h','snap1_hours','views48h','snap2_hours','viewsCurrent','snap3_hours','viewsSnap4','snap4_hours'],
